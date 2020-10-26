@@ -15,9 +15,13 @@ import {
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 
+import ButtonComponent from './components/ButtonComponent';
+
 import commonColor from './native-base-theme/variables/commonColor';
 import variables from './native-base-theme/variables/variables';
-import getTheme from './native-base-theme/components'
+import getTheme from './native-base-theme/components';
+
+import { connectStyle } from 'native-base'; 
 
 const App = () => {
 
@@ -40,7 +44,7 @@ const App = () => {
   }, [])
 
     return (
-       <StyleProvider style={getTheme(commonColor)}>
+       <StyleProvider style={getTheme(variables)}>
             <Container style={styles.container}>
                {!isReady && 
                   <Spinner color='#7E00C5' />
@@ -54,8 +58,8 @@ const App = () => {
                               </Text>
                            </Title>
                         </Header>
-                        <Content>
-                           <Button full>
+                        <Content style={styles.contentContainer}>
+                           <Button full style={{backgroundColor: '#7E00C5'}}>
                               <Text uppercase={false}>
                                  Button text
                               </Text>
@@ -95,6 +99,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#404040',
     //alignItems: 'center',
     //justifyContent: 'center'
+  },
+  contentContainer: {
+     padding: 10
   },
   centered: {
      color: '#fff',
