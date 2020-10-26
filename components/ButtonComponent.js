@@ -16,14 +16,12 @@ import { connectStyle } from 'native-base';
 const ButtonComponent = props => {
 
       return (
-       <StyleProvider style={getTheme(commonColor)}>
-         <Button full>
-            <Text uppercase={false}>
+         <Button full style={{backgroundColor: props.color, marginBottom: 7}} onPress={props.function}>
+            <Text style={{color: '#D2D2D2'}}>
                {props.title}
             </Text>
          </Button>
-      </StyleProvider>
-    );
+      );
 }
 
-export default connectStyle('nativeBaseTheme.ButtonComponent', commonColor)(ButtonComponent);
+export default ButtonComponent;

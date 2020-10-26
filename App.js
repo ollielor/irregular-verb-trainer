@@ -53,20 +53,16 @@ const App = () => {
                   <Container>
                         <Header>
                            <Title>
-                              <Text style={{color: '#fff'}}>
+                              <Text style={{color: '#D2D2D2'}}>
                                  Verbivalmentaja
                               </Text>
                            </Title>
                         </Header>
                         <Content style={styles.contentContainer}>
-                           <Button full style={{backgroundColor: '#7E00C5'}}>
-                              <Text uppercase={false}>
-                                 Button text
-                              </Text>
-                           </Button>
-                           <Text>
-                              This is test text. This is test text. This is test text. This is test text. This is test text. This is test text. This is test text. This is test text. This is test text. This is test text. 
-                           </Text>
+                           <ButtonComponent color='#7E00C5' title='Ruotsi' function={() => console.log('Ruotsi')} />
+                           <ButtonComponent color='#7E00C5' title='Saksa' function={() => console.log('Saksa')} />
+                           <ButtonComponent color='#4E00C5' title='Omat tulokseni' function={() => console.log('Omat tulokseni')} />
+                           <ButtonComponent color='#4E00C5' title='Asetukset' function={() => console.log('Asetukset')} />
                         </Content>
                         <Footer>
                            <FooterTab>
