@@ -4,18 +4,23 @@ import {
    StyleProvider, 
    Container, 
    Button, 
-   Text, 
+   Text,
+   Body,
+   Left,
+   Right, 
    Spinner, 
    Header,
    Title, 
    Content,
    Footer,
-   FooterTab
+   FooterTab,
+   Icon
 } from 'native-base';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 
 import ButtonComponent from './components/ButtonComponent';
+import FooterButtonComponent from './components/FooterButtonComponent';
 
 import commonColor from './native-base-theme/variables/commonColor';
 import variables from './native-base-theme/variables/variables';
@@ -51,12 +56,18 @@ const App = () => {
                }
                {isReady &&
                   <Container>
-                        <Header>
-                           <Title>
-                              <Text style={{color: '#D2D2D2'}}>
+                        <Header style={{backgroundColor: '#4E00C5'}}>
+                           <Left style={{flex: 1}}>
+                              <Button transparent>
+                                 <Icon name='arrow-back' />
+                              </Button>
+                           </Left>
+                           <Body style={{flex: 2, alignItems: 'center'}}>
+                              <Title>
                                  Verbivalmentaja
-                              </Text>
-                           </Title>
+                              </Title>
+                           </Body>
+                           <Right style={{flex: 1}} />
                         </Header>
                         <Content style={styles.contentContainer}>
                            <ButtonComponent color='#7E00C5' title='Ruotsi' function={() => console.log('Ruotsi')} />
@@ -66,19 +77,13 @@ const App = () => {
                         </Content>
                         <Footer>
                            <FooterTab>
-                              <Text style={styles.centered}>
-                                 Koti
-                              </Text>
+                              <FooterButtonComponent title='Koti' function={() => console.log('Koti')} />
                            </FooterTab>
                            <FooterTab>
-                              <Text style={styles.centered}>
-                                 Tulokset
-                              </Text>
+                              <FooterButtonComponent title='Tulokset' function={() => console.log('Tulokset')} />
                            </FooterTab>
                            <FooterTab>
-                              <Text style={styles.centered}>
-                                 Asetukset
-                              </Text>
+                              <FooterButtonComponent title='Asetukset' function={() => console.log('Asetukset')} />
                            </FooterTab>
                         </Footer>
                   </Container>
