@@ -16,8 +16,8 @@ import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 
 import ButtonComponent from '../components/ButtonComponent';
-import FooterButtonComponent from '../components/FooterButtonComponent';
 import FooterComponent from '../components/FooterComponent';
+import HeaderComponent from '../components/HeaderComponent';
 
 const StartScreen = ({navigation: {navigate}}) => {
 
@@ -46,19 +46,7 @@ const StartScreen = ({navigation: {navigate}}) => {
             }
             {isReady &&
                <Container>
-                  <Header style={{backgroundColor: '#4E00C5'}}>
-                     <Left style={{flex: 1}}>
-                        <Button transparent>
-                           <Icon name='arrow-back' />
-                        </Button>
-                     </Left>
-                     <Body style={{flex: 2, alignItems: 'center'}}>
-                        <Title>
-                           Verbivalmentaja
-                        </Title>
-                     </Body>
-                        <Right style={{flex: 1}} />
-                  </Header>
+                  <HeaderComponent title='Verbivalmentaja' noArrow />
                   <Content style={styles.contentContainer}>
                      <ButtonComponent color='#7E00C5' title='Ruotsi' function={() => console.log('Ruotsi')} />
                      <ButtonComponent color='#7E00C5' title='Saksa' function={() => navigate('Saksa')} />
@@ -76,7 +64,7 @@ export default StartScreen;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#404040',
+    backgroundColor: '#d2d2d2',
   },
   contentContainer: {
      padding: 10

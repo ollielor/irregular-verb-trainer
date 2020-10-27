@@ -21,7 +21,10 @@ const App = () => {
    return (
       <StyleProvider style={getTheme(variables)}>
          <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator 
+               screenOptions={{
+                  headerShown: false
+               }}>
                <Stack.Screen name='Koti' component={StartScreen} />
                <Stack.Screen name='Saksa' component={GermanStartScreen} />
             </Stack.Navigator>
