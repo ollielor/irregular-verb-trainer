@@ -12,7 +12,9 @@ import variables from './native-base-theme/variables/variables';
 import getTheme from './native-base-theme/components';
 
 import StartScreen from './screens/StartScreen';
-import GermanStartScreen from './screens/GermanStartScreen';
+import GermanStartScreen from './screens/german/GermanStartScreen';
+
+import GermanBrowseScreen from './screens/german/GermanBrowseScreen';
 
 const Stack = createStackNavigator();
 
@@ -27,6 +29,7 @@ const App = () => {
                }}>
                <Stack.Screen name='Koti' component={StartScreen} />
                <Stack.Screen name='Saksa' component={GermanStartScreen} />
+               <Stack.Screen name='Selaa ja opettele (saksa)' component={GermanBrowseScreen} />
             </Stack.Navigator>
          </NavigationContainer>
       </StyleProvider>
