@@ -20,40 +20,89 @@ import * as SQLite from 'expo-sqlite';
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
 
+import { useNavigation } from '@react-navigation/native';
 
 import ButtonComponent from '../../components/ButtonComponent';
 import FooterComponent from '../../components/FooterComponent';
 import HeaderComponent from '../../components/HeaderComponent';
 
-const GermanBrowseScreen = ({ navigation: { goBack }}) => {
+const GermanBrowseScreen = props => {
 
-   const [dbLoaded, setDbLoaded] = useState(false);
-   const [verbs, setVerbs] = useState([]);
+   const [dbOpened, setDbOpened] = useState(false);
+   const [verbsEasy, setVerbsEasy] = useState([]);
+   const [verbsIntermediate, setVerbsIntermediate] = useState([]);
+   const [verbsDifficult, setVerbsDifficult] = useState([]);
 
-   FileSystem.downloadAsync(
-      Asset.fromModule(require('../../assets/verbs_german.db')).uri,
-      `${FileSystem.documentDirectory}SQLite/verbs_german.db`
-     )
+   const navigation = useNavigation();
 
-   const db = SQLite.openDatabase('verbs_german.db');
+      useEffect(() => {
+         FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/verbs_german.db`)
+         .then(result => {
+         if (result.exists) {
+            const db = SQLite.openDatabase('verbs_german.db');
+         } else {
+         FileSystem.downloadAsync(
+            Asset.fromModule(require('../../assets/verbs_german.db')).uri,
+            `${FileSystem.documentDirectory}SQLite/verbs_german.db`
+         )}
+         });
+      }, []);
 
-   console.log('Db: ', db);
+      const db = SQLite.openDatabase('verbs_german.db');
 
-   db.transaction(tx => {
-      tx.executeSql('select * from verb_forms;', [], (_, { rows }) => {
-         setVerbs(rows._array);
-      });
-   });
+      db.transaction(
+         tx => {
+            console.log('This is printed');
+            tx.executeSql(
+               'select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id where level=1;', 
+               [],
+               (tx, results) => {
+                  console.log('executed Query');
+                  console.log(results.rows._array);
+                  setVerbsEasy(results.rows._array);
+               },
+               (tx, error) => {
+                  console.log('Could not execute query: ', error);
+               }
+            );
+         },
+         error => {
+            console.log('Transaction error: ', error);
+         },
+         () => {
+            console.log('Transaction done');
+         }
+      );
+      
+         /*db.transaction(tx => {
+            tx.executeSql('select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meanings_id where level=2;', [], (_, { rows }) => {
+               setVerbsIntermediate(rows._array);
+            });
+         });
+         db.transaction(tx => {
+            tx.executeSql('select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meanings_id where level=3;', [], (_, { rows }) => {
+               setVerbsDifficult(rows._array);
+            });
+         });*/
 
-   console.log('Verbs: ', verbs);
+   console.log('Verbs easy: ', verbsEasy);
 
     return (
                <Container style={styles.container}>
-                  <HeaderComponent title='Selaa ja opettele' goBack={goBack} />
+                  <HeaderComponent title='Selaa ja opettele' goBack={navigation.goBack} />
                   <Content style={styles.contentContainer}>
-                     <Text>
-                        Text
+                     <Text style={{color: 'blue'}}>
+                        Perustaso:
                      </Text>
+                     {verbsEasy.map((verb, index) => { return <Text key={index}>{verb.infinitive}</Text> })}
+                     <Text style={{color: 'blue'}}>
+                        Keskitaso:
+                     </Text>
+                     {verbsIntermediate.map((verb, index) => { return <Text key={index}>{verb.infinitive}</Text> })}
+                     <Text style={{color: 'blue'}}>
+                        Mestarin taso:
+                     </Text>
+                     {verbsDifficult.map((verb, index) => { return <Text key={index}>{verb.infinitive}</Text> })}
                   </Content>
                   <FooterComponent />
                </Container>
