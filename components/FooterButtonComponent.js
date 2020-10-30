@@ -17,7 +17,7 @@ const ButtonComponent = props => {
 
       return (
          <Button style={{backgroundColor: 'transparent'}} onPress={props.function}>
-            <Text style={{color: '#D2D2D2'}}>
+            <Text uppercase={false} style={{color: '#D2D2D2'}}>
                {props.title}
             </Text>
          </Button>

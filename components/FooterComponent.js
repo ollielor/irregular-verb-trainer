@@ -10,7 +10,7 @@ import FooterButtonComponent from '../components/FooterButtonComponent';
 const FooterComponent = props => {
 
     return (
-                  <Footer>
+                  <Footer style={{backgroundColor: '#4E00C5'}}>
                      <FooterTab>
                         <FooterButtonComponent title='Koti' function={() => console.log('Koti')} />
                      </FooterTab>

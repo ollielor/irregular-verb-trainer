@@ -21,7 +21,6 @@ const Stack = createStackNavigator();
 const App = () => {
 
    return (
-      <StyleProvider style={getTheme(variables)}>
          <NavigationContainer>
             <Stack.Navigator 
                screenOptions={{
@@ -32,7 +31,6 @@ const App = () => {
                <Stack.Screen name='Selaa ja opettele (saksa)' component={GermanBrowseScreen} />
             </Stack.Navigator>
          </NavigationContainer>
-      </StyleProvider>
     );
 }
 

@@ -14,17 +14,17 @@ import {
 const HeaderComponent = props => {
 
     return (
-            <Header style={{backgroundColor: '#4E00C5'}}>
+            <Header iosBarStyle='light-content' androidStatusBarColor='#4E00C5' style={{backgroundColor: '#4E00C5'}}>
                <Left style={{flex: 1}}>
                   {!props.noArrow
                   ?
                      <Button transparent onPress={props.goBack}>
-                        <Icon name='arrow-back' />
+                        <Icon name='arrow-back' style={{color: '#D2D2D2'}} />
                      </Button>
                   : null}
                </Left>
                <Body style={{flex: 2, alignItems: 'center'}}>
-                  <Title>
+                  <Title style={{color: '#D2D2D2'}}>
                      {props.title}
                   </Title>
                </Body>

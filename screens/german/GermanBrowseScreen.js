@@ -22,9 +22,9 @@ import { Asset } from 'expo-asset';
 
 import { useNavigation } from '@react-navigation/native';
 
-import ButtonComponent from '../../components/ButtonComponent';
 import FooterComponent from '../../components/FooterComponent';
 import HeaderComponent from '../../components/HeaderComponent';
+import CardComponent from '../../components/CardComponent';
 
 const GermanBrowseScreen = props => {
 
@@ -35,7 +35,6 @@ const GermanBrowseScreen = props => {
 
    const navigation = useNavigation();
 
-      useEffect(() => {
          FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/verbs_german.db`)
          .then(result => {
          if (result.exists) {
@@ -46,19 +45,15 @@ const GermanBrowseScreen = props => {
             `${FileSystem.documentDirectory}SQLite/verbs_german.db`
          )}
          });
-      }, []);
 
       const db = SQLite.openDatabase('verbs_german.db');
 
       db.transaction(
          tx => {
-            console.log('This is printed');
             tx.executeSql(
                'select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id where level=1;', 
                [],
                (tx, results) => {
-                  console.log('executed Query');
-                  console.log(results.rows._array);
                   setVerbsEasy(results.rows._array);
                },
                (tx, error) => {
@@ -69,9 +64,6 @@ const GermanBrowseScreen = props => {
          error => {
             console.log('Transaction error: ', error);
          },
-         () => {
-            console.log('Transaction done');
-         }
       );
       
          /*db.transaction(tx => {
@@ -85,24 +77,31 @@ const GermanBrowseScreen = props => {
             });
          });*/
 
-   console.log('Verbs easy: ', verbsEasy);
+      /*const compare = (a, b) => {
+
+         const verbA = a.infinitive;
+         const verbB = b.infinitive;
+
+          if (verbA > verbB) {
+            return 1;
+         } else if (verbB < verbB) {
+            return -1;
+         }
+     }
+
+     const verbsEasySorted = verbsEasy.sort(compare(a, b));*/
+     
+
+
 
     return (
                <Container style={styles.container}>
                   <HeaderComponent title='Selaa ja opettele' goBack={navigation.goBack} />
                   <Content style={styles.contentContainer}>
-                     <Text style={{color: 'blue'}}>
-                        Perustaso:
+                     <Text style={{color: '#7E00C5', fontSize: 20, fontWeight: 'bold', textAlign: 'center'}}>
+                        Perustason verbit
                      </Text>
-                     {verbsEasy.map((verb, index) => { return <Text key={index}>{verb.infinitive}</Text> })}
-                     <Text style={{color: 'blue'}}>
-                        Keskitaso:
-                     </Text>
-                     {verbsIntermediate.map((verb, index) => { return <Text key={index}>{verb.infinitive}</Text> })}
-                     <Text style={{color: 'blue'}}>
-                        Mestarin taso:
-                     </Text>
-                     {verbsDifficult.map((verb, index) => { return <Text key={index}>{verb.infinitive}</Text> })}
+                     {(verbsEasy.sort((a,b) => a.infinitive > b.infinitive ? 1 : -1)).map((verb, index) => <CardComponent key={index} verb={verb} /> )}
                   </Content>
                   <FooterComponent />
                </Container>
