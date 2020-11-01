@@ -31,7 +31,7 @@ const GermanStartScreen = props => {
                   <HeaderComponent title='Saksa' goBack={navigation.goBack} />
                   <Content style={styles.contentContainer}>
                      <ButtonComponent color='#7E00C5' title='Selaa ja opettele verbejä' function={() => navigation.navigate('Selaa ja opettele (saksa)')} />
-                     <ButtonComponent color='#7E00C5' title='Harjoittele verbien merkityksiä' function={() => {}} />
+                     <ButtonComponent color='#7E00C5' title='Harjoittele verbien merkityksiä' function={() => navigation.navigate('Harjoittele merkityksiä (saksa)')} />
                      <ButtonComponent color='#7E00C5' title='Harjoittele verbien muotoja' function={() => console.log('Harjoittele muotoja')} />
                   </Content>
                   <FooterComponent />
