@@ -14,8 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import FooterComponent from '../../components/FooterComponent';
 import HeaderComponent from '../../components/HeaderComponent';
-import CardComponent from '../../components/CardComponent';
-import HeadingVerbList from '../../components/HeadingVerbList';
+import MeaningCardComponent from '../../components/MeaningCardComponent';
 
 const GermanMeaningsScreen = props => {
 
@@ -26,6 +25,8 @@ const GermanMeaningsScreen = props => {
    const [verbsDifficult, setVerbsDifficult] = useState([]);
    const [verbsLoaded, setVerbsLoaded] = useState(false);
    const [level, setLevel] = useState(1);
+   const [randomizedVerbs, setRandomizedVerbs] = useState([]);
+   const [rndVerbsLoaded, setRndVerbsLoaded] = useState(false);
    
    const navigation = useNavigation();
 
@@ -95,7 +96,7 @@ const GermanMeaningsScreen = props => {
          let rndVerb; 
          let rndVerbs = [];
          let rndVerbsFinal = [];
-         while (rndVerbsFinal.length <= 4) {
+         while (rndVerbsFinal.length <= 14) {
             const rndInt = rndIntGenerator();
             rndVerb = getRandomVerb(rndInt);
             if (rndVerb !== undefined) {
@@ -107,57 +108,57 @@ const GermanMeaningsScreen = props => {
                ))
                )
             }
-            if (rndVerbsFinal.length > 5) {
-               break;
-            }
          }
-         console.log(rndVerbsFinal.map(verb => verb.verb_id));
-         console.log(rndVerbsFinal.length);
+         console.log(rndVerbsFinal);
+         let rndVerbsThree = [];
+         let verbObject = {};
+         let verbObjectArray = [];
+         for (let i=0; i <= 2; i++) {
+            rndVerbsThree.push(rndVerbsFinal[i]);
+         }
+         verbObjectArray.push(rndVerbsThree);
+         rndVerbsThree = [];
+         for (let i=3; i <= 5; i++) {
+            rndVerbsThree.push(rndVerbsFinal[i]);
+         }
+         verbObjectArray.push(rndVerbsThree);
+         rndVerbsThree = [];
+         for (let i=6; i <= 8; i++) {
+            rndVerbsThree.push(rndVerbsFinal[i]);
+         }
+         verbObjectArray.push(rndVerbsThree);
+         rndVerbsThree = [];
+         for (let i=9; i <= 11; i++) {
+            rndVerbsThree.push(rndVerbsFinal[i]);
+         }
+         verbObjectArray.push(rndVerbsThree);
+         rndVerbsThree = [];
+         for (let i=12; i < rndVerbsFinal.length; i++) {
+            rndVerbsThree.push(rndVerbsFinal[i]);
+         }
+         verbObjectArray.push(rndVerbsThree);
+         rndVerbsThree = [];
+         console.log(verbObjectArray)
+         console.log(verbObjectArray.length)
+         console.log(Object.keys(verbObjectArray));
+         setRandomizedVerbs(verbObjectArray);
+         setRndVerbsLoaded(true);
       }
-   }, [verbsLoaded])
-
-  const randoms = (c, l, h) => {
-      let count = c,
-          min = l,
-          max = h,
-          nums = {},
-          out = [],
-          r = 0,
-          len = 0;
-  
-      if (max - min < count) count = max - min;
-      
-      const getRand = () => {
-          return Math.floor(Math.random() * (max - min) + min);
-      },  check = (a) => {
-          return nums[a];
-      },  add = (a) => {
-          nums[a] = 1;
-          out.push(a);
-          len++;
-      };
-  
-      const init = () => {
-          while(len < count){
-              if (len == 0) r = getRand();
-              else while (check(r = getRand()));
-              add(r);
-          }
-         };
-          // }();
-  
-      this.get = () => {
-          return out;
-      };
-  }
-
- 
+   }, [verbsLoaded]);
 
     return (
       <Container style={styles.container}>
          <HeaderComponent title='Verbien merkityksiä' goBack={navigation.goBack} />
             <Content>
-               
+               {!randomizedVerbs && 
+                  <Text>
+                     Arvotaan verbejä
+                  </Text>
+               }
+               {randomizedVerbs &&
+                  randomizedVerbs.map(verbGroup => <MeaningCardComponent alternatives={verbGroup} />)
+               }
+               {console.log(randomizedVerbs)}
             </Content>
          <FooterComponent />
       </Container>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
    Body, 
    Button,
@@ -11,10 +11,43 @@ import { StyleSheet } from 'react-native';
 
 const MeaningCardComponent = props => {
 
-   const [correct, setCorrect] = useState(false);
+   console.log(props);
 
-   const evaluate = meaning => {
-      if (meaning === props.alternatives[0].correctInfinitive) {
+   console.log(props.alternatives);
+
+   const [correct, setCorrect] = useState(false);
+   const [correctMeaning, setCorrectMeaning] = useState('');
+   const [randomizedAlternatives, setRandomizedAlternatives] = useState([]);
+
+   const getRndInteger = () => {
+      return Math.floor(Math.random() * 3);
+   }
+
+   useEffect(() => {
+      const rndInt = getRndInteger();
+      setCorrectMeaning(props.alternatives[rndInt].meaning);
+      let randomOrder = [];
+      let randomOrderFinal = [];
+      while (randomOrderFinal.length < 3) {
+         const rndIntAlternatives = getRndInteger();
+         randomOrder.push(rndIntAlternatives);
+         if (randomOrder.length > 1) {
+            randomOrderFinal = randomOrder.filter((number, index, self) => index === self.findIndex((n) => (
+               n === number
+            ))
+            )
+         }
+      }
+      console.log(randomOrderFinal);
+      let newOrderArray = [];
+      for (let i=0; i < randomOrderFinal.length; i++) {
+         newOrderArray.push(props.alternatives[randomOrderFinal[i]])
+      }
+      setRandomizedAlternatives(newOrderArray);
+   }, [])
+
+    const evaluate = meaning => {
+      if (meaning === correctMeaning) {
          setCorrect(true);
       }
    }
@@ -23,15 +56,19 @@ const MeaningCardComponent = props => {
       <Content>
          <Card>
             <CardItem header>
-               <Body>
-                  {props.alternatives[0].correctInfinitive}
-               </Body>
-                  {props.alternatives.map(alternative => 
-                     <Button onPress={evaluate(alternative.meaning)} style={correct && styles.correctAnswer}>{alternative.meaning}</Button>
-                  )}
-               <Button>
-               </Button>
+               <Text>
+                  {correctMeaning}
+               </Text>
             </CardItem>
+            {randomizedAlternatives.map(alternative =>
+               <CardItem>
+                  <Button onPress={() => {}} style={styles.correctAnswer}>
+                     <Text uppercase={false}>
+                        {alternative.infinitive}
+                     </Text>
+                  </Button>
+                </CardItem>
+            )}
          </Card>
       </Content>
     );
@@ -41,6 +78,6 @@ export default MeaningCardComponent;
 
 const styles = StyleSheet.create({
    correctAnswer: {
-      backgroundColor: 'red'
+      backgroundColor: 'green'
    }
 });
