@@ -16,8 +16,12 @@ const MeaningCardComponent = props => {
    console.log(props.alternatives);
 
    const [correct, setCorrect] = useState(false);
+   const [incorrect, setIncorrect] = useState(false);
+   const [rndAlternativesLoaded, setRndAlternativesLoaded] = useState(false);
    const [correctMeaning, setCorrectMeaning] = useState('');
    const [randomizedAlternatives, setRandomizedAlternatives] = useState([]);
+   const [correctIndex, setCorrectIndex] = useState(-1);
+   const [incorrectIndex, setIncorrectIndex] = useState(-1);
 
    const getRndInteger = () => {
       return Math.floor(Math.random() * 3);
@@ -38,38 +42,64 @@ const MeaningCardComponent = props => {
             )
          }
       }
-      console.log(randomOrderFinal);
       let newOrderArray = [];
       for (let i=0; i < randomOrderFinal.length; i++) {
          newOrderArray.push(props.alternatives[randomOrderFinal[i]])
       }
       setRandomizedAlternatives(newOrderArray);
+      setRndAlternativesLoaded(true);
    }, [])
 
-    const evaluate = meaning => {
+    const evaluate = (meaning, index) => {
       if (meaning === correctMeaning) {
          setCorrect(true);
+         setCorrectIndex(index);
+      } else {
+         setIncorrect(true);
+         setIncorrectIndex(index);
       }
    }
 
     return (
-      <Content>
-         <Card>
-            <CardItem header>
+       <Content>
+         {!rndAlternativesLoaded && 
                <Text>
-                  {correctMeaning}
+                  Ladataan vaihtoehtoja...
                </Text>
-            </CardItem>
-            {randomizedAlternatives.map(alternative =>
-               <CardItem>
-                  <Button onPress={() => {}} style={styles.correctAnswer}>
-                     <Text uppercase={false}>
-                        {alternative.infinitive}
+
+         }
+         {rndAlternativesLoaded &&
+               <Card>
+                  <CardItem header>
+                     <Text>
+                        {correctMeaning}
                      </Text>
-                  </Button>
-                </CardItem>
-            )}
-         </Card>
+                  </CardItem>
+                  <CardItem>
+                        <Button onPress={() => evaluate(randomizedAlternatives[0].meaning, 0)} style={[
+                              correct && correctIndex === 0 ? styles.correctAnswer : incorrect && incorrectIndex === 0 ? styles.incorrectAnswer : styles.notAnswered
+                           ]}>
+                           <Text uppercase={false}>
+                              {randomizedAlternatives[0].infinitive}
+                           </Text>
+                        </Button>
+                        <Button onPress={() => evaluate(randomizedAlternatives[1].meaning, 1)} style={[
+                              correct && correctIndex === 1 ? styles.correctAnswer : incorrect && incorrectIndex === 1 ? styles.incorrectAnswer : styles.notAnswered
+                           ]}>
+                           <Text uppercase={false}>
+                              {randomizedAlternatives[1].infinitive}
+                           </Text>
+                        </Button>
+                        <Button onPress={() => evaluate(randomizedAlternatives[2].meaning, 2)} style={[
+                              correct && correctIndex === 2 ? styles.correctAnswer : incorrect && incorrectIndex === 2 ? styles.incorrectAnswer : styles.notAnswered
+                           ]}>
+                           <Text uppercase={false}>
+                              {randomizedAlternatives[2].infinitive}
+                           </Text>
+                        </Button>
+                     </CardItem>
+               </Card>
+         }
       </Content>
     );
 }
@@ -77,7 +107,16 @@ const MeaningCardComponent = props => {
 export default MeaningCardComponent;
 
 const styles = StyleSheet.create({
+   notAnswered: {
+      backgroundColor: 'blue',
+      marginRight: 5
+   },
    correctAnswer: {
-      backgroundColor: 'green'
+      backgroundColor: 'green',
+      marginRight: 5
+   },
+   incorrectAnswer: {
+      backgroundColor: 'red',
+      marginRight: 5
    }
 });
