@@ -76,21 +76,21 @@ const MeaningCardComponent = props => {
                      </Text>
                   </CardItem>
                   <CardItem>
-                        <Button onPress={() => evaluate(randomizedAlternatives[0].meaning, 0)} style={[
+                        <Button onPress={() => evaluate(randomizedAlternatives[0].meaning, 0)} disabled={correct || incorrect} style={[
                               correct && correctIndex === 0 ? styles.correctAnswer : incorrect && incorrectIndex === 0 ? styles.incorrectAnswer : styles.notAnswered
                            ]}>
                            <Text uppercase={false}>
                               {randomizedAlternatives[0].infinitive}
                            </Text>
                         </Button>
-                        <Button onPress={() => evaluate(randomizedAlternatives[1].meaning, 1)} style={[
+                        <Button onPress={() => evaluate(randomizedAlternatives[1].meaning, 1)} disabled={correct || incorrect} style={[
                               correct && correctIndex === 1 ? styles.correctAnswer : incorrect && incorrectIndex === 1 ? styles.incorrectAnswer : styles.notAnswered
                            ]}>
                            <Text uppercase={false}>
                               {randomizedAlternatives[1].infinitive}
                            </Text>
                         </Button>
-                        <Button onPress={() => evaluate(randomizedAlternatives[2].meaning, 2)} style={[
+                        <Button onPress={() => evaluate(randomizedAlternatives[2].meaning, 2)} disabled={correct || incorrect} style={[
                               correct && correctIndex === 2 ? styles.correctAnswer : incorrect && incorrectIndex === 2 ? styles.incorrectAnswer : styles.notAnswered
                            ]}>
                            <Text uppercase={false}>
@@ -108,15 +108,15 @@ export default MeaningCardComponent;
 
 const styles = StyleSheet.create({
    notAnswered: {
-      backgroundColor: 'blue',
+      backgroundColor: '#0000cc',
       marginRight: 5
    },
    correctAnswer: {
-      backgroundColor: 'green',
+      backgroundColor: '#006600',
       marginRight: 5
    },
    incorrectAnswer: {
-      backgroundColor: 'red',
+      backgroundColor: '#cc0000',
       marginRight: 5
    }
 });

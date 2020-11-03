@@ -156,7 +156,7 @@ const GermanMeaningsScreen = props => {
                   </Text>
                }
                {randomizedVerbs &&
-                  randomizedVerbs.map(verbGroup => <MeaningCardComponent alternatives={verbGroup} />)
+                  randomizedVerbs.map((verbGroup, index) => <MeaningCardComponent key={index} alternatives={verbGroup} />)
                }
                {console.log(randomizedVerbs)}
             </Content>
