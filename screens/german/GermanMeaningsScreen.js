@@ -27,6 +27,7 @@ const GermanMeaningsScreen = props => {
    const [level, setLevel] = useState(1);
    const [randomizedVerbs, setRandomizedVerbs] = useState([]);
    const [rndVerbsLoaded, setRndVerbsLoaded] = useState(false);
+   const [points, setPoints] = useState(0);
    
    const navigation = useNavigation();
 
@@ -156,9 +157,13 @@ const GermanMeaningsScreen = props => {
                   </Text>
                }
                {randomizedVerbs &&
-                  randomizedVerbs.map((verbGroup, index) => <MeaningCardComponent key={index} alternatives={verbGroup} />)
+                  randomizedVerbs.map((verbGroup, index) => 
+                  <MeaningCardComponent key={index} alternatives={verbGroup} points={points} setPoints={setPoints} />
+                  )
                }
-               {console.log(randomizedVerbs)}
+               <Text>
+                  Pistemääräsi: {points}
+               </Text>
             </Content>
          <FooterComponent />
       </Container>

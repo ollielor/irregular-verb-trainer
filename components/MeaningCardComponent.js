@@ -54,6 +54,7 @@ const MeaningCardComponent = props => {
       if (meaning === correctMeaning) {
          setCorrect(true);
          setCorrectIndex(index);
+         props.setPoints(props.points + 20);
       } else {
          setIncorrect(true);
          setIncorrectIndex(index);
