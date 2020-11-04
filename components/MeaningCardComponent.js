@@ -11,10 +11,6 @@ import { StyleSheet } from 'react-native';
 
 const MeaningCardComponent = props => {
 
-   console.log(props);
-
-   console.log(props.alternatives);
-
    const [correct, setCorrect] = useState(false);
    const [incorrect, setIncorrect] = useState(false);
    const [rndAlternativesLoaded, setRndAlternativesLoaded] = useState(false);

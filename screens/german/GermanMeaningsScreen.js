@@ -28,6 +28,7 @@ const GermanMeaningsScreen = props => {
    const [randomizedVerbs, setRandomizedVerbs] = useState([]);
    const [rndVerbsLoaded, setRndVerbsLoaded] = useState(false);
    const [points, setPoints] = useState(0);
+   const [timePoints, setTimePoints] = useState(60);
    
    const navigation = useNavigation();
 
@@ -147,6 +148,19 @@ const GermanMeaningsScreen = props => {
       }
    }, [verbsLoaded]);
 
+   useEffect(() => {
+      let counter = 60;
+      let countdown = setInterval(() => {
+         if (counter > 0) {
+            counter--;
+            console.log(counter);
+            setTimePoints(counter);
+         } else {
+            clearInterval(countdown);
+         }
+      }, 1000);
+   }, [rndVerbsLoaded]);
+
     return (
       <Container style={styles.container}>
          <HeaderComponent title='Verbien merkityksiä' goBack={navigation.goBack} />
@@ -162,7 +176,7 @@ const GermanMeaningsScreen = props => {
                   )
                }
                <Text>
-                  Pistemääräsi: {points}
+                  Pistemääräsi: {points} Aikapisteet: {timePoints}
                </Text>
             </Content>
          <FooterComponent />
