@@ -8,6 +8,7 @@ import {
    Text,
 } from 'native-base';
 import { StyleSheet } from 'react-native';
+import DeprecatedViewPropTypes from 'react-native/Libraries/DeprecatedPropTypes/DeprecatedViewPropTypes';
 
 const MeaningCardComponent = props => {
 
@@ -50,11 +51,13 @@ const MeaningCardComponent = props => {
       if (meaning === correctMeaning) {
          setCorrect(true);
          setCorrectIndex(index);
-         props.setPoints(props.points + 20);
+         props.points.push(20);
       } else {
          setIncorrect(true);
          setIncorrectIndex(index);
       }
+      props.answered.push(1);
+      //props.updateAnsweredCount(100);
    }
 
     return (

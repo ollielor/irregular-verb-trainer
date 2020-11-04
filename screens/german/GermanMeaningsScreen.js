@@ -27,10 +27,18 @@ const GermanMeaningsScreen = props => {
    const [level, setLevel] = useState(1);
    const [randomizedVerbs, setRandomizedVerbs] = useState([]);
    const [rndVerbsLoaded, setRndVerbsLoaded] = useState(false);
-   const [points, setPoints] = useState(0);
-   const [timePoints, setTimePoints] = useState(60);
+   const [points, setPoints] = useState([]);
+   const [timePoints, setTimePoints] = useState(null);
+   const [totalPoints, setTotalPoints] = useState(0);
+   const [stopTimer, setStopTimer] = useState(false);
+   const [answered, setAnswered] = useState([]);
    
    const navigation = useNavigation();
+
+   useEffect(() => {
+      pointsTimer();
+   }, []);
+
 
    FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/verbs_german.db`)
    .then(result => {
@@ -91,7 +99,7 @@ const GermanMeaningsScreen = props => {
       return verbs.filter(verb => verb.verb_id === rndInt)[0];
    }
 
-   useEffect(() => {
+    useEffect(() => {
       setLevel(1);
       loadVerbs();
       if (verbsLoaded) {
@@ -148,18 +156,32 @@ const GermanMeaningsScreen = props => {
       }
    }, [verbsLoaded]);
 
-   useEffect(() => {
-      let counter = 60;
-      let countdown = setInterval(() => {
-         if (counter > 0) {
-            counter--;
-            console.log(counter);
-            setTimePoints(counter);
+   const pointsTimer = () => {
+         let counter = 60; 
+         let intervalId = setInterval(() => {
+            if (answered.length < 5 && counter > 0) {
+               counter--;
+            } else {
+               clearInterval(intervalId);
+               let pointsTotal = points.reduce((a, b) => a + b, 0);
+               setTotalPoints(pointsTotal + counter);
+            }
+         }, 1000)
+   }
+
+   /*const pointsTimer = () => {
+      let counter = 60; 
+      let intervalId = setInterval(() => {
+         if (!stopTimer || counter <= 100) {
+            counter++;
+            setTimePoints(counter * -1);
+            console.log(timePoints)
          } else {
-            clearInterval(countdown);
+            clearInterval(intervalId);
+            setTotalPoints(points + timePoints);
          }
-      }, 1000);
-   }, [rndVerbsLoaded]);
+      }, 1000)
+   }*/
 
     return (
       <Container style={styles.container}>
@@ -172,11 +194,23 @@ const GermanMeaningsScreen = props => {
                }
                {randomizedVerbs &&
                   randomizedVerbs.map((verbGroup, index) => 
-                  <MeaningCardComponent key={index} alternatives={verbGroup} points={points} setPoints={setPoints} />
+                     <MeaningCardComponent 
+                        key={index} 
+                        alternatives={verbGroup} 
+                        answered={answered}
+                        points={points} 
+                        //setPoints={setPoints}
+                        //answeredCount={answeredCount}
+                        //setAnsweredCount={setAnsweredCount} 
+                        //updateAnsweredCount={updateAnsweredCount}
+                     />
                   )
                }
                <Text>
-                  Pistemääräsi: {points} Aikapisteet: {timePoints}
+                  Pistemääräsi: {points.reduce((a, b) => a + b, 0)} Aikapisteet: {timePoints}
+               </Text>
+               <Text>
+                  Kokonaispisteet: {totalPoints}
                </Text>
             </Content>
          <FooterComponent />
