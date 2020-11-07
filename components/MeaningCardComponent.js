@@ -8,7 +8,6 @@ import {
    Text,
 } from 'native-base';
 import { StyleSheet } from 'react-native';
-import DeprecatedViewPropTypes from 'react-native/Libraries/DeprecatedPropTypes/DeprecatedViewPropTypes';
 
 const MeaningCardComponent = props => {
 
@@ -47,18 +46,18 @@ const MeaningCardComponent = props => {
       setRndAlternativesLoaded(true);
    }, [])
 
-    const evaluate = (meaning, index) => {
+   const evaluateAnswers = (meaning, index) => {
       if (meaning === correctMeaning) {
          setCorrect(true);
          setCorrectIndex(index);
-         props.points.push(20);
+         props.evaluate(true);
       } else {
          setIncorrect(true);
          setIncorrectIndex(index);
+         props.evaluate(false);
       }
-      props.answered.push(1);
-      //props.updateAnsweredCount(100);
    }
+
 
     return (
        <Content>
@@ -76,21 +75,21 @@ const MeaningCardComponent = props => {
                      </Text>
                   </CardItem>
                   <CardItem>
-                        <Button onPress={() => evaluate(randomizedAlternatives[0].meaning, 0)} disabled={correct || incorrect} style={[
+                        <Button onPress={() => evaluateAnswers(randomizedAlternatives[0].meaning, 0)} disabled={correct || incorrect} style={[
                               correct && correctIndex === 0 ? styles.correctAnswer : incorrect && incorrectIndex === 0 ? styles.incorrectAnswer : styles.notAnswered
                            ]}>
                            <Text uppercase={false}>
                               {randomizedAlternatives[0].infinitive}
                            </Text>
                         </Button>
-                        <Button onPress={() => evaluate(randomizedAlternatives[1].meaning, 1)} disabled={correct || incorrect} style={[
+                        <Button onPress={() => evaluateAnswers(randomizedAlternatives[1].meaning, 1)} disabled={correct || incorrect} style={[
                               correct && correctIndex === 1 ? styles.correctAnswer : incorrect && incorrectIndex === 1 ? styles.incorrectAnswer : styles.notAnswered
                            ]}>
                            <Text uppercase={false}>
                               {randomizedAlternatives[1].infinitive}
                            </Text>
                         </Button>
-                        <Button onPress={() => evaluate(randomizedAlternatives[2].meaning, 2)} disabled={correct || incorrect} style={[
+                        <Button onPress={() => evaluateAnswers(randomizedAlternatives[2].meaning, 2)} disabled={correct || incorrect} style={[
                               correct && correctIndex === 2 ? styles.correctAnswer : incorrect && incorrectIndex === 2 ? styles.incorrectAnswer : styles.notAnswered
                            ]}>
                            <Text uppercase={false}>
