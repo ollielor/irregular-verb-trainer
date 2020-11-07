@@ -7,7 +7,9 @@ import {
    Text
 } from 'native-base';
 
-import * as SQLite from 'expo-sqlite';
+import DatabaseVerbs from '../../modules/DatabaseVerbs';
+import DatabaseResults from '../../modules/DatabaseResults';
+//import * as SQLite from 'expo-sqlite';
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
 
@@ -32,21 +34,27 @@ const GermanMeaningsScreen = props => {
    const [results, setResults] = useState({});
    const [counterState, setCounterState] = useState(null);
    const [started, setStarted] = useState(true);
+   const [resultHistory, setResultHistory] = useState([]);
+   const [resultsLoaded, setResultsLoaded] = useState(false);
+   const [resultsAdded, setResultsAdded] = useState(false);
+   const [dateTime, setDateTime] = useState(null);
    
    const navigation = useNavigation();
 
    FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/verbs_german.db`)
    .then(result => {
    if (result.exists) {
-      const db = SQLite.openDatabase('verbs_german.db');
+      DatabaseVerbs;
    } else {
    FileSystem.downloadAsync(
       Asset.fromModule(require('../../assets/verbs_german.db')).uri,
       `${FileSystem.documentDirectory}SQLite/verbs_german.db`
    )}
    });
+
+   
    const loadVerbs = () => {
-      const db = SQLite.openDatabase('verbs_german.db');
+      //const db = SQLite.openDatabase('verbs_german.db');
 
       let query;
 
@@ -64,26 +72,64 @@ const GermanMeaningsScreen = props => {
             query = 'select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id;'; 
             break;
       }
-
-      db.transaction(
-         tx => {
-            tx.executeSql(
-               query, 
-               [],
-               (tx, results) => {
-                  setVerbs(results.rows._array);
-                  setVerbsLoaded(true);
-               },
-               (tx, error) => {
-                  console.log('Could not execute query: ', error);
-               }
-            );
-         },
-         error => {
-            console.log('Transaction error: ', error);
-         },
-      );
+         DatabaseVerbs.transaction(
+            tx => {
+               tx.executeSql(
+                  query, 
+                  [],
+                  (tx, results) => {
+                     setVerbs(results.rows._array);
+                     setVerbsLoaded(true);
+                  },
+                  (tx, error) => {
+                     console.log('Could not execute query: ', error);
+                  }
+               );
+            },
+            error => {
+               console.log('Transaction error: ', error);
+            },
+         );  
+         createResultsDb();
    }
+ 
+   const createResultsDb = () => {
+      //const db = SQLite.openDatabase('results_meaning.db') 
+         DatabaseResults.transaction(tx => {
+            tx.executeSql(
+               'create table if not exists results (id integer primary key not null, type integer, level integer, accuracy integer, q_total integer, points real, maxpoints integer, ratio real, datetime real);')
+         }, null, updateList);
+      }
+
+
+      const updateList = () => {
+         //const db = SQLite.openDatabase('results_meaning.db') 
+         /*db.transaction(tx => {
+            tx.executeSql('select * from results_meaning;', [], (_, { rows }) =>
+               setResultHistory(rows._array)
+            );
+         });*/
+
+         DatabaseResults.transaction(
+            tx => {
+               tx.executeSql(
+                  'select * from results;', 
+                  [],
+                  (tx, results) => {
+                     setResultHistory(results.rows._array);
+                     setResultsLoaded(true);
+                  },
+                  (tx, error) => {
+                     console.log('Could not execute query: ', error);
+                  }
+               );
+            },
+            error => {
+               console.log('Transaction error: ', error);
+            },
+         );  
+      }
+
 
    const rndIntGenerator = () => {
       return Math.floor(Math.random() * verbs.length);
@@ -162,6 +208,16 @@ const GermanMeaningsScreen = props => {
 
    }
 
+   const saveResults = () => {
+      //const db = SQLite.openDatabase('results_meaning.db');
+      DatabaseResults.transaction(tx => {
+         tx.executeSql('insert into results (type, level, accuracy, q_total, points, maxpoints, ratio, datetime) values (?, ?, ?, ?, ?, ?, ?, ?);',
+            [1, level, results.amountCorrectAnswers, answered.length, points, results.maxPointsWeighted, results.totalRatioRounded, dateTime])
+      }, null, updateList
+     )
+     DatabaseResults.transaction((tx, error) => console.log(error))
+   }
+
    const startAgain = () => {
       setStarted(true);
       setFinished(false);
@@ -169,6 +225,7 @@ const GermanMeaningsScreen = props => {
       setMaxPoints(0);
       setAnswered([]);
       setResults({});
+      setResultsAdded(false);
    }
 
    useEffect(() => {
@@ -219,43 +276,62 @@ const GermanMeaningsScreen = props => {
    useEffect(() => {
 
       if (answered.length === 5) {
-            // Sum of items in points array (accuracy):
-            let accuracyPoints = points;
-            // Sum of correct answers
-            let correctAnswers = answered.filter(answer => answer.accuracy === 'correct');
-            // Weighted sum of accuracy and speed points
-            // 15 seconds subtracted from total time points (counter)
-            let totalPoints;
-            if (correctAnswers.length >= 3) {
-               totalPoints = accuracyPoints + ((counterState + 15) * 0.33333);
-            } else {
-               totalPoints = accuracyPoints;
-            }
-            // Weighted point maximum (with 20 speed points)
-            let maxPointsWeighted = maxPoints + 20;
-            // Ratio of total points and weighted point maximum
-            let totalRatio = (totalPoints / maxPointsWeighted) * 100.0;
-            let totalRatioRounded = totalRatio.toFixed(2).toString().replace(".", ",")
-            setResults({
-               totalPoints: totalPoints.toFixed(2).toString().replace(".", ","),
-               maxPointsWeighted: maxPointsWeighted,
-               totalRatio: totalRatio,
-               totalRatioRounded: totalRatioRounded,
-               amountCorrectAnswers: correctAnswers.length,
-               totalAnswered: answered.length
+         // Sum of items in points array (accuracy):
+         let accuracyPoints = points;
+         // Sum of correct answers
+         let correctAnswers = answered.filter(answer => answer.accuracy === 'correct');
+         // Weighted sum of accuracy and speed points
+         // 15 seconds subtracted from total time points (counter)
+         let totalPoints;
+         if (correctAnswers.length >= 3) {
+            totalPoints = accuracyPoints + ((counterState + 15) * 0.33333);
+         } else {
+            totalPoints = accuracyPoints;
+         }
+         // Weighted point maximum (with 20 speed points)
+         let maxPointsWeighted = maxPoints + 20;
+         // Ratio of total points and weighted point maximum
+         let totalRatio = (totalPoints / maxPointsWeighted) * 100.0;
+         let totalRatioRounded = totalRatio.toFixed(2).toString().replace(".", ",")
+         setResults({
+            totalPoints: totalPoints.toFixed(2).toString().replace(".", ","),
+            maxPointsWeighted: maxPointsWeighted,
+            totalRatio: totalRatio,
+            totalRatioRounded: totalRatioRounded,
+            amountCorrectAnswers: correctAnswers.length,
+            totalAnswered: answered.length
          })
+         setDateTime(getCurrentDate());
+         setTimeout(() => {
+            setResultsAdded(true);
+         }, 2000)
       }
    }, [answered])
 
-   const clearValues = () => {
-      setFinished(false);
+   useEffect(() => {
+      if (resultsAdded) {
+         saveResults();
+      }
+   }, [resultsAdded])
 
+   const getCurrentDate = () => {
+      return new Date().toISOString();
    }
+   /*const getCurrentDate = separator => {    
+      let newDate = new Date()
+      let date = newDate.getDate();
+      let month = newDate.getMonth() + 1;
+      let year = newDate.getFullYear();
+      let 
+      
+      return `${year}${separator}${month<10?`0${month}`:`${month}`}${separator}${date}`
+   }*/
 
-    return (
+   return (
       <Container style={styles.container}>
          <HeaderComponent title='Verbien merkityksiä' goBack={navigation.goBack} />
             <Content>
+               {console.log(resultHistory)}
                {/*<Text>
                   answered: {answered.length} finished: {String(finished)} counter: {counterState}
                </Text>
@@ -285,7 +361,7 @@ const GermanMeaningsScreen = props => {
          <FooterComponent />
       </Container>
     );
-}
+   }
 
 export default GermanMeaningsScreen;
 
@@ -296,4 +372,4 @@ const styles = StyleSheet.create({
   contentContainer: {
      padding: 10
   },
-  });
+});
