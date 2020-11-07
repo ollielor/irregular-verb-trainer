@@ -27,12 +27,11 @@ const GermanMeaningsScreen = props => {
    const [rndVerbsLoaded, setRndVerbsLoaded] = useState(false);
    const [points, setPoints] = useState(0);
    const [maxPoints, setMaxPoints] = useState(0);
-   const [answered, setAnswered] = useState(0);
+   const [answered, setAnswered] = useState([]);
    const [finished, setFinished] = useState(false);
    const [results, setResults] = useState({});
-   const [roundCount, setRoundCount] = useState(0);
    const [counterState, setCounterState] = useState(null);
-   const [ready, setReady] = useState(false);
+   const [started, setStarted] = useState(true);
    
    const navigation = useNavigation();
 
@@ -152,11 +151,11 @@ const GermanMeaningsScreen = props => {
       if (accuracy) {
          setPoints(points + 20);
          console.log(points);
-         setAnswered(answered + 1);
+         setAnswered([...answered, {accuracy: 'correct'}]);
          console.log(answered);
       }
       if (!accuracy) {
-         setAnswered(answered + 1);
+         setAnswered([...answered, {accuracy: 'incorrect'}]);
          console.log(answered);
       }
       setMaxPoints(maxPoints + 20);
@@ -164,15 +163,17 @@ const GermanMeaningsScreen = props => {
    }
 
    const startAgain = () => {
+      setStarted(true);
       setFinished(false);
       setPoints(0);
       setMaxPoints(0);
-      setAnswered(0);
+      setAnswered([]);
       setResults({});
    }
 
    useEffect(() => {
       if (answered === 5) {
+         calculateResults();
          setFinished(true);
       }
    }, [answered])
@@ -199,51 +200,45 @@ const GermanMeaningsScreen = props => {
 
 
 
-   /*useEffect(() => {
-      if (!finished) {
-         clearValues()
+   useEffect(() => {
+      if (started) {
          let counter = 60; 
          let intervalId = setInterval(() => {
-            /*if (answered.length === 5 || counter === 0) {
+            if (answered.length === 5 || counter === 0) {
                clearInterval(intervalId);
                setFinished(true);
-            }*/
-               /*counter--;
-               //setCounterState(counter);
-               console.log(answered.length);
-            setCounterState(counter);
+               setStarted(false);
+            } else {
+               counter--;
+               setCounterState(counter);
+            }
          }, 1000)
-      return () => {
-         calculateResults();
-         setFinished(true);
       }
-   }
-   }, [finished]);*/
+   }, [started]);
 
-   const calculateResults = () => {
-                                                                  // Sum of items in points array (accuracy):
-                                                                  let accuracyPoints = points.reduce((a, b) => a + b, 0);
-                                                                  // Weighted sum of accuracy and speed points
-                                                                  // 5 seconds added to total time points (counter)
-                                                                  let totalPoints = accuracyPoints + ((60 + 5) * 0.5);
-                                                                  // Sum of items in maxPoints array:
-                                                                  let maxPointsSum = maxPoints.reduce((a, b) => a + b, 0);
-                                                                  // Weighted point maximum
-                                                                  let maxPointsWeighted = maxPointsSum + (60 * 0.5);
-                                                                  // Ratio of total points and weighted point maximum
-                                                                  let totalRatio = ((totalPoints / maxPointsWeighted) * 100.0).toFixed(2);
-                                                                  // Sum of correct answers
-                                                                  let correctAnswers = answered.filter(answer => answer.accuracy === 'correct');
-                                                                  setResults({
-                                                                     totalPoints: totalPoints,
-                                                                     maxPointsWeighted: maxPointsWeighted,
-                                                                     totalRatio: totalRatio,
-                                                                     amountCorrectAnswers: correctAnswers.length,
-                                                                     totalAnswered: answered.length
-                                                                  })
-                                                                  console.log(results);
-                                                                  setFinished(true);
-   }
+   useEffect(() => {
+
+      if (answered.length === 5) {
+            // Sum of items in points array (accuracy):
+            let accuracyPoints = points;
+            // Sum of correct answers
+            let correctAnswers = answered.filter(answer => answer.accuracy === 'correct');
+            // Weighted sum of accuracy and speed points
+            // 15 seconds subtracted from total time points (counter)
+            let totalPoints = accuracyPoints + ((counterState + 15) * 0.33333);
+            // Weighted point maximum (with 20 speed points)
+            let maxPointsWeighted = maxPoints + 20;
+            // Ratio of total points and weighted point maximum
+            let totalRatio = ((totalPoints / maxPointsWeighted) * 100.0).toFixed(2);
+            setResults({
+               totalPoints: totalPoints.toFixed(2),
+               maxPointsWeighted: maxPointsWeighted,
+               totalRatio: totalRatio,
+               amountCorrectAnswers: correctAnswers.length,
+               totalAnswered: answered.length
+         })
+      }
+   }, [answered])
 
    const clearValues = () => {
       setFinished(false);
@@ -255,14 +250,14 @@ const GermanMeaningsScreen = props => {
          <HeaderComponent title='Verbien merkityksiä' goBack={navigation.goBack} />
             <Content>
                <Text>
-                  answered: {answered} finished: {String(finished)} maxPoints: {maxPoints}
+                  answered: {answered.length} finished: {String(finished)} counter: {counterState}
                </Text>
                {!randomizedVerbs && 
                   <Text>
                      Arvotaan verbejä...
                   </Text>
                }
-               {!finished && randomizedVerbs &&
+               {answered.length < 5 && randomizedVerbs &&
                   randomizedVerbs.map((verbGroup, index) => 
                      <MeaningCardComponent 
                         key={index} 
@@ -272,7 +267,7 @@ const GermanMeaningsScreen = props => {
 
                   )
                }
-               {finished &&
+               {answered.length === 5 && results &&
                   <GermanResultScreen
                      results={results}
                      startAgain={startAgain}
