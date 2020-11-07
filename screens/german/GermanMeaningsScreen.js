@@ -16,7 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 import FooterComponent from '../../components/FooterComponent';
 import HeaderComponent from '../../components/HeaderComponent';
 import MeaningCardComponent from '../../components/MeaningCardComponent';
-import GermanResultScreen from './GermanResultScreen';
+import GermanResultView from '../../components/GermanResultView';
 
 const GermanMeaningsScreen = props => {
 
@@ -225,15 +225,22 @@ const GermanMeaningsScreen = props => {
             let correctAnswers = answered.filter(answer => answer.accuracy === 'correct');
             // Weighted sum of accuracy and speed points
             // 15 seconds subtracted from total time points (counter)
-            let totalPoints = accuracyPoints + ((counterState + 15) * 0.33333);
+            let totalPoints;
+            if (correctAnswers.length >= 3) {
+               totalPoints = accuracyPoints + ((counterState + 15) * 0.33333);
+            } else {
+               totalPoints = accuracyPoints;
+            }
             // Weighted point maximum (with 20 speed points)
             let maxPointsWeighted = maxPoints + 20;
             // Ratio of total points and weighted point maximum
-            let totalRatio = ((totalPoints / maxPointsWeighted) * 100.0).toFixed(2);
+            let totalRatio = (totalPoints / maxPointsWeighted) * 100.0;
+            let totalRatioRounded = totalRatio.toFixed(2).toString().replace(".", ",")
             setResults({
-               totalPoints: totalPoints.toFixed(2),
+               totalPoints: totalPoints.toFixed(2).toString().replace(".", ","),
                maxPointsWeighted: maxPointsWeighted,
                totalRatio: totalRatio,
+               totalRatioRounded: totalRatioRounded,
                amountCorrectAnswers: correctAnswers.length,
                totalAnswered: answered.length
          })
@@ -249,9 +256,10 @@ const GermanMeaningsScreen = props => {
       <Container style={styles.container}>
          <HeaderComponent title='Verbien merkityksiä' goBack={navigation.goBack} />
             <Content>
-               <Text>
+               {/*<Text>
                   answered: {answered.length} finished: {String(finished)} counter: {counterState}
                </Text>
+               */}
                {!randomizedVerbs && 
                   <Text>
                      Arvotaan verbejä...
@@ -268,7 +276,7 @@ const GermanMeaningsScreen = props => {
                   )
                }
                {answered.length === 5 && results &&
-                  <GermanResultScreen
+                  <GermanResultView
                      results={results}
                      startAgain={startAgain}
                   />
