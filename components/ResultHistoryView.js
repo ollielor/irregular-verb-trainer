@@ -11,10 +11,21 @@ import {
 
 import moment from 'moment';
 
+import { useNavigation } from '@react-navigation/native';
+
+import Heading from './Heading';
+
 const ResultHistoryView = props => {
+
+   const navigation = useNavigation();
 
    return (
       <Content>
+         {!props.hideButton &&
+            <Heading>
+               10 viimeisintä tulosta
+            </Heading>
+         }
          {props.resultHistory
             .filter(historyItem => historyItem.datetime)
             .sort((a, b) => a.datetime < b.datetime ? 1 : a.datetime > b.datetime ? -1 : 0)
@@ -39,11 +50,13 @@ const ResultHistoryView = props => {
                   </CardItem>
                </Card>
          )}
-         <Button onPress={() => console.log('Koko historia')} style={styles.historyButton}>
-            <Text uppercase={false}>
-               Näytä koko historia
-            </Text>
-         </Button>
+         {!props.hideButton && 
+            <Button onPress={() => navigation.navigate('Omat tulokseni (saksa)')} style={styles.historyButton}>
+               <Text uppercase={false}>
+                  Näytä koko historia
+               </Text>
+            </Button>
+         }
       </Content>
    )
 }

@@ -7,7 +7,11 @@ import {
 
 import FooterButtonComponent from '../components/FooterButtonComponent';
 
+import { useNavigation } from '@react-navigation/native';
+
 const FooterComponent = props => {
+
+   const navigation = useNavigation();
 
     return (
                   <Footer style={{backgroundColor: '#4E00C5'}}>
@@ -15,7 +19,7 @@ const FooterComponent = props => {
                         <FooterButtonComponent title='Koti' function={() => console.log('Koti')} />
                      </FooterTab>
                      <FooterTab>
-                        <FooterButtonComponent title='Tulokset' function={() => console.log('Tulokset')} />
+                        <FooterButtonComponent title='Tulokset' function={() => navigation.navigate('Omat tulokseni (saksa)')} />
                      </FooterTab>
                      <FooterTab>
                         <FooterButtonComponent title='Asetukset' function={() => console.log('Asetukset')} />

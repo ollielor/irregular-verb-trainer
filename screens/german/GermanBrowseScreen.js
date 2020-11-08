@@ -14,7 +14,7 @@ import { useNavigation } from '@react-navigation/native';
 import FooterComponent from '../../components/FooterComponent';
 import HeaderComponent from '../../components/HeaderComponent';
 import CardComponentBrowse from '../../components/CardComponentBrowse';
-import HeadingVerbList from '../../components/HeadingVerbList';
+import Heading from '../../components/Heading';
 
 const GermanBrowseScreen = props => {
 
@@ -60,17 +60,17 @@ const GermanBrowseScreen = props => {
                <Container style={styles.container}>
                   <HeaderComponent title='Selaa ja opettele' goBack={navigation.goBack} />
                   <Content style={styles.contentContainer}>
-                     <HeadingVerbList>
+                     <Heading>
                         Perustason verbit
-                     </HeadingVerbList>
+                     </Heading>
                      {verbs.filter(verb => verb.level === 1).sort((a,b) => a.infinitive > b.infinitive ? 1 : -1).map((verb, index) => <CardComponentBrowse key={index} verb={verb} /> )}
-                     <HeadingVerbList>
+                     <Heading>
                         Keskitason verbit
-                     </HeadingVerbList>
+                     </Heading>
                      {verbs.filter(verb => verb.level === 2).sort((a,b) => a.infinitive > b.infinitive ? 1 : -1).map((verb, index) => <CardComponentBrowse key={index} verb={verb} /> )}
-                     <HeadingVerbList>
+                     <Heading>
                         Haastavat verbit
-                     </HeadingVerbList>
+                     </Heading>
                      {verbs.filter(verb => verb.level === 3).sort((a,b) => a.infinitive > b.infinitive ? 1 : -1).map((verb, index) => <CardComponentBrowse key={index} verb={verb} /> )}
                   </Content>
                   <FooterComponent />
