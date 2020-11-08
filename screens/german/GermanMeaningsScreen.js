@@ -19,6 +19,7 @@ import FooterComponent from '../../components/FooterComponent';
 import HeaderComponent from '../../components/HeaderComponent';
 import MeaningCardComponent from '../../components/MeaningCardComponent';
 import GermanResultView from '../../components/GermanResultView';
+import ResultHistoryView from '../../components/ResultHistoryView';
 
 const GermanMeaningsScreen = props => {
 
@@ -215,7 +216,6 @@ const GermanMeaningsScreen = props => {
             [1, level, results.amountCorrectAnswers, answered.length, points, results.maxPointsWeighted, results.totalRatioRounded, dateTime])
       }, null, updateList
      )
-     DatabaseResults.transaction((tx, error) => console.log(error))
    }
 
    const startAgain = () => {
@@ -352,10 +352,15 @@ const GermanMeaningsScreen = props => {
                   )
                }
                {answered.length === 5 && results &&
-                  <GermanResultView
-                     results={results}
-                     startAgain={startAgain}
-                  />
+                  <>
+                     <GermanResultView
+                        results={results}
+                        startAgain={startAgain}
+                     />
+                     <ResultHistoryView
+                        resultHistory={resultHistory}
+                     />
+                  </>
                }
             </Content>
          <FooterComponent />

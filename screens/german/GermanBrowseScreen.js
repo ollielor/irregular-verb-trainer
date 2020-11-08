@@ -13,7 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import FooterComponent from '../../components/FooterComponent';
 import HeaderComponent from '../../components/HeaderComponent';
-import CardComponent from '../../components/CardComponent';
+import CardComponentBrowse from '../../components/CardComponentBrowse';
 import HeadingVerbList from '../../components/HeadingVerbList';
 
 const GermanBrowseScreen = props => {
@@ -63,15 +63,15 @@ const GermanBrowseScreen = props => {
                      <HeadingVerbList>
                         Perustason verbit
                      </HeadingVerbList>
-                     {verbs.filter(verb => verb.level === 1).sort((a,b) => a.infinitive > b.infinitive ? 1 : -1).map((verb, index) => <CardComponent key={index} verb={verb} /> )}
+                     {verbs.filter(verb => verb.level === 1).sort((a,b) => a.infinitive > b.infinitive ? 1 : -1).map((verb, index) => <CardComponentBrowse key={index} verb={verb} /> )}
                      <HeadingVerbList>
                         Keskitason verbit
                      </HeadingVerbList>
-                     {verbs.filter(verb => verb.level === 2).sort((a,b) => a.infinitive > b.infinitive ? 1 : -1).map((verb, index) => <CardComponent key={index} verb={verb} /> )}
+                     {verbs.filter(verb => verb.level === 2).sort((a,b) => a.infinitive > b.infinitive ? 1 : -1).map((verb, index) => <CardComponentBrowse key={index} verb={verb} /> )}
                      <HeadingVerbList>
                         Haastavat verbit
                      </HeadingVerbList>
-                     {verbs.filter(verb => verb.level === 3).sort((a,b) => a.infinitive > b.infinitive ? 1 : -1).map((verb, index) => <CardComponent key={index} verb={verb} /> )}
+                     {verbs.filter(verb => verb.level === 3).sort((a,b) => a.infinitive > b.infinitive ? 1 : -1).map((verb, index) => <CardComponentBrowse key={index} verb={verb} /> )}
                   </Content>
                   <FooterComponent />
                </Container>

@@ -7,7 +7,7 @@ import {
    Text,
 } from 'native-base';
 
-const CardComponent = props => {
+const CardComponentBrowse = props => {
 
     return (
       <Content>
@@ -30,4 +30,4 @@ const CardComponent = props => {
     );
 }
 
-export default CardComponent;
+export default CardComponentBrowse;

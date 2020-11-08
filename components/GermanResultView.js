@@ -47,7 +47,8 @@ const styles = StyleSheet.create({
    startAgainButton: {
       backgroundColor: '#4E00C5',
       alignSelf: 'center',
-      marginTop: 20
+      marginTop: 20,
+      marginBottom: 20
    }
    });
  
