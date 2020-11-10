@@ -18,10 +18,8 @@ import { useNavigation } from '@react-navigation/native';
 
 import FooterComponent from '../../components/FooterComponent';
 import HeaderComponent from '../../components/HeaderComponent';
-import MeaningCardComponent from '../../components/MeaningCardComponent';
 import GermanResultView from '../../components/GermanResultView';
 import ResultHistoryView from '../../components/ResultHistoryView';
-import FormComponent from '../../components/FormComponent';
 import CardComponentForms from '../../components/CardComponentForms';
 
 const GermanFormsScreen = props => {
