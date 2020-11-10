@@ -32,7 +32,7 @@ const GermanStartScreen = props => {
                   <Content style={styles.contentContainer}>
                      <ButtonComponent color='#7E00C5' title='Selaa ja opettele verbejä' function={() => navigation.navigate('Selaa ja opettele (saksa)')} />
                      <ButtonComponent color='#7E00C5' title='Harjoittele verbien merkityksiä' function={() => navigation.navigate('Harjoittele merkityksiä (saksa)')} />
-                     <ButtonComponent color='#7E00C5' title='Harjoittele verbien muotoja' function={() => console.log('Harjoittele muotoja')} />
+                     <ButtonComponent color='#7E00C5' title='Harjoittele verbien muotoja' function={() => navigation.navigate('Harjoittele muotoja (saksa)')} />
                   </Content>
                   <FooterComponent />
                </Container>

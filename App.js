@@ -17,6 +17,7 @@ import GermanStartScreen from './screens/german/GermanStartScreen';
 import GermanBrowseScreen from './screens/german/GermanBrowseScreen';
 import GermanMeaningsScreen from './screens/german/GermanMeaningsScreen';
 import GermanHistoryScreen from './screens/german/GermanHistoryScreen';
+import GermanFormsScreen from './screens/german/GermanFormsScreen';
 
 const Stack = createStackNavigator();
 
@@ -33,6 +34,7 @@ const App = () => {
                <Stack.Screen name='Saksa' component={GermanStartScreen} />
                <Stack.Screen name='Selaa ja opettele (saksa)' component={GermanBrowseScreen} />
                <Stack.Screen name='Harjoittele merkityksiä (saksa)' component={GermanMeaningsScreen} />
+               <Stack.Screen name='Harjoittele muotoja (saksa)' component={GermanFormsScreen} />
             </Stack.Navigator>
          </NavigationContainer>
     );

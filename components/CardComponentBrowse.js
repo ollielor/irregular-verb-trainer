@@ -12,7 +12,7 @@ const CardComponentBrowse = props => {
     return (
       <Content>
          <Card>
-            <CardItem header>
+            <CardItem>
                <Body>
                   <Text style={{color: '#7E00C5', fontWeight: 'bold'}}>
                      {props.verb.infinitive},&nbsp;
