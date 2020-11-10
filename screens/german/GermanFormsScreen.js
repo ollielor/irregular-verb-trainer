@@ -300,7 +300,22 @@ const GermanFormsScreen = props => {
    const evaluate = (answer, tense) => {
       console.log('evaluate');
       console.log('Tense: ', tense);
-      if (answer === tense) {
+      let newAnswer;
+      let stringArray;
+      let spaceCount = answer.trim().split(' ').length;
+      console.log(spaceCount);
+      if (spaceCount === 3) {
+         stringArray = answer.trim().toUpperCase().toLowerCase().split(' ');
+         newAnswer = stringArray[1] + ' ' + stringArray[2];
+         console.log(newAnswer);
+      } else if (spaceCount === 2) {
+         newAnswer = answer.trim().toUpperCase().toLowerCase().split(' ')[1];
+         console.log('newAnswer: ', newAnswer)
+      } else {
+         newAnswer = answer.trim().toUpperCase().toLowerCase();
+         console.log('newAnswer: ', newAnswer)
+      }
+      if (newAnswer === tense) {
          console.log('correct')
          setPoints(points + 20);
       } else {
