@@ -59,14 +59,10 @@ const CardComponentForms = props => {
    }, [props.correctForm, props.incorrectForm])
 
     return (
-       <>
-       <Text>
-         {props.correctForm.verbId}
-       </Text>
          <Card>
             <CardItem>
                <Body>
-                  <Text style={{color: '#7E00C5', fontWeight: 'bold', marginBottom: 22, marginTop: 22}}>
+                  <Text style={{color: '#7E00C5', fontWeight: 'bold', fontSize: 16, marginBottom: 22, marginTop: 22}}>
                      {props.verbForm.meaning}
                   </Text>
                   <TextInput
@@ -100,7 +96,6 @@ const CardComponentForms = props => {
                </Body>
             </CardItem>
          </Card>
-      </>
     );
 }
 

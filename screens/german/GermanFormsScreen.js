@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { 
    Button,
    Container,
@@ -299,26 +299,29 @@ const GermanFormsScreen = props => {
       return new Date().toISOString();
    }
 
-   const prepareAnswer = answer => {
-      let stringArray;
+   const prepareAnswer = (answer, tense) => {
       let preparedAnswer;
-      let spaceCount = answer.trim().split(' ').length;
-      if (spaceCount === 3) {
-         stringArray = answer.trim().toUpperCase().toLowerCase().split(' ');
-         preparedAnswer = stringArray[1] + ' ' + stringArray[2];
-      } else if (spaceCount === 2) {
-         preparedAnswer = answer.trim().toUpperCase().toLowerCase().split(' ')[1];
+      let stringArray = answer.trim().toUpperCase().toLowerCase().split(' ');
+      let withoutSpacesArray = stringArray.filter(word => word !== '');
+      console.log('withoutSpacesArray: ', withoutSpacesArray)
+      if (withoutSpacesArray.length === 3) {
+         preparedAnswer = withoutSpacesArray[1] + ' ' + withoutSpacesArray[2];
+      } else if (withoutSpacesArray.length === 2 && tense !== 'presperf') {
+         preparedAnswer = withoutSpacesArray[1];
+         console.log('preparedAnswer: ', preparedAnswer);
+      } else if (withoutSpacesArray.length === 2 && tense === 'presperf') {
+         preparedAnswer = withoutSpacesArray[0] + ' ' + withoutSpacesArray[1];
       } else {
-         preparedAnswer = answer.trim().toUpperCase().toLowerCase();
+         preparedAnswer = withoutSpacesArray[0];
       }
       return preparedAnswer;
    }
 
-   const evaluate = (answer, correctForm, tense, verbId) => {
+   const evaluate = (answer, correct, tense, verbId) => {
       console.log('evaluate');
       console.log('Tense: ', tense);
-      const preparedAnswer = prepareAnswer(answer);
-      if (preparedAnswer === correctForm) {
+      const preparedAnswer = prepareAnswer(answer, tense);
+      if (preparedAnswer === correct) {
          setCorrectForm({form: tense, verbId: verbId});
          /*switch (tense) {
             case 'infinitive':
@@ -344,10 +347,8 @@ const GermanFormsScreen = props => {
    return (
       <Container style={styles.container}>
          <HeaderComponent title='Verbien muotoja' goBack={navigation.goBack} />
-            <Content>
-               <Text>
-                  Pisteesi: {points}
-               </Text>
+            <KeyboardAvoidingView>
+               <ScrollView>
                {randomizedVerbs.withSynonyms && randomizedVerbs.withSynonyms.map((verbForm, index) =>
                    <CardComponentForms 
                      key={index} 
@@ -368,7 +369,8 @@ const GermanFormsScreen = props => {
                      incorrectForm={incorrectForm}
                   />
                ))}
-            </Content>
+               </ScrollView>
+            </KeyboardAvoidingView>
          <FooterComponent />
       </Container>
     );
