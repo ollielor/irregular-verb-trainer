@@ -299,7 +299,7 @@ const GermanFormsScreen = props => {
       return new Date().toISOString();
    }
 
-   const prepareAnswer = (answer, tense) => {
+   const prepareAnswer = (answer, correct, tense) => {
       let preparedAnswer;
       let stringArray = answer.trim().toUpperCase().toLowerCase().split(' ');
       let withoutSpacesArray = stringArray.filter(word => word !== '');
@@ -317,11 +317,24 @@ const GermanFormsScreen = props => {
       return preparedAnswer;
    }
 
+   const checkAnswerStrings = (preparedAnswer, correct) => {
+      if (Array.isArray(correct)) {
+         for (let i=0; i < correct.length; i++) {
+            if (preparedAnswer === correct[i]) {
+               console.log('preparedAnswer: ', preparedAnswer)
+               return true;
+            }
+         }
+      } else if (!Array.isArray(correct) && preparedAnswer === correct) {
+         return true;
+      }
+   }
+
    const evaluate = (answer, correct, tense, verbId) => {
       console.log('evaluate');
       console.log('Tense: ', tense);
-      const preparedAnswer = prepareAnswer(answer, tense);
-      if (preparedAnswer === correct) {
+      const preparedAnswer = prepareAnswer(answer, correct, tense);
+      if (checkAnswerStrings(preparedAnswer, correct)) {
          setCorrectForm({form: tense, verbId: verbId});
          /*switch (tense) {
             case 'infinitive':
@@ -347,7 +360,7 @@ const GermanFormsScreen = props => {
    return (
       <Container style={styles.container}>
          <HeaderComponent title='Verbien muotoja' goBack={navigation.goBack} />
-            <KeyboardAvoidingView>
+            <KeyboardAvoidingView behavior='padding'>
                <ScrollView>
                {randomizedVerbs.withSynonyms && randomizedVerbs.withSynonyms.map((verbForm, index) =>
                    <CardComponentForms 

@@ -18,10 +18,27 @@ const CardComponentForms = props => {
    const [incorrectPresent, setIncorrectPresent] = useState(false);
    const [incorrectPast, setIncorrectPast] = useState(false);
    const [incorrectPresPerf, setIncorrectPresPerf] = useState(false);
+   const [synonymousForms, setSynonymousForms] = useState('');
 
    console.log(props)
 
    const verbId = props.verbForm.verb_id;
+
+   useEffect(() => {
+      if (props.synonyms) {
+         let infinitiveSynonyms = props.verbForm.map(verbForm => {return verbForm.infinitive});
+         let presentSynonyms = props.verbForm.map(verbForm => {return verbForm.present});
+         let pastSynonyms = props.verbForm.map(verbForm => {return verbForm.past});
+         let presPerfSynonyms = props.verbForm.map(verbForm => {return verbForm.presperf});
+         console.log('infinitiveSynonyms: ', infinitiveSynonyms);
+         setSynonymousForms({
+            infinitive: infinitiveSynonyms,
+            present: presentSynonyms,
+            past: pastSynonyms,
+            presPerf: presPerfSynonyms
+         });
+      }
+   }, [])
 
    useEffect(() => {
       if (props.correctForm.verbId === verbId) {
@@ -63,35 +80,35 @@ const CardComponentForms = props => {
             <CardItem>
                <Body>
                   <Text style={{color: '#7E00C5', fontWeight: 'bold', fontSize: 16, marginBottom: 22, marginTop: 22}}>
-                     {props.verbForm.meaning}
+                     {props.synonyms ? props.verbForm[0].meaning : props.verbForm.meaning}
                   </Text>
                   <TextInput
                      style={correctInfinitive ? styles.formInputCorrect : incorrectInfinitive ? styles.formInputIncorrect : styles.formInput}
                      placeholder='Perusmuoto'
-                     onChangeText={answer => props.evaluate(answer, props.verbForm.infinitive, 'infinitive', verbId)}
+                     onChangeText={answer => props.synonyms ? props.evaluate(answer, synonymousForms.infinitive, 'infinitive', verbId) : props.evaluate(answer, props.verbForm.infinitive, 'infinitive', verbId)}
                      editable={!correctInfinitive}
-                     placeholderTextColor='grey'
+                     placeholderTextColor={incorrectInfinitive ? 'white' : 'grey'}
                   />
                   <TextInput
                      style={correctPresent ? styles.formInputCorrect : incorrectPresent ? styles.formInputIncorrect : styles.formInput}
                      placeholder='Preesens (er/sie/es)'
-                     onChangeText={answer => props.evaluate(answer, props.verbForm.present, 'present', verbId)}   
+                     onChangeText={answer => props.synonyms ? props.evaluate(answer, synonymousForms.present, 'present', verbId) : props.evaluate(answer, props.verbForm.present, 'present', verbId)}   
                      editable={!correctPresent}
-                     placeholderTextColor='grey'
+                     placeholderTextColor={incorrectPresent ? 'white' : 'grey'}
                   />
                   <TextInput
                      style={correctPast ? styles.formInputCorrect : incorrectPast ? styles.formInputIncorrect : styles.formInput}
                      placeholder='Imperfekti (er/sie/es)'
-                     onChangeText={answer => props.evaluate(answer, props.verbForm.past, 'past', verbId)}  
+                     onChangeText={answer => props.synonyms ? props.evaluate(answer, synonymousForms.past, 'past', verbId) : props.evaluate(answer, props.verbForm.past, 'past', verbId)}  
                      editable={!correctPast} 
-                     placeholderTextColor='grey'
+                     placeholderTextColor={incorrectPast ? 'white' : 'grey'}
                   />
                   <TextInput
                      style={correctPresPerf ? styles.formInputCorrect : incorrectPresPerf ? styles.formInputIncorrect : styles.formInput}
                      placeholder='Perfekti (er/sie/es)'
-                     onChangeText={answer => props.evaluate(answer, props.verbForm.presperf, 'presperf', verbId)} 
+                     onChangeText={answer => props.synonyms ? props.evaluate(answer, synonymousForms.presPerf, 'presperf', verbId) : props.evaluate(answer, props.verbForm.presperf, 'presperf', verbId)} 
                      editable={!correctPresPerf}
-                     placeholderTextColor='grey'  
+                     placeholderTextColor={incorrectPresPerf ? 'white' : 'grey'} 
                   />
                </Body>
             </CardItem>
