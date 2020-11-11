@@ -42,6 +42,8 @@ const GermanFormsScreen = props => {
    const [dateTime, setDateTime] = useState(null);
    const [verbsWithSynonyms, setVerbsWithSynonyms] = useState([]);
    const [verbsWithoutSynonyms, setVerbsWithoutSynonyms] = useState([]);
+   const [correctForm, setCorrectForm] = useState({});
+   const [incorrectForm, setIncorrectForm] = useState({});
    
    const navigation = useNavigation();
 
@@ -297,29 +299,45 @@ const GermanFormsScreen = props => {
       return new Date().toISOString();
    }
 
-   const evaluate = (answer, tense) => {
-      console.log('evaluate');
-      console.log('Tense: ', tense);
-      let newAnswer;
+   const prepareAnswer = answer => {
       let stringArray;
+      let preparedAnswer;
       let spaceCount = answer.trim().split(' ').length;
-      console.log(spaceCount);
       if (spaceCount === 3) {
          stringArray = answer.trim().toUpperCase().toLowerCase().split(' ');
-         newAnswer = stringArray[1] + ' ' + stringArray[2];
-         console.log(newAnswer);
+         preparedAnswer = stringArray[1] + ' ' + stringArray[2];
       } else if (spaceCount === 2) {
-         newAnswer = answer.trim().toUpperCase().toLowerCase().split(' ')[1];
-         console.log('newAnswer: ', newAnswer)
+         preparedAnswer = answer.trim().toUpperCase().toLowerCase().split(' ')[1];
       } else {
-         newAnswer = answer.trim().toUpperCase().toLowerCase();
-         console.log('newAnswer: ', newAnswer)
+         preparedAnswer = answer.trim().toUpperCase().toLowerCase();
       }
-      if (newAnswer === tense) {
-         console.log('correct')
+      return preparedAnswer;
+   }
+
+   const evaluate = (answer, correctForm, tense, verbId) => {
+      console.log('evaluate');
+      console.log('Tense: ', tense);
+      const preparedAnswer = prepareAnswer(answer);
+      if (preparedAnswer === correctForm) {
+         setCorrectForm({form: tense, verbId: verbId});
+         /*switch (tense) {
+            case 'infinitive':
+               setCorrectForms([...correctForms, {form: tense, verbId: verbId}]);
+               break;
+            case 'present':
+               setCorrectForms([...correctForms, {present: true, verbId: verbId}]);
+               break;
+            case 'past':
+               setCorrectForms([...correctForms, {present: true, verbId: verbId}]);
+               break;
+            case 'presperf':
+               setCorrectForms([...correctForms, {present: true, verbId: verbId}]);
+               break;
+         }*/
+         console.log('correctForm: ', correctForm)
          setPoints(points + 20);
       } else {
-         console.log('incorrect')
+         setIncorrectForm({form: tense, verbId: verbId});
       }
    }
  
@@ -331,10 +349,24 @@ const GermanFormsScreen = props => {
                   Pisteesi: {points}
                </Text>
                {randomizedVerbs.withSynonyms && randomizedVerbs.withSynonyms.map((verbForm, index) =>
-                   <CardComponentForms key={index} verbForm={verbForm} synonyms={true} evaluate={evaluate} />
+                   <CardComponentForms 
+                     key={index} 
+                     verbForm={verbForm} 
+                     synonyms={true} 
+                     evaluate={evaluate}
+                     correctForm={correctForm}
+                     incorrectForm={incorrectForm}
+                  />
                )}
                {randomizedVerbs.withoutSynonyms && randomizedVerbs.withoutSynonyms.map((verbForm, index) => verbForm.map((v, i) =>
-                  <CardComponentForms key={index} verbForm={v} synonyms={false} evaluate={evaluate} />
+                  <CardComponentForms 
+                     key={index} 
+                     verbForm={v} 
+                     synonyms={false} 
+                     evaluate={evaluate} 
+                     correctForm={correctForm}
+                     incorrectForm={incorrectForm}
+                  />
                ))}
             </Content>
          <FooterComponent />
