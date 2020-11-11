@@ -85,30 +85,42 @@ const CardComponentForms = props => {
                   <TextInput
                      style={correctInfinitive ? styles.formInputCorrect : incorrectInfinitive ? styles.formInputIncorrect : styles.formInput}
                      placeholder='Perusmuoto'
-                     onChangeText={answer => props.synonyms ? props.evaluate(answer, synonymousForms.infinitive, 'infinitive', verbId) : props.evaluate(answer, props.verbForm.infinitive, 'infinitive', verbId)}
+                     onChangeText={answer => props.synonyms ? props.evaluate(answer, synonymousForms.infinitive, 'infinitive', verbId) : 
+                        props.evaluate(answer, props.verbForm.infinitive, 'infinitive', verbId)}
                      editable={!correctInfinitive}
                      placeholderTextColor={incorrectInfinitive ? 'white' : 'grey'}
+                     autoCompleteType='off'
+                     autoCorrect={false}
                   />
                   <TextInput
                      style={correctPresent ? styles.formInputCorrect : incorrectPresent ? styles.formInputIncorrect : styles.formInput}
                      placeholder='Preesens (er/sie/es)'
-                     onChangeText={answer => props.synonyms ? props.evaluate(answer, synonymousForms.present, 'present', verbId) : props.evaluate(answer, props.verbForm.present, 'present', verbId)}   
+                     onChangeText={answer => props.synonyms ? props.evaluate(answer, synonymousForms.present, 'present', verbId) : 
+                        props.evaluate(answer, props.verbForm.present, 'present', verbId)}   
                      editable={!correctPresent}
                      placeholderTextColor={incorrectPresent ? 'white' : 'grey'}
+                     autoCompleteType='off'
+                     autoCorrect={false}
                   />
                   <TextInput
                      style={correctPast ? styles.formInputCorrect : incorrectPast ? styles.formInputIncorrect : styles.formInput}
                      placeholder='Imperfekti (er/sie/es)'
-                     onChangeText={answer => props.synonyms ? props.evaluate(answer, synonymousForms.past, 'past', verbId) : props.evaluate(answer, props.verbForm.past, 'past', verbId)}  
+                     onChangeText={answer => props.synonyms ? props.evaluate(answer, synonymousForms.past, 'past', verbId) : 
+                        props.evaluate(answer, props.verbForm.past, 'past', verbId)}  
                      editable={!correctPast} 
                      placeholderTextColor={incorrectPast ? 'white' : 'grey'}
+                     autoCompleteType='off'
+                     autoCorrect={false}
                   />
                   <TextInput
                      style={correctPresPerf ? styles.formInputCorrect : incorrectPresPerf ? styles.formInputIncorrect : styles.formInput}
                      placeholder='Perfekti (er/sie/es)'
-                     onChangeText={answer => props.synonyms ? props.evaluate(answer, synonymousForms.presPerf, 'presperf', verbId) : props.evaluate(answer, props.verbForm.presperf, 'presperf', verbId)} 
+                     onChangeText={answer => props.synonyms ? props.evaluate(answer, synonymousForms.presPerf, 'presperf', verbId) : 
+                        props.evaluate(answer, props.verbForm.presperf, 'presperf', verbId)} 
                      editable={!correctPresPerf}
                      placeholderTextColor={incorrectPresPerf ? 'white' : 'grey'} 
+                     autoCompleteType='off'
+                     autoCorrect={false}
                   />
                </Body>
             </CardItem>
@@ -124,7 +136,7 @@ const styles = StyleSheet.create({
       marginTop: 22,
       marginBottom: 22,
       padding: 10,
-      borderColor: 'blue',
+      borderColor: '#7E00C5',
       borderWidth: 1,
       width: '100%',
    },
@@ -135,6 +147,7 @@ const styles = StyleSheet.create({
       marginBottom: 22,
       padding: 10,
       backgroundColor: '#66dd33',
+      borderColor: '#7E00C5',
       color: '#7E00C5',
       width: '100%',
    },
@@ -144,6 +157,7 @@ const styles = StyleSheet.create({
       marginBottom: 22,
       padding: 10,
       backgroundColor: '#ff0033',
+      borderColor: '#7E00C5',
       color: 'white',
       width: '100%',
    }

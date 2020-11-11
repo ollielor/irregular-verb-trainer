@@ -299,9 +299,9 @@ const GermanFormsScreen = props => {
       return new Date().toISOString();
    }
 
-   const prepareAnswer = (answer, correct, tense) => {
+   /*const prepareAnswer = (answer, tense) => {
       let preparedAnswer;
-      let stringArray = answer.trim().toUpperCase().toLowerCase().split(' ');
+      let stringArray = answer.trim().replace('/', '').toUpperCase().toLowerCase().split(' ');
       let withoutSpacesArray = stringArray.filter(word => word !== '');
       console.log('withoutSpacesArray: ', withoutSpacesArray)
       if (withoutSpacesArray.length === 3) {
@@ -315,12 +315,31 @@ const GermanFormsScreen = props => {
          preparedAnswer = withoutSpacesArray[0];
       }
       return preparedAnswer;
+   }*/
+
+   const prepareAnswer = (answer, tense) => {
+      let preparedAnswer = '';
+      let stringArray = answer.trim().replace('/', '').toUpperCase().toLowerCase().split(' ');
+      let withoutPronounsArray = stringArray.filter(word => word !== 'er' && word !== 'sie' && word !== 'es' && word !== 'er/sie' && word !== 'er/sie/es');
+      console.log('withoutPronounsArray: ', withoutPronounsArray)
+      /*if (withoutSpacesArray.length === 3) {
+         preparedAnswer = withoutSpacesArray[0] + ' ' + withoutSpacesArray[1] + ' ' + withoutSpacesArray[2];
+      } else if (withoutSpacesArray.length === 2) {
+         preparedAnswer = withoutSpacesArray[0] + ' ' + withoutSpacesArray[1] + ' ' + withoutSpacesArray[2]; 
+      } else {
+         preparedAnswer = withoutSpacesArray[0];
+      }*/
+      for (let i=0; i < withoutPronounsArray.length; i++) {
+         preparedAnswer += ' ' + withoutPronounsArray[i];
+         console.log('preparedAnswer from loop: ', preparedAnswer)
+      }
+      return preparedAnswer.trim();
    }
 
    const checkAnswerStrings = (preparedAnswer, correct) => {
       if (Array.isArray(correct)) {
          for (let i=0; i < correct.length; i++) {
-            if (preparedAnswer === correct[i]) {
+            if (preparedAnswer === correct[i].replace('/', '')) {
                console.log('preparedAnswer: ', preparedAnswer)
                return true;
             }
@@ -333,8 +352,14 @@ const GermanFormsScreen = props => {
    const evaluate = (answer, correct, tense, verbId) => {
       console.log('evaluate');
       console.log('Tense: ', tense);
-      const preparedAnswer = prepareAnswer(answer, correct, tense);
-      if (checkAnswerStrings(preparedAnswer, correct)) {
+      const preparedAnswer = prepareAnswer(answer, tense);
+      let correctModified;
+      if (!Array.isArray(correct)) {
+         correctModified = correct.replace('/', '');
+      } else {
+         correctModified = correct;
+      }
+      if (checkAnswerStrings(preparedAnswer, correctModified)) {
          setCorrectForm({form: tense, verbId: verbId});
          /*switch (tense) {
             case 'infinitive':
