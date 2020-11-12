@@ -357,7 +357,9 @@ const GermanFormsScreen = props => {
          }*/
          setPoints(points + 9);
       } else {
-         setIncorrectForm({form: tense, verbId: verbId});
+         setTimeout(() => {
+            setIncorrectForm({form: tense, verbId: verbId});
+         }, 2000);
       }
    }
  
