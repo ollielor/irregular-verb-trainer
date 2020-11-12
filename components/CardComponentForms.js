@@ -20,6 +20,7 @@ const CardComponentForms = props => {
    const [incorrectPast, setIncorrectPast] = useState(false);
    const [incorrectPresPerf, setIncorrectPresPerf] = useState(false);
    const [synonymousForms, setSynonymousForms] = useState('');
+   const [initialValue, setInitialValue] = useState('');
 
    console.log(props)
 
@@ -165,7 +166,7 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       marginTop: 45,
       padding: 10,
-      backgroundColor: '#66dd33',
+      underlineColorAndroid: '#66dd33',
       borderColor: '#7E00C5',
       color: '#7E00C5',
       width: '100%',
@@ -180,3 +181,33 @@ const styles = StyleSheet.create({
       width: '100%',
    }
 })
+
+/*const styles = StyleSheet.create({
+   formInput: {
+      fontSize: 16,
+      marginTop: 45,
+      padding: 10,
+      borderColor: '#7E00C5',
+      borderWidth: 1,
+      width: '100%',
+   },
+   formInputCorrect: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      marginTop: 45,
+      padding: 10,
+      backgroundColor: '#66dd33',
+      borderColor: '#7E00C5',
+      color: '#7E00C5',
+      width: '100%',
+   },
+   formInputIncorrect: {
+      fontSize: 16,
+      marginTop: 45,
+      padding: 10,
+      backgroundColor: '#ff0033',
+      borderColor: '#7E00C5',
+      color: 'white',
+      width: '100%',
+   }
+})*/
