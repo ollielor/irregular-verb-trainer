@@ -7,6 +7,7 @@ import {
    Content,
    Text,
 } from 'native-base';
+import CorrectAnswerComponent from './CorrectAnswerComponent';
 
 const CardComponentForms = props => {
 
@@ -79,7 +80,7 @@ const CardComponentForms = props => {
          <Card>
             <CardItem>
                <Body>
-                  <Text style={{color: '#7E00C5', fontWeight: 'bold', fontSize: 16, marginBottom: 22, marginTop: 22}}>
+                  <Text style={{color: '#7E00C5', fontWeight: 'bold', fontSize: 16, marginTop: 22}}>
                      {props.synonyms ? props.verbForm[0].meaning : props.verbForm.meaning}
                   </Text>
                   <TextInput
@@ -87,41 +88,61 @@ const CardComponentForms = props => {
                      placeholder='Perusmuoto'
                      onChangeText={answer => props.synonyms ? props.evaluate(answer, synonymousForms.infinitive, 'infinitive', verbId) : 
                         props.evaluate(answer, props.verbForm.infinitive, 'infinitive', verbId)}
-                     editable={!correctInfinitive}
+                     editable={correctPresPerf || props.finished ? false : true}
                      placeholderTextColor={incorrectInfinitive ? 'white' : 'grey'}
                      autoCompleteType='off'
                      autoCorrect={false}
                   />
+                  {props.finished && props.synonyms && !incorrectInfinitive ?
+                        <CorrectAnswerComponent form={synonymousForms.infinitive} synonyms={true} /> : 
+                     props.finished && !props.synonyms && !incorrectInfinitive &&
+                        <CorrectAnswerComponent form={props.verbForm.infinitive} synonyms={false} />     
+                  }
                   <TextInput
                      style={correctPresent ? styles.formInputCorrect : incorrectPresent ? styles.formInputIncorrect : styles.formInput}
                      placeholder='Preesens (er/sie/es)'
                      onChangeText={answer => props.synonyms ? props.evaluate(answer, synonymousForms.present, 'present', verbId) : 
                         props.evaluate(answer, props.verbForm.present, 'present', verbId)}   
-                     editable={!correctPresent}
+                     editable={correctPresPerf || props.finished ? false : true}
                      placeholderTextColor={incorrectPresent ? 'white' : 'grey'}
                      autoCompleteType='off'
                      autoCorrect={false}
                   />
+                  {props.finished && props.synonyms && !incorrectPresent ?
+                        <CorrectAnswerComponent form={synonymousForms.present} synonyms={true} /> : 
+                     props.finished && !props.synonyms && !incorrectPresent &&
+                        <CorrectAnswerComponent form={props.verbForm.present} synonyms={false} />     
+                  }
                   <TextInput
                      style={correctPast ? styles.formInputCorrect : incorrectPast ? styles.formInputIncorrect : styles.formInput}
                      placeholder='Imperfekti (er/sie/es)'
                      onChangeText={answer => props.synonyms ? props.evaluate(answer, synonymousForms.past, 'past', verbId) : 
                         props.evaluate(answer, props.verbForm.past, 'past', verbId)}  
-                     editable={!correctPast} 
+                     editable={correctPresPerf || props.finished ? false : true}
                      placeholderTextColor={incorrectPast ? 'white' : 'grey'}
                      autoCompleteType='off'
                      autoCorrect={false}
                   />
+                  {props.finished && props.synonyms && !incorrectPast ?
+                        <CorrectAnswerComponent form={synonymousForms.past} synonyms={true} /> : 
+                     props.finished && !props.synonyms && !incorrectPast &&
+                        <CorrectAnswerComponent form={props.verbForm.past} synonyms={false} />     
+                  }
                   <TextInput
                      style={correctPresPerf ? styles.formInputCorrect : incorrectPresPerf ? styles.formInputIncorrect : styles.formInput}
                      placeholder='Perfekti (er/sie/es)'
                      onChangeText={answer => props.synonyms ? props.evaluate(answer, synonymousForms.presPerf, 'presperf', verbId) : 
                         props.evaluate(answer, props.verbForm.presperf, 'presperf', verbId)} 
-                     editable={!correctPresPerf}
+                     editable={correctPresPerf || props.finished ? false : true}
                      placeholderTextColor={incorrectPresPerf ? 'white' : 'grey'} 
                      autoCompleteType='off'
                      autoCorrect={false}
                   />
+                  {props.finished && props.synonyms && !incorrectPresPerf ?
+                        <CorrectAnswerComponent form={synonymousForms.presperf} synonyms={true} /> : 
+                     props.finished && !props.synonyms && !incorrectPresPerf &&
+                        <CorrectAnswerComponent form={props.verbForm.presperf} synonyms={false} />     
+                  }
                </Body>
             </CardItem>
          </Card>
@@ -133,8 +154,7 @@ export default CardComponentForms;
 const styles = StyleSheet.create({
    formInput: {
       fontSize: 16,
-      marginTop: 22,
-      marginBottom: 22,
+      marginTop: 45,
       padding: 10,
       borderColor: '#7E00C5',
       borderWidth: 1,
@@ -143,8 +163,7 @@ const styles = StyleSheet.create({
    formInputCorrect: {
       fontSize: 16,
       fontWeight: 'bold',
-      marginTop: 22,
-      marginBottom: 22,
+      marginTop: 45,
       padding: 10,
       backgroundColor: '#66dd33',
       borderColor: '#7E00C5',
@@ -153,8 +172,7 @@ const styles = StyleSheet.create({
    },
    formInputIncorrect: {
       fontSize: 16,
-      marginTop: 22,
-      marginBottom: 22,
+      marginTop: 45,
       padding: 10,
       backgroundColor: '#ff0033',
       borderColor: '#7E00C5',

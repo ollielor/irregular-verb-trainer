@@ -21,6 +21,7 @@ import HeaderComponent from '../../components/HeaderComponent';
 import GermanResultView from '../../components/GermanResultView';
 import ResultHistoryView from '../../components/ResultHistoryView';
 import CardComponentForms from '../../components/CardComponentForms';
+import ButtonComponent from '../../components/ButtonComponent';
 
 const GermanFormsScreen = props => {
 
@@ -30,6 +31,7 @@ const GermanFormsScreen = props => {
    const [randomizedVerbs, setRandomizedVerbs] = useState([]);
    const [rndVerbsLoaded, setRndVerbsLoaded] = useState(false);
    const [points, setPoints] = useState(0);
+   const [totalPoints, setTotalPoints] = useState(0);
    const [maxPoints, setMaxPoints] = useState(0);
    const [answered, setAnswered] = useState([]);
    const [finished, setFinished] = useState(false);
@@ -180,6 +182,7 @@ const GermanFormsScreen = props => {
             withoutSynonyms: withoutSynonyms
          });
          setRndVerbsLoaded(true);
+         setStarted(true);
       }
    }, [verbsLoaded]);
 
@@ -212,14 +215,14 @@ const GermanFormsScreen = props => {
    }, [verbsLoaded]);*/
 
 
-   const saveResults = () => {
+   /*const saveResults = () => {
       //const db = SQLite.openDatabase('results_meaning.db');
       DatabaseResults.transaction(tx => {
          tx.executeSql('insert into results (type, level, accuracy, q_total, points, maxpoints, ratio, datetime) values (?, ?, ?, ?, ?, ?, ?, ?);',
             [1, level, results.amountCorrectAnswers, answered.length, points, results.maxPointsWeighted, results.totalRatioRounded, dateTime])
       }, null, updateList
      )
-   }
+   }*/
 
    const startAgain = () => {
       setStarted(true);
@@ -240,14 +243,13 @@ const GermanFormsScreen = props => {
 
    useEffect(() => {
       if (started) {
-         let counter = 60; 
+         let counter = 0; 
          let intervalId = setInterval(() => {
-            if (answered.length === 5 || counter === 0) {
+            if (finished) {
                clearInterval(intervalId);
-               setFinished(true);
                setStarted(false);
             } else {
-               counter--;
+               counter++;
                setCounterState(counter);
             }
          }, 1000)
@@ -256,38 +258,16 @@ const GermanFormsScreen = props => {
 
    useEffect(() => {
 
-      if (answered.length === 5) {
-         // Sum of items in points array (accuracy):
-         let accuracyPoints = points;
-         // Sum of correct answers
-         let correctAnswers = answered.filter(answer => answer.accuracy === 'correct');
-         // Weighted sum of accuracy and speed points
-         // 15 seconds subtracted from total time points (counter)
-         let totalPoints;
-         if (correctAnswers.length >= 3) {
-            totalPoints = accuracyPoints + ((counterState + 15) * 0.33333);
-         } else {
-            totalPoints = accuracyPoints;
-         }
-         // Weighted point maximum (with 20 speed points)
-         let maxPointsWeighted = maxPoints + 20;
-         // Ratio of total points and weighted point maximum
-         let totalRatio = (totalPoints / maxPointsWeighted) * 100.0;
-         let totalRatioRounded = totalRatio.toFixed(2).toString().replace(".", ",")
-         setResults({
-            totalPoints: totalPoints.toFixed(2).toString().replace(".", ","),
-            maxPointsWeighted: maxPointsWeighted,
-            totalRatio: totalRatio,
-            totalRatioRounded: totalRatioRounded,
-            amountCorrectAnswers: correctAnswers.length,
-            totalAnswered: answered.length
-         })
+      if (finished) {
+         setTotalPoints(points + counterState * (-1));
+         console.log('speed points: ', counterState * (-1))
+         console.log('totalPoints: ', totalPoints);
          setDateTime(getCurrentDate());
-         setTimeout(() => {
+         /*setTimeout(() => {
             setResultsAdded(true);
-         }, 2000)
+         }, 2000)*/
       }
-   }, [answered])
+   }, [finished])
 
    useEffect(() => {
       if (resultsAdded) {
@@ -317,7 +297,7 @@ const GermanFormsScreen = props => {
       return preparedAnswer;
    }*/
 
-   const prepareAnswer = (answer, tense) => {
+   const prepareAnswer = answer => {
       let preparedAnswer = '';
       let stringArray = answer.trim().replace('/', '').toUpperCase().toLowerCase().split(' ');
       let withoutPronounsArray = stringArray.filter(word => word !== 'er' && word !== 'sie' && word !== 'es' && word !== 'er/sie' && word !== 'er/sie/es');
@@ -375,8 +355,7 @@ const GermanFormsScreen = props => {
                setCorrectForms([...correctForms, {present: true, verbId: verbId}]);
                break;
          }*/
-         console.log('correctForm: ', correctForm)
-         setPoints(points + 20);
+         setPoints(points + 9);
       } else {
          setIncorrectForm({form: tense, verbId: verbId});
       }
@@ -385,28 +364,31 @@ const GermanFormsScreen = props => {
    return (
       <Container style={styles.container}>
          <HeaderComponent title='Verbien muotoja' goBack={navigation.goBack} />
-            <KeyboardAvoidingView behavior='padding'>
+            <KeyboardAvoidingView behavior='padding' style={styles.cardContainer}>
                <ScrollView>
-               {randomizedVerbs.withSynonyms && randomizedVerbs.withSynonyms.map((verbForm, index) =>
-                   <CardComponentForms 
-                     key={index} 
-                     verbForm={verbForm} 
-                     synonyms={true} 
-                     evaluate={evaluate}
-                     correctForm={correctForm}
-                     incorrectForm={incorrectForm}
-                  />
-               )}
-               {randomizedVerbs.withoutSynonyms && randomizedVerbs.withoutSynonyms.map((verbForm, index) => verbForm.map((v, i) =>
-                  <CardComponentForms 
-                     key={index} 
-                     verbForm={v} 
-                     synonyms={false} 
-                     evaluate={evaluate} 
-                     correctForm={correctForm}
-                     incorrectForm={incorrectForm}
-                  />
-               ))}
+                     {randomizedVerbs.withSynonyms && randomizedVerbs.withSynonyms.map((verbForm, index) =>
+                        <CardComponentForms 
+                           key={index} 
+                           verbForm={verbForm} 
+                           synonyms={true} 
+                           evaluate={evaluate}
+                           correctForm={correctForm}
+                           incorrectForm={incorrectForm}
+                           finished={finished}
+                        />
+                     )}
+                     {randomizedVerbs.withoutSynonyms && randomizedVerbs.withoutSynonyms.map((verbForm, index) => verbForm.map((v, i) =>
+                        <CardComponentForms 
+                           key={index} 
+                           verbForm={v} 
+                           synonyms={false} 
+                           evaluate={evaluate} 
+                           correctForm={correctForm}
+                           incorrectForm={incorrectForm}
+                           finished={finished}
+                        />
+                     ))}
+                     <ButtonComponent color='#7E00C5' title='Valmis' function={() => setFinished(true)} />
                </ScrollView>
             </KeyboardAvoidingView>
          <FooterComponent />
@@ -425,5 +407,8 @@ const styles = StyleSheet.create({
   },
   formStyle: {
      paddingRight: 20
+  },
+  cardContainer: {
+     flex: 1
   }
 });
