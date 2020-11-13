@@ -42,7 +42,7 @@ const GermanMeaningsScreen = props => {
    
    const navigation = useNavigation();
 
-   FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/verbs_german.db`)
+   /*FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/verbs_german.db`)
    .then(result => {
    if (result.exists) {
       DatabaseVerbs;
@@ -51,8 +51,11 @@ const GermanMeaningsScreen = props => {
       Asset.fromModule(require('../../assets/verbs_german.db')).uri,
       `${FileSystem.documentDirectory}SQLite/verbs_german.db`
    )}
-   });
+   });*/
 
+   useEffect(() => {
+      DatabaseVerbs;
+   })
    
    const loadVerbs = () => {
       //const db = SQLite.openDatabase('verbs_german.db');

@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { 
+   StyleSheet, 
+   ScrollView, 
+   KeyboardAvoidingView, 
+   Dimensions 
+} from 'react-native';
 import { 
    Button,
    Container,
@@ -22,6 +27,7 @@ import GermanResultView from '../../components/GermanResultView';
 import ResultHistoryView from '../../components/ResultHistoryView';
 import CardComponentForms from '../../components/CardComponentForms';
 import ButtonComponent from '../../components/ButtonComponent';
+import Header from '../../native-base-theme/components/Header';
 
 const GermanFormsScreen = props => {
 
@@ -366,7 +372,12 @@ const GermanFormsScreen = props => {
    return (
       <Container style={styles.container}>
          <HeaderComponent title='Verbien muotoja' goBack={navigation.goBack} />
-            <KeyboardAvoidingView behavior='padding' style={styles.cardContainer}>
+            <KeyboardAvoidingView 
+               behavior='padding' 
+               style={styles.cardContainer}
+               behavior= {(Platform.OS === 'ios') ? 'padding' : null}
+               keyboardVerticalOffset={Platform.select({ios: 0, android: 500})}
+            >
                <ScrollView>
                      {randomizedVerbs.withSynonyms && randomizedVerbs.withSynonyms.map((verbForm, index) =>
                         <CardComponentForms 

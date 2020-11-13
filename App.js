@@ -19,9 +19,32 @@ import GermanMeaningsScreen from './screens/german/GermanMeaningsScreen';
 import GermanHistoryScreen from './screens/german/GermanHistoryScreen';
 import GermanFormsScreen from './screens/german/GermanFormsScreen';
 
+import DatabaseVerbs from './modules/DatabaseVerbs';
+
+import * as FileSystem from 'expo-file-system';
+import { Asset } from 'expo-asset';
+
 const Stack = createStackNavigator();
 
 const App = () => {
+
+   useEffect(() => {
+      FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`)
+         .then(result => {
+            if (!result.exists) {
+               FileSystem.makeDirectoryAsync(`${FileSystem.documentDirectory}SQLite`, 
+                  {intermediates: true}
+               )
+            }
+            return FileSystem.downloadAsync(
+               Asset.fromModule(require('./assets/verbs_german.db')).uri,
+               `${FileSystem.documentDirectory}SQLite/verbs_german.db`
+            )
+         })
+         .catch(error => {
+            console.log(error);
+         })
+   }, [])
 
    return (
          <NavigationContainer>
@@ -45,8 +68,6 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#404040',
-    //alignItems: 'center',
-    //justifyContent: 'center'
   },
   contentContainer: {
      padding: 10
