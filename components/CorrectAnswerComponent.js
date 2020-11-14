@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { StyleSheet, Platform } from 'react-native';
 import { Text } from 'native-base';
 
 const CorrectAnswerComponent = props => {
@@ -7,7 +7,7 @@ const CorrectAnswerComponent = props => {
    console.log('correctAnswerComponent: ', props)
 
    return (
-      <Text style={{color: '#7E00C5'}}>
+      <Text style={Platform.OS === 'ios' ? styles.textIOS : styles.textAndroid}>
          {Array.isArray(props.form) ?
             props.form.map((alternative, index) =>
                index < props.form.length - 1 ? 
@@ -24,3 +24,13 @@ const CorrectAnswerComponent = props => {
 }
 
 export default CorrectAnswerComponent;
+
+const styles = StyleSheet.create({
+   textIOS: {
+      color: '#7E00C5'
+   },
+   textAndroid: {
+      color: '#7E00C5',
+      paddingLeft: 8
+   }
+})

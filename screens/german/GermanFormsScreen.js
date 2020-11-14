@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
    StyleSheet, 
    ScrollView, 
-   KeyboardAvoidingView, 
-   Dimensions 
+   KeyboardAvoidingView
 } from 'react-native';
 import { 
    Button,
@@ -361,24 +360,31 @@ const GermanFormsScreen = props => {
                setCorrectForms([...correctForms, {present: true, verbId: verbId}]);
                break;
          }*/
-         setPoints(points + 9);
+         setPoints(points + 10);
       } else {
          setTimeout(() => {
             setIncorrectForm({form: tense, verbId: verbId});
          }, 2000);
       }
    }
+
+   const scrollToTop = () => {
+      scrollViewRef.current.scrollTo({x: 0, y: 0, animated: true});
+   }
+
+   const scrollViewRef = useRef();
  
    return (
       <Container style={styles.container}>
          <HeaderComponent title='Verbien muotoja' goBack={navigation.goBack} />
             <KeyboardAvoidingView 
-               behavior='padding' 
-               style={styles.cardContainer}
-               behavior= {(Platform.OS === 'ios') ? 'padding' : null}
-               keyboardVerticalOffset={Platform.select({ios: 0, android: 500})}
+               style={styles.flexOne}
+               behavior={Platform.OS === 'ios' ? 'padding' : 'null'}
             >
-               <ScrollView>
+               <ScrollView 
+                  style={styles.flexOne}
+                  ref={scrollViewRef}
+               >
                      {randomizedVerbs.withSynonyms && randomizedVerbs.withSynonyms.map((verbForm, index) =>
                         <CardComponentForms 
                            key={index} 
@@ -401,7 +407,7 @@ const GermanFormsScreen = props => {
                            finished={finished}
                         />
                      ))}
-                     <ButtonComponent color='#7E00C5' title='Valmis' function={() => setFinished(true)} />
+                     <ButtonComponent color='#7E00C5' title='Valmis' function={scrollToTop} />
                </ScrollView>
             </KeyboardAvoidingView>
          <FooterComponent />
@@ -421,7 +427,7 @@ const styles = StyleSheet.create({
   formStyle: {
      paddingRight: 20
   },
-  cardContainer: {
+  flexOne: {
      flex: 1
   }
 });
