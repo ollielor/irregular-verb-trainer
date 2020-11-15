@@ -54,7 +54,10 @@ const GermanFormsScreen = props => {
    const navigation = useNavigation();
 
    // maxPoints set to 200
-   const maxPoints = 200;   
+   const maxPoints = 200; 
+   
+   // Estimated time of accomplishment in seconds
+   const estimatedAccomplishTime = 150
 
    FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/verbs_german.db`)
    .then(result => {
@@ -266,13 +269,13 @@ const GermanFormsScreen = props => {
 
       if (finished) {
          let totalPoints;
-         if (counterState >= 150) {
-            totalPoints = ((points * 0.9) + (counterState * (-1) * 0.1));
+         if (counterState <= estimatedAccomplishTime && points === 200) {
+            totalPoints = ((points * 0.9) + (counterState * 0.1));
          } else {
             totalPoints = points;
          }
          let maxPointsWeighted; 
-         if (counterState >= 150) {
+         if (counterState <= estimatedAccomplishTime) {
             maxPointsWeighted = maxPoints * 0.9 + counterState * 0.1;
          } else {
             maxPointsWeighted = maxPoints;
