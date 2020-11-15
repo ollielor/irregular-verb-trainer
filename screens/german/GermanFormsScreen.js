@@ -50,6 +50,8 @@ const GermanFormsScreen = props => {
    const [correctForm, setCorrectForm] = useState({});
    const [incorrectForm, setIncorrectForm] = useState({});
    const [ready, setReady] = useState(false);
+   const [answeredIndex, setAnsweredIndex] = useState(0);
+   const [componentFinished, setComponentFinished] = useState(false);
    
    const navigation = useNavigation();
 
@@ -58,6 +60,8 @@ const GermanFormsScreen = props => {
    
    // Estimated time of accomplishment in seconds
    const estimatedAccomplishTime = 150
+
+   const length = 0;
 
    FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/verbs_german.db`)
    .then(result => {
@@ -187,10 +191,11 @@ const GermanFormsScreen = props => {
          const withoutSynonyms = rndVerbsFinal.filter(verbArray => verbArray.length === 1).map(verbArray => verbArray);
          console.log('With synonyms: ', withSynonyms);
          console.log('Without synonyms: ', withoutSynonyms);
-         setRandomizedVerbs({
+         /*setRandomizedVerbs({
             withSynonyms: withSynonyms,
             withoutSynonyms: withoutSynonyms
-         });
+         });*/
+         setRandomizedVerbs(rndVerbsFinal);
          setRndVerbsLoaded(true);
          setStarted(true);
       }
@@ -267,7 +272,7 @@ const GermanFormsScreen = props => {
 
    useEffect(() => {
 
-      if (finished) {
+      if (ready || points === 200) {
          let totalPoints;
          if (counterState <= estimatedAccomplishTime && points === 200) {
             totalPoints = ((points * 0.9) + (counterState * 0.1));
@@ -297,9 +302,8 @@ const GermanFormsScreen = props => {
          /*setTimeout(() => {
             setResultsAdded(true);
          }, 2000)*/
-         scrollToTop();
       }
-   }, [finished])
+   }, [ready, points])
 
    useEffect(() => {
       if (resultsAdded) {
@@ -366,7 +370,7 @@ const GermanFormsScreen = props => {
       }
    }
 
-   const evaluate = (answer, correct, tense, verbId) => {
+   const evaluate = (answer, correct, tense, verbId, index) => {
       console.log('evaluate');
       console.log('Tense: ', tense);
       const preparedAnswer = prepareAnswer(answer, tense);
@@ -379,6 +383,10 @@ const GermanFormsScreen = props => {
       if (checkAnswerStrings(preparedAnswer, correctModified)) {
          setCorrectForm({form: tense, verbId: verbId});
          setPoints(points + 10);
+         // Focus to next component if the user has given a correct answer to the last field of the component
+         if (tense === 'presperf' && index <= 4) {
+            setAnsweredIndex(index + 1);
+         }
       } else {
          setTimeout(() => {
             setIncorrectForm({form: tense, verbId: verbId});
@@ -386,9 +394,12 @@ const GermanFormsScreen = props => {
       }
    }
 
-   const scrollToTop = () => {
-      scrollViewRef.current.scrollTo({x: 0, y: 0, animated: true});
-   }
+   useEffect(() => {
+      if (finished) {
+         scrollViewRef.current.scrollTo({x: 0, y: 0, animated: true});
+      }
+   }, [finished])
+
 
    const scrollViewRef = useRef();
  
@@ -408,7 +419,19 @@ const GermanFormsScreen = props => {
                            results={results}
                         />
                      }
-                     {randomizedVerbs.withSynonyms && randomizedVerbs.withSynonyms.map((verbForm, index) =>
+                     {/*randomizedVerbs.withoutSynonyms ? randomizedVerbs.withoutSynonyms.map((verbForm, index) => verbForm.map((v, i) =>
+                        <CardComponentForms 
+                           key={index} 
+                           verbForm={v}
+                           synonyms={false} 
+                           evaluate={evaluate} 
+                           correctForm={correctForm}
+                           incorrectForm={incorrectForm}
+                           finished={finished}
+                           index={index}
+                           answeredIndex={answeredIndex}
+                        />
+                     )) : randomizedVerbs.withoutSynonyms && randomizedVerbs.withoutSynonyms.length < 5 && randomizedVerbs.withSynonyms.map((verbForm, index) =>
                         <CardComponentForms 
                            key={index} 
                            verbForm={verbForm} 
@@ -417,19 +440,36 @@ const GermanFormsScreen = props => {
                            correctForm={correctForm}
                            incorrectForm={incorrectForm}
                            finished={finished}
+                           index={index}
+                           answeredIndex={answeredIndex}
                         />
-                     )}
-                     {randomizedVerbs.withoutSynonyms && randomizedVerbs.withoutSynonyms.map((verbForm, index) => verbForm.map((v, i) =>
+                     )*/}
+                     {randomizedVerbs && randomizedVerbs.map((verbForm, index) => 
+                        verbForm.length === 1 ? verbForm.map((v, i) =>
                         <CardComponentForms 
                            key={index} 
-                           verbForm={v} 
+                           verbForm={v}
                            synonyms={false} 
                            evaluate={evaluate} 
                            correctForm={correctForm}
                            incorrectForm={incorrectForm}
                            finished={finished}
+                           index={index}
+                           answeredIndex={answeredIndex}
                         />
-                     ))}
+                     ) : 
+                        <CardComponentForms 
+                           key={index} 
+                           verbForm={verbForm} 
+                           synonyms={true} 
+                           evaluate={evaluate}
+                           correctForm={correctForm}
+                           incorrectForm={incorrectForm}
+                           finished={finished}
+                           index={index}
+                           answeredIndex={answeredIndex}
+                        />
+                     )}
                      <ButtonComponent color='#7E00C5' title='Valmis' function={() => setReady(true)} />
                </ScrollView>
             </KeyboardAvoidingView>
