@@ -12,13 +12,13 @@ const GermanResultView = props => {
    return (
       <Content>
          <Text style={styles.feedback}>
-            {props.results.totalRatio > 87.5 ? 'Super!' :
-               props.results.totalRatio > 77.5 ? 'Gut!' :
+            {props.results.totalPercentage > 87.5 ? 'Super!' :
+               props.results.totalPercentage > 77.5 ? 'Gut!' :
                'Du musst noch üben!'
             }
          </Text>
          <Text style={styles.feedbackPoints}>
-            Sait {props.results.totalPoints} / {props.results.maxPointsWeighted} pistettä eli {props.results.totalRatioRounded} % maksimista.
+            Sait {props.results.totalPoints} / {props.results.maxPointsWeighted} pistettä eli {props.results.totalPercentageRounded} % maksimista.
             Oikeita vastauksia: {props.results.amountCorrectAnswers} / {props.results.totalAnswered}
          </Text>
          <Button style={styles.startAgainButton} onPress={() => props.startAgain()}>

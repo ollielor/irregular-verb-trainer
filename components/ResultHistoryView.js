@@ -41,7 +41,7 @@ const ResultHistoryView = props => {
                            Taso: {historyItem.level === 1 ? 'Perustason verbit' : historyItem.level === 2 ? 'Keskitason verbit' : 'Haastavat verbit'}
                         </Text>
                         <Text>
-                           Pisteet: {historyItem.points} / {historyItem.maxpoints} ({historyItem.ratio} %)
+                           Pisteet: {historyItem.points} / {historyItem.maxpoints} ({historyItem.percentage} %)
                         </Text>
                         <Text>
                            Oikeita vastauksia: {historyItem.accuracy} / {historyItem.q_total}

@@ -36,10 +36,17 @@ const App = () => {
                   {intermediates: true}
                )
             }
-            return FileSystem.downloadAsync(
-               Asset.fromModule(require('./assets/verbs_german.db')).uri,
-               `${FileSystem.documentDirectory}SQLite/verbs_german.db`
-            )
+            return FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/verbs_german.db`);
+         })
+         .then(result => {
+            if (result.exists) {
+               DatabaseVerbs;
+            } else {
+               FileSystem.downloadAsync(
+                  Asset.fromModule(require('./assets/verbs_german.db')).uri,
+                  `${FileSystem.documentDirectory}SQLite/verbs_german.db`
+               )
+            }
          })
          .catch(error => {
             console.log(error);

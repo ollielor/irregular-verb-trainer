@@ -215,8 +215,8 @@ const GermanMeaningsScreen = props => {
    const saveResults = () => {
       //const db = SQLite.openDatabase('results_meaning.db');
       DatabaseResults.transaction(tx => {
-         tx.executeSql('insert into results (type, level, accuracy, q_total, points, maxpoints, ratio, datetime) values (?, ?, ?, ?, ?, ?, ?, ?);',
-            [1, level, results.amountCorrectAnswers, answered.length, points, results.maxPointsWeighted, results.totalRatioRounded, dateTime])
+         tx.executeSql('insert into results (type, level, accuracy, q_total, points, maxpoints, percentage, datetime) values (?, ?, ?, ?, ?, ?, ?, ?);',
+            [1, level, results.amountCorrectAnswers, answered.length, points, results.maxPointsWeighted, results.totalPercentageRounded, dateTime])
       }, null, updateList
      )
    }
@@ -294,13 +294,13 @@ const GermanMeaningsScreen = props => {
          // Weighted point maximum (with 20 speed points)
          let maxPointsWeighted = maxPoints + 20;
          // Ratio of total points and weighted point maximum
-         let totalRatio = (totalPoints / maxPointsWeighted) * 100.0;
-         let totalRatioRounded = totalRatio.toFixed(2).toString().replace(".", ",")
+         let totalPercentage = (totalPoints / maxPointsWeighted) * 100.0;
+         let totalPercentageRounded = totalPercentage.toFixed(2).toString().replace(".", ",")
          setResults({
             totalPoints: totalPoints.toFixed(2).toString().replace(".", ","),
             maxPointsWeighted: maxPointsWeighted,
-            totalRatio: totalRatio,
-            totalRatioRounded: totalRatioRounded,
+            totalPercentage: totalPercentage,
+            totalPercentageRounded: totalPercentageRounded,
             amountCorrectAnswers: correctAnswers.length,
             totalAnswered: answered.length
          })

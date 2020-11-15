@@ -36,8 +36,6 @@ const GermanFormsScreen = props => {
    const [randomizedVerbs, setRandomizedVerbs] = useState([]);
    const [rndVerbsLoaded, setRndVerbsLoaded] = useState(false);
    const [points, setPoints] = useState(0);
-   const [totalPoints, setTotalPoints] = useState(0);
-   const [maxPoints, setMaxPoints] = useState(0);
    const [answered, setAnswered] = useState([]);
    const [finished, setFinished] = useState(false);
    const [results, setResults] = useState({});
@@ -51,8 +49,12 @@ const GermanFormsScreen = props => {
    const [verbsWithoutSynonyms, setVerbsWithoutSynonyms] = useState([]);
    const [correctForm, setCorrectForm] = useState({});
    const [incorrectForm, setIncorrectForm] = useState({});
+   const [ready, setReady] = useState(false);
    
    const navigation = useNavigation();
+
+   // maxPoints set to 200
+   const maxPoints = 200;   
 
    FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/verbs_german.db`)
    .then(result => {
@@ -224,7 +226,7 @@ const GermanFormsScreen = props => {
       //const db = SQLite.openDatabase('results_meaning.db');
       DatabaseResults.transaction(tx => {
          tx.executeSql('insert into results (type, level, accuracy, q_total, points, maxpoints, ratio, datetime) values (?, ?, ?, ?, ?, ?, ?, ?);',
-            [1, level, results.amountCorrectAnswers, answered.length, points, results.maxPointsWeighted, results.totalRatioRounded, dateTime])
+            [1, level, results.amountCorrectAnswers, answered.length, points, results.maxPointsWeighted, results.totalPercentageRounded, dateTime])
       }, null, updateList
      )
    }*/
@@ -240,11 +242,10 @@ const GermanFormsScreen = props => {
    }
 
    useEffect(() => {
-      if (answered === 5) {
-         calculateResults();
+      if (points === maxPoints || ready) {
          setFinished(true);
       }
-   }, [answered])
+   }, [ready, points])
 
    useEffect(() => {
       if (started) {
@@ -264,13 +265,36 @@ const GermanFormsScreen = props => {
    useEffect(() => {
 
       if (finished) {
-         setTotalPoints(points + counterState * (-1));
+         let totalPoints;
+         if (counterState >= 150) {
+            totalPoints = ((points * 0.9) + (counterState * (-1) * 0.1));
+         } else {
+            totalPoints = points;
+         }
+         let maxPointsWeighted; 
+         if (counterState >= 150) {
+            maxPointsWeighted = maxPoints * 0.9 + counterState * 0.1;
+         } else {
+            maxPointsWeighted = maxPoints;
+         }
          console.log('speed points: ', counterState * (-1))
          console.log('totalPoints: ', totalPoints);
+         const totalPercentage = (totalPoints / maxPoints) * 100.0;
+         const totalPercentageRounded = totalPercentage.toFixed(2).toString().replace('.', ',')
+         const amountCorrectAnswers = points / 10;
+         setResults({
+            totalPoints: totalPoints.toFixed(2).replace('.', ','),
+            maxPointsWeighted: maxPointsWeighted.toFixed(2).replace('.', ','),
+            totalAnswered: 20,
+            totalPercentage: totalPercentage,
+            totalPercentageRounded: totalPercentageRounded,
+            amountCorrectAnswers: amountCorrectAnswers
+         })
          setDateTime(getCurrentDate());
          /*setTimeout(() => {
             setResultsAdded(true);
          }, 2000)*/
+         scrollToTop();
       }
    }, [finished])
 
@@ -304,7 +328,11 @@ const GermanFormsScreen = props => {
 
    const prepareAnswer = answer => {
       let preparedAnswer = '';
-      let stringArray = answer.trim().replace('/', '').toUpperCase().toLowerCase().split(' ');
+      console.log('Before toUpperCase: ', answer.replace(/\u00df/g, '1'));
+      console.log(answer.toUpperCase());
+      // Replace German sharp S with the string '1'
+      let stringArray = answer.trim().replace('/', '').replace(/\u00df/g, '1').toUpperCase().toLowerCase().split(' ');
+      console.log('After toUpperCase: ', stringArray);
       let withoutPronounsArray = stringArray.filter(word => word !== 'er' && word !== 'sie' && word !== 'es' && word !== 'er/sie' && word !== 'er/sie/es');
       console.log('withoutPronounsArray: ', withoutPronounsArray)
       /*if (withoutSpacesArray.length === 3) {
@@ -314,8 +342,9 @@ const GermanFormsScreen = props => {
       } else {
          preparedAnswer = withoutSpacesArray[0];
       }*/
+      // Replace string '1' with German sharp S  
       for (let i=0; i < withoutPronounsArray.length; i++) {
-         preparedAnswer += ' ' + withoutPronounsArray[i];
+         preparedAnswer += ' ' + withoutPronounsArray[i].replace('1', '\u00df');
          console.log('preparedAnswer from loop: ', preparedAnswer)
       }
       return preparedAnswer.trim();
@@ -346,20 +375,6 @@ const GermanFormsScreen = props => {
       }
       if (checkAnswerStrings(preparedAnswer, correctModified)) {
          setCorrectForm({form: tense, verbId: verbId});
-         /*switch (tense) {
-            case 'infinitive':
-               setCorrectForms([...correctForms, {form: tense, verbId: verbId}]);
-               break;
-            case 'present':
-               setCorrectForms([...correctForms, {present: true, verbId: verbId}]);
-               break;
-            case 'past':
-               setCorrectForms([...correctForms, {present: true, verbId: verbId}]);
-               break;
-            case 'presperf':
-               setCorrectForms([...correctForms, {present: true, verbId: verbId}]);
-               break;
-         }*/
          setPoints(points + 10);
       } else {
          setTimeout(() => {
@@ -385,6 +400,11 @@ const GermanFormsScreen = props => {
                   style={styles.flexOne}
                   ref={scrollViewRef}
                >
+                     {finished && results && 
+                        <GermanResultView
+                           results={results}
+                        />
+                     }
                      {randomizedVerbs.withSynonyms && randomizedVerbs.withSynonyms.map((verbForm, index) =>
                         <CardComponentForms 
                            key={index} 
@@ -407,7 +427,7 @@ const GermanFormsScreen = props => {
                            finished={finished}
                         />
                      ))}
-                     <ButtonComponent color='#7E00C5' title='Valmis' function={scrollToTop} />
+                     <ButtonComponent color='#7E00C5' title='Valmis' function={() => setReady(true)} />
                </ScrollView>
             </KeyboardAvoidingView>
          <FooterComponent />
