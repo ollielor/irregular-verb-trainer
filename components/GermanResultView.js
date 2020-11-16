@@ -18,10 +18,10 @@ const GermanResultView = props => {
             }
          </Text>
          <Text style={styles.feedbackPoints}>
-            Sait {props.results.totalPoints} / {props.results.maxPointsWeighted} pistettä eli {props.results.totalPercentageRounded} % maksimista.
+            Sait {props.results.totalPoints} / {props.results.maxPointsWeighted ? props.results.maxPointsWeighted : props.results.maxPoints} pistettä eli {props.results.totalPercentageRounded} % maksimista.
             Oikeita vastauksia: {props.results.amountCorrectAnswers} / {props.results.totalAnswered}
          </Text>
-         <Button style={styles.startAgainButton} onPress={() => props.startAgain()}>
+         <Button style={styles.startAgainButton} onPress={props.startAgain}>
             <Text uppercase={false}>
                Aloita uudestaan
             </Text>

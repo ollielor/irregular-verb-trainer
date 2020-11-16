@@ -241,10 +241,9 @@ const GermanFormsScreen = props => {
 
    const startAgain = () => {
       setStarted(true);
+      setReady(false);
       setFinished(false);
       setPoints(0);
-      setMaxPoints(0);
-      setAnswered([]);
       setResults({});
       setResultsAdded(false);
    }
@@ -259,7 +258,7 @@ const GermanFormsScreen = props => {
       if (started) {
          let counter = 0; 
          let intervalId = setInterval(() => {
-            if (finished) {
+            if (ready) {
                clearInterval(intervalId);
                setStarted(false);
             } else {
@@ -268,22 +267,16 @@ const GermanFormsScreen = props => {
             }
          }, 1000)
       }
-   }, [started]);
+   }, [started, ready]);
 
    useEffect(() => {
 
       if (ready || points === 200) {
          let totalPoints;
          if (counterState <= estimatedAccomplishTime && points === 200) {
-            totalPoints = ((points * 0.9) + (counterState * 0.1));
+            totalPoints = points + (counterState * 0.1);
          } else {
-            totalPoints = points;
-         }
-         let maxPointsWeighted; 
-         if (counterState <= estimatedAccomplishTime) {
-            maxPointsWeighted = maxPoints * 0.9 + counterState * 0.1;
-         } else {
-            maxPointsWeighted = maxPoints;
+            totalPoints = points - (counterState * 0.1);
          }
          console.log('speed points: ', counterState * (-1))
          console.log('totalPoints: ', totalPoints);
@@ -292,7 +285,7 @@ const GermanFormsScreen = props => {
          const amountCorrectAnswers = points / 10;
          setResults({
             totalPoints: totalPoints.toFixed(2).replace('.', ','),
-            maxPointsWeighted: maxPointsWeighted.toFixed(2).replace('.', ','),
+            maxPoints: maxPoints,
             totalAnswered: 20,
             totalPercentage: totalPercentage,
             totalPercentageRounded: totalPercentageRounded,
@@ -417,6 +410,7 @@ const GermanFormsScreen = props => {
                      {finished && results && 
                         <GermanResultView
                            results={results}
+                           startAgain={startAgain}
                         />
                      }
                      {/*randomizedVerbs.withoutSynonyms ? randomizedVerbs.withoutSynonyms.map((verbForm, index) => verbForm.map((v, i) =>
