@@ -21,23 +21,38 @@ import HeaderComponent from '../components/HeaderComponent';
 
 const StartScreen = ({navigation: {navigate}}) => {
 
-  const [isReady, setIsReady] = useState(false);
+   const [isReady, setIsReady] = useState(false);
 
-  useEffect(() => {
-      const loadFonts = async () => {
-         try {
-            await Font.loadAsync({
-            Roboto: require('native-base/Fonts/Roboto.ttf'),
-            Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-            ...Ionicons.font,
-            })
+   useEffect(() => {
+      Font.loadAsync({
+         Roboto: require('native-base/Fonts/Roboto.ttf'),
+         Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+         ...Ionicons.font,
+      })
+         .then(result => {
             setIsReady(true);
-         } catch (error) {
+         })
+         .catch(error => {
             console.log(error);
-         }
-      }
-      loadFonts();
+         })
   }, [])
+
+  /*useEffect(() => {
+   const loadFonts = async () => {
+      try {
+         await Font.loadAsync({
+         Roboto: require('native-base/Fonts/Roboto.ttf'),
+         Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+         ...Ionicons.font,
+         })
+         setIsReady(true);
+      } catch (error) {
+         console.log(error);
+      }
+   }
+   loadFonts();
+}, [])*/
+
 
     return (
          <Container style={styles.container}>

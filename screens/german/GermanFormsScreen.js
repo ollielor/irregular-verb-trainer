@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { 
    StyleSheet, 
    ScrollView, 
+   Keyboard,
    KeyboardAvoidingView
 } from 'react-native';
 import { 
@@ -9,6 +10,7 @@ import {
    Container,
    Content,
    Form,
+   Spinner,
    Text
 } from 'native-base';
 
@@ -241,24 +243,23 @@ const GermanFormsScreen = props => {
 
    const startAgain = () => {
       setStarted(true);
-      setReady(false);
       setFinished(false);
       setPoints(0);
       setResults({});
       setResultsAdded(false);
    }
 
-   useEffect(() => {
+   /*useEffect(() => {
       if (points === maxPoints || ready) {
          setFinished(true);
       }
-   }, [ready, points])
+   }, [ready, points])*/
 
    useEffect(() => {
       if (started) {
          let counter = 0; 
          let intervalId = setInterval(() => {
-            if (ready) {
+            if (finished) {
                clearInterval(intervalId);
                setStarted(false);
             } else {
@@ -267,11 +268,11 @@ const GermanFormsScreen = props => {
             }
          }, 1000)
       }
-   }, [started, ready]);
+   }, [started, finished]);
 
    useEffect(() => {
 
-      if (ready || points === 200) {
+      if (finished) {
          let totalPoints;
          if (counterState <= estimatedAccomplishTime && points === 200) {
             totalPoints = points + (counterState * 0.1);
@@ -296,7 +297,7 @@ const GermanFormsScreen = props => {
             setResultsAdded(true);
          }, 2000)*/
       }
-   }, [ready, points])
+   }, [finished])
 
    useEffect(() => {
       if (resultsAdded) {
@@ -387,12 +388,17 @@ const GermanFormsScreen = props => {
       }
    }
 
-   useEffect(() => {
+   /*useEffect(() => {
+      console.log('Finished: ', finished)
       if (finished) {
          scrollViewRef.current.scrollTo({x: 0, y: 0, animated: true});
       }
-   }, [finished])
+   }, [finished])*/
 
+   const finish = () => {
+      setFinished(true);
+      scrollViewRef.current.scrollTo({x: 0, y: 0, animated: true});
+   }
 
    const scrollViewRef = useRef();
  
@@ -404,15 +410,24 @@ const GermanFormsScreen = props => {
                behavior={Platform.OS === 'ios' ? 'padding' : 'null'}
             >
                <ScrollView 
+                  keyboardShouldPersistTaps='always'
                   style={styles.flexOne}
                   ref={scrollViewRef}
                >
-                     {finished && results && 
+                     {finished && results &&
                         <GermanResultView
                            results={results}
                            startAgain={startAgain}
                         />
                      }
+                     {/*finished && !results &&
+                        <>
+                           <Spinner />
+                           <Text>
+                              Ladataan tuloksia...
+                           </Text>
+                        </>
+                     */}
                      {/*randomizedVerbs.withoutSynonyms ? randomizedVerbs.withoutSynonyms.map((verbForm, index) => verbForm.map((v, i) =>
                         <CardComponentForms 
                            key={index} 
@@ -464,7 +479,7 @@ const GermanFormsScreen = props => {
                            answeredIndex={answeredIndex}
                         />
                      )}
-                     <ButtonComponent color='#7E00C5' title='Valmis' function={() => setReady(true)} />
+                     <ButtonComponent color='#7E00C5' title='Valmis' function={finish} autoFocus />
                </ScrollView>
             </KeyboardAvoidingView>
          <FooterComponent />

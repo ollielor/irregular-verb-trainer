@@ -28,10 +28,10 @@ const CardComponentForms = props => {
 
    useEffect(() => {
       if (props.synonyms) {
-         let infinitiveSynonyms = props.verbForm.map(verbForm => {return verbForm.infinitive});
-         let presentSynonyms = props.verbForm.map(verbForm => {return verbForm.present});
-         let pastSynonyms = props.verbForm.map(verbForm => {return verbForm.past});
-         let presPerfSynonyms = props.verbForm.map(verbForm => {return verbForm.presperf});
+         let infinitiveSynonyms = props.verbForm.map(verbForm => verbForm.infinitive);
+         let presentSynonyms = props.verbForm.map(verbForm => verbForm.present);
+         let pastSynonyms = props.verbForm.map(verbForm => verbForm.past);
+         let presPerfSynonyms = props.verbForm.map(verbForm => verbForm.presperf);
          console.log('infinitiveSynonyms: ', infinitiveSynonyms);
          setSynonymousForms({
             infinitive: infinitiveSynonyms,
