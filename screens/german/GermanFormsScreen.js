@@ -164,44 +164,45 @@ const GermanFormsScreen = props => {
 
    useEffect(() => {
       setLevel(1);
-      loadVerbs();
-      if (verbsLoaded) {
-         let rndVerbArray = []; 
-         let rndVerbs = [];
-         let rndVerbsFinal = [];
-         while (rndVerbsFinal.length <= 4) {
-            const rndInt = rndIntGenerator();
-            rndVerbArray = getRandomVerbArray(rndInt);
-            if (rndVerbArray.length > 0) {
-               rndVerbs.push(rndVerbArray);
+      if (started) {
+         if (verbsLoaded && started) {
+            let rndVerbArray = []; 
+            let rndVerbs = [];
+            let rndVerbsFinal = [];
+            while (rndVerbsFinal.length <= 4) {
+               const rndInt = rndIntGenerator();
+               rndVerbArray = getRandomVerbArray(rndInt);
+               if (rndVerbArray.length > 0) {
+                  rndVerbs.push(rndVerbArray);
+               }
+               console.log('rndVerbs: ', rndVerbs)
+               if (rndVerbs.length > 1) {
+                  /*rndVerbsFinal = rndVerbs.filter((verb, index, self) => index === self.findIndex((v) => (
+                     v.verb_id === verb.verb_id
+                  ))
+                  )*/
+                  //rndVerbs.map(rndVerb => {console.log('rndVerb: ', rndVerb)})
+                 rndVerbsFinal = rndVerbs.filter((verbArray, index, self) => 
+                        index === self.findIndex(v => v[0].verb_id === verbArray[0].verb_id)
+                  )
+                  console.log('rndVerbsFinal: ', rndVerbsFinal);
+               }
             }
-            console.log('rndVerbs: ', rndVerbs)
-            if (rndVerbs.length > 1) {
-               /*rndVerbsFinal = rndVerbs.filter((verb, index, self) => index === self.findIndex((v) => (
-                  v.verb_id === verb.verb_id
-               ))
-               )*/
-               //rndVerbs.map(rndVerb => {console.log('rndVerb: ', rndVerb)})
-              rndVerbsFinal = rndVerbs.filter((verbArray, index, self) => 
-                     index === self.findIndex(v => v[0].verb_id === verbArray[0].verb_id)
-               )
-               console.log('rndVerbsFinal: ', rndVerbsFinal);
-            }
+            console.log('rndVerbsFinal.length: ', rndVerbsFinal.length)
+            const withSynonyms = rndVerbsFinal.filter(verbArray => verbArray.length > 1).map(verbArray => verbArray);
+            const withoutSynonyms = rndVerbsFinal.filter(verbArray => verbArray.length === 1).map(verbArray => verbArray);
+            console.log('With synonyms: ', withSynonyms);
+            console.log('Without synonyms: ', withoutSynonyms);
+            /*setRandomizedVerbs({
+               withSynonyms: withSynonyms,
+               withoutSynonyms: withoutSynonyms
+            });*/
+            setRandomizedVerbs(rndVerbsFinal);
+            setRndVerbsLoaded(true);
          }
-         console.log('rndVerbsFinal.length: ', rndVerbsFinal.length)
-         const withSynonyms = rndVerbsFinal.filter(verbArray => verbArray.length > 1).map(verbArray => verbArray);
-         const withoutSynonyms = rndVerbsFinal.filter(verbArray => verbArray.length === 1).map(verbArray => verbArray);
-         console.log('With synonyms: ', withSynonyms);
-         console.log('Without synonyms: ', withoutSynonyms);
-         /*setRandomizedVerbs({
-            withSynonyms: withSynonyms,
-            withoutSynonyms: withoutSynonyms
-         });*/
-         setRandomizedVerbs(rndVerbsFinal);
-         setRndVerbsLoaded(true);
-         setStarted(true);
       }
-   }, [verbsLoaded]);
+      loadVerbs();
+   }, [verbsLoaded, started]);
 
    /*useEffect(() => {
       setLevel(1);
@@ -375,15 +376,18 @@ const GermanFormsScreen = props => {
          correctModified = correct;
       }
       if (checkAnswerStrings(preparedAnswer, correctModified)) {
-         setCorrectForm({form: tense, verbId: verbId});
+
+         //setCorrectForm({form: tense, verbId: verbId});
          setPoints(points + 10);
          // Focus to next component if the user has given a correct answer to the last field of the component
          if (tense === 'presperf' && index <= 4) {
             setAnsweredIndex(index + 1);
          }
+         return true;
       } else {
          setTimeout(() => {
-            setIncorrectForm({form: tense, verbId: verbId});
+            return false;
+            //setIncorrectForm({form: tense, verbId: verbId});
          }, 2000);
       }
    }
@@ -396,6 +400,7 @@ const GermanFormsScreen = props => {
    }, [finished])*/
 
    const finish = () => {
+      setStarted(false);
       setFinished(true);
       scrollViewRef.current.scrollTo({x: 0, y: 0, animated: true});
    }
@@ -420,14 +425,14 @@ const GermanFormsScreen = props => {
                            startAgain={startAgain}
                         />
                      }
-                     {/*finished && !results &&
+                     {finished && !results &&
                         <>
                            <Spinner />
                            <Text>
                               Ladataan tuloksia...
                            </Text>
                         </>
-                     */}
+                     }
                      {/*randomizedVerbs.withoutSynonyms ? randomizedVerbs.withoutSynonyms.map((verbForm, index) => verbForm.map((v, i) =>
                         <CardComponentForms 
                            key={index} 
@@ -453,10 +458,10 @@ const GermanFormsScreen = props => {
                            answeredIndex={answeredIndex}
                         />
                      )*/}
-                     {randomizedVerbs && randomizedVerbs.map((verbForm, index) => 
-                        verbForm.length === 1 ? verbForm.map((v, i) =>
+                     {randomizedVerbs && randomizedVerbs.map((verbFormArray, index) => 
+                        verbFormArray.length === 1 ? verbFormArray.map((v, i) =>
                         <CardComponentForms 
-                           key={index} 
+                           key={v.verb_id} 
                            verbForm={v}
                            synonyms={false} 
                            evaluate={evaluate} 
@@ -468,8 +473,8 @@ const GermanFormsScreen = props => {
                         />
                      ) : 
                         <CardComponentForms 
-                           key={index} 
-                           verbForm={verbForm} 
+                           key={verbForm[0].verb_id}
+                           verbForm={verbFormArray} 
                            synonyms={true} 
                            evaluate={evaluate}
                            correctForm={correctForm}
@@ -479,7 +484,7 @@ const GermanFormsScreen = props => {
                            answeredIndex={answeredIndex}
                         />
                      )}
-                     <ButtonComponent color='#7E00C5' title='Valmis' function={finish} autoFocus />
+                     <ButtonComponent color='#7E00C5' title='Valmis' function={finish} />
                </ScrollView>
             </KeyboardAvoidingView>
          <FooterComponent />
