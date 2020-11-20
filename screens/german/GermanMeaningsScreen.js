@@ -30,6 +30,7 @@ const GermanMeaningsScreen = props => {
    const [rndVerbsLoaded, setRndVerbsLoaded] = useState(false);
    const [points, setPoints] = useState(0);
    const [maxPoints, setMaxPoints] = useState(0);
+   const [totalPercentageUnrounded, setTotalPercentageUnrounded] = useState(0);
    const [answered, setAnswered] = useState([]);
    const [finished, setFinished] = useState(false);
    const [results, setResults] = useState({});
@@ -107,7 +108,7 @@ const GermanMeaningsScreen = props => {
       //const db = SQLite.openDatabase('results_meaning.db') 
          DatabaseResults.transaction(tx => {
             tx.executeSql(
-               'create table if not exists results (id integer primary key not null, type integer, level integer, accuracy integer, q_total integer, points real, maxpoints integer, ratio real, datetime real);')
+               'create table if not exists results (id integer primary key not null, type integer, language integer, level integer, accuracy integer, q_total integer, points real, maxpoints integer, percentage real, datetime real);')
          }, null, updateList);
       }
 
@@ -221,8 +222,11 @@ const GermanMeaningsScreen = props => {
    const saveResults = () => {
       //const db = SQLite.openDatabase('results_meaning.db');
       DatabaseResults.transaction(tx => {
-         tx.executeSql('insert into results (type, level, accuracy, q_total, points, maxpoints, percentage, datetime) values (?, ?, ?, ?, ?, ?, ?, ?);',
-            [1, level, results.amountCorrectAnswers, answered.length, points, results.maxPointsWeighted, results.totalPercentageRounded, dateTime])
+         tx.executeSql('insert into results (type, language, level, accuracy, q_total, points, maxpoints, percentage, datetime) values (?, ?, ?, ?, ?, ?, ?, ?, ?);',
+            [1, 1, level, results.amountCorrectAnswers, answered.length, points, results.maxPointsWeighted, totalPercentageUnrounded, dateTime])
+      }, 
+      error => {
+         console.log('Transaction error: ', error);
       }, null, updateList
      )
    }
@@ -304,6 +308,7 @@ const GermanMeaningsScreen = props => {
          let maxPointsWeighted = maxPoints + 20;
          // Ratio of total points and weighted point maximum
          let totalPercentage = (totalPoints / maxPointsWeighted) * 100.0;
+         setTotalPercentageUnrounded(totalPercentage);
          let totalPercentageRounded = totalPercentage.toFixed(2).toString().replace(".", ",")
          setResults({
             totalPoints: totalPoints.toFixed(2).toString().replace(".", ","),

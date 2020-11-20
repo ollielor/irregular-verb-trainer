@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { 
    Container, 
    Content,
+   Modal
 } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
@@ -13,6 +14,7 @@ import Heading from '../../components/Heading';
 import HeaderComponent from '../../components/HeaderComponent';
 import Subheading from '../../components/Subheading';
 import FooterComponent from '../../components/FooterComponent';
+import ButtonComponent from '../../components/ButtonComponent';
 
 const GermanHistoryScreen = props => {
 
@@ -50,6 +52,23 @@ const GermanHistoryScreen = props => {
 
    }, [])
 
+   const dropData = () => {
+      DatabaseResults.transaction(
+         tx => {
+            tx.executeSql(
+               'drop table if exists results;', 
+               [],
+               (tx, error) => {
+                  console.log('Could not execute query: ', error);
+               }
+            );
+         },
+         error => {
+            console.log('Transaction error: ', error);
+         },
+      );
+   }
+
     return (
                <Container style={styles.container}>
                   <HeaderComponent title='Omat tulokseni' goBack={navigation.goBack} />
@@ -64,6 +83,9 @@ const GermanHistoryScreen = props => {
                         hideButton
                         resultHistory={historyMeanings.filter(historyItem => historyItem.level === 1)}
                      />
+                     {historyMeanings.length > 0 && historyForms.length > 0 &&
+                        <ButtonComponent title='Tyhjennä tuloshistoria' color='#cc0000' function={dropData} />
+                     }
                   </Content>
                   <FooterComponent />
                </Container>
