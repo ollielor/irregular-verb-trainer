@@ -159,12 +159,6 @@ const GermanFormsScreen = props => {
       }
    }, [points])
 
-   useEffect(() => {
-      return () => {
-
-      }
-   }, [])
-
    const rndIntGenerator = () => {
       return Math.floor(Math.random() * verbs.length);
    }
@@ -279,6 +273,9 @@ const GermanFormsScreen = props => {
                setCounterState(counter);
             }
          }, 1000)
+         return () => {
+            clearInterval(intervalId);
+         }
       }
    }, [started, finished]);
 
@@ -398,7 +395,6 @@ const GermanFormsScreen = props => {
       } else {
          setTimeout(() => {
             return false;
-            //setIncorrectForm({form: tense, verbId: verbId});
          }, 2000);
       }
    }

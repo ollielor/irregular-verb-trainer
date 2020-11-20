@@ -29,8 +29,7 @@ const CardComponentForms = props => {
       past: [],
       presPerf: []
    });
-   const [initialValue, setInitialValue] = useState('');
-
+   
    console.log('props from CardComponentForms: ', props)
 
    useEffect(() => {

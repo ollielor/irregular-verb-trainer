@@ -279,6 +279,9 @@ const GermanMeaningsScreen = props => {
                setCounterState(counter);
             }
          }, 1000)
+         return () => {
+            clearInterval(intervalId);
+         }
       }
    }, [started]);
 
