@@ -22,6 +22,12 @@ const GermanHistoryScreen = props => {
    const navigation = useNavigation();
 
    useEffect(() => {
+      return () => {
+
+      }
+   }, [])
+
+   useEffect(() => {
 
       DatabaseResults.transaction(
          tx => {

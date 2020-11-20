@@ -54,6 +54,12 @@ const GermanMeaningsScreen = props => {
    });*/
 
    useEffect(() => {
+      return () => {
+
+      }
+   }, [])
+
+   useEffect(() => {
       DatabaseVerbs;
    })
    

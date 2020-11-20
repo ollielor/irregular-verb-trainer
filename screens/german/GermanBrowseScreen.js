@@ -25,6 +25,12 @@ const GermanBrowseScreen = props => {
 
    const navigation = useNavigation();
 
+   useEffect(() => {
+      return () => {
+
+      }
+   }, [])
+
          FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/verbs_german.db`)
          .then(result => {
          if (result.exists) {
