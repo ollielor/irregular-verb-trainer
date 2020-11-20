@@ -180,6 +180,7 @@ const CardComponentForms = props => {
                      placeholderTextColor={Platform.OS === 'ios' && incorrectInfinitive ? 'white' : 'grey'}
                      autoCompleteType='off'
                      autoCorrect={false}
+                     autoCapitalize='none'
                      underlineColorAndroid={correctInfinitive ? '#66dd33' : incorrectInfinitive ? '#ff0033' : '#7E00C5'}
                   />
                   {props.finished && props.synonyms && !correctInfinitive ?
@@ -202,6 +203,7 @@ const CardComponentForms = props => {
                      placeholderTextColor={Platform.OS === 'ios' && incorrectPresent ? 'white' : 'grey'}
                      autoCompleteType='off'
                      autoCorrect={false}
+                     autoCapitalize='none'
                      underlineColorAndroid={correctPresent ? '#66dd33' : incorrectPresent ? '#ff0033' : '#7E00C5'}
                   />
                   {props.finished && props.synonyms && !correctPresent ?
@@ -224,6 +226,7 @@ const CardComponentForms = props => {
                      placeholderTextColor={Platform.OS === 'ios' && incorrectPast ? 'white' : 'grey'}
                      autoCompleteType='off'
                      autoCorrect={false}
+                     autoCapitalize='none'
                      underlineColorAndroid={correctPast ? '#66dd33' : incorrectPast ? '#ff0033' : '#7E00C5'}
                   />
                   {props.finished && props.synonyms && !correctPast ?
@@ -245,6 +248,7 @@ const CardComponentForms = props => {
                      placeholderTextColor={Platform.OS === 'ios' && incorrectPresPerf ? 'white' : 'grey'}
                      autoCompleteType='off'
                      autoCorrect={false}
+                     autoCapitalize='none'
                      underlineColorAndroid={correctPresPerf ? '#66dd33' : incorrectPresPerf ? '#ff0033' : '#7E00C5'}
                   />
                   {props.finished && props.synonyms && !correctPresPerf ?
