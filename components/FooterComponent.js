@@ -13,7 +13,7 @@ const FooterComponent = props => {
    const navigation = useNavigation();
 
     return (
-                  <Footer style={{backgroundColor: '#4E00C5'}}>
+                  <Footer style={{backgroundColor: '#0047c5'}}>
                      <FooterTab>
                         <FooterButtonComponent title='Koti' function={() => console.log('Koti')} />
                      </FooterTab>

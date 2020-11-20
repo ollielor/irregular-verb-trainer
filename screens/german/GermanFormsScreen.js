@@ -153,6 +153,11 @@ const GermanFormsScreen = props => {
          );  
       }
 
+   useEffect(() => {
+      if (points === 200) {
+         setFinished(true);
+      }
+   }, [points])
 
    const rndIntGenerator = () => {
       return Math.floor(Math.random() * verbs.length);

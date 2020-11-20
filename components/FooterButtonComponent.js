@@ -16,7 +16,7 @@ import { connectStyle } from 'native-base';
 const ButtonComponent = props => {
 
       return (
-         <Button style={{backgroundColor: 'transparent'}} onPress={props.function}>
+         <Button style={{backgroundColor: '#0047c5'}} onPress={props.function}>
             <Text uppercase={false} style={{color: '#D2D2D2'}}>
                {props.title}
             </Text>

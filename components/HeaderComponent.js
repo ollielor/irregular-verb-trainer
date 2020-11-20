@@ -14,7 +14,7 @@ import {
 const HeaderComponent = props => {
 
     return (
-            <Header iosBarStyle='light-content' androidStatusBarColor='#4E00C5' style={{backgroundColor: '#4E00C5'}}>
+            <Header iosBarStyle='light-content' androidStatusBarColor='#0047c5' style={{backgroundColor: '#0047c5'}}>
                <Left style={{flex: 1}}>
                   {!props.noArrow
                   ?

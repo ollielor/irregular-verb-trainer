@@ -95,6 +95,9 @@ const CardComponentForms = props => {
    useEffect(() => {
       if (props.started) {
          inputRef1.current.clear();
+         inputRef2.current.clear();
+         inputRef3.current.clear();
+         inputRef4.current.clear();
       }
    }, [props.started])
 
