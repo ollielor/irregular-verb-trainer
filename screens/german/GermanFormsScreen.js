@@ -397,6 +397,12 @@ const GermanFormsScreen = props => {
       }
    }
 
+   useEffect(() => {
+      if (finished && results) {
+         scrollViewRef.current.scrollTo({x: 0, y: 0, animated: true});
+      }
+   }, [finished, results])
+
    /*useEffect(() => {
       console.log('Finished: ', finished)
       if (finished) {
@@ -407,7 +413,6 @@ const GermanFormsScreen = props => {
    const finish = () => {
       setStarted(false);
       setFinished(true);
-      scrollViewRef.current.scrollTo({x: 0, y: 0, animated: true});
    }
 
    const scrollViewRef = useRef();
