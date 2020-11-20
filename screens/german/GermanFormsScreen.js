@@ -285,6 +285,8 @@ const GermanFormsScreen = props => {
          let totalPoints;
          if (counterState <= estimatedAccomplishTime && points === 200) {
             totalPoints = points + (counterState * 0.1);
+         } else if (points === 0) {
+            totalPoints = points;
          } else {
             totalPoints = points - (counterState * 0.1);
          }
