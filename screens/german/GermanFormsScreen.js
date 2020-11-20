@@ -189,10 +189,10 @@ const GermanFormsScreen = props => {
                }
             }
             console.log('rndVerbsFinal.length: ', rndVerbsFinal.length)
-            const withSynonyms = rndVerbsFinal.filter(verbArray => verbArray.length > 1).map(verbArray => verbArray);
+            /*const withSynonyms = rndVerbsFinal.filter(verbArray => verbArray.length > 1).map(verbArray => verbArray);
             const withoutSynonyms = rndVerbsFinal.filter(verbArray => verbArray.length === 1).map(verbArray => verbArray);
             console.log('With synonyms: ', withSynonyms);
-            console.log('Without synonyms: ', withoutSynonyms);
+            console.log('Without synonyms: ', withoutSynonyms);*/
             /*setRandomizedVerbs({
                withSynonyms: withSynonyms,
                withoutSynonyms: withoutSynonyms
@@ -458,6 +458,7 @@ const GermanFormsScreen = props => {
                            answeredIndex={answeredIndex}
                         />
                      )*/}
+                     {console.log('randomizedVerbs: ', randomizedVerbs)}
                      {randomizedVerbs && randomizedVerbs.map((verbFormArray, index) => 
                         verbFormArray.length === 1 ? verbFormArray.map((v, i) =>
                         <CardComponentForms 
@@ -473,7 +474,7 @@ const GermanFormsScreen = props => {
                         />
                      ) : 
                         <CardComponentForms 
-                           key={verbForm[0].verb_id}
+                           key={verbFormArray[0].verb_id}
                            verbForm={verbFormArray} 
                            synonyms={true} 
                            evaluate={evaluate}

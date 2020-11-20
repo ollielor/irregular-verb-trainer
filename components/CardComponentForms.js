@@ -23,25 +23,31 @@ const CardComponentForms = props => {
    const [answerPresent, setAnswerPresent] = useState('');
    const [answerPast, setAnswerPast] = useState('');
    const [answerPresPerf, setAnswerPresPerf] = useState('');
-   const [synonymousForms, setSynonymousForms] = useState('');
+   const [synonymousForms, setSynonymousForms] = useState({
+      infinitive: [],
+      present: [],
+      past: [],
+      presPerf: []
+   });
    const [initialValue, setInitialValue] = useState('');
 
-   console.log(props)
+   console.log('props from CardComponentForms: ', props)
 
    useEffect(() => {
       if (props.synonyms) {
-         let infinitiveSynonyms = props.verbForm.map(verbForm => verbForm.infinitive);
-         let presentSynonyms = props.verbForm.map(verbForm => verbForm.present);
-         let pastSynonyms = props.verbForm.map(verbForm => verbForm.past);
-         let presPerfSynonyms = props.verbForm.map(verbForm => verbForm.presperf);
+         const infinitiveSynonyms = props.verbForm.map(verbForm => verbForm.infinitive);
+         const presentSynonyms = props.verbForm.map(verbForm => verbForm.present);
+         const pastSynonyms = props.verbForm.map(verbForm => verbForm.past);
+         const presPerfSynonyms = props.verbForm.map(verbForm => verbForm.presperf);
          console.log('infinitiveSynonyms: ', infinitiveSynonyms);
+         console.log('presPerfSynonyms: ', presPerfSynonyms)
          setSynonymousForms({
             infinitive: infinitiveSynonyms,
             present: presentSynonyms,
             past: pastSynonyms,
             presPerf: presPerfSynonyms
          });
-         setAnswerInfinitive('');
+         console.log('SynonymousForms: ', synonymousForms);
       }
    }, [])
 
@@ -93,19 +99,19 @@ const CardComponentForms = props => {
    }, [props.started])
 
    useEffect(() => {
-      if (synonymousForms) {
-         if (props.evaluate(answerInfinitive, synonymousForms.infinitive, 'infinitive', props.verbForm.verb_id, props.index)) {
+      if (props.synonyms && synonymousForms) {
+         if (props.evaluate(answerInfinitive, synonymousForms.infinitive, 'infinitive')) {
             setCorrectInfinitive(true);
          } 
       } else {
-         if (props.evaluate(answerInfinitive, props.verbForm.infinitive, 'infinitive', props.verbForm.verb_id, props.index)) {
+         if (props.evaluate(answerInfinitive, props.verbForm.infinitive, 'infinitive')) {
             setCorrectInfinitive(true);
          }
       }
-   }, [synonymousForms, answerInfinitive])
+   }, [props.synonyms, synonymousForms, answerInfinitive])
 
    useEffect(() => {
-      if (synonymousForms) {
+      if (props.synonyms && synonymousForms) {
          if (props.evaluate(answerPresent, synonymousForms.present, 'present', props.verbForm.verb_id, props.index)) {
             setCorrectPresent(true);
          } 
@@ -114,10 +120,10 @@ const CardComponentForms = props => {
             setCorrectPresent(true);
          }
       }
-   }, [synonymousForms, answerPresent])
+   }, [props.synonyms, synonymousForms, answerPresent])
 
    useEffect(() => {
-      if (synonymousForms) {
+      if (props.synonyms && synonymousForms) {
          if (props.evaluate(answerPast, synonymousForms.past, 'past', props.verbForm.verb_id, props.index)) {
             setCorrectPast(true);
          } 
@@ -126,10 +132,10 @@ const CardComponentForms = props => {
             setCorrectPast(true);
          }
       }
-   }, [synonymousForms, answerPast])
+   }, [props.synonyms, synonymousForms, answerPast])
 
    useEffect(() => {
-      if (synonymousForms) {
+      if (props.synonyms && synonymousForms) {
          if (props.evaluate(answerPresPerf, synonymousForms.presPerf, 'presperf', props.verbForm.verb_id, props.index)) {
             setCorrectPresPerf(true);
          } 
@@ -138,7 +144,7 @@ const CardComponentForms = props => {
             setCorrectPresPerf(true);
          }
       }
-   }, [synonymousForms, answerPresPerf])
+   }, [props.synonyms, synonymousForms, answerPresPerf])
 
    const inputRef1 = useRef();
    const inputRef2 = useRef();
@@ -171,7 +177,7 @@ const CardComponentForms = props => {
                      placeholderTextColor={Platform.OS === 'ios' && incorrectInfinitive ? 'white' : 'grey'}
                      autoCompleteType='off'
                      autoCorrect={false}
-                     underlineColorAndroid={correctInfinitive ? '#66dd33' : !correctInfinitive ? '#ff0033' : '#7E00C5'}
+                     underlineColorAndroid={correctInfinitive ? '#66dd33' : incorrectInfinitive ? '#ff0033' : '#7E00C5'}
                   />
                   {props.finished && props.synonyms && !correctInfinitive ?
                         <CorrectAnswerComponent form={synonymousForms.infinitive} synonyms={true} /> : 
@@ -193,7 +199,7 @@ const CardComponentForms = props => {
                      placeholderTextColor={Platform.OS === 'ios' && incorrectPresent ? 'white' : 'grey'}
                      autoCompleteType='off'
                      autoCorrect={false}
-                     underlineColorAndroid={correctPresent ? '#66dd33' : !correctPresent ? '#ff0033' : '#7E00C5'}
+                     underlineColorAndroid={correctPresent ? '#66dd33' : incorrectPresent ? '#ff0033' : '#7E00C5'}
                   />
                   {props.finished && props.synonyms && !correctPresent ?
                         <CorrectAnswerComponent form={synonymousForms.present} synonyms={true} /> : 
@@ -215,7 +221,7 @@ const CardComponentForms = props => {
                      placeholderTextColor={Platform.OS === 'ios' && incorrectPast ? 'white' : 'grey'}
                      autoCompleteType='off'
                      autoCorrect={false}
-                     underlineColorAndroid={correctPast ? '#66dd33' : !correctPast ? '#ff0033' : '#7E00C5'}
+                     underlineColorAndroid={correctPast ? '#66dd33' : incorrectPast ? '#ff0033' : '#7E00C5'}
                   />
                   {props.finished && props.synonyms && !correctPast ?
                         <CorrectAnswerComponent form={synonymousForms.past} synonyms={true} /> : 
@@ -236,10 +242,10 @@ const CardComponentForms = props => {
                      placeholderTextColor={Platform.OS === 'ios' && incorrectPresPerf ? 'white' : 'grey'}
                      autoCompleteType='off'
                      autoCorrect={false}
-                     underlineColorAndroid={correctPresPerf ? '#66dd33' : !correctPresPerf ? '#ff0033' : '#7E00C5'}
+                     underlineColorAndroid={correctPresPerf ? '#66dd33' : incorrectPresPerf ? '#ff0033' : '#7E00C5'}
                   />
                   {props.finished && props.synonyms && !correctPresPerf ?
-                        <CorrectAnswerComponent form={synonymousForms.presperf} synonyms={true} /> : 
+                        <CorrectAnswerComponent form={synonymousForms.presPerf} synonyms={true} /> : 
                      props.finished && !props.synonyms && !correctPresPerf &&
                         <CorrectAnswerComponent form={props.verbForm.presperf} synonyms={false} />     
                   }
