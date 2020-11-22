@@ -6,6 +6,7 @@ import {
    Card,
    CardItem,
    Content,
+   Spinner,
    Text
 } from 'native-base';
 
@@ -26,7 +27,7 @@ const ResultHistoryView = props => {
                10 viimeisintä tulosta
             </Heading>
          }
-         {props.resultHistory
+         {props.resultHistory && props.resultHistory
             .sort((a, b) => a.datetime < b.datetime ? 1 : a.datetime > b.datetime ? -1 : 0)
             .map(historyItem => 
               <Card key={historyItem.id}>
@@ -47,7 +48,8 @@ const ResultHistoryView = props => {
                      </Body>
                   </CardItem>
                </Card>
-         )}
+            )
+         }
          {!props.hideButton && 
             <Button onPress={() => navigation.navigate('Omat tulokseni (saksa)')} style={styles.historyButton}>
                <Text uppercase={false}>

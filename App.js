@@ -60,11 +60,11 @@ const App = () => {
                   headerShown: false
                }}>
                <Stack.Screen name='Koti' component={StartScreen} />
-               <Stack.Screen name='Omat tulokseni (saksa)' component={GermanHistoryScreen} />
                <Stack.Screen name='Saksa' component={GermanStartScreen} />
                <Stack.Screen name='Selaa ja opettele (saksa)' component={GermanBrowseScreen} />
                <Stack.Screen name='Harjoittele merkityksiä (saksa)' component={GermanMeaningsScreen} />
                <Stack.Screen name='Harjoittele muotoja (saksa)' component={GermanFormsScreen} />
+               <Stack.Screen name='Omat tulokseni (saksa)' component={GermanHistoryScreen} />
             </Stack.Navigator>
          </NavigationContainer>
     );

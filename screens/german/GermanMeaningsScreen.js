@@ -41,6 +41,7 @@ const GermanMeaningsScreen = props => {
    const [resultsReady, setResultsReady] = useState(false);
    const [resultsSaved, setResultsSaved] = useState(false);
    const [dateTime, setDateTime] = useState(null);
+   const [tableCreated, setTableCreated] = useState(false);
    
    const navigation = useNavigation();
 
@@ -111,6 +112,7 @@ const GermanMeaningsScreen = props => {
             tx.executeSql(
                'create table if not exists results (id integer primary key not null, type integer, language integer, level integer, accuracy integer, q_total integer, points real, maxpoints integer, percentage real, datetime real);')
          }, null, updateList);
+         setTableCreated(true);
       }
 
 
@@ -221,7 +223,7 @@ const GermanMeaningsScreen = props => {
 
    useEffect(() => {
       //const db = SQLite.openDatabase('results_meaning.db');
-      if (resultsReady && dateTime && !resultsSaved) {
+      if (tableCreated && resultsReady && dateTime && !resultsSaved) {
          DatabaseResults.transaction(tx => {
             tx.executeSql('insert into results (type, language, level, accuracy, q_total, points, maxpoints, percentage, datetime) values (?, ?, ?, ?, ?, ?, ?, ?, ?);',
                [1, 1, level, results.amountCorrectAnswers, answered.length, results.totalPoints, results.maxPoints, results.totalPercentage, dateTime])
@@ -232,7 +234,7 @@ const GermanMeaningsScreen = props => {
         )
         setResultsSaved(true);
       }
-   }, [resultsReady, dateTime]);
+   }, [resultsReady, dateTime, tableCreated]);
 
    useEffect(() => {
       updateList();
@@ -380,6 +382,9 @@ const GermanMeaningsScreen = props => {
                         resultHistory={resultHistory}
                      />
                   </>
+               }
+               {!resultHistory &&
+                  <Spinner />
                }
             </Content>
          <FooterComponent />
