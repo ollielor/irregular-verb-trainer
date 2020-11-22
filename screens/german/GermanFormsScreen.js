@@ -54,6 +54,7 @@ const GermanFormsScreen = props => {
    const [ready, setReady] = useState(false);
    const [answeredIndex, setAnsweredIndex] = useState(0);
    const [componentFinished, setComponentFinished] = useState(false);
+   const [resultsReady, setResultsReady] = useState(false);
    
    const navigation = useNavigation();
 
@@ -252,7 +253,7 @@ const GermanFormsScreen = props => {
       setFinished(false);
       setPoints(0);
       setResults({});
-      setResultsAdded(false);
+      setResultsReady(false);
    }
 
    /*useEffect(() => {
@@ -284,26 +285,25 @@ const GermanFormsScreen = props => {
       if (finished) {
          let totalPoints;
          if (counterState <= estimatedAccomplishTime && points === 200) {
-            totalPoints = points + (counterState * 0.1);
+            totalPoints = points + (counterState * 0.1) * 1.0;
          } else if (points === 0) {
-            totalPoints = points;
+            totalPoints = points * 1.0;
          } else {
-            totalPoints = points - (counterState * 0.1);
+            totalPoints = (points - (counterState * 0.1)) * 1.0;
          }
          console.log('speed points: ', counterState * (-1))
          console.log('totalPoints: ', totalPoints);
          const totalPercentage = (totalPoints / maxPoints) * 100.0;
-         const totalPercentageRounded = totalPercentage.toFixed(2).toString().replace('.', ',')
          const amountCorrectAnswers = points / 10;
          setResults({
-            totalPoints: totalPoints.toFixed(2).replace('.', ','),
+            totalPoints: totalPoints,
             maxPoints: maxPoints,
             totalAnswered: 20,
             totalPercentage: totalPercentage,
-            totalPercentageRounded: totalPercentageRounded,
             amountCorrectAnswers: amountCorrectAnswers
          })
          setDateTime(getCurrentDate());
+         setResultsReady(true);
          /*setTimeout(() => {
             setResultsAdded(true);
          }, 2000)*/
@@ -433,13 +433,13 @@ const GermanFormsScreen = props => {
                   style={styles.flexOne}
                   ref={scrollViewRef}
                >
-                     {finished && results &&
+                     {finished && resultsReady && results &&
                         <GermanResultView
                            results={results}
                            startAgain={startAgain}
                         />
                      }
-                     {finished && !results &&
+                     {finished && !resultsReady && !results &&
                         <>
                            <Spinner />
                            <Text>
