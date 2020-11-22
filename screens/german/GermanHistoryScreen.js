@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Modal, Text } from 'react-native';
 import { 
+   Button,
    Container, 
-   Content,
-   Modal
+   Content
 } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
@@ -20,6 +20,8 @@ const GermanHistoryScreen = props => {
 
    const [historyMeanings, setHistoryMeanings] = useState([]);
    const [historyForms, setHistoryForms] = useState([]);
+   const [showModal, setShowModal] = useState(false);
+   const [dropped, setDropped] = useState(false);
 
    const navigation = useNavigation();
 
@@ -41,6 +43,8 @@ const GermanHistoryScreen = props => {
                   setHistoryForms(results.rows._array.filter(historyItem => historyItem.type === 2))
                },
                (tx, error) => {
+                  setHistoryMeanings([]);
+                  setHistoryForms([]);
                   console.log('Could not execute query: ', error);
                }
             );
@@ -50,7 +54,7 @@ const GermanHistoryScreen = props => {
          },
       );
 
-   }, [])
+   }, [dropped])
 
    const dropData = () => {
       DatabaseResults.transaction(
@@ -67,6 +71,8 @@ const GermanHistoryScreen = props => {
             console.log('Transaction error: ', error);
          },
       );
+      setShowModal(false);
+      setDropped(true);
    }
 
     return (
@@ -84,10 +90,23 @@ const GermanHistoryScreen = props => {
                         resultHistory={historyMeanings.filter(historyItem => historyItem.level === 1)}
                      />
                      {historyMeanings.length > 0 &&
-                        <ButtonComponent title='Tyhjennä tuloshistoria' color='#cc0000' function={dropData} />
+                        <ButtonComponent title='Tyhjennä tuloshistoria' color='#cc0000' function={() => setShowModal(true)} />
                      }
                   </Content>
                   <FooterComponent />
+                  <Modal 
+                     animationType='slide'
+                     visible={showModal}
+                     onRequestClose={() => setShowModal(false)}
+               >
+                  <Content contentContainerStyle={{ justifyContent: 'center', flex: 1 }}>
+                     <Heading>
+                        Haluatko varmasti tyhjentää tuloshistorian?
+                     </Heading>
+                     <ButtonComponent title='Tyhjennä historia' function={dropData} />
+                     <ButtonComponent title='Peruuta' function={() => setShowModal(false)} />
+                     </Content>
+                  </Modal>
                </Container>
     );
 }
