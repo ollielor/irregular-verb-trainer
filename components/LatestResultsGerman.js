@@ -15,19 +15,18 @@ import { useNavigation } from '@react-navigation/native';
 
 import Heading from './Heading';
 
-const ResultHistoryView = props => {
+const LatestResultsGerman = props => {
 
    const navigation = useNavigation();
 
    return (
       <Content>
-         {!props.hideButton &&
             <Heading>
                10 viimeisintä tulosta
             </Heading>
-         }
          {props.resultHistory
             .sort((a, b) => a.datetime < b.datetime ? 1 : a.datetime > b.datetime ? -1 : 0)
+            .slice(0, 10)
             .map(historyItem => 
               <Card key={historyItem.id}>
                   <CardItem header>
@@ -59,7 +58,7 @@ const ResultHistoryView = props => {
    )
 }
 
-export default ResultHistoryView;
+export default LatestResultsGerman;
 
 const styles = StyleSheet.create({
    header: {

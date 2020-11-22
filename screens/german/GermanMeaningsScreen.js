@@ -19,7 +19,7 @@ import FooterComponent from '../../components/FooterComponent';
 import HeaderComponent from '../../components/HeaderComponent';
 import MeaningCardComponent from '../../components/MeaningCardComponent';
 import GermanResultView from '../../components/GermanResultView';
-import ResultHistoryView from '../../components/ResultHistoryView';
+import LatestResultsGerman from '../../components/LatestResultsGerman';
 
 const GermanMeaningsScreen = props => {
 
@@ -38,7 +38,8 @@ const GermanMeaningsScreen = props => {
    const [started, setStarted] = useState(true);
    const [resultHistory, setResultHistory] = useState([]);
    const [resultsLoaded, setResultsLoaded] = useState(false);
-   const [resultsAdded, setResultsAdded] = useState(false);
+   const [resultsReady, setResultsReady] = useState(false);
+   const [resultsSaved, setResultsSaved] = useState(false);
    const [dateTime, setDateTime] = useState(null);
    
    const navigation = useNavigation();
@@ -128,7 +129,6 @@ const GermanMeaningsScreen = props => {
                   [],
                   (tx, results) => {
                      setResultHistory(results.rows._array);
-                     setResultsLoaded(true);
                   },
                   (tx, error) => {
                      console.log('Could not execute query: ', error);
@@ -208,7 +208,7 @@ const GermanMeaningsScreen = props => {
       if (accuracy) {
          setPoints(points + 20);
          console.log(points);
-         setAnswered([...answered, {accuracy: 'correct'}]);
+         setAnswered([...answered, {accuracy: 'correct'}])
          console.log(answered);
       }
       if (!accuracy) {
@@ -219,17 +219,24 @@ const GermanMeaningsScreen = props => {
 
    }
 
-   const saveResults = () => {
+   useEffect(() => {
       //const db = SQLite.openDatabase('results_meaning.db');
-      DatabaseResults.transaction(tx => {
-         tx.executeSql('insert into results (type, language, level, accuracy, q_total, points, maxpoints, percentage, datetime) values (?, ?, ?, ?, ?, ?, ?, ?, ?);',
-            [1, 1, level, results.amountCorrectAnswers, answered.length, points, results.maxPointsWeighted, totalPercentageUnrounded, dateTime])
-      }, 
-      error => {
-         console.log('Transaction error: ', error);
-      }, null, updateList
-     )
-   }
+      if (resultsReady) {
+         DatabaseResults.transaction(tx => {
+            tx.executeSql('insert into results (type, language, level, accuracy, q_total, points, maxpoints, percentage, datetime) values (?, ?, ?, ?, ?, ?, ?, ?, ?);',
+               [1, 1, level, results.amountCorrectAnswers, answered.length, results.totalPoints, results.maxPoints, results.totalPercentage, dateTime])
+         }, 
+         error => {
+            console.log('Transaction error: ', error);
+         }, null, updateList
+        )
+        setResultsSaved(true);
+      }
+   }, [resultsReady]);
+
+   useEffect(() => {
+      updateList();
+   }, [resultsSaved])
 
    const startAgain = () => {
       setStarted(true);
@@ -238,12 +245,12 @@ const GermanMeaningsScreen = props => {
       setMaxPoints(0);
       setAnswered([]);
       setResults({});
-      setResultsAdded(false);
+      setResultsReady(false);
+      setResultsSaved(false);
    }
 
    useEffect(() => {
-      if (answered === 5) {
-         calculateResults();
+      if (answered.length === 5) {
          setFinished(true);
       }
    }, [answered])
@@ -271,65 +278,61 @@ const GermanMeaningsScreen = props => {
 
 
    useEffect(() => {
-      if (started) {
-         let counter = 60; 
+         let counter = 0; 
          let intervalId = setInterval(() => {
-            if (answered.length === 5 || counter === 0) {
-               clearInterval(intervalId);
-               setFinished(true);
-               setStarted(false);
-            } else {
-               counter--;
+               counter++;
                setCounterState(counter);
-            }
          }, 1000)
+         if (finished) {
+            clearInterval(intervalId);
+         }
          return () => {
             clearInterval(intervalId);
          }
-      }
-   }, [started]);
+   }, [started, finished]);
 
    useEffect(() => {
 
-      if (answered.length === 5) {
+      if (finished) {
          // Sum of items in points array (accuracy):
-         let accuracyPoints = points;
          // Sum of correct answers
          let correctAnswers = answered.filter(answer => answer.accuracy === 'correct');
          // Weighted sum of accuracy and speed points
          // 15 seconds subtracted from total time points (counter)
          let totalPoints;
-         if (correctAnswers.length >= 3) {
-            totalPoints = accuracyPoints + ((counterState + 15) * 0.33333);
+         let accuracyPercentage = (points / maxPoints) * 100.0;
+         if (counterState < 10 && accuracyPercentage >= 80) {
+            totalPoints = (points + counterState * 0.1) * 1.0;
+         } else if (counterState >= 10 && counterState < 20) {
+            totalPoints = points * 1.0;
+         } else if (counterState >= 30) {
+            totalPoints = (points - counterState * 0.1) * 1.0;
          } else {
-            totalPoints = accuracyPoints;
+            totalPoints = points * 1.0;
          }
+         console.log(points);
+         console.log(totalPoints);
          // Weighted point maximum (with 20 speed points)
-         let maxPointsWeighted = maxPoints + 20;
          // Ratio of total points and weighted point maximum
-         let totalPercentage = (totalPoints / maxPointsWeighted) * 100.0;
-         setTotalPercentageUnrounded(totalPercentage);
-         let totalPercentageRounded = totalPercentage.toFixed(2).toString().replace(".", ",")
+         let totalPercentage = (totalPoints / maxPoints) * 100.0;
+         //setTotalPercentageUnrounded(totalPercentage);
          setResults({
-            totalPoints: totalPoints.toFixed(2).toString().replace(".", ","),
-            maxPointsWeighted: maxPointsWeighted,
+            totalPoints: totalPoints,
+            maxPoints: maxPoints,
             totalPercentage: totalPercentage,
-            totalPercentageRounded: totalPercentageRounded,
             amountCorrectAnswers: correctAnswers.length,
             totalAnswered: answered.length
          })
          setDateTime(getCurrentDate());
-         setTimeout(() => {
-            setResultsAdded(true);
-         }, 2000)
+         setResultsReady(true);
       }
-   }, [answered])
+   }, [finished])
 
-   useEffect(() => {
-      if (resultsAdded) {
+   /*useEffect(() => {
+      if (resultsReady) {
          saveResults();
       }
-   }, [resultsAdded])
+   }, [resultsReady])*/
 
    const getCurrentDate = () => {
       return new Date().toISOString();
@@ -348,7 +351,9 @@ const GermanMeaningsScreen = props => {
       <Container style={styles.container}>
          <HeaderComponent title='Verbien merkityksiä' goBack={navigation.goBack} />
             <Content>
-               {console.log(resultHistory)}
+               <Text>
+                  {counterState}, answered: {answered.length}
+               </Text>
                {/*<Text>
                   answered: {answered.length} finished: {String(finished)} counter: {counterState}
                </Text>
@@ -368,15 +373,22 @@ const GermanMeaningsScreen = props => {
 
                   )
                }
-               {answered.length === 5 && results &&
+               {answered.length === 5 && results && resultsReady && resultHistory &&
                   <>
                      <GermanResultView
                         results={results}
                         startAgain={startAgain}
                      />
-                     <ResultHistoryView
+                     <LatestResultsGerman
                         resultHistory={resultHistory}
                      />
+                  </>
+               }
+               {answered.length === 5 && !results && !resultsReady && !resultHistory &&
+                  <>
+                     <Text>
+                        Tuloksia tallennetaan...
+                     </Text>
                   </>
                }
             </Content>

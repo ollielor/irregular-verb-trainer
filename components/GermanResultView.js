@@ -18,7 +18,7 @@ const GermanResultView = props => {
             }
          </Text>
          <Text style={styles.feedbackPoints}>
-            Sait {props.results.totalPoints} / {props.results.maxPointsWeighted ? props.results.maxPointsWeighted : props.results.maxPoints} pistettä eli {props.results.totalPercentageRounded} % maksimista.
+            Sait {props.results.totalPoints.toFixed(2).replace('.', ',')} / {props.results.maxPointsWeighted ? props.results.maxPointsWeighted : props.results.maxPoints} pistettä eli {props.results.totalPercentage.toFixed(2).toString().replace(".", ",")} % maksimista.
             Oikeita vastauksia: {props.results.amountCorrectAnswers} / {props.results.totalAnswered}
          </Text>
          <Button style={styles.startAgainButton} onPress={props.startAgain}>

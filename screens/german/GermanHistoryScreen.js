@@ -83,7 +83,7 @@ const GermanHistoryScreen = props => {
                         hideButton
                         resultHistory={historyMeanings.filter(historyItem => historyItem.level === 1)}
                      />
-                     {historyMeanings.length > 0 && historyForms.length > 0 &&
+                     {historyMeanings.length > 0 &&
                         <ButtonComponent title='Tyhjennä tuloshistoria' color='#cc0000' function={dropData} />
                      }
                   </Content>
