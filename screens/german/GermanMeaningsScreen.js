@@ -221,7 +221,7 @@ const GermanMeaningsScreen = props => {
 
    useEffect(() => {
       //const db = SQLite.openDatabase('results_meaning.db');
-      if (resultsReady) {
+      if (resultsReady && dateTime && !resultsSaved) {
          DatabaseResults.transaction(tx => {
             tx.executeSql('insert into results (type, language, level, accuracy, q_total, points, maxpoints, percentage, datetime) values (?, ?, ?, ?, ?, ?, ?, ?, ?);',
                [1, 1, level, results.amountCorrectAnswers, answered.length, results.totalPoints, results.maxPoints, results.totalPercentage, dateTime])
@@ -232,7 +232,7 @@ const GermanMeaningsScreen = props => {
         )
         setResultsSaved(true);
       }
-   }, [resultsReady]);
+   }, [resultsReady, dateTime]);
 
    useEffect(() => {
       updateList();
@@ -351,9 +351,6 @@ const GermanMeaningsScreen = props => {
       <Container style={styles.container}>
          <HeaderComponent title='Verbien merkityksiä' goBack={navigation.goBack} />
             <Content>
-               <Text>
-                  {counterState}, answered: {answered.length}
-               </Text>
                {/*<Text>
                   answered: {answered.length} finished: {String(finished)} counter: {counterState}
                </Text>
@@ -373,7 +370,7 @@ const GermanMeaningsScreen = props => {
 
                   )
                }
-               {answered.length === 5 && results && resultsReady && resultHistory &&
+               {finished && results && resultsSaved && resultHistory &&
                   <>
                      <GermanResultView
                         results={results}
@@ -382,13 +379,6 @@ const GermanMeaningsScreen = props => {
                      <LatestResultsGerman
                         resultHistory={resultHistory}
                      />
-                  </>
-               }
-               {answered.length === 5 && !results && !resultsReady && !resultHistory &&
-                  <>
-                     <Text>
-                        Tuloksia tallennetaan...
-                     </Text>
                   </>
                }
             </Content>
