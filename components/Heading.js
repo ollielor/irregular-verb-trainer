@@ -1,11 +1,20 @@
-import React from 'react';
-import { Text } from 'native-base';
+import React from 'react'
+import { Text } from 'native-base'
 
-const Heading = props => {
-
+const Heading = (props) => {
    return (
-      <Text {...props} style={{color: '#7E00C5', fontSize: 20, fontWeight: 'bold', textAlign: 'center', marginTop: 10, marginBottom: 15}} />
-   );
+      <Text
+         {...props}
+         style={{
+            color: '#7E00C5',
+            fontSize: 20,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            marginTop: 10,
+            marginBottom: 15,
+         }}
+      />
+   )
 }
 
-export default Heading;
+export default Heading

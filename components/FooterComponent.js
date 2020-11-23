@@ -1,30 +1,35 @@
-import React from 'react';
-import { 
-   Footer,
-   FooterTab
-} from 'native-base';
+import React from 'react'
+import { Footer, FooterTab } from 'native-base'
 
-import FooterButtonComponent from '../components/FooterButtonComponent';
+import FooterButtonComponent from '../components/FooterButtonComponent'
 
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native'
 
-const FooterComponent = props => {
+const FooterComponent = (props) => {
+   const navigation = useNavigation()
 
-   const navigation = useNavigation();
-
-    return (
-                  <Footer style={{backgroundColor: '#0047c5'}}>
-                     <FooterTab>
-                        <FooterButtonComponent title='Koti' function={() => console.log('Koti')} />
-                     </FooterTab>
-                     <FooterTab>
-                        <FooterButtonComponent title='Tulokset' function={() => navigation.navigate('Omat tulokseni (saksa)')} />
-                     </FooterTab>
-                     <FooterTab>
-                        <FooterButtonComponent title='Asetukset' function={() => console.log('Asetukset')} />
-                     </FooterTab>
-                  </Footer>
-    );
+   return (
+      <Footer style={{ backgroundColor: '#0047c5' }}>
+         <FooterTab>
+            <FooterButtonComponent
+               title="Koti"
+               function={() => console.log('Koti')}
+            />
+         </FooterTab>
+         <FooterTab>
+            <FooterButtonComponent
+               title="Tulokset"
+               function={() => navigation.navigate('Omat tulokseni (saksa)')}
+            />
+         </FooterTab>
+         <FooterTab>
+            <FooterButtonComponent
+               title="Asetukset"
+               function={() => console.log('Asetukset')}
+            />
+         </FooterTab>
+      </Footer>
+   )
 }
 
-export default FooterComponent;
+export default FooterComponent

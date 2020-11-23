@@ -1,36 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { 
-   Button,
-   Container,
-   Content,
-   Text
-} from 'native-base';
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, View } from 'react-native'
+import { Button, Container, Content, Text } from 'native-base'
 
-const GermanResultView = props => {
-
+const GermanResultView = (props) => {
    return (
       <Content>
          <Text style={styles.feedback}>
-            {props.results.totalPercentage > 87.5 ? 'Super!' :
-               props.results.totalPercentage > 77.5 ? 'Gut!' :
-               'Du musst noch üben!'
-            }
+            {props.results.totalPercentage > 87.5
+               ? 'Super!'
+               : props.results.totalPercentage > 77.5
+               ? 'Gut!'
+               : 'Du musst noch üben!'}
          </Text>
          <Text style={styles.feedbackPoints}>
-            Sait {props.results.totalPoints.toFixed(2).replace('.', ',')} / {props.results.maxPointsWeighted ? props.results.maxPointsWeighted : props.results.maxPoints} pistettä eli {props.results.totalPercentage.toFixed(2).toString().replace(".", ",")} % maksimista.
-            Oikeita vastauksia: {props.results.amountCorrectAnswers} / {props.results.totalAnswered}
+            Sait {props.results.totalPoints.toFixed(2).replace('.', ',')} /{' '}
+            {props.results.maxPointsWeighted
+               ? props.results.maxPointsWeighted
+               : props.results.maxPoints}{' '}
+            pistettä eli{' '}
+            {props.results.totalPercentage
+               .toFixed(2)
+               .toString()
+               .replace('.', ',')}{' '}
+            % maksimista.
+         </Text>
+         <Text style={styles.feedbackPoints}>
+            Oikeita vastauksia: {props.results.amountCorrectAnswers} /{' '}
+            {props.results.totalAnswered}
          </Text>
          <Button style={styles.startAgainButton} onPress={props.startAgain}>
-            <Text uppercase={false}>
-               Aloita uudestaan
-            </Text>
+            <Text uppercase={false}>Aloita uudestaan</Text>
          </Button>
       </Content>
    )
 }
 
-export default GermanResultView;
+export default GermanResultView
 
 const styles = StyleSheet.create({
    feedback: {
@@ -38,17 +43,16 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       fontSize: 24,
       color: '#4E00C5',
-      marginTop: 20
+      marginTop: 20,
    },
    feedbackPoints: {
       textAlign: 'center',
-      paddingTop: 10
+      paddingTop: 10,
    },
    startAgainButton: {
       backgroundColor: '#4E00C5',
       alignSelf: 'center',
       marginTop: 20,
-      marginBottom: 20
-   }
-   });
- 
+      marginBottom: 20,
+   },
+})

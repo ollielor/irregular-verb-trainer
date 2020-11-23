@@ -4,7 +4,6 @@ import {
    Body, 
    Card,
    CardItem,
-   Content,
    Text,
 } from 'native-base';
 import CorrectAnswerComponent from './CorrectAnswerComponent';
