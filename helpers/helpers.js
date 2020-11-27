@@ -1,5 +1,5 @@
-export const rndIntGenerator = (verbs) => {
-   return Math.floor(Math.random() * verbs.length);
+export const rndIntGenerator = (highest) => {
+   return Math.floor(Math.random() * highest);
 }
 
 export const getRandomVerb = (rndInt, verbs) => {
@@ -10,6 +10,6 @@ export const getCurrentDate = () => {
    return new Date().toISOString();
 }
 
-export const getRndInteger = (highest) => {
-   return Math.floor(Math.random() * highest);
+export const getRandomVerbArray = (rndInt, verbs) => {
+   return verbs.filter(verb => verb.meaning_id === rndInt);
 }

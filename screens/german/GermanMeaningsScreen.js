@@ -15,7 +15,7 @@ import {
 
 import FooterComponent from "../../components/FooterComponent";
 import HeaderComponent from "../../components/HeaderComponent";
-import MeaningCardComponent from "../../components/MeaningCardComponent";
+import CardComponentMeanings from "../../components/CardComponentMeanings";
 import GermanResultView from "../../components/GermanResultView";
 import LatestResultsGerman from "../../components/LatestResultsGerman";
 
@@ -130,7 +130,7 @@ const GermanMeaningsScreen = (props) => {
       let rndVerbs = [];
       let rndVerbsFinal = [];
       while (rndVerbsFinal.length <= 14) {
-        const rndInt = rndIntGenerator(verbs);
+        const rndInt = rndIntGenerator(verbs.length);
         rndVerb = getRandomVerb(rndInt, verbs);
         if (rndVerb !== undefined) {
           rndVerbs.push(rndVerb);
@@ -274,7 +274,7 @@ const GermanMeaningsScreen = (props) => {
         {answered.length < 5 &&
           randomizedVerbs &&
           randomizedVerbs.map((verbGroup, index) => (
-            <MeaningCardComponent
+            <CardComponentMeanings
               key={index}
               alternatives={verbGroup}
               evaluate={evaluate}
