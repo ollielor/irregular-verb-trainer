@@ -24,6 +24,9 @@ import DatabaseVerbs from './modules/DatabaseVerbs';
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
 
+import { Provider } from 'react-redux';
+import store from './store/store';
+
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -53,7 +56,10 @@ const App = () => {
          })
    }, [])
 
+
+
    return (
+      <Provider store={store}>
          <NavigationContainer>
             <Stack.Navigator 
                screenOptions={{
@@ -67,6 +73,7 @@ const App = () => {
                <Stack.Screen name='Omat tulokseni (saksa)' component={GermanHistoryScreen} />
             </Stack.Navigator>
          </NavigationContainer>
+      </Provider>
     );
 }
 

@@ -13,9 +13,16 @@ import {
    Content,
    Footer,
    FooterTab,
-   Icon
+   Icon,
+   Form
 } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
+import { getAllVerbs } from '../../helpers/fetch';
+import { fetchVerbs } from '../../store/actions/verbs';
+
+import DatabaseVerbs from '../../modules/DatabaseVerbs';
+
+import { connect } from 'react-redux';
 
 import ButtonComponent from '../../components/ButtonComponent';
 import FooterComponent from '../../components/FooterComponent';
@@ -23,7 +30,29 @@ import HeaderComponent from '../../components/HeaderComponent';
 
 const GermanStartScreen = props => {
 
+   console.log('Props from GermanStartScreen: ', props);
+
    const navigation = useNavigation();
+
+   useEffect(() => {
+         DatabaseVerbs.transaction(
+         (tx) => {
+            tx.executeSql(
+               'select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id',
+               [],
+               (tx, results) => {
+                  props.dispatch(fetchVerbs(results.rows._array));
+               },
+               (tx, error) => {
+                  console.log('Could not execute query: ', error)
+               }
+            )
+         },
+         (error) => {
+            console.log('Transaction error: ', error)
+         }
+      )
+   }, [])
 
     return (
             
@@ -39,7 +68,14 @@ const GermanStartScreen = props => {
     );
 }
 
-export default GermanStartScreen;
+const mapStateToProps = state => ({
+   verbs: state.verbs
+})
+
+
+export default connect(
+   mapStateToProps,
+)(GermanStartScreen);
 
 const styles = StyleSheet.create({
   container: {

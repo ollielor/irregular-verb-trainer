@@ -1,8 +1,19 @@
+import { FETCH_VERBS } from '../actions/verbs';
+
 const initialState = {
-   verbs: [],
-   filteredVerbs: []
+   verbs: []
 }
 
-const verbsReducer = (state, action) => {
-   return state;
+const verbsReducer = (state = initialState, action) => {
+   switch (action.type) {
+      case FETCH_VERBS:
+         return {
+            ...state,
+            verbs: action.payload
+         }
+      default:
+         return state;
+   }
 }
+
+export default verbsReducer;

@@ -21,7 +21,7 @@ import HeaderComponent from '../components/HeaderComponent';
 
 const StartScreen = ({navigation: {navigate}}) => {
 
-   const [isReady, setIsReady] = useState(false);
+   const [fontsLoaded, setFontsLoaded] = useState(false);
 
    useEffect(() => {
       Font.loadAsync({
@@ -30,7 +30,7 @@ const StartScreen = ({navigation: {navigate}}) => {
          ...Ionicons.font,
       })
          .then(result => {
-            setIsReady(true);
+            setFontsLoaded(true);
          })
          .catch(error => {
             console.log(error);
@@ -56,10 +56,10 @@ const StartScreen = ({navigation: {navigate}}) => {
 
     return (
          <Container style={styles.container}>
-            {!isReady && 
+            {!fontsLoaded && 
                <Spinner color='#7E00C5' />
             }
-            {isReady &&
+            {fontsLoaded &&
                <Container>
                   <HeaderComponent title='Verbivalmentaja' noArrow />
                   <Content style={styles.contentContainer}>
