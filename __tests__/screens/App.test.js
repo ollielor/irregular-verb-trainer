@@ -1,28 +1,28 @@
-
 import React from 'react';
-import 'react-native';
 import renderer from 'react-test-renderer';
 
 import { render, act, cleanup, fireEvent, waitFor, screen } from '@testing-library/react-native';
+
+import { NavigationContainer} from '@react-navigation/native';
 
 import App from '../../App';
 import StartScreen from '../../screens/StartScreen';
 import ButtonComponent from '../../components/ButtonComponent';
 import GermanStartScreen from '../../screens/StartScreen';
 import { Text } from 'react-native';
-import { Container, Content } from 'native-base';
+import { Container } from 'native-base';
 
 //jest.useFakeTimers();
 
 const defaultProps = {
   color: jest.fn(), 
   function: jest.fn(),
-  title: jest.fn(),
+  title: "Saksa",
 };
 
-describe('StartScreen', () => {
+describe('App', () => {
   it('has 1 child', () => {
-    const tree = renderer.create(<StartScreen navigation={jest.fn()} />).toJSON();
+    const tree = renderer.create(<App />).toJSON();
     expect(tree.children.length).toBe(1);
   });
   it('navigates on button press', () => {
@@ -30,10 +30,9 @@ describe('StartScreen', () => {
     const fakeNavigation = {
       navigate: jest.fn()
     };
-    const { getByText } = render(<ButtonComponent title='Saksa' function={mock} />);
-    fireEvent.press(getByText('Saksa'));
-    //expect(getByText('Saksa')).toBeTruthy()
-    expect(mock.mock.calls).toHaveBeenCalledWith(['Saksa'])
+    const { getByText } = render(<NavigationContainer />);
+    fireEvent.press(getByText("Saksa"));
+    expect(fakeNavigation).toBeCalledWith('Saksa')
   });
   it('renders correctly', async () => {
     const navigation = { navigate: jest.fn() };
