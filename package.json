@@ -27,7 +27,9 @@
     "react-native-reanimated": "^1.13.2",
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
-    "react-native-web": "~0.13.7"
+    "react-native-web": "~0.13.7",
+    "react-redux": "^7.2.2",
+    "redux": "^4.0.5"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
@@ -35,9 +37,9 @@
   },
   "private": true,
   "prettier": {
-      "trailingComma": "es5",
-      "tabWidth": 3,
-      "semi": false,
-      "singleQuote": true
-   } 
+    "trailingComma": "es5",
+    "tabWidth": 3,
+    "semi": false,
+    "singleQuote": true
+  }
 }
