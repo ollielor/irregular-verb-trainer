@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { Container, Content, Text } from "native-base";
 
-import DatabaseVerbs from "../../modules/DatabaseVerbs";
 import DatabaseResults from "../../modules/DatabaseResults";
 
 import { useNavigation } from "@react-navigation/native";
@@ -18,6 +17,8 @@ import HeaderComponent from "../../components/HeaderComponent";
 import CardComponentMeanings from "../../components/CardComponentMeanings";
 import GermanResultView from "../../components/GermanResultView";
 import LatestResultsGerman from "../../components/LatestResultsGerman";
+
+import { connect } from 'react-redux';
 
 const GermanMeaningsScreen = (props) => {
   const [verbs, setVerbs] = useState([]);
@@ -40,14 +41,15 @@ const GermanMeaningsScreen = (props) => {
   const navigation = useNavigation();
 
   useEffect(() => {
+    createResultsDb();
     return () => {};
   }, []);
 
-  useEffect(() => {
+  /*useEffect(() => {
     DatabaseVerbs;
-  });
+  });*/
 
-  const loadVerbs = () => {
+  /*const loadVerbs = () => {
     let query;
     switch (level) {
       case 1:
@@ -86,7 +88,7 @@ const GermanMeaningsScreen = (props) => {
       }
     );
     createResultsDb();
-  };
+  };*/
 
   const createResultsDb = () => {
     DatabaseResults.transaction(
@@ -124,14 +126,14 @@ const GermanMeaningsScreen = (props) => {
   useEffect(() => {
     // Level hardcoded to 1 at the moment
     setLevel(1);
-    loadVerbs();
-    if (verbsLoaded) {
+    //loadVerbs();
+    if (props.verbsGerman) {
       let rndVerb;
       let rndVerbs = [];
       let rndVerbsFinal = [];
       while (rndVerbsFinal.length <= 14) {
-        const rndInt = rndIntGenerator(verbs.length);
-        rndVerb = getRandomVerb(rndInt, verbs);
+        const rndInt = rndIntGenerator(props.verbsGerman.length);
+        rndVerb = getRandomVerb(rndInt, props.verbsGerman);
         if (rndVerb !== undefined) {
           rndVerbs.push(rndVerb);
         }
@@ -153,7 +155,7 @@ const GermanMeaningsScreen = (props) => {
       }
       setRandomizedVerbs(verbObjectArray);
     }
-  }, [verbsLoaded]);
+  }, [props.verbsGerman]);
 
   const evaluate = (accuracy) => {
     if (accuracy) {
@@ -293,7 +295,14 @@ const GermanMeaningsScreen = (props) => {
   );
 };
 
-export default GermanMeaningsScreen;
+const mapStateToProps = state => ({
+  verbsGerman: state.verbs.verbsGerman
+})
+
+
+export default connect(
+  mapStateToProps,
+)(GermanMeaningsScreen);
 
 const styles = StyleSheet.create({
   container: {

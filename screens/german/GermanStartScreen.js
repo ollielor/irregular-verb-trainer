@@ -17,8 +17,7 @@ import {
    Form
 } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
-import { getAllVerbs } from '../../helpers/fetch';
-import { fetchVerbs } from '../../store/actions/verbs';
+import { fetchVerbsGerman } from '../../store/actions/verbs';
 
 import DatabaseVerbs from '../../modules/DatabaseVerbs';
 
@@ -41,7 +40,8 @@ const GermanStartScreen = props => {
                'select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id',
                [],
                (tx, results) => {
-                  props.dispatch(fetchVerbs(results.rows._array));
+                  console.log('Results: ', results.rows._array)
+                  props.dispatch(fetchVerbsGerman(results.rows._array));
                },
                (tx, error) => {
                   console.log('Could not execute query: ', error)
@@ -57,6 +57,7 @@ const GermanStartScreen = props => {
     return (
             
                <Container style={styles.container}>
+                  {console.log(props.verbsGerman)}
                   <HeaderComponent title='Saksa' goBack={navigation.goBack} />
                   <Content style={styles.contentContainer}>
                      <ButtonComponent color='#7E00C5' title='Selaa ja opettele verbejä' function={() => navigation.navigate('Selaa ja opettele (saksa)')} />
@@ -69,7 +70,7 @@ const GermanStartScreen = props => {
 }
 
 const mapStateToProps = state => ({
-   verbs: state.verbs
+   verbsGerman: state.verbs.verbsGerman
 })
 
 

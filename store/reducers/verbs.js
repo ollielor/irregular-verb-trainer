@@ -1,15 +1,15 @@
-import { FETCH_VERBS } from '../actions/verbs';
+import { FETCH_VERBS_GERMAN } from '../actions/verbs';
 
 const initialState = {
-   verbs: []
+   verbsGerman: []
 }
 
 const verbsReducer = (state = initialState, action) => {
    switch (action.type) {
-      case FETCH_VERBS:
+      case FETCH_VERBS_GERMAN:
          return {
             ...state,
-            verbs: action.payload
+            verbsGerman: action.payload
          }
       default:
          return state;
