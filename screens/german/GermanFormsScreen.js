@@ -7,6 +7,7 @@ import DatabaseResults from '../../modules/DatabaseResults'
 import * as FileSystem from 'expo-file-system'
 import { Asset } from 'expo-asset'
 
+import { connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native'
 
 import {
@@ -63,7 +64,7 @@ const GermanFormsScreen = (props) => {
       }
    })
 
-   useEffect(() => {
+   /*useEffect(() => {
       let query
 
       switch (level) {
@@ -102,7 +103,7 @@ const GermanFormsScreen = (props) => {
             console.log('Transaction error: ', error)
          }
       )
-   }, [started])
+   }, [started])*/
 
    useEffect(() => {
       DatabaseResults.transaction(
@@ -146,13 +147,13 @@ const GermanFormsScreen = (props) => {
    useEffect(() => {
       // Level hardcoded to 1 at the moment
       setLevel(1)
-      if (verbsLoaded && started) {
+      if (props.verbsGerman && started) {
          let rndVerbArray = []
          let rndVerbs = []
          let rndVerbsFinal = []
          while (rndVerbsFinal.length <= 4) {
-            const rndInt = rndIntGenerator(verbs.length)
-            rndVerbArray = getRandomVerbArray(rndInt, verbs)
+            const rndInt = rndIntGenerator(props.verbsGerman.length)
+            rndVerbArray = getRandomVerbArray(rndInt, props.verbsGerman)
             if (rndVerbArray.length > 0) {
                rndVerbs.push(rndVerbArray)
             }
@@ -168,9 +169,9 @@ const GermanFormsScreen = (props) => {
             }
          }
          setRandomizedVerbs(rndVerbsFinal)
-         setRndVerbsLoaded(true)
+         //setRndVerbsLoaded(true)
       }
-   }, [verbsLoaded, started])
+   }, [props.verbsGerman, started])
 
    const startAgain = () => {
       setStarted(true)
@@ -370,7 +371,13 @@ const GermanFormsScreen = (props) => {
    )
 }
 
-export default GermanFormsScreen
+const mapStateToProps = state => ({
+   verbsGerman: state.verbs.verbsGerman
+})
+
+export default connect(
+   mapStateToProps,
+)(GermanFormsScreen);
 
 const styles = StyleSheet.create({
    container: {
