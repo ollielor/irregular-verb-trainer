@@ -179,7 +179,7 @@ const CardComponentForms = (props) => {
 
    return (
       <Card>
-         <CardItem>
+         <CardItem style={{backgroundColor: '#e8e8e8'}}>
             <Body>
                <Text
                   style={{
