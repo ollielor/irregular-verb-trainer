@@ -9,7 +9,11 @@ import * as SQLite from 'expo-sqlite';
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
 
+import { connect } from 'react-redux';
+
 import { useNavigation } from '@react-navigation/native';
+
+import DatabaseVerbs from '../../modules/DatabaseVerbs';
 
 import FooterComponent from '../../components/FooterComponent';
 import HeaderComponent from '../../components/HeaderComponent';
@@ -31,7 +35,7 @@ const GermanBrowseScreen = props => {
       }
    }, [])
 
-         FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/verbs_german.db`)
+         /*FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/verbs_german.db`)
          .then(result => {
          if (result.exists) {
             const db = SQLite.openDatabase('verbs_german.db');
@@ -42,9 +46,9 @@ const GermanBrowseScreen = props => {
          )}
          });
 
-      const db = SQLite.openDatabase('verbs_german.db');
+      const db = SQLite.openDatabase('verbs_german.db');*/
 
-      db.transaction(
+      /*DatabaseVerbs.transaction(
          tx => {
             tx.executeSql(
                'select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id;', 
@@ -60,7 +64,7 @@ const GermanBrowseScreen = props => {
          error => {
             console.log('Transaction error: ', error);
          },
-      );
+      );*/
 
     return (
                <Container style={styles.container}>
@@ -69,22 +73,28 @@ const GermanBrowseScreen = props => {
                      <Heading>
                         Perustason verbit
                      </Heading>
-                     {verbs.filter(verb => verb.level === 1).sort((a,b) => a.infinitive > b.infinitive ? 1 : -1).map((verb, index) => <CardComponentBrowse key={index} verb={verb} /> )}
+                     {props.verbsGerman.filter(verb => verb.level === 1).sort((a,b) => a.infinitive > b.infinitive ? 1 : -1).map((verb, index) => <CardComponentBrowse key={index} verb={verb} /> )}
                      <Heading>
                         Keskitason verbit
                      </Heading>
-                     {verbs.filter(verb => verb.level === 2).sort((a,b) => a.infinitive > b.infinitive ? 1 : -1).map((verb, index) => <CardComponentBrowse key={index} verb={verb} /> )}
+                     {props.verbsGerman.filter(verb => verb.level === 2).sort((a,b) => a.infinitive > b.infinitive ? 1 : -1).map((verb, index) => <CardComponentBrowse key={index} verb={verb} /> )}
                      <Heading>
                         Haastavat verbit
                      </Heading>
-                     {verbs.filter(verb => verb.level === 3).sort((a,b) => a.infinitive > b.infinitive ? 1 : -1).map((verb, index) => <CardComponentBrowse key={index} verb={verb} /> )}
+                     {props.verbsGerman.filter(verb => verb.level === 3).sort((a,b) => a.infinitive > b.infinitive ? 1 : -1).map((verb, index) => <CardComponentBrowse key={index} verb={verb} /> )}
                   </Content>
                   <FooterComponent />
                </Container>
     );
 }
 
-export default GermanBrowseScreen;
+const mapStateToProps = state => ({
+   verbsGerman: state.verbs.verbsGerman
+})
+
+export default connect(
+   mapStateToProps,
+)(GermanBrowseScreen);
 
 const styles = StyleSheet.create({
   container: {
