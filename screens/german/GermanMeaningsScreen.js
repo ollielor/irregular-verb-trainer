@@ -10,6 +10,7 @@ import {
   rndIntGenerator,
   getRandomVerb,
   getCurrentDate,
+  filterVerbsByLevel
 } from "../../helpers/helpers";
 
 import FooterComponent from "../../components/FooterComponent";
@@ -49,21 +50,7 @@ const GermanMeaningsScreen = (props) => {
   useEffect(() => {
     setVerbsFiltered(false);
     console.log('verbsGerman: ', props.verbsGerman)
-    let filteredVerbs;
-    switch (props.level) {
-      case 1:
-        filteredVerbs = props.verbsGerman.filter(verb => verb.level === 1);
-        break;
-      case 2:
-        filteredVerbs = props.verbsGerman.filter(verb => verb.level === 1 || verb.level === 2);
-        break;
-      case 3:
-        filteredVerbs = props.verbsGerman;
-        break;
-      default:
-        filteredVerbs = props.verbsGerman;
-    } 
-    console.log('filteredVerbs: ', filteredVerbs)
+    const filteredVerbs = filterVerbsByLevel(props.verbsGerman, props.level);
     setVerbs(filteredVerbs);
     setVerbsFiltered(true);
   }, [props.level, props.verbsGerman])

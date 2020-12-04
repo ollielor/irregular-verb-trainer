@@ -14,6 +14,7 @@ import {
    rndIntGenerator,
    getRandomVerbArray,
    getCurrentDate,
+   filterVerbsByLevel
 } from '../../helpers/helpers'
 
 import FooterComponent from '../../components/FooterComponent'
@@ -24,8 +25,7 @@ import ButtonComponent from '../../components/ButtonComponent'
 
 const GermanFormsScreen = (props) => {
    const [verbs, setVerbs] = useState([])
-   const [verbsLoaded, setVerbsLoaded] = useState(false)
-   const [level, setLevel] = useState(1)
+   const [verbsFiltered, setVerbsFiltered] = useState(false)
    const [randomizedVerbs, setRandomizedVerbs] = useState([])
    const [rndVerbsLoaded, setRndVerbsLoaded] = useState(false)
    const [points, setPoints] = useState(0)
@@ -106,6 +106,13 @@ const GermanFormsScreen = (props) => {
    }, [started])*/
 
    useEffect(() => {
+      setVerbsFiltered(false);
+      const filteredVerbs = filterVerbsByLevel(props.verbsGerman, props.level);
+      setVerbs(filteredVerbs);
+      setVerbsFiltered(true);
+    }, [props.level, props.verbsGerman])
+
+   useEffect(() => {
       DatabaseResults.transaction(
          (tx) => {
             tx.executeSql(
@@ -145,15 +152,13 @@ const GermanFormsScreen = (props) => {
    }, [points])
 
    useEffect(() => {
-      // Level hardcoded to 1 at the moment
-      setLevel(1)
-      if (props.verbsGerman && started) {
+      if (verbsFiltered && started) {
          let rndVerbArray = []
          let rndVerbs = []
          let rndVerbsFinal = []
          while (rndVerbsFinal.length <= 4) {
-            const rndInt = rndIntGenerator(props.verbsGerman.length)
-            rndVerbArray = getRandomVerbArray(rndInt, props.verbsGerman)
+            const rndInt = rndIntGenerator(verbs.length)
+            rndVerbArray = getRandomVerbArray(rndInt, verbs)
             if (rndVerbArray.length > 0) {
                rndVerbs.push(rndVerbArray)
             }
@@ -171,7 +176,7 @@ const GermanFormsScreen = (props) => {
          setRandomizedVerbs(rndVerbsFinal)
          //setRndVerbsLoaded(true)
       }
-   }, [props.verbsGerman, started])
+   }, [verbsFiltered, verbs, started])
 
    const startAgain = () => {
       setStarted(true)
@@ -372,7 +377,8 @@ const GermanFormsScreen = (props) => {
 }
 
 const mapStateToProps = state => ({
-   verbsGerman: state.verbs.verbsGerman
+   verbsGerman: state.verbs.verbsGerman,
+   level: state.settings.level
 })
 
 export default connect(

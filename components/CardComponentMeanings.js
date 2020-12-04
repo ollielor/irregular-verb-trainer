@@ -128,7 +128,8 @@ export default CardComponentMeanings
 const styles = StyleSheet.create({
    prompt: {
       fontSize: 18,
-      fontWeight: 'bold'
+      fontWeight: 'bold',
+      textAlign: 'center'
    },
    notAnswered: {
       backgroundColor: '#0000cc',
