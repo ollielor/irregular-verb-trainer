@@ -1,8 +1,8 @@
 import { SAVE_SETTINGS } from '../actions/settings';
 
 const initialState = {
-   language: 2,
-   level: 3
+   language: 1,
+   level: 1
 }
 
 const settingsReducer = (state = initialState, action) => {

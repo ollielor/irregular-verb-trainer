@@ -23,7 +23,7 @@ import { connect } from 'react-redux';
 
 const GermanMeaningsScreen = (props) => {
   const [verbs, setVerbs] = useState([]);
-  const [verbsLoaded, setVerbsLoaded] = useState(false);
+  const [verbsFiltered, setVerbsFiltered] = useState(false);
   const [level, setLevel] = useState(1);
   const [randomizedVerbs, setRandomizedVerbs] = useState([]);
   const [points, setPoints] = useState(0);
@@ -45,6 +45,28 @@ const GermanMeaningsScreen = (props) => {
     createResultsDb();
     return () => {};
   }, []);
+
+  useEffect(() => {
+    setVerbsFiltered(false);
+    console.log('verbsGerman: ', props.verbsGerman)
+    let filteredVerbs;
+    switch (props.level) {
+      case 1:
+        filteredVerbs = props.verbsGerman.filter(verb => verb.level === 1);
+        break;
+      case 2:
+        filteredVerbs = props.verbsGerman.filter(verb => verb.level === 1 || verb.level === 2);
+        break;
+      case 3:
+        filteredVerbs = props.verbsGerman;
+        break;
+      default:
+        filteredVerbs = props.verbsGerman;
+    } 
+    console.log('filteredVerbs: ', filteredVerbs)
+    setVerbs(filteredVerbs);
+    setVerbsFiltered(true);
+  }, [props.level, props.verbsGerman])
 
   /*useEffect(() => {
     DatabaseVerbs;
@@ -125,16 +147,13 @@ const GermanMeaningsScreen = (props) => {
   };
 
   useEffect(() => {
-    // Level hardcoded to 1 at the moment
-    setLevel(1);
-    //loadVerbs();
-    if (props.verbsGerman) {
+    if (verbsFiltered) {
       let rndVerb;
       let rndVerbs = [];
       let rndVerbsFinal = [];
       while (rndVerbsFinal.length <= 14) {
-        const rndInt = rndIntGenerator(props.verbsGerman.length);
-        rndVerb = getRandomVerb(rndInt, props.verbsGerman);
+        const rndInt = rndIntGenerator(verbs.length);
+        rndVerb = getRandomVerb(rndInt, verbs);
         if (rndVerb !== undefined) {
           rndVerbs.push(rndVerb);
         }
@@ -156,7 +175,7 @@ const GermanMeaningsScreen = (props) => {
       }
       setRandomizedVerbs(verbObjectArray);
     }
-  }, [props.verbsGerman]);
+  }, [verbsFiltered]);
 
   const evaluate = (accuracy) => {
     if (accuracy) {
@@ -271,6 +290,8 @@ const GermanMeaningsScreen = (props) => {
 
   return (
     <Container style={styles.container}>
+      {console.log('Verb level: ', props.level)}
+      {console.log(verbs)}
       <HeaderComponent title="Verbien merkityksiä" goBack={navigation.goBack} />
       <Content>
         {!randomizedVerbs && <Text>Arvotaan verbejä...</Text>}
@@ -297,7 +318,8 @@ const GermanMeaningsScreen = (props) => {
 };
 
 const mapStateToProps = state => ({
-  verbsGerman: state.verbs.verbsGerman
+  verbsGerman: state.verbs.verbsGerman,
+  level: state.settings.level
 })
 
 

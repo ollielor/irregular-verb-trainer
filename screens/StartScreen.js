@@ -32,10 +32,8 @@ const StartScreen = (props) => {
    const [databaseCreated, setDatabaseCreated] = useState(false);
    const [settingsSaved, setSettingsSaved] = useState(false);
    const [settings, setSettings] = useState({});
-   const [level, setLevel] = useState(3);
-   const [updatedLevel, setUpdatedLevel] = useState(3);
-   const [language, setLanguage] = useState(2);
-   const [updatedLanguage, setUpdatedLanguage] = useState(2);
+   const [level, setLevel] = useState(1);
+   const [language, setLanguage] = useState(2); // set to German in development phase
 
    const { navigation: {navigate} } = props;
 
