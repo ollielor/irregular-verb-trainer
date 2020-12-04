@@ -33,7 +33,8 @@ const StartScreen = (props) => {
    const [settingsSaved, setSettingsSaved] = useState(false);
    const [settings, setSettings] = useState({});
    const [level, setLevel] = useState(1);
-   const [language, setLanguage] = useState(2); // set to German in development phase
+   const [language, setLanguage] = useState(1);
+   const [initialized, setInitialized] = useState(false);
 
    const { navigation: {navigate} } = props;
 
@@ -62,8 +63,31 @@ const StartScreen = (props) => {
       null,
       null // updateList
     );
-    setDatabaseCreated(true);
-  }, [])
+    DatabaseSettings.transaction(
+      (tx) => {
+        tx.executeSql(
+          "select * from settings;",
+          [],
+          (tx, results) => {
+             console.log('Settings: ', results);
+            props.dispatch(saveSettings({
+               language: results.rows._array[0].language,
+               level: results.rows._array[0].level
+            }));
+            setLanguage(results.rows._array[0].language);
+            setLevel(results.rows._array[0].level);
+          },
+          (tx, error) => {
+            console.log("Could not execute query: ", error);
+          }
+        );
+      },
+      (error) => {
+        console.log("Transaction error: ", error);
+      }
+    );
+    setInitialized(true);
+  }, [settingsSaved])
 
    useEffect(() => {
       let query;
@@ -72,6 +96,7 @@ const StartScreen = (props) => {
       } else {
          query = "update settings set language = ?, level = ?;"
       }
+      if (initialized) {
          DatabaseSettings.transaction(
             (tx) => {
               tx.executeSql(
@@ -93,6 +118,7 @@ const StartScreen = (props) => {
             null,
             null //updateList()
           );
+      }
   }, [language, level])
 
  
