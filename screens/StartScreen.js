@@ -8,12 +8,16 @@ import {
    Right, 
    Spinner, 
    Header,
+   Text,
    Title, 
    Content,
    Icon
 } from 'native-base';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
+
+import { connect } from 'react-redux';
+import { saveSettings } from '../store/actions/settings';
 
 import ButtonComponent from '../components/ButtonComponent';
 import FooterComponent from '../components/FooterComponent';
@@ -22,12 +26,18 @@ import HeaderComponent from '../components/HeaderComponent';
 import DatabaseSettings from '../modules/DatabaseSettings'
 import SettingsComponent from '../components/SettingsComponent';
 
-const StartScreen = ({navigation: {navigate}}) => {
+const StartScreen = (props) => {
 
    const [fontsLoaded, setFontsLoaded] = useState(false);
-   const [settingsChanged, setSettingsChanged] = useState(false);
+   const [databaseCreated, setDatabaseCreated] = useState(false);
+   const [settingsSaved, setSettingsSaved] = useState(false);
+   const [settings, setSettings] = useState({});
    const [level, setLevel] = useState(3);
+   const [updatedLevel, setUpdatedLevel] = useState(3);
    const [language, setLanguage] = useState(2);
+   const [updatedLanguage, setUpdatedLanguage] = useState(2);
+
+   const { navigation: {navigate} } = props;
 
    useEffect(() => {
       Font.loadAsync({
@@ -52,18 +62,22 @@ const StartScreen = ({navigation: {navigate}}) => {
         );
       },
       null,
-      updateList
+      null // updateList
     );
+    setDatabaseCreated(true);
   }, [])
 
   const updateList = () => {
-   DatabaseResults.transaction(
+
+   DatabaseSettings.transaction(
      (tx) => {
        tx.executeSql(
          "select * from settings;",
          [],
          (tx, results) => {
-           setResultHistory(results.rows._array);
+            console.log('Settings array: ', results.rows._array)
+            setLanguage(results.rows._array[0].language);
+            setLevel(results.rows._array[0].level);
          },
          (tx, error) => {
            console.log("Could not execute query: ", error);
@@ -71,34 +85,43 @@ const StartScreen = ({navigation: {navigate}}) => {
        );
      },
      (error) => {
-       console.log("Transaction error: ", error);
+       console.log("Transaction error (updateList): ", error);
      }
-   );
- };
+      );
+   console.log('updateList')
+   }
 
- useEffect(() => {
- if (settingsChanged) {
-   DatabaseResults.transaction(
-     (tx) => {
-       tx.executeSql(
-         "insert into settings (language, level) values (?, ?);",
-         [
-            language,
-            level
-         ]
-       );
-     },
-     (error) => {
-       console.log("Transaction error: ", error);
-     },
-     null,
-     updateList
-   );
-   setResultsSaved(true);
- }
- }, [settingsChanged])
+   useEffect(() => {
+      let query;
+      if (settings.length === 0) {
+         query = "insert into settings (language, level) values (?, ?);"
+      } else {
+         query = "update settings set language = ?, level = ?;"
+      }
+         DatabaseSettings.transaction(
+            (tx) => {
+              tx.executeSql(
+                query,
+                [
+                   language,
+                   level
+                ]
+              );
+              props.dispatch(saveSettings({
+                  language: language,
+                  level: level
+               }));
+              setSettingsSaved(true);
+            },
+            (error) => {
+              console.log("Transaction error (Save): ", error);
+            },
+            null,
+            null //updateList()
+          );
+  }, [language, level])
 
-
+ 
   /*useEffect(() => {
    const loadFonts = async () => {
       try {
@@ -118,13 +141,14 @@ const StartScreen = ({navigation: {navigate}}) => {
 
     return (
          <Container style={styles.container}>
-            {console.log('Language: ', language)}
-            {console.log('Level ', level)}
             {!fontsLoaded && 
                <Spinner color='#7E00C5' />
             }
             {fontsLoaded &&
                <Container>
+                  <Text>
+                     Kieli: {String(props.language)} Taso: {String(props.level)}
+                  </Text>
                   <HeaderComponent title='Verbivalmentaja' noArrow />
                   <Content style={styles.contentContainer}>
                      <ButtonComponent color='#7E00C5' title='Ruotsi' function={() => console.log('Ruotsi')} />
@@ -139,7 +163,15 @@ const StartScreen = ({navigation: {navigate}}) => {
     );
 }
 
-export default StartScreen;
+const mapStateToProps = state => ({
+   language: state.settings.language,
+   level: state.settings.level
+ })
+ 
+ 
+ export default connect(
+   mapStateToProps,
+ )(StartScreen);
 
 const styles = StyleSheet.create({
   container: {

@@ -1,8 +1,9 @@
-export const GET_SETTINGS = 'GET_SETTINGS';
+export const SAVE_SETTINGS = 'SAVE_SETTINGS';
 
-export const getSettings = settings => {
+export const saveSettings = settings => {
+   console.log('Settings in actions: ', settings)
    return {
-      type: FETCH_VERBS_GERMAN,
+      type: SAVE_SETTINGS,
       payload: {
          language: settings.language,
          level: settings.level

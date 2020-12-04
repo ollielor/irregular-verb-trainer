@@ -1,4 +1,4 @@
-import { GET_SETTINGS } from '../actions/settings';
+import { SAVE_SETTINGS } from '../actions/settings';
 
 const initialState = {
    language: 2,
@@ -7,7 +7,7 @@ const initialState = {
 
 const settingsReducer = (state = initialState, action) => {
    switch (action.type) {
-      case GET_SETTINGS:
+      case SAVE_SETTINGS:
          return {
             ...state,
             language: action.payload.language,
