@@ -19,9 +19,15 @@ import ButtonComponent from '../components/ButtonComponent';
 import FooterComponent from '../components/FooterComponent';
 import HeaderComponent from '../components/HeaderComponent';
 
+import DatabaseSettings from '../modules/DatabaseSettings'
+import SettingsComponent from '../components/SettingsComponent';
+
 const StartScreen = ({navigation: {navigate}}) => {
 
    const [fontsLoaded, setFontsLoaded] = useState(false);
+   const [settingsChanged, setSettingsChanged] = useState(false);
+   const [level, setLevel] = useState(3);
+   const [language, setLanguage] = useState(2);
 
    useEffect(() => {
       Font.loadAsync({
@@ -36,6 +42,62 @@ const StartScreen = ({navigation: {navigate}}) => {
             console.log(error);
          })
   }, [])
+
+
+  useEffect(() => {
+   DatabaseSettings.transaction(
+      (tx) => {
+        tx.executeSql(
+          "create table if not exists settings (id integer primary key not null, language int, level int);"
+        );
+      },
+      null,
+      updateList
+    );
+  }, [])
+
+  const updateList = () => {
+   DatabaseResults.transaction(
+     (tx) => {
+       tx.executeSql(
+         "select * from settings;",
+         [],
+         (tx, results) => {
+           setResultHistory(results.rows._array);
+         },
+         (tx, error) => {
+           console.log("Could not execute query: ", error);
+         }
+       );
+     },
+     (error) => {
+       console.log("Transaction error: ", error);
+     }
+   );
+ };
+
+ useEffect(() => {
+ if (settingsChanged) {
+   DatabaseResults.transaction(
+     (tx) => {
+       tx.executeSql(
+         "insert into settings (language, level) values (?, ?);",
+         [
+            language,
+            level
+         ]
+       );
+     },
+     (error) => {
+       console.log("Transaction error: ", error);
+     },
+     null,
+     updateList
+   );
+   setResultsSaved(true);
+ }
+ }, [settingsChanged])
+
 
   /*useEffect(() => {
    const loadFonts = async () => {
@@ -56,6 +118,8 @@ const StartScreen = ({navigation: {navigate}}) => {
 
     return (
          <Container style={styles.container}>
+            {console.log('Language: ', language)}
+            {console.log('Level ', level)}
             {!fontsLoaded && 
                <Spinner color='#7E00C5' />
             }
@@ -66,7 +130,7 @@ const StartScreen = ({navigation: {navigate}}) => {
                      <ButtonComponent color='#7E00C5' title='Ruotsi' function={() => console.log('Ruotsi')} />
                      <ButtonComponent color='#7E00C5' title='Saksa' function={() => navigate('Saksa')} />
                      <ButtonComponent color='#4E00C5' title='Omat tulokseni' function={() => console.log('Omat tulokseni')} />
-                     <ButtonComponent color='#4E00C5' title='Asetukset' function={() => console.log('Asetukset')} />
+                  <SettingsComponent setLanguage={setLanguage} setLevel={setLevel} />
                   </Content>
                   <FooterComponent />
                </Container>

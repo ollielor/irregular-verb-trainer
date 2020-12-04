@@ -8,8 +8,8 @@ const Subheading = (props) => {
          style={{
             color: '#4E00C5',
             fontWeight: 'bold',
-            marginTop: 10,
-            marginBottom: 15,
+            marginTop: props.noMargin ? 0 : 10,
+            marginBottom: props.noMargin ? 0 : 15,
          }}
       />
    )

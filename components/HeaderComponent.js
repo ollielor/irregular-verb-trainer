@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Body, Left, Right, Header, Title, Icon } from 'native-base'
+import { Button, Body, Left, Right, Header, Text, Title, Icon } from 'native-base'
 
 const HeaderComponent = (props) => {
    return (
@@ -18,7 +18,11 @@ const HeaderComponent = (props) => {
          <Body style={{ flex: 2, alignItems: 'center' }}>
             <Title style={{ color: '#D2D2D2' }}>{props.title}</Title>
          </Body>
-         <Right style={{ flex: 1 }} />
+         <Right style={{ flex: 1 }}>
+            <Text style={{color: '#d2d2d2'}}>
+               DE
+            </Text>
+         </Right>
       </Header>
    )
 }

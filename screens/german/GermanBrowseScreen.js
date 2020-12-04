@@ -71,15 +71,15 @@ const GermanBrowseScreen = props => {
                   <HeaderComponent title='Selaa ja opettele' goBack={navigation.goBack} />
                   <Content style={styles.contentContainer}>
                      <Heading>
-                        Perustason verbit
+                        Taso 1
                      </Heading>
                      {props.verbsGerman.filter(verb => verb.level === 1).sort((a,b) => a.infinitive > b.infinitive ? 1 : -1).map((verb, index) => <CardComponentBrowse key={index} verb={verb} /> )}
                      <Heading>
-                        Keskitason verbit
+                        Taso 2
                      </Heading>
                      {props.verbsGerman.filter(verb => verb.level === 2).sort((a,b) => a.infinitive > b.infinitive ? 1 : -1).map((verb, index) => <CardComponentBrowse key={index} verb={verb} /> )}
                      <Heading>
-                        Haastavat verbit
+                        Taso 3
                      </Heading>
                      {props.verbsGerman.filter(verb => verb.level === 3).sort((a,b) => a.infinitive > b.infinitive ? 1 : -1).map((verb, index) => <CardComponentBrowse key={index} verb={verb} /> )}
                   </Content>

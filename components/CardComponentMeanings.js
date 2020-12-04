@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Card, CardItem, Content, Text } from 'native-base'
+import { Body, Button, Card, CardItem, Content, Text } from 'native-base'
 import { StyleSheet } from 'react-native'
 
 import { rndIntGenerator } from '../helpers/helpers'
@@ -57,61 +57,65 @@ const CardComponentMeanings = (props) => {
          {!rndAlternativesLoaded && <Text>Ladataan vaihtoehtoja...</Text>}
          {rndAlternativesLoaded && (
             <Card>
-               <CardItem header>
-                  <Text>{correctMeaning}</Text>
+               <CardItem header style={{backgroundColor: '#e8e8e8'}}>
+                  <Body style={{flexDirection: 'row', justifyContent: "center"}}>
+                     <Text style={styles.prompt}>{correctMeaning}</Text>
+                  </Body>
                </CardItem>
-               <CardItem>
-                  <Button
-                     onPress={() =>
-                        evaluateAnswers(randomizedAlternatives[0].meaning, 0)
-                     }
-                     disabled={correct || incorrect}
-                     style={[
-                        correct && correctIndex === 0
-                           ? styles.correctAnswer
-                           : incorrect && incorrectIndex === 0
-                           ? styles.incorrectAnswer
-                           : styles.notAnswered,
-                     ]}
-                  >
-                     <Text uppercase={false}>
-                        {randomizedAlternatives[0].infinitive}
-                     </Text>
-                  </Button>
-                  <Button
-                     onPress={() =>
-                        evaluateAnswers(randomizedAlternatives[1].meaning, 1)
-                     }
-                     disabled={correct || incorrect}
-                     style={[
-                        correct && correctIndex === 1
-                           ? styles.correctAnswer
-                           : incorrect && incorrectIndex === 1
-                           ? styles.incorrectAnswer
-                           : styles.notAnswered,
-                     ]}
-                  >
-                     <Text uppercase={false}>
-                        {randomizedAlternatives[1].infinitive}
-                     </Text>
-                  </Button>
-                  <Button
-                     onPress={() =>
-                        evaluateAnswers(randomizedAlternatives[2].meaning, 2)
-                     }
-                     disabled={correct || incorrect}
-                     style={[
-                        correct && correctIndex === 2
-                           ? styles.correctAnswer
-                           : incorrect && incorrectIndex === 2
-                           ? styles.incorrectAnswer
-                           : styles.notAnswered,
-                     ]}
-                  >
-                     <Text uppercase={false}>
-                        {randomizedAlternatives[2].infinitive}
-                     </Text>
-                  </Button>
+               <CardItem style={{backgroundColor: '#e8e8e8'}}>
+                  <Body style={{flexDirection: 'row', justifyContent: "center"}}>
+                     <Button
+                        onPress={() =>
+                           evaluateAnswers(randomizedAlternatives[0].meaning, 0)
+                        }
+                        disabled={correct || incorrect}
+                        style={[
+                           correct && correctIndex === 0
+                              ? styles.correctAnswer
+                              : incorrect && incorrectIndex === 0
+                              ? styles.incorrectAnswer
+                              : styles.notAnswered,
+                        ]}
+                     >
+                        <Text uppercase={false}>
+                           {randomizedAlternatives[0].infinitive}
+                        </Text>
+                     </Button>
+                     <Button
+                        onPress={() =>
+                           evaluateAnswers(randomizedAlternatives[1].meaning, 1)
+                        }
+                        disabled={correct || incorrect}
+                        style={[
+                           correct && correctIndex === 1
+                              ? styles.correctAnswer
+                              : incorrect && incorrectIndex === 1
+                              ? styles.incorrectAnswer
+                              : styles.notAnswered,
+                        ]}
+                     >
+                        <Text uppercase={false}>
+                           {randomizedAlternatives[1].infinitive}
+                        </Text>
+                     </Button>
+                     <Button
+                        onPress={() =>
+                           evaluateAnswers(randomizedAlternatives[2].meaning, 2)
+                        }
+                        disabled={correct || incorrect}
+                        style={[
+                           correct && correctIndex === 2
+                              ? styles.correctAnswer
+                              : incorrect && incorrectIndex === 2
+                              ? styles.incorrectAnswer
+                              : styles.notAnswered,
+                        ]}
+                     >
+                        <Text uppercase={false}>
+                           {randomizedAlternatives[2].infinitive}
+                        </Text>
+                     </Button>
+                  </Body>
                </CardItem>
             </Card>
          )}
@@ -122,16 +126,23 @@ const CardComponentMeanings = (props) => {
 export default CardComponentMeanings
 
 const styles = StyleSheet.create({
+   prompt: {
+      fontSize: 18,
+      fontWeight: 'bold'
+   },
    notAnswered: {
       backgroundColor: '#0000cc',
-      marginRight: 5,
+      marginLeft: 2,
+      marginRight: 2,
    },
    correctAnswer: {
       backgroundColor: '#006600',
-      marginRight: 5,
+      marginLeft: 2,
+      marginRight: 2,
    },
    incorrectAnswer: {
       backgroundColor: '#cc0000',
-      marginRight: 5,
+      marginLeft: 2,
+      marginRight: 2,
    },
 })

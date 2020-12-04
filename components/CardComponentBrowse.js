@@ -5,7 +5,7 @@ const CardComponentBrowse = (props) => {
    return (
       <Content>
          <Card>
-            <CardItem>
+            <CardItem style={{backgroundColor: '#e8e8e8'}}>
                <Body>
                   <Text style={{ color: '#7E00C5', fontWeight: 'bold' }}>
                      {props.verb.infinitive},&nbsp;

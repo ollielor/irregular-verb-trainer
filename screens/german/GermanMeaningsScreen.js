@@ -17,6 +17,7 @@ import HeaderComponent from "../../components/HeaderComponent";
 import CardComponentMeanings from "../../components/CardComponentMeanings";
 import GermanResultView from "../../components/GermanResultView";
 import LatestResultsGerman from "../../components/LatestResultsGerman";
+import LevelComponent from '../../components/LevelComponent';
 
 import { connect } from 'react-redux';
 
