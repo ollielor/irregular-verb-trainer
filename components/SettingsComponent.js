@@ -6,6 +6,8 @@ import ButtonComponentNarrow from '../components/ButtonComponentNarrow'
 import Heading from '../components/Heading'
 import Subheading from './Subheading';
 
+import { connect } from 'react-redux';
+
 const SettingsComponent = (props) => {
    return (
       <Content>
@@ -19,8 +21,8 @@ const SettingsComponent = (props) => {
       </CardItem>
       <CardItem style={styles.cardItemStyle}>
          <Body style={{flexDirection: 'row', justifyContent: "center"}}>
-            <ButtonComponentNarrow title='Ruotsi' function={() => props.setLanguage(1)} />
-            <ButtonComponentNarrow title='Saksa' function={() => props.setLanguage(2)} />
+            <ButtonComponentNarrow title='Ruotsi' function={() => props.setLanguage(1)} disabled={props.language === 1} />
+            <ButtonComponentNarrow title='Saksa' function={() => props.setLanguage(2)} disabled={props.language === 2} />
             </Body>
       </CardItem>
       </Card>
@@ -34,9 +36,9 @@ const SettingsComponent = (props) => {
       </CardItem>
       <CardItem style={styles.cardItemStyle}>
          <Body style={{flexDirection: 'row', justifyContent: "center"}}>
-            <ButtonComponentNarrow title='Taso 1' function={() => props.setLevel(1)} />
-            <ButtonComponentNarrow title='Taso 2' function={() => props.setLevel(2)} />
-            <ButtonComponentNarrow title='Taso 3' function={() => props.setLevel(3)} />
+            <ButtonComponentNarrow title='Taso 1' function={() => props.setLevel(1)} disabled={props.level === 1} />
+            <ButtonComponentNarrow title='Taso 2' function={() => props.setLevel(2)} disabled={props.level === 2} />
+            <ButtonComponentNarrow title='Taso 3' function={() => props.setLevel(3)} disabled={props.level === 3} />
             </Body>
       </CardItem>
       </Card>
@@ -44,7 +46,15 @@ const SettingsComponent = (props) => {
    )
 }
 
-export default SettingsComponent
+const mapStateToProps = state => ({
+   language: state.settings.language,
+   level: state.settings.level
+ })
+ 
+ 
+ export default connect(
+   mapStateToProps,
+ )(SettingsComponent);
 
 const styles = StyleSheet.create({
    cardStyle: {

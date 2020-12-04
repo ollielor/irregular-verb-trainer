@@ -67,30 +67,6 @@ const StartScreen = (props) => {
     setDatabaseCreated(true);
   }, [])
 
-  const updateList = () => {
-
-   DatabaseSettings.transaction(
-     (tx) => {
-       tx.executeSql(
-         "select * from settings;",
-         [],
-         (tx, results) => {
-            console.log('Settings array: ', results.rows._array)
-            setLanguage(results.rows._array[0].language);
-            setLevel(results.rows._array[0].level);
-         },
-         (tx, error) => {
-           console.log("Could not execute query: ", error);
-         }
-       );
-     },
-     (error) => {
-       console.log("Transaction error (updateList): ", error);
-     }
-      );
-   console.log('updateList')
-   }
-
    useEffect(() => {
       let query;
       if (settings.length === 0) {
@@ -146,9 +122,6 @@ const StartScreen = (props) => {
             }
             {fontsLoaded &&
                <Container>
-                  <Text>
-                     Kieli: {String(props.language)} Taso: {String(props.level)}
-                  </Text>
                   <HeaderComponent title='Verbivalmentaja' noArrow />
                   <Content style={styles.contentContainer}>
                      <ButtonComponent color='#7E00C5' title='Ruotsi' function={() => console.log('Ruotsi')} />

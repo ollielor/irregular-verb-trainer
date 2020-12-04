@@ -1,6 +1,8 @@
 import React from 'react'
 import { Button, Body, Left, Right, Header, Text, Title, Icon } from 'native-base'
 
+import { connect } from 'react-redux';
+
 const HeaderComponent = (props) => {
    return (
       <Header
@@ -20,11 +22,21 @@ const HeaderComponent = (props) => {
          </Body>
          <Right style={{ flex: 1 }}>
             <Text style={{color: '#d2d2d2'}}>
-               DE
+               {props.language === 1 && 'SV, taso '}
+               {props.language === 2 && 'DE, taso '}
+               {props.level}
             </Text>
          </Right>
       </Header>
    )
 }
 
-export default HeaderComponent
+const mapStateToProps = state => ({
+   language: state.settings.language,
+   level: state.settings.level
+ })
+ 
+ 
+ export default connect(
+   mapStateToProps,
+ )(HeaderComponent);
