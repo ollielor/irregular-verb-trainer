@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 import { 
    Container, 
    Button, 
@@ -17,7 +17,7 @@ import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 
 import { connect } from 'react-redux';
-import { saveSettings } from '../store/actions/settings';
+import { updateLanguage, updateLevel } from '../store/actions/settings';
 
 import ButtonComponent from '../components/ButtonComponent';
 import FooterComponent from '../components/FooterComponent';
@@ -29,11 +29,12 @@ import SettingsComponent from '../components/SettingsComponent';
 const StartScreen = (props) => {
 
    const [fontsLoaded, setFontsLoaded] = useState(false);
-   const [databaseCreated, setDatabaseCreated] = useState(false);
+   const [settingsLength, setSettingsLength] = useState(0);
+   const [saveButtonEnabled, setSaveButtonEnabled] = useState(false);
+   const [settingsDbCreated, setSettingsDbCreated] = useState(false);
    const [settingsSaved, setSettingsSaved] = useState(false);
-   const [settings, setSettings] = useState({});
-   const [level, setLevel] = useState(1);
-   const [language, setLanguage] = useState(1);
+   const [settingsCleared, setSettingsCleared] = useState(false);
+   const [settingsLoaded, setSettingsLoaded] = useState(false);
    const [initialized, setInitialized] = useState(false);
 
    const { navigation: {navigate} } = props;
@@ -54,73 +55,69 @@ const StartScreen = (props) => {
 
 
   useEffect(() => {
-   DatabaseSettings.transaction(
-      (tx) => {
-        tx.executeSql(
-          "create table if not exists settings (id integer primary key not null, language int, level int);"
-        );
-      },
-      null,
-      null // updateList
-    );
-    DatabaseSettings.transaction(
-      (tx) => {
-        tx.executeSql(
-          "select * from settings;",
-          [],
-          (tx, results) => {
-             console.log('Settings: ', results);
-            props.dispatch(saveSettings({
-               language: results.rows._array[0].language,
-               level: results.rows._array[0].level
-            }));
-            setLanguage(results.rows._array[0].language);
-            setLevel(results.rows._array[0].level);
-          },
-          (tx, error) => {
-            console.log("Could not execute query: ", error);
-          }
-        );
-      },
-      (error) => {
-        console.log("Transaction error: ", error);
-      }
-    );
-    setInitialized(true);
-  }, [settingsSaved])
+         DatabaseSettings.transaction(
+            (tx) => {
+            tx.executeSql(
+               "create table if not exists settings (id integer primary key not null, language int, level int);"
+            );
+            console.log('Table created')
+              },
+            null,
+            null, //updateList,
+            (tx, error) => {
+               console.log(error);
+            }
+         );
+      DatabaseSettings.transaction(
+         (tx) => {
+         tx.executeSql(
+            "select * from settings where id=1;",
+            [],
+            (tx, results) => {
+               console.log(results)
+                     setSettingsLength(results.rows._array.length)
+                     if (results.rows._array.length > 0) {
+                        props.dispatch(updateLanguage(results.rows._array[0].language))
+                        props.dispatch(updateLevel(results.rows._array[0].level))
+                        setSettingsLoaded(true);
+                     }
+            },
+            (tx, error) => {
+               console.log("Could not execute query: ", error);
+            }
+         );
+         },
+         (error) => {
+         console.log("Transaction error: ", error);
+         }
+      );
+  }, [])
 
    useEffect(() => {
       let query;
-      if (settings.length === 0) {
+      if (settingsLength === 0) {
          query = "insert into settings (language, level) values (?, ?);"
       } else {
-         query = "update settings set language = ?, level = ?;"
+         query = "update settings set language = ?, level = ? where id=1;"
       }
-      if (initialized) {
          DatabaseSettings.transaction(
             (tx) => {
               tx.executeSql(
-                query,
+               query,
                 [
-                   language,
-                   level
+                   props.language,
+                   props.level
                 ]
               );
-              props.dispatch(saveSettings({
-                  language: language,
-                  level: level
-               }));
-              setSettingsSaved(true);
+              console.log(query)
             },
             (error) => {
               console.log("Transaction error (Save): ", error);
             },
             null,
-            null //updateList()
+            null, //updateList
           );
-      }
-  }, [language, level])
-
+  }, [props.level, props.language]);
  
   /*useEffect(() => {
    const loadFonts = async () => {
@@ -138,6 +135,31 @@ const StartScreen = (props) => {
    loadFonts();
 }, [])*/
 
+const clearSettings = () => {
+   Alert.alert('testi');
+   DatabaseSettings.transaction(
+      tx => {
+         tx.executeSql(
+            'drop table if exists settings;', 
+            [],
+            (tx, results => {
+               if (results && results.rows && results.rows._array) {
+                  Alert.alert('Table dropped')
+               } else {
+                  Alert.alert('No results')
+               }
+            }),
+            (tx, error) => {
+               console.log('Could not execute query: ', error);
+            }
+         );
+         
+      },
+      error => {
+         console.log('Transaction error: ', error);
+      },
+   );
+}
 
     return (
          <Container style={styles.container}>
@@ -151,7 +173,7 @@ const StartScreen = (props) => {
                      <ButtonComponent color='#7E00C5' title='Ruotsi' function={() => console.log('Ruotsi')} />
                      <ButtonComponent color='#7E00C5' title='Saksa' function={() => navigate('Saksa')} />
                      <ButtonComponent color='#4E00C5' title='Omat tulokseni' function={() => console.log('Omat tulokseni')} />
-                  <SettingsComponent setLanguage={setLanguage} setLevel={setLevel} />
+                  <SettingsComponent clearSettings={clearSettings} />
                   </Content>
                   <FooterComponent />
                </Container>

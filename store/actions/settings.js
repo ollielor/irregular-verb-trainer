@@ -1,12 +1,16 @@
-export const SAVE_SETTINGS = 'SAVE_SETTINGS';
+export const UPDATE_LANGUAGE = 'UPDATE_LANGUAGE';
+export const UPDATE_LEVEL = 'UPDATE_LEVEL';
 
-export const saveSettings = settings => {
-   console.log('Settings in actions: ', settings)
+export const updateLanguage = language => {
    return {
-      type: SAVE_SETTINGS,
-      payload: {
-         language: settings.language,
-         level: settings.level
-      }
+      type: UPDATE_LANGUAGE,
+      payload: language
+   }
+}
+
+export const updateLevel = level => {
+   return {
+      type: UPDATE_LEVEL,
+      payload: level
    }
 }

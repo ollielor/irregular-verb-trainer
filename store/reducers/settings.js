@@ -1,18 +1,22 @@
-import { SAVE_SETTINGS } from '../actions/settings';
+import { UPDATE_LANGUAGE, UPDATE_LEVEL } from '../actions/settings';
 
 const initialState = {
-   language: null,
-   level: null
+   language: 1,
+   level: 1
 }
 
 const settingsReducer = (state = initialState, action) => {
    switch (action.type) {
-      case SAVE_SETTINGS:
+      case UPDATE_LANGUAGE:
          return {
             ...state,
-            language: action.payload.language,
-            level: action.payload.level
+            language: action.payload
          }
+      case UPDATE_LEVEL:
+            return {
+               ...state,
+               level: action.payload
+            }
       default:
          return state;
    }
