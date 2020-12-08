@@ -22,6 +22,7 @@ import { updateLanguage, updateLevel } from '../store/actions/settings';
 import ButtonComponent from '../components/ButtonComponent';
 import FooterComponent from '../components/FooterComponent';
 import HeaderComponent from '../components/HeaderComponent';
+import FormsSelector from '../components/FormsSelector';
 
 import DatabaseSettings from '../modules/DatabaseSettings'
 import SettingsComponent from '../components/SettingsComponent';
@@ -174,6 +175,7 @@ const clearSettings = () => {
                      <ButtonComponent color='#7E00C5' title='Saksa' function={() => navigate('Saksa')} />
                      <ButtonComponent color='#4E00C5' title='Omat tulokseni' function={() => console.log('Omat tulokseni')} />
                   <SettingsComponent clearSettings={clearSettings} />
+                  <FormsSelector />
                   </Content>
                   <FooterComponent />
                </Container>

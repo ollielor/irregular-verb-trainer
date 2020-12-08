@@ -15,37 +15,25 @@ const SettingsComponent = (props) => {
 
    return (
       <Content>
-         <Card style={styles.cardStyle}>
-      <CardItem style={styles.cardItemStyle}>
          <Body style={{flexDirection: 'row', justifyContent: "center"}}>
-            <Subheading noMargin>
+            <Subheading>
                Oletuskieli
             </Subheading>
             </Body>
-      </CardItem>
-      <CardItem style={styles.cardItemStyle}>
          <Body style={{flexDirection: 'row', justifyContent: "center"}}>
             <ButtonComponentNarrow title='Ruotsi' function={() => props.dispatch(updateLanguage(1))} disabled={props.language === 1} />
             <ButtonComponentNarrow title='Saksa' function={() => props.dispatch(updateLanguage(2))} disabled={props.language === 2} />
             </Body>
-      </CardItem>
-      </Card>
-      <Card style={styles.cardStyle}>
-      <CardItem style={styles.cardItemStyle}>
          <Body style={{flexDirection: 'row', justifyContent: "center"}}>
-            <Subheading noMargin>
+            <Subheading>
                Oletustaso
             </Subheading>
             </Body>
-      </CardItem>
-      <CardItem style={styles.cardItemStyle}>
          <Body style={{flexDirection: 'row', justifyContent: "center"}}>
             <ButtonComponentNarrow title='Taso 1' function={() => props.dispatch(updateLevel(1))} disabled={props.level === 1} />
             <ButtonComponentNarrow title='Taso 2' function={() => props.dispatch(updateLevel(2))} disabled={props.level === 2} />
             <ButtonComponentNarrow title='Taso 3' function={() => props.dispatch(updateLevel(3))} disabled={props.level === 3} />
          </Body>
-      </CardItem>
-      </Card>
       <Card style={styles.cardStyle}>
       <CardItem style={styles.cardItemStyle}>
          <Body style={{flexDirection: 'row', justifyContent: 'center'}}>
