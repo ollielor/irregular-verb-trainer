@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native';
 import { Body, Card, CardItem, Content, Left, List, ListItem, Right, Switch, Text } from 'native-base';
 
@@ -9,9 +9,14 @@ import Subheading from './Subheading';
 
 import { connect } from 'react-redux';
 
-import { updateLanguage, updateLevel } from '../store/actions/settings';
+import { updateInfinitive, updatePresent, updatePast, updatePresperf } from '../store/actions/settings';
 
 const FormsSelector = (props) => {
+
+   const [infinitive, setInfinitive] = useState(false);
+   const [present, setPresent] = useState(false);
+   const [past, setPast] = useState(false);
+   const [presperf, setPresperf] = useState(false);
 
    return (
       <Content>
@@ -28,7 +33,7 @@ const FormsSelector = (props) => {
                </Text>
                </Body>
                <Right>
-                  <Switch value={false} />
+                  <Switch value={props.infinitive} onValueChange={value => props.dispatch(updateInfinitive(value))} />
                </Right>
             </ListItem>
             <ListItem>
@@ -38,7 +43,7 @@ const FormsSelector = (props) => {
                </Text>
                </Body>
                <Right>
-                  <Switch value={false} />
+                  <Switch value={props.present} onValueChange={value => props.dispatch(updatePresent(value))} />
                </Right>
             </ListItem>
             <ListItem>
@@ -48,7 +53,7 @@ const FormsSelector = (props) => {
                </Text>
                </Body>
                <Right>
-                  <Switch value={false} />
+                  <Switch value={props.past} onValueChange={value => props.dispatch(updatePast(value))} />
                </Right>
             </ListItem>
             <ListItem>
@@ -58,7 +63,7 @@ const FormsSelector = (props) => {
                </Text>
                </Body>
                <Right>
-                  <Switch value={false} />
+                  <Switch value={props.presperf} onValueChange={value => props.dispatch(updatePresperf(value))} />
                </Right>
             </ListItem>
             </List>
@@ -67,8 +72,10 @@ const FormsSelector = (props) => {
 }
 
 const mapStateToProps = state => ({
-   language: state.settings.language,
-   level: state.settings.level
+   infinitive: state.settings.infinitive,
+   present: state.settings.present,
+   past: state.settings.past,
+   presperf: state.settings.presperf,
  })
  
  
