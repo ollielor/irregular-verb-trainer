@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { StyleSheet, TextInput, Platform } from 'react-native'
-import { Body, Card, CardItem, Text } from 'native-base'
+import { Body, Card, CardItem, Spinner, Text } from 'native-base'
 import CorrectAnswerComponent from './CorrectAnswerComponent'
+import { connect } from 'react-redux'
 
 const CardComponentForms = (props) => {
    const [correctInfinitive, setCorrectInfinitive] = useState(false)
@@ -51,7 +52,10 @@ const CardComponentForms = (props) => {
    useEffect(() => {
       // Focus on the first input of each card element
       if (props.answeredIndex === props.index) {
-         inputRef1.current.focus()
+         props.infinitive ? inputRef1.current.focus() :
+         props.present ? inputRef2.current.focus() :
+         props.past ? inputRef3.current.focus() :
+         inputRef4.current.focus()
       }
    }, [props.answeredIndex, props.index])
 
@@ -178,10 +182,12 @@ const CardComponentForms = (props) => {
    console.log(props.answeredIndex)
 
    return (
+      <>
+      {props.verbForm ?
       <Card>
          <CardItem style={{backgroundColor: '#e8e8e8'}}>
             <Body>
-               <Text
+            <Text
                   style={{
                      color: '#7E00C5',
                      fontWeight: 'bold',
@@ -193,6 +199,8 @@ const CardComponentForms = (props) => {
                      ? props.verbForm[0].meaning
                      : props.verbForm.meaning}
                </Text>
+               {props.infinitive &&
+               <>
                <TextInput
                   style={
                      answerInfinitive &&
@@ -228,6 +236,7 @@ const CardComponentForms = (props) => {
                         : '#7E00C5'
                   }
                />
+
                {props.finished && props.synonyms && !correctInfinitive ? (
                   <CorrectAnswerComponent
                      form={synonymousForms.infinitive}
@@ -243,6 +252,10 @@ const CardComponentForms = (props) => {
                      />
                   )
                )}
+               </>
+               }
+               {props.present &&
+               <>
                <TextInput
                   style={
                      correctPresent && Platform.OS === 'ios'
@@ -289,6 +302,10 @@ const CardComponentForms = (props) => {
                      />
                   )
                )}
+               </>
+               }
+               {props.past &&
+               <>
                <TextInput
                   style={
                      correctPast && Platform.OS === 'ios'
@@ -333,6 +350,9 @@ const CardComponentForms = (props) => {
                      />
                   )
                )}
+               </>}
+               {props.presperf &&
+               <>
                <TextInput
                   style={
                      correctPresPerf && Platform.OS === 'ios'
@@ -378,13 +398,26 @@ const CardComponentForms = (props) => {
                      />
                   )
                )}
+               </>}
             </Body>
          </CardItem>
       </Card>
+      :
+      <Spinner />
+      }
+      </>
    )
 }
-
-export default CardComponentForms
+const mapStateToProps = state => ({
+   infinitive: state.settings.infinitive,
+   present: state.settings.present,
+   past: state.settings.past,
+   presperf: state.settings.presperf,
+ })
+ 
+ export default connect(
+   mapStateToProps,
+ )(CardComponentForms);
 
 const styles = StyleSheet.create({
    formInput: {
