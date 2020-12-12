@@ -46,6 +46,7 @@ const GermanFormsScreen = (props) => {
    const [incorrectForm, setIncorrectForm] = useState({})
    const [answeredIndex, setAnsweredIndex] = useState(0)
    const [resultsReady, setResultsReady] = useState(false)
+   const [formsSelected, setFormsSelected] = useState(false)
 
    const navigation = useNavigation();
 
@@ -104,6 +105,12 @@ const GermanFormsScreen = (props) => {
          }
       )
    }, [started])*/
+
+   useEffect(() => {
+      if (props.infinitive || props.present || props.past || props.presperf) {
+         setFormsSelected(true);
+      }
+   }, [props.infinitive, props.present, props.past, props.presperf])
 
    useEffect(() => {
       let tensesArray = [];
@@ -366,8 +373,7 @@ const GermanFormsScreen = (props) => {
                      <Text>Ladataan tuloksia...</Text>
                   </>
                )}
-               {console.log('randomizedVerbs: ', randomizedVerbs)}
-               {!props.infinitive && !props.present && !props.past && !props.presperf ? 
+               {!formsSelected ? 
                <>
                   <Text
                   style={{
@@ -384,7 +390,7 @@ const GermanFormsScreen = (props) => {
                   <ButtonComponent color='#7E00C5' title='Muuta asetuksia' function={() => navigation.navigate('Koti')} />
                   </>
                :               
-               randomizedVerbs.length > 0 ?
+               randomizedVerbs ?
                   randomizedVerbs.map((verbFormArray, index) =>
                      verbFormArray.length === 1 ? (
                         verbFormArray.map((v, i) => (
@@ -418,7 +424,7 @@ const GermanFormsScreen = (props) => {
                   )
                :
                null}
-               {props.infinitive || props.present || props.past || props.presPerf &&
+               {formsSelected &&
                <ButtonComponent
                   color="#7E00C5"
                   title="Valmis"
