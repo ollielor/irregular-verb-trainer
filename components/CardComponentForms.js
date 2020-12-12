@@ -1,18 +1,20 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { StyleSheet, TextInput, Platform } from 'react-native'
+import { StyleSheet, TextInput, Platform, ScrollView } from 'react-native'
 import { Body, Card, CardItem, Spinner, Text } from 'native-base'
 import CorrectAnswerComponent from './CorrectAnswerComponent'
 import { connect } from 'react-redux'
+import { checkIfLast, checkNext } from '../helpers/helpers'
+import InputComponentForms from '../components/InputComponentForms';
 
 const CardComponentForms = (props) => {
    const [correctInfinitive, setCorrectInfinitive] = useState(false)
    const [correctPresent, setCorrectPresent] = useState(false)
    const [correctPast, setCorrectPast] = useState(false)
    const [correctPresPerf, setCorrectPresPerf] = useState(false)
-   const [incorrectInfinitive, setIncorrectInfinitive] = useState(false)
-   const [incorrectPresent, setIncorrectPresent] = useState(false)
-   const [incorrectPast, setIncorrectPast] = useState(false)
-   const [incorrectPresPerf, setIncorrectPresPerf] = useState(false)
+   const [unansweredInfinitive, setUnansweredInfinitive] = useState(true)
+   const [unansweredPresent, setUnansweredPresent] = useState(true)
+   const [unansweredPast, setUnansweredPast] = useState(true)
+   const [unansweredPresPerf, setUnansweredPresPerf] = useState(true)
    const [answerInfinitive, setAnswerInfinitive] = useState('')
    const [answerPresent, setAnswerPresent] = useState('')
    const [answerPast, setAnswerPast] = useState('')
@@ -23,8 +25,6 @@ const CardComponentForms = (props) => {
       past: [],
       presPerf: [],
    })
-
-   console.log('props from CardComponentForms: ', props)
 
    useEffect(() => {
       // Create arrays of synonymous forms for each tense
@@ -49,7 +49,7 @@ const CardComponentForms = (props) => {
       }
    }, [])
 
-   useEffect(() => {
+   /*useEffect(() => {
       // Focus on the first input of each card element
       if (props.answeredIndex === props.index) {
          props.infinitive ? inputRef1.current.focus() :
@@ -57,7 +57,17 @@ const CardComponentForms = (props) => {
          props.past ? inputRef3.current.focus() :
          inputRef4.current.focus()
       }
-   }, [props.answeredIndex, props.index])
+   }, [props.answeredIndex, props.index])*/
+
+   useEffect(() => {
+      // Focus on the first input of each card element
+      if (props.answeredIndex === props.index) {
+         inputRef1 && props.tenseNames[0] === 'infinitive' ? inputRef1.current.focus() :
+         inputRef2 && props.tenseNames[0] === 'present' ? inputRef2.current.focus() : 
+         inputRef3 && props.tenseNames[0] === 'past' ? inputRef3.current.focus() : 
+         inputRef4 && props.tenseNames[0] === 'presperf' && inputRef4.current.focus()
+      }
+   }, [props.answeredIndex, props.index, props.tenseNames])
 
    useEffect(() => {
       if (props.started) {
@@ -65,6 +75,14 @@ const CardComponentForms = (props) => {
          inputRef2.current.clear()
          inputRef3.current.clear()
          inputRef4.current.clear()
+         setUnansweredInfinitive(true)
+         setUnansweredPresent(true)
+         setUnansweredPast(true)
+         setUnansweredPresPerf(true)
+         setCorrectInfinitive(false)
+         setCorrectPresent(false)
+         setCorrectPast(false)
+         setCorrectPresPerf(false)
       }
    }, [props.started])
 
@@ -73,105 +91,63 @@ const CardComponentForms = (props) => {
    // Inputs are styled according to these states
 
    useEffect(() => {
-      if (props.synonyms && synonymousForms) {
-         if (
-            props.evaluate(
-               answerInfinitive,
-               synonymousForms.infinitive,
-               'infinitive'
-            )
-         ) {
-            setCorrectInfinitive(true)
-         }
-      } else {
-         if (
-            props.evaluate(
-               answerInfinitive,
-               props.verbForm.infinitive,
-               'infinitive'
-            )
-         ) {
-            setCorrectInfinitive(true)
-         }
+      if (answerInfinitive.length > 0) {
+         setUnansweredInfinitive(false)
       }
+         if (props.evaluate(
+               answerInfinitive,
+               props.synonyms && synonymousForms ? synonymousForms.infinitive : props.verbForm.infinitive,
+               'infinitive',
+               props.index
+            )
+         ) {
+            setCorrectInfinitive(true)
+         }
    }, [props.synonyms, synonymousForms, answerInfinitive])
 
    useEffect(() => {
-      if (props.synonyms && synonymousForms) {
-         if (
-            props.evaluate(
-               answerPresent,
-               synonymousForms.present,
-               'present',
-               props.index
-            )
-         ) {
-            setCorrectPresent(true)
-         }
-      } else {
-         if (
-            props.evaluate(
-               answerPresent,
-               props.verbForm.present,
-               'present',
-               props.index
-            )
-         ) {
-            setCorrectPresent(true)
-         }
+      if (answerPresent.length > 0) {
+         setUnansweredPresent(false)
       }
+      if (props.evaluate(
+         answerPresent,
+         props.synonyms && synonymousForms ? synonymousForms.present : props.verbForm.present,
+         'present',
+         props.index
+      )
+   ) {
+      setCorrectPresent(true)
+   }
    }, [props.synonyms, synonymousForms, answerPresent])
 
    useEffect(() => {
-      if (props.synonyms && synonymousForms) {
-         if (
-            props.evaluate(
-               answerPast,
-               synonymousForms.past,
-               'past',
-               props.index
-            )
-         ) {
-            setCorrectPast(true)
-         }
-      } else {
-         if (
-            props.evaluate(
-               answerPast,
-               props.verbForm.past,
-               'past',
-               props.index
-            )
-         ) {
-            setCorrectPast(true)
-         }
+      if (answerPast.length > 0) {
+         setUnansweredPast(false)
       }
+      if (props.evaluate(
+         answerPast,
+         props.synonyms && synonymousForms ? synonymousForms.past : props.verbForm.past,
+         'past',
+         props.index
+      )
+   ) {
+      setCorrectPast(true)
+   }
    }, [props.synonyms, synonymousForms, answerPast])
 
    useEffect(() => {
-      if (props.synonyms && synonymousForms) {
-         if (
-            props.evaluate(
-               answerPresPerf,
-               synonymousForms.presPerf,
-               'presperf',
-               props.index
-            )
-         ) {
-            setCorrectPresPerf(true)
-         }
-      } else {
-         if (
-            props.evaluate(
-               answerPresPerf,
-               props.verbForm.presperf,
-               'presperf',
-               props.index
-            )
-         ) {
-            setCorrectPresPerf(true)
-         }
+      if (answerPresPerf.length > 0) {
+         setUnansweredPresPerf(false)
       }
+      if (props.evaluate(
+         answerPresPerf,
+         props.synonyms && synonymousForms ? synonymousForms.presPerf : props.verbForm.presperf,
+         'presperf',
+         props.index
+      )
+   ) {
+      setCorrectPresPerf(true)
+   }
    }, [props.synonyms, synonymousForms, answerPresPerf])
 
    const inputRef1 = useRef()
@@ -201,41 +177,19 @@ const CardComponentForms = (props) => {
                </Text>
                {props.infinitive &&
                <>
-               <TextInput
-                  style={
-                     answerInfinitive &&
-                     correctInfinitive &&
-                     Platform.OS === 'ios'
-                        ? styles.formInputCorrectIOS
-                        : answerInfinitive &&
-                          !correctInfinitive &&
-                          Platform.OS === 'ios'
-                        ? styles.formInputIncorrectIOS
-                        : Platform.OS === 'ios'
-                        ? styles.formInputIOS
-                        : styles.formInput
-                  }
+               {<InputComponentForms
                   ref={inputRef1}
-                  onBlur={() => correctInfinitive && inputRef2.current.focus()}
+                  correct={correctInfinitive ? true : false}
+                  unanswered={unansweredInfinitive ? true : false}
+                  //onBlur={() => correctInfinitive && checkNext(props.tenseNames, 0, 'present') ? inputRef2.current.focus() : null}
+                  onBlur={() => correctInfinitive && props.present ? inputRef2.current.focus() : correctInfinitive && props.past ? inputRef3.current.focus() : correctInfinitive && props.presperf && inputRef4.current.focus()}
+                  /*onBlur={() => (correctInfinitive && props.present && inputRef2.current.focus()) || 
+                     (correctInfinitive && !props.present && props.past && inputRef3.current.focus()) ||*/
                   placeholder="Perusmuoto"
                   onChangeText={(answer) => setAnswerInfinitive(answer)}
                   editable={correctInfinitive || props.finished ? false : true}
-                  placeholderTextColor={
-                     Platform.OS === 'ios' && incorrectInfinitive
-                        ? 'white'
-                        : 'grey'
-                  }
-                  autoCompleteType="off"
-                  autoCorrect={false}
-                  autoCapitalize="none"
-                  underlineColorAndroid={
-                     correctInfinitive
-                        ? '#66dd33'
-                        : props.finished && !correctInfinitive
-                        ? '#ff0033'
-                        : '#7E00C5'
-                  }
-               />
+                  finished={props.finished ? true : false}
+                  />}
 
                {props.finished && props.synonyms && !correctInfinitive ? (
                   <CorrectAnswerComponent
@@ -256,37 +210,17 @@ const CardComponentForms = (props) => {
                }
                {props.present &&
                <>
-               <TextInput
-                  style={
-                     correctPresent && Platform.OS === 'ios'
-                        ? styles.formInputCorrectIOS
-                        : incorrectPresent && Platform.OS === 'ios'
-                        ? styles.formInputIncorrectIOS
-                        : Platform.OS === 'ios'
-                        ? styles.formInputIOS
-                        : styles.formInput
-                  }
-                  placeholder="Preesens (er/sie/es)"
+               <InputComponentForms
                   ref={inputRef2}
-                  onBlur={() => correctPresent && inputRef3.current.focus()}
+                  correct={correctPresent || false}
+                  unanswered={unansweredPresent ? true : false}
+                  placeholder="Preesens (er/sie/es)"
+                  onBlur={() => correctPresent && props.past ? inputRef3.current.focus() : correctPresent && props.presperf && inputRef4.current.focus()}
                   onChangeText={(answer) => setAnswerPresent(answer)}
                   editable={correctPresent || props.finished ? false : true}
-                  placeholderTextColor={
-                     Platform.OS === 'ios' && incorrectPresent
-                        ? 'white'
-                        : 'grey'
-                  }
-                  autoCompleteType="off"
-                  autoCorrect={false}
-                  autoCapitalize="none"
-                  underlineColorAndroid={
-                     correctPresent
-                        ? '#66dd33'
-                        : props.finished && !correctPresent
-                        ? '#ff0033'
-                        : '#7E00C5'
-                  }
+                  finished={props.finished ? true : false}
                />
+               
                {props.finished && props.synonyms && !correctPresent ? (
                   <CorrectAnswerComponent
                      form={synonymousForms.present}
@@ -306,34 +240,15 @@ const CardComponentForms = (props) => {
                }
                {props.past &&
                <>
-               <TextInput
-                  style={
-                     correctPast && Platform.OS === 'ios'
-                        ? styles.formInputCorrectIOS
-                        : incorrectPast && Platform.OS === 'ios'
-                        ? styles.formInputIncorrectIOS
-                        : Platform.OS === 'ios'
-                        ? styles.formInputIOS
-                        : styles.formInput
-                  }
+               <InputComponentForms
                   placeholder="Imperfekti (er/sie/es)"
+                  correct={correctPast || false}
+                  unanswered={unansweredPast ? true : false}
                   ref={inputRef3}
-                  onBlur={() => correctPast && inputRef4.current.focus()}
+                  onBlur={() => correctPast && props.presperf && inputRef4.current.focus()}
                   onChangeText={(answer) => setAnswerPast(answer)}
                   editable={correctPast || props.finished ? false : true}
-                  placeholderTextColor={
-                     Platform.OS === 'ios' && incorrectPast ? 'white' : 'grey'
-                  }
-                  autoCompleteType="off"
-                  autoCorrect={false}
-                  autoCapitalize="none"
-                  underlineColorAndroid={
-                     correctPast
-                        ? '#66dd33'
-                        : props.finished && !correctPast
-                        ? '#ff0033'
-                        : '#7E00C5'
-                  }
+                  finished={props.finished ? true : false}
                />
                {props.finished && props.synonyms && !correctPast ? (
                   <CorrectAnswerComponent
@@ -353,35 +268,14 @@ const CardComponentForms = (props) => {
                </>}
                {props.presperf &&
                <>
-               <TextInput
-                  style={
-                     correctPresPerf && Platform.OS === 'ios'
-                        ? styles.formInputCorrectIOS
-                        : incorrectPresPerf && Platform.OS === 'ios'
-                        ? styles.formInputIncorrectIOS
-                        : Platform.OS === 'ios'
-                        ? styles.formInputIOS
-                        : styles.formInput
-                  }
+               <InputComponentForms
                   placeholder="Perfekti (er/sie/es)"
+                  correct={correctPresPerf || false}
+                  unanswered={unansweredPresPerf ? true : false}
                   ref={inputRef4}
                   onChangeText={(answer) => setAnswerPresPerf(answer)}
                   editable={correctPresPerf || props.finished ? false : true}
-                  placeholderTextColor={
-                     Platform.OS === 'ios' && incorrectPresPerf
-                        ? 'white'
-                        : 'grey'
-                  }
-                  autoCompleteType="off"
-                  autoCorrect={false}
-                  autoCapitalize="none"
-                  underlineColorAndroid={
-                     correctPresPerf
-                        ? '#66dd33'
-                        : props.finished && !correctPresPerf
-                        ? '#ff0033'
-                        : '#7E00C5'
-                  }
+                  finished={props.finished ? true : false}
                />
                {props.finished && props.synonyms && !correctPresPerf ? (
                   <CorrectAnswerComponent

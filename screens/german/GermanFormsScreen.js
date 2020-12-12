@@ -14,7 +14,8 @@ import {
    rndIntGenerator,
    getRandomVerbArray,
    getCurrentDate,
-   filterVerbsByLevel
+   filterVerbsByLevel,
+   checkTenses
 } from '../../helpers/helpers'
 
 import FooterComponent from '../../components/FooterComponent'
@@ -29,11 +30,14 @@ const GermanFormsScreen = (props) => {
    const [randomizedVerbs, setRandomizedVerbs] = useState([])
    const [rndVerbsLoaded, setRndVerbsLoaded] = useState(false)
    const [points, setPoints] = useState(0)
-   const [answered, setAnswered] = useState([])
+   const [maxPoints, setMaxPoints] = useState(0)
+   const [maxQuestions, setMaxQuestions] = useState(0);
    const [finished, setFinished] = useState(false)
    const [results, setResults] = useState({})
    const [counterState, setCounterState] = useState(null)
    const [started, setStarted] = useState(true)
+   const [tenses, setTenses] = useState([]);
+   const [tenseNames, setTenseNames] = useState([]);
    const [resultHistory, setResultHistory] = useState([])
    const [resultsLoaded, setResultsLoaded] = useState(false)
    const [resultsAdded, setResultsAdded] = useState(false)
@@ -44,12 +48,6 @@ const GermanFormsScreen = (props) => {
    const [resultsReady, setResultsReady] = useState(false)
 
    const navigation = useNavigation()
-
-   // maxPoints set to 200
-   const maxPoints = 200
-
-   // Estimated time of accomplishment in seconds
-   const estimatedAccomplishTime = 150
 
    FileSystem.getInfoAsync(
       `${FileSystem.documentDirectory}SQLite/verbs_german.db`
@@ -104,6 +102,35 @@ const GermanFormsScreen = (props) => {
          }
       )
    }, [started])*/
+
+   useEffect(() => {
+      let tensesArray = [];
+      if (props.infinitive) {
+         setMaxPoints(maxPoints + 10);
+         setMaxQuestions(maxQuestions + 4);
+         tensesArray = [...tensesArray, 1];
+         console.log('infinitive')
+      }
+      if (props.present) {
+         setMaxPoints(maxPoints + 10);
+         setMaxQuestions(maxQuestions + 4);
+         tensesArray = [...tensesArray, 2];
+         console.log('present')
+      }
+      if (props.past) {
+         setMaxPoints(maxPoints + 10);
+         setMaxQuestions(maxQuestions + 4);
+         tensesArray = [...tensesArray, 3];
+         console.log('past')
+      }
+      if (props.presperf) {
+         setMaxPoints(maxPoints + 10);
+         setMaxQuestions(maxQuestions + 4);
+         tensesArray = [...tensesArray, 4];
+         console.log('presperf')
+      }
+      setTenseNames(tensesArray.sort((a,b) => a > b, 1).map(tense => {return tense === 1 ? 'infinitive' : tense === 2 ? 'present' : tense === 3 ? 'past' : tense === 4 && 'presperf'}));
+   }, [props.infinitive, props.present, props.past, props.presperf])
 
    useEffect(() => {
       setVerbsFiltered(false);
@@ -194,8 +221,7 @@ const GermanFormsScreen = (props) => {
                clearInterval(intervalId)
                setStarted(false)
             } else {
-               counter++
-               setCounterState(counter)
+               setCounterState(counter++)
             }
          }, 1000)
          return () => {
@@ -206,8 +232,9 @@ const GermanFormsScreen = (props) => {
 
    useEffect(() => {
       if (finished) {
+         const estimatedAccomplishTime = 15 * maxPoints;
          let totalPoints
-         if (counterState <= estimatedAccomplishTime && points === 200) {
+         if (counterState <= estimatedAccomplishTime && points === maxPoints) {
             totalPoints = points + counterState * 0.1 * 1.0
          } else if (points === 0) {
             totalPoints = points * 1.0
@@ -219,7 +246,7 @@ const GermanFormsScreen = (props) => {
          setResults({
             totalPoints: totalPoints,
             maxPoints: maxPoints,
-            totalAnswered: 20,
+            totalAnswered: maxQuestions,
             totalPercentage: totalPercentage,
             amountCorrectAnswers: amountCorrectAnswers,
          })
@@ -276,6 +303,7 @@ const GermanFormsScreen = (props) => {
    }
 
    const evaluate = (answer, correct, tense, index) => {
+      console.log('Index: ', index);
       // This function is responsible for setting the points state and setting the state for focusing in CardComponentForms.js
       const preparedAnswer = prepareAnswer(answer, tense)
       let correctModified
@@ -288,7 +316,10 @@ const GermanFormsScreen = (props) => {
       if (checkAnswerStrings(preparedAnswer, correctModified)) {
          setPoints(points + 10)
          // Focus to next component if the user has given a correct answer to the last field of the component
-         if (tense === 'presperf' && index <= 4) {
+         console.log('tenseNames: ', tenseNames)
+         const lastForm = tenseNames[tenseNames.length - 1];
+         console.log('lastForm: ', lastForm);
+         if (lastForm === tense && index <= 4) {
             setAnsweredIndex(index + 1)
          }
          return true
@@ -347,6 +378,7 @@ const GermanFormsScreen = (props) => {
                               incorrectForm={incorrectForm}
                               finished={finished}
                               index={index}
+                              tenseNames={tenseNames}
                               answeredIndex={answeredIndex}
                            />
                         ))
@@ -360,6 +392,7 @@ const GermanFormsScreen = (props) => {
                            incorrectForm={incorrectForm}
                            finished={finished}
                            index={index}
+                           tenseNames={tenseNames}
                            answeredIndex={answeredIndex}
                         />
                      )
@@ -378,7 +411,11 @@ const GermanFormsScreen = (props) => {
 
 const mapStateToProps = state => ({
    verbsGerman: state.verbs.verbsGerman,
-   level: state.settings.level
+   level: state.settings.level,
+   infinitive: state.settings.infinitive,
+   present: state.settings.present,
+   past: state.settings.past,
+   presperf: state.settings.presperf
 })
 
 export default connect(
