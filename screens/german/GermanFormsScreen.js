@@ -47,7 +47,9 @@ const GermanFormsScreen = (props) => {
    const [answeredIndex, setAnsweredIndex] = useState(0)
    const [resultsReady, setResultsReady] = useState(false)
 
-   const navigation = useNavigation()
+   const navigation = useNavigation();
+
+   const { navigation: {navigate} } = props;
 
    FileSystem.getInfoAsync(
       `${FileSystem.documentDirectory}SQLite/verbs_german.db`
@@ -365,7 +367,24 @@ const GermanFormsScreen = (props) => {
                   </>
                )}
                {console.log('randomizedVerbs: ', randomizedVerbs)}
-               {randomizedVerbs &&
+               {!props.infinitive && !props.present && !props.past && !props.presperf ? 
+               <>
+                  <Text
+                  style={{
+                     color: '#7E00C5',
+                     fontWeight: 'bold',
+                     fontSize: 16,
+                     marginTop: 22,
+                     marginBottom: 22,
+                     textAlign: 'center'
+                  }}
+               >
+                     Valitse vähintään yksi harjoiteltava verbimuoto!
+                  </Text>
+                  <ButtonComponent color='#7E00C5' title='Muuta asetuksia' function={() => navigation.navigate('Koti')} />
+                  </>
+               :               
+               randomizedVerbs.length > 0 ?
                   randomizedVerbs.map((verbFormArray, index) =>
                      verbFormArray.length === 1 ? (
                         verbFormArray.map((v, i) => (
@@ -396,12 +415,16 @@ const GermanFormsScreen = (props) => {
                            answeredIndex={answeredIndex}
                         />
                      )
-                  )}
+                  )
+               :
+               null}
+               {props.infinitive || props.present || props.past || props.presPerf &&
                <ButtonComponent
                   color="#7E00C5"
                   title="Valmis"
                   function={finish}
                />
+               }
             </ScrollView>
          </KeyboardAvoidingView>
          <FooterComponent />

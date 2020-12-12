@@ -163,6 +163,7 @@ const CardComponentForms = (props) => {
       <Card>
          <CardItem style={{backgroundColor: '#e8e8e8'}}>
             <Body>
+
             <Text
                   style={{
                      color: '#7E00C5',
