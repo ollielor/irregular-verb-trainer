@@ -17,7 +17,7 @@ import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 
 import { connect } from 'react-redux';
-import { updateLanguage, updateLevel } from '../store/actions/settings';
+import { updateLanguage, updateLevel, updateInfinitive, updatePresent, updatePast, updatePresperf } from '../store/actions/settings';
 
 import ButtonComponent from '../components/ButtonComponent';
 import FooterComponent from '../components/FooterComponent';
@@ -65,7 +65,7 @@ const StartScreen = (props) => {
          DatabaseSettings.transaction(
             (tx) => {
             tx.executeSql(
-               "create table if not exists settings (id integer primary key not null, language int, level int);"
+               "create table if not exists settings (id integer primary key not null, language int not null, level int not null, infinitive int not null, present int not null, past int not null, presperf int not null);"
             );
             console.log('Table created')
               },
@@ -86,6 +86,10 @@ const StartScreen = (props) => {
                      if (results.rows._array.length > 0) {
                         props.dispatch(updateLanguage(results.rows._array[0].language))
                         props.dispatch(updateLevel(results.rows._array[0].level))
+                        props.dispatch(updateInfinitive(results.rows._array[0].infinitive === 1 ? true : false))
+                        props.dispatch(updatePresent(results.rows._array[0].present === 1 ? true : false))
+                        props.dispatch(updatePast(results.rows._array[0].past === 1 ? true : false))
+                        props.dispatch(updatePresperf(results.rows._array[0].presperf === 1 ? true : false))
                         setSettingsLoaded(true);
                      }
             },
@@ -103,9 +107,9 @@ const StartScreen = (props) => {
    useEffect(() => {
       let query;
       if (settingsLength === 0) {
-         query = "insert into settings (language, level) values (?, ?);"
+         query = "insert into settings (language, level, infinitive, present, past, presperf) values (?, ?, ?, ?, ?, ?);"
       } else {
-         query = "update settings set language = ?, level = ? where id=1;"
+         query = "update settings set language = ?, level = ?, infinitive = ?, present = ?, past = ?, presperf = ? where id=1;"
       }
          DatabaseSettings.transaction(
             (tx) => {
@@ -113,7 +117,11 @@ const StartScreen = (props) => {
                query,
                 [
                    props.language,
-                   props.level
+                   props.level,
+                   props.infinitive ? 1 : 0,
+                   props.present ? 1 : 0,
+                   props.past ? 1 : 0,
+                   props.presperf ? 1 : 0,
                 ]
               );
               console.log(query)
@@ -124,7 +132,7 @@ const StartScreen = (props) => {
             null,
             null, //updateList
           );
-  }, [props.level, props.language]);
+  }, [props.level, props.language, props.infinitive, props.present, props.past, props.presperf]);
  
   /*useEffect(() => {
    const loadFonts = async () => {
@@ -192,7 +200,11 @@ const clearSettings = () => {
 
 const mapStateToProps = state => ({
    language: state.settings.language,
-   level: state.settings.level
+   level: state.settings.level,
+   infinitive: state.settings.infinitive,
+   present: state.settings.present,
+   past: state.settings.past,
+   presperf: state.settings.presperf,
  })
  
  
