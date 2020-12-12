@@ -201,10 +201,10 @@ const clearSettings = () => {
 const mapStateToProps = state => ({
    language: state.settings.language,
    level: state.settings.level,
-   infinitive: state.settings.infinitive,
-   present: state.settings.present,
-   past: state.settings.past,
-   presperf: state.settings.presperf,
+   infinitive: state.settings.tenses.infinitive,
+   present: state.settings.tenses.present,
+   past: state.settings.tenses.past,
+   presperf: state.settings.tenses.presperf,
  })
  
  

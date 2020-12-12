@@ -15,7 +15,6 @@ import {
    getRandomVerbArray,
    getCurrentDate,
    filterVerbsByLevel,
-   checkTenses
 } from '../../helpers/helpers'
 
 import FooterComponent from '../../components/FooterComponent'
@@ -30,7 +29,7 @@ const GermanFormsScreen = (props) => {
    const [randomizedVerbs, setRandomizedVerbs] = useState([])
    const [rndVerbsLoaded, setRndVerbsLoaded] = useState(false)
    const [points, setPoints] = useState(0)
-   const [maxPoints, setMaxPoints] = useState(0)
+   const [maxPoints, setMaxPoints] = useState(200)
    const [maxQuestions, setMaxQuestions] = useState(0);
    const [finished, setFinished] = useState(false)
    const [results, setResults] = useState({})
@@ -47,10 +46,13 @@ const GermanFormsScreen = (props) => {
    const [answeredIndex, setAnsweredIndex] = useState(0)
    const [resultsReady, setResultsReady] = useState(false)
    const [formsSelected, setFormsSelected] = useState(false)
+   const [formsSelectedArray, setFormsSelectedArray] = useState([])
 
    const navigation = useNavigation();
 
    const { navigation: {navigate} } = props;
+
+   console.log('Tenses: ', props.tenses)
 
    FileSystem.getInfoAsync(
       `${FileSystem.documentDirectory}SQLite/verbs_german.db`
@@ -109,37 +111,36 @@ const GermanFormsScreen = (props) => {
    useEffect(() => {
       if (props.infinitive || props.present || props.past || props.presperf) {
          setFormsSelected(true);
+         setFormsSelectedArray([...formsSelectedArray, 10])
       }
    }, [props.infinitive, props.present, props.past, props.presperf])
 
    useEffect(() => {
+      if (props.tenses) {
+         console.log(props.tenses)
+         const amountSelectedForms = Object.values(props.tenses).filter(tense => tense === true);
+         setMaxPoints(amountSelectedForms.length * 5 * 10);
+         setMaxQuestions(amountSelectedForms.length * 5);
+      }      
       let tensesArray = [];
       if (props.infinitive) {
-         setMaxPoints(maxPoints + 10);
-         setMaxQuestions(maxQuestions + 4);
          tensesArray = [...tensesArray, 1];
          console.log('infinitive')
       }
       if (props.present) {
-         setMaxPoints(maxPoints + 10);
-         setMaxQuestions(maxQuestions + 4);
          tensesArray = [...tensesArray, 2];
          console.log('present')
       }
       if (props.past) {
-         setMaxPoints(maxPoints + 10);
-         setMaxQuestions(maxQuestions + 4);
          tensesArray = [...tensesArray, 3];
          console.log('past')
       }
       if (props.presperf) {
-         setMaxPoints(maxPoints + 10);
-         setMaxQuestions(maxQuestions + 4);
          tensesArray = [...tensesArray, 4];
          console.log('presperf')
       }
       setTenseNames(tensesArray.sort((a,b) => a > b, 1).map(tense => {return tense === 1 ? 'infinitive' : tense === 2 ? 'present' : tense === 3 ? 'past' : tense === 4 && 'presperf'}));
-   }, [props.infinitive, props.present, props.past, props.presperf])
+   }, [props.tenses, props.infinitive, props.present, props.past, props.presperf])
 
    useEffect(() => {
       setVerbsFiltered(false);
@@ -182,10 +183,11 @@ const GermanFormsScreen = (props) => {
    }
 
    useEffect(() => {
-      if (points === 200) {
+      if (points >= maxPoints) {
+         console.log('Points: ', points)
          setFinished(true)
       }
-   }, [points])
+   }, [points, maxPoints])
 
    useEffect(() => {
       if (verbsFiltered && started) {
@@ -241,10 +243,10 @@ const GermanFormsScreen = (props) => {
 
    useEffect(() => {
       if (finished) {
-         const estimatedAccomplishTime = 15 * maxPoints;
+         const estimatedAccomplishTime = 1.2 * maxPoints;
          let totalPoints
          if (counterState <= estimatedAccomplishTime && points === maxPoints) {
-            totalPoints = points + counterState * 0.1 * 1.0
+            totalPoints = points + counterState * 0.05
          } else if (points === 0) {
             totalPoints = points * 1.0
          } else {
@@ -441,10 +443,11 @@ const GermanFormsScreen = (props) => {
 const mapStateToProps = state => ({
    verbsGerman: state.verbs.verbsGerman,
    level: state.settings.level,
-   infinitive: state.settings.infinitive,
-   present: state.settings.present,
-   past: state.settings.past,
-   presperf: state.settings.presperf
+   infinitive: state.settings.tenses.infinitive,
+   present: state.settings.tenses.present,
+   past: state.settings.tenses.past,
+   presperf: state.settings.tenses.presperf,
+   tenses: state.settings.tenses
 })
 
 export default connect(

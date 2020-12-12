@@ -3,10 +3,12 @@ import { UPDATE_LANGUAGE, UPDATE_LEVEL, UPDATE_INFINITIVE, UPDATE_PRESENT, UPDAT
 const initialState = {
    language: 1,
    level: 1,
-   infinitive: true,
-   present: true,
-   past: true,
-   presperf: true
+   tenses: {
+      infinitive: true,
+      present: true,
+      past: true,
+      presperf: true 
+   }
 }
 
 const settingsReducer = (state = initialState, action) => {
@@ -24,22 +26,34 @@ const settingsReducer = (state = initialState, action) => {
       case UPDATE_INFINITIVE:
             return {
                ...state,
-               infinitive: action.payload
+               tenses: {
+                  ...state.tenses,
+                  infinitive: action.payload
+               }
             }
       case UPDATE_PRESENT:
             return {
-               ...state,
-               present: action.payload
+               ...state, 
+               tenses: {
+                  ...state.tenses,
+                  present: action.payload                  
+               }
             }
       case UPDATE_PAST:
             return {
                ...state,
-               past: action.payload
+               tenses: {
+                  ...state.tenses,
+                  past: action.payload
+               }
             }
       case UPDATE_PRESPERF:
                return {
                   ...state,
-                  presperf: action.payload
+                  tenses: {
+                     ...state.tenses,
+                     presperf: action.payload
+                  }
                }
       default:
          return state;

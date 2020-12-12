@@ -72,10 +72,10 @@ const FormsSelector = (props) => {
 }
 
 const mapStateToProps = state => ({
-   infinitive: state.settings.infinitive,
-   present: state.settings.present,
-   past: state.settings.past,
-   presperf: state.settings.presperf,
+   infinitive: state.settings.tenses.infinitive,
+   present: state.settings.tenses.present,
+   past: state.settings.tenses.past,
+   presperf: state.settings.tenses.presperf,
  })
  
  
