@@ -179,6 +179,7 @@ const CardComponentForms = (props) => {
                {props.infinitive &&
                <>
                {<InputComponentForms
+                  label='Perusmuoto'
                   ref={inputRef1}
                   correct={correctInfinitive ? true : false}
                   unanswered={unansweredInfinitive ? true : false}
@@ -212,6 +213,7 @@ const CardComponentForms = (props) => {
                {props.present &&
                <>
                <InputComponentForms
+                  label='Preesens'
                   ref={inputRef2}
                   correct={correctPresent || false}
                   unanswered={unansweredPresent ? true : false}
@@ -242,6 +244,7 @@ const CardComponentForms = (props) => {
                {props.past &&
                <>
                <InputComponentForms
+                  label='Imperfekti'
                   placeholder="Imperfekti (er/sie/es)"
                   correct={correctPast || false}
                   unanswered={unansweredPast ? true : false}
@@ -270,6 +273,7 @@ const CardComponentForms = (props) => {
                {props.presperf &&
                <>
                <InputComponentForms
+                  label='Perfekti'
                   placeholder="Perfekti (er/sie/es)"
                   correct={correctPresPerf || false}
                   unanswered={unansweredPresPerf ? true : false}

@@ -4,6 +4,10 @@ import { Text, TextInput, StyleSheet, Platform } from 'react-native';
 const InputComponentForms = React.forwardRef((props, ref) => {
 
    return (
+      <>
+      <Text style={styles.label}>
+         {props.label}
+      </Text>
       <TextInput
          style={
             props.correct &&
@@ -41,21 +45,23 @@ const InputComponentForms = React.forwardRef((props, ref) => {
          }
          value={props.value}
    />
+   </>
    )
 })
 
 export default InputComponentForms;
 
 const styles = StyleSheet.create({
+   label: {
+      marginTop: 15
+   },
    formInput: {
       fontSize: 16,
-      marginTop: 45,
       padding: 10,
       width: '100%',
    },
    formInputIOS: {
       fontSize: 16,
-      marginTop: 45,
       padding: 10,
       borderColor: '#7E00C5',
       borderWidth: 1,
@@ -64,7 +70,6 @@ const styles = StyleSheet.create({
    formInputCorrectIOS: {
       fontSize: 16,
       fontWeight: 'bold',
-      marginTop: 45,
       padding: 10,
       backgroundColor: '#66dd33',
       borderColor: '#7E00C5',
@@ -74,7 +79,6 @@ const styles = StyleSheet.create({
    },
    formInputIncorrectIOS: {
       fontSize: 16,
-      marginTop: 45,
       padding: 10,
       backgroundColor: '#ff0033',
       borderColor: '#7E00C5',
