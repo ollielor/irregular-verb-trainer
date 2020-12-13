@@ -39,12 +39,11 @@ const ResultHistoryView = (props) => {
                               )}
                            </Text>
                            <Text>
-                              Taso:{' '}
                               {historyItem.level === 1
-                                 ? 'Perustason verbit'
+                                 ? 'Taso 1'
                                  : historyItem.level === 2
-                                 ? 'Keskitason verbit'
-                                 : 'Haastavat verbit'}
+                                 ? 'Taso 2'
+                                 : 'Taso 3'}
                            </Text>
                            <Text>
                               Pisteet:{' '}

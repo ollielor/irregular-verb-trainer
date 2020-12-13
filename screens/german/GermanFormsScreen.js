@@ -22,6 +22,7 @@ import HeaderComponent from '../../components/HeaderComponent'
 import GermanResultView from '../../components/GermanResultView'
 import CardComponentForms from '../../components/CardComponentForms'
 import ButtonComponent from '../../components/ButtonComponent'
+import LatestResultsGerman from '../../components/LatestResultsGerman'
 
 const GermanFormsScreen = (props) => {
    const [verbs, setVerbs] = useState([])
@@ -32,7 +33,7 @@ const GermanFormsScreen = (props) => {
    const [maxPoints, setMaxPoints] = useState(200)
    const [maxQuestions, setMaxQuestions] = useState(0);
    const [finished, setFinished] = useState(false)
-   const [results, setResults] = useState({})
+   const [resultsData, setResultsData] = useState({})
    const [counterState, setCounterState] = useState(null)
    const [started, setStarted] = useState(true)
    const [tenses, setTenses] = useState([]);
@@ -47,6 +48,8 @@ const GermanFormsScreen = (props) => {
    const [resultsReady, setResultsReady] = useState(false)
    const [formsSelected, setFormsSelected] = useState(false)
    const [formsSelectedArray, setFormsSelectedArray] = useState([])
+   const [tableCreated, setTableCreated] = useState(false);
+   const [resultsSaved, setResultsSaved] = useState(false);
 
    const navigation = useNavigation();
 
@@ -153,12 +156,13 @@ const GermanFormsScreen = (props) => {
       DatabaseResults.transaction(
          (tx) => {
             tx.executeSql(
-               'create table if not exists results (id integer primary key not null, type integer, level integer, accuracy integer, q_total integer, points real, maxpoints integer, ratio real, datetime real);'
+               'create table if not exists results (id integer primary key not null, type integer, language integer, level integer, accuracy integer, q_total integer, points real, maxpoints integer, percentage real, datetime real);'
             )
          },
          null,
          updateList
-      )
+      ),
+      setTableCreated(true);
    }, [])
 
    const updateList = () => {
@@ -216,12 +220,43 @@ const GermanFormsScreen = (props) => {
       }
    }, [verbsFiltered, verbs, started])
 
+   useEffect(() => {
+      if (tableCreated && resultsReady && dateTime && !resultsSaved) {
+        DatabaseResults.transaction(
+          (tx) => {
+            tx.executeSql(
+              "insert into results (type, language, level, accuracy, q_total, points, maxpoints, percentage, datetime) values (?, ?, ?, ?, ?, ?, ?, ?, ?);",
+              [
+                2,
+                props.language,
+                props.level,
+                resultsData.amountCorrectAnswers,
+                resultsData.maxQuestions,
+                resultsData.totalPoints,
+                resultsData.maxPoints,
+                resultsData.totalPercentage,
+                dateTime,
+              ]
+            )
+          },
+          (error) => {
+            console.log("Transaction error: ", error);
+          },
+          null,
+          updateList
+        );
+        setResultsSaved(true)
+        updateList();
+      }
+    }, [resultsReady, dateTime, tableCreated]);
+
    const startAgain = () => {
       setStarted(true)
       setFinished(false)
       setPoints(0)
-      setResults({})
+      setResultsData({})
       setResultsReady(false)
+      setResultsSaved(false)
    }
 
    useEffect(() => {
@@ -254,10 +289,10 @@ const GermanFormsScreen = (props) => {
          }
          const totalPercentage = (totalPoints / maxPoints) * 100.0
          const amountCorrectAnswers = points / 10
-         setResults({
+         setResultsData({
             totalPoints: totalPoints,
             maxPoints: maxPoints,
-            totalAnswered: maxQuestions,
+            maxQuestions: maxQuestions,
             totalPercentage: totalPercentage,
             amountCorrectAnswers: amountCorrectAnswers,
          })
@@ -265,12 +300,6 @@ const GermanFormsScreen = (props) => {
          setResultsReady(true)
       }
    }, [finished])
-
-   useEffect(() => {
-      if (resultsAdded) {
-         saveResults()
-      }
-   }, [resultsAdded])
 
    const prepareAnswer = (answer) => {
       // The function prepares the given answers for accuracy check using different string operations
@@ -342,10 +371,10 @@ const GermanFormsScreen = (props) => {
    }
 
    useEffect(() => {
-      if (finished && results) {
+      if (finished && resultsData) {
          scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true })
       }
-   }, [finished, results])
+   }, [finished, resultsData])
 
    const finish = () => {
       setStarted(false)
@@ -366,13 +395,10 @@ const GermanFormsScreen = (props) => {
                style={styles.flexOne}
                ref={scrollViewRef}
             >
-               {finished && resultsReady && results && (
-                  <GermanResultView results={results} startAgain={startAgain} />
-               )}
-               {finished && !resultsReady && !results && (
+               {finished && resultsReady && resultsData && resultsSaved && resultHistory && (
                   <>
-                     <Spinner />
-                     <Text>Ladataan tuloksia...</Text>
+                     <GermanResultView results={resultsData} startAgain={startAgain} />
+                     <LatestResultsGerman resultHistory={resultHistory} type={2} count={3} />
                   </>
                )}
                {!formsSelected ? 
@@ -443,6 +469,7 @@ const GermanFormsScreen = (props) => {
 const mapStateToProps = state => ({
    verbsGerman: state.verbs.verbsGerman,
    level: state.settings.level,
+   language: state.settings.language,
    infinitive: state.settings.tenses.infinitive,
    present: state.settings.tenses.present,
    past: state.settings.tenses.past,

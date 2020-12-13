@@ -13,13 +13,14 @@ const LatestResultsGerman = (props) => {
 
    return (
       <Content>
-         <Heading>10 viimeisintä tulosta</Heading>
+         <Heading>{props.count} viimeisintä tulosta</Heading>
          {props.resultHistory &&
             props.resultHistory
+               .filter(historyItem => historyItem.type === props.type)
                .sort((a, b) =>
                   a.datetime < b.datetime ? 1 : a.datetime > b.datetime ? -1 : 0
                )
-               .slice(0, 10)
+               .slice(0, props.count)
                .map((historyItem) => (
                   <Card key={historyItem.id}>
                      <CardItem header>
@@ -32,12 +33,11 @@ const LatestResultsGerman = (props) => {
                               )}
                            </Text>
                            <Text>
-                              Taso:{' '}
                               {historyItem.level === 1
-                                 ? 'Perustason verbit'
+                                 ? 'Taso 1'
                                  : historyItem.level === 2
-                                 ? 'Keskitason verbit'
-                                 : 'Haastavat verbit'}
+                                 ? 'Taso 2'
+                                 : 'Taso 3'}
                            </Text>
                            <Text>
                               Pisteet:{' '}

@@ -122,9 +122,8 @@ const StartScreen = (props) => {
                    props.present ? 1 : 0,
                    props.past ? 1 : 0,
                    props.presperf ? 1 : 0,
-                ]
-              );
-              console.log(query)
+                ],
+               );
             },
             (error) => {
               console.log("Transaction error (Save): ", error);
@@ -181,13 +180,13 @@ const clearSettings = () => {
             {!fontsLoaded && 
                <Spinner color='#7E00C5' />
             }
-            {fontsLoaded &&
+            {fontsLoaded && settingsLoaded &&
                <Container>
                   <HeaderComponent title='Verbivalmentaja' noArrow />
                   <Content style={styles.contentContainer}>
                      <ButtonComponent color='#7E00C5' title='Ruotsi' function={() => console.log('Ruotsi')} />
                      <ButtonComponent color='#7E00C5' title='Saksa' function={() => navigate('Saksa')} />
-                     <ButtonComponent color='#4E00C5' title='Omat tulokseni' function={() => console.log('Omat tulokseni')} />
+                     <ButtonComponent color='#4E00C5' title='Omat tulokseni' function={() => navigate('Omat tulokseni (saksa)')} />
                   <SettingsComponent clearSettings={clearSettings} />
                   <FormsSelector />
                   </Content>

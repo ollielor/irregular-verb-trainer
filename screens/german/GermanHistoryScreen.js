@@ -82,15 +82,89 @@ const GermanHistoryScreen = props => {
                      <Heading>
                         Verbien merkitykset
                      </Heading>
-                     <Subheading>
-                        Perustason verbit
-                     </Subheading>
-                     <ResultHistoryView
-                        hideButton
-                        resultHistory={historyMeanings.filter(historyItem => historyItem.level === 1)}
-                     />
-                     {historyMeanings.length > 0 &&
+                     {historyMeanings.length === 0 &&
+                        <Text style={{textAlign: 'center'}}>
+                           Ei tuloksia tästä kategoriasta.
+                        </Text>
+                     }
+                     {historyMeanings.filter(historyItem => historyItem.level === 1 && historyItem.language === 2).length > 0 &&
+                        <>
+                        <Subheading>
+                           Taso 1
+                        </Subheading>
+                        <ResultHistoryView
+                           hideButton
+                           resultHistory={historyMeanings.filter(historyItem => historyItem.level === 1 && historyItem.language === 2)}
+                        />
+                        </>
+                     }
+                     {historyMeanings.filter(historyItem => historyItem.level === 2 && historyItem.language === 2).length > 0 &&
+                        <>
+                        <Subheading>
+                           Taso 2
+                        </Subheading>
+                        <ResultHistoryView
+                           hideButton
+                           resultHistory={historyMeanings.filter(historyItem => historyItem.level === 2 && historyItem.language === 2)}
+                        />
+                        </>
+                     }
+                     {historyMeanings.filter(historyItem => historyItem.level === 3 && historyItem.language === 2).length > 0 &&
+                        <>
+                        <Subheading>
+                           Taso 3
+                        </Subheading>
+                        <ResultHistoryView
+                           hideButton
+                           resultHistory={historyMeanings.filter(historyItem => historyItem.level === 3 && historyItem.language === 2)}
+                        />
+                        </>
+                     }
+                     <Heading>
+                        Verbien muodot
+                     </Heading>
+                     {historyForms.length === 0 &&
+                        <Text style={{textAlign: 'center', marginBottom: 20}}>
+                           Ei tuloksia tästä kategoriasta.
+                        </Text>
+                     }
+                     {historyForms.filter(historyItem => historyItem.level === 1 && historyItem.language === 2).length > 0 &&
+                        <>
+                        <Subheading>
+                           Taso 1
+                        </Subheading>
+                        <ResultHistoryView
+                           hideButton
+                           resultHistory={historyForms.filter(historyItem => historyItem.level === 1 && historyItem.language === 2)}
+                        />
+                        </>
+                     }
+                     {historyForms.filter(historyItem => historyItem.level === 2 && historyItem.language === 2).length > 0 &&
+                        <>
+                        <Subheading>
+                           Taso 2
+                        </Subheading>
+                        <ResultHistoryView
+                           hideButton
+                           resultHistory={historyForms.filter(historyItem => historyItem.level === 2 && historyItem.language === 2)}
+                        />
+                        </>
+                     }
+                     {historyForms.filter(historyItem => historyItem.level === 3 && historyItem.language === 2).length > 0 &&
+                        <>
+                        <Subheading>
+                           Taso 3
+                        </Subheading>
+                        <ResultHistoryView
+                           hideButton
+                           resultHistory={historyForms.filter(historyItem => historyItem.level === 3 && historyItem.language === 2)}
+                        />
+                        </>
+                     }
+                     {historyForms.length > 0 || historyMeanings.length > 0 ?
                         <ButtonComponent title='Tyhjennä tuloshistoria' color='#cc0000' function={() => setShowModal(true)} />
+                     :
+                        null
                      }
                   </Content>
                   <FooterComponent />

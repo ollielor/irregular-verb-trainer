@@ -25,7 +25,6 @@ import { connect } from 'react-redux';
 const GermanMeaningsScreen = (props) => {
   const [verbs, setVerbs] = useState([]);
   const [verbsFiltered, setVerbsFiltered] = useState(false);
-  const [level, setLevel] = useState(1);
   const [randomizedVerbs, setRandomizedVerbs] = useState([]);
   const [points, setPoints] = useState(0);
   const [maxPoints, setMaxPoints] = useState(0);
@@ -186,8 +185,8 @@ const GermanMeaningsScreen = (props) => {
             "insert into results (type, language, level, accuracy, q_total, points, maxpoints, percentage, datetime) values (?, ?, ?, ?, ?, ?, ?, ?, ?);",
             [
               1,
-              1,
-              level,
+              props.language,
+              props.level,
               results.amountCorrectAnswers,
               answered.length,
               results.totalPoints,
@@ -294,7 +293,7 @@ const GermanMeaningsScreen = (props) => {
         {finished && results && resultsSaved && resultHistory && (
           <>
             <GermanResultView results={results} startAgain={startAgain} />
-            <LatestResultsGerman resultHistory={resultHistory} />
+            <LatestResultsGerman resultHistory={resultHistory} type={1} count={10} />
           </>
         )}
         {!resultHistory && <Spinner />}
@@ -306,6 +305,7 @@ const GermanMeaningsScreen = (props) => {
 
 const mapStateToProps = state => ({
   verbsGerman: state.verbs.verbsGerman,
+  language: state.settings.language,
   level: state.settings.level
 })
 

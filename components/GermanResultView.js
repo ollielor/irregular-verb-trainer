@@ -26,7 +26,7 @@ const GermanResultView = (props) => {
          </Text>
          <Text style={styles.feedbackPoints}>
             Oikeita vastauksia: {props.results.amountCorrectAnswers} /{' '}
-            {props.results.totalAnswered}
+            {props.results.totalAnswered || props.results.maxQuestions}
          </Text>
          <Button style={styles.startAgainButton} onPress={props.startAgain}>
             <Text uppercase={false}>Aloita uudestaan</Text>
