@@ -397,7 +397,7 @@ const GermanFormsScreen = (props) => {
             >
                {finished && resultsReady && resultsData && resultsSaved && resultHistory && (
                   <>
-                     <GermanResultView results={resultsData} startAgain={startAgain} />
+                     <GermanResultView results={resultsData} startAgain={startAgain} forms />
                      <LatestResultsGerman resultHistory={resultHistory} type={2} count={3} />
                   </>
                )}
@@ -459,9 +459,9 @@ const GermanFormsScreen = (props) => {
                   function={finish}
                />
                }
+            <FooterComponent />
             </ScrollView>
          </KeyboardAvoidingView>
-         <FooterComponent />
       </Container>
    )
 }

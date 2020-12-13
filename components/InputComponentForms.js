@@ -33,6 +33,7 @@ const InputComponentForms = React.forwardRef((props, ref) => {
          editable={props.editable}
          autoCapitalize='none'
          autoCorrect={false}
+         keyboardType={Platform.OS === 'android' && 'visible-password'}
          placeholderTextColor={props.placeholderTextColor}
          underlineColorAndroid={
             props.correct
