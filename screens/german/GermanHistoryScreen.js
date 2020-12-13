@@ -15,6 +15,7 @@ import HeaderComponent from '../../components/HeaderComponent';
 import Subheading from '../../components/Subheading';
 import FooterComponent from '../../components/FooterComponent';
 import ButtonComponent from '../../components/ButtonComponent';
+import ProgressComponent from '../../components/ProgressComponent';
 
 const GermanHistoryScreen = props => {
 
@@ -92,6 +93,7 @@ const GermanHistoryScreen = props => {
                         <Subheading>
                            Taso 1
                         </Subheading>
+                        <ProgressComponent data={historyMeanings.filter(historyItem => historyItem.level === 1 && historyItem.language === 2)} />
                         <ResultHistoryView
                            hideButton
                            resultHistory={historyMeanings.filter(historyItem => historyItem.level === 1 && historyItem.language === 2)}
@@ -103,6 +105,7 @@ const GermanHistoryScreen = props => {
                         <Subheading>
                            Taso 2
                         </Subheading>
+                        <ProgressComponent data={historyMeanings.filter(historyItem => historyItem.level === 2 && historyItem.language === 2)} />
                         <ResultHistoryView
                            hideButton
                            resultHistory={historyMeanings.filter(historyItem => historyItem.level === 2 && historyItem.language === 2)}
@@ -114,6 +117,7 @@ const GermanHistoryScreen = props => {
                         <Subheading>
                            Taso 3
                         </Subheading>
+                        <ProgressComponent data={historyMeanings.filter(historyItem => historyItem.level === 3 && historyItem.language === 2)} />
                         <ResultHistoryView
                            hideButton
                            resultHistory={historyMeanings.filter(historyItem => historyItem.level === 3 && historyItem.language === 2)}
@@ -133,6 +137,7 @@ const GermanHistoryScreen = props => {
                         <Subheading>
                            Taso 1
                         </Subheading>
+                        <ProgressComponent data={historyForms.filter(historyItem => historyItem.level === 1 && historyItem.language === 2)} />
                         <ResultHistoryView
                            hideButton
                            resultHistory={historyForms.filter(historyItem => historyItem.level === 1 && historyItem.language === 2)}
@@ -144,6 +149,7 @@ const GermanHistoryScreen = props => {
                         <Subheading>
                            Taso 2
                         </Subheading>
+                        <ProgressComponent data={historyForms.filter(historyItem => historyItem.level === 2 && historyItem.language === 2)} />
                         <ResultHistoryView
                            hideButton
                            resultHistory={historyForms.filter(historyItem => historyItem.level === 2 && historyItem.language === 2)}
@@ -155,6 +161,7 @@ const GermanHistoryScreen = props => {
                         <Subheading>
                            Taso 3
                         </Subheading>
+                        <ProgressComponent data={historyForms.filter(historyItem => historyItem.level === 3 && historyItem.language === 2)} />
                         <ResultHistoryView
                            hideButton
                            resultHistory={historyForms.filter(historyItem => historyItem.level === 3 && historyItem.language === 2)}
