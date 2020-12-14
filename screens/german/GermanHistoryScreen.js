@@ -3,7 +3,8 @@ import { StyleSheet, Modal, Text } from 'react-native';
 import { 
    Button,
    Container, 
-   Content
+   Content,
+   Spinner
 } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
@@ -16,6 +17,7 @@ import Subheading from '../../components/Subheading';
 import FooterComponent from '../../components/FooterComponent';
 import ButtonComponent from '../../components/ButtonComponent';
 import ProgressComponent from '../../components/ProgressComponent';
+import SpinnerComponent from '../../components/SpinnerComponent';
 
 const GermanHistoryScreen = props => {
 
@@ -23,6 +25,7 @@ const GermanHistoryScreen = props => {
    const [historyForms, setHistoryForms] = useState([]);
    const [showModal, setShowModal] = useState(false);
    const [dropped, setDropped] = useState(false);
+   const [historyLoaded, setHistoryLoaded] = useState(false);
 
    const navigation = useNavigation();
 
@@ -41,7 +44,8 @@ const GermanHistoryScreen = props => {
                [],
                (tx, results) => {
                   setHistoryMeanings(results.rows._array.filter(historyItem => historyItem.type === 1));
-                  setHistoryForms(results.rows._array.filter(historyItem => historyItem.type === 2))
+                  setHistoryForms(results.rows._array.filter(historyItem => historyItem.type === 2));
+                  setHistoryLoaded(true);
                },
                (tx, error) => {
                   setHistoryMeanings([]);
@@ -79,6 +83,7 @@ const GermanHistoryScreen = props => {
     return (
                <Container style={styles.container}>
                   <HeaderComponent title='Omat tulokseni' goBack={navigation.goBack} />
+                  {historyLoaded ? 
                   <Content style={styles.contentContainer}>
                      <Heading>
                         Verbien merkitykset
@@ -174,6 +179,11 @@ const GermanHistoryScreen = props => {
                         null
                      }
                   </Content>
+                  : 
+                     <Content>
+                        <SpinnerComponent text='Tuloksia ladataan...' />
+                     </Content>
+                                 }
                   <FooterComponent />
                   <Modal 
                      animationType='slide'

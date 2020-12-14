@@ -19,6 +19,7 @@ import CardComponentMeanings from "../../components/CardComponentMeanings";
 import GermanResultView from "../../components/GermanResultView";
 import LatestResultsGerman from "../../components/LatestResultsGerman";
 import LevelComponent from '../../components/LevelComponent';
+import SpinnerComponent from '../../components/SpinnerComponent';
 
 import { connect } from 'react-redux';
 
@@ -296,7 +297,7 @@ const GermanMeaningsScreen = (props) => {
             <LatestResultsGerman resultHistory={resultHistory} type={1} count={10} />
           </>
         )}
-        {!resultHistory && <Spinner />}
+        {!resultHistory && <SpinnerComponent text='Tuloksia ladataan...' />}
       </Content>
       <FooterComponent />
     </Container>

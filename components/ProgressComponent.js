@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
       alignItems: 'center'
    },
    progressStyle: {
-      color: '#7E00C5',
+      color: '#4E00C5',
       textAlign: 'center',
       fontWeight: 'bold'
    }

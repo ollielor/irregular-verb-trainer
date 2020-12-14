@@ -23,6 +23,7 @@ import ButtonComponent from '../components/ButtonComponent';
 import FooterComponent from '../components/FooterComponent';
 import HeaderComponent from '../components/HeaderComponent';
 import FormsSelector from '../components/FormsSelector';
+import SpinnerComponent from '../components/SpinnerComponent';
 
 import DatabaseSettings from '../modules/DatabaseSettings'
 import SettingsComponent from '../components/SettingsComponent';
@@ -178,7 +179,7 @@ const clearSettings = () => {
     return (
          <Container style={styles.container}>
             {!fontsLoaded && 
-               <Spinner color='#7E00C5' />
+               <SpinnerComponent />
             }
             {fontsLoaded && settingsLoaded &&
                <Container>
