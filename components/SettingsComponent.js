@@ -34,7 +34,7 @@ const SettingsComponent = (props) => {
             <ButtonComponentNarrow title='Taso 2' function={() => props.dispatch(updateLevel(2))} disabled={props.level === 2} />
             <ButtonComponentNarrow title='Taso 3' function={() => props.dispatch(updateLevel(3))} disabled={props.level === 3} />
          </Body>
-      <Card style={styles.cardStyle}>
+      {props.clearSettings && <Card style={styles.cardStyle}>
       <CardItem style={styles.cardItemStyle}>
          <Body style={{flexDirection: 'row', justifyContent: 'center'}}>
             <ButtonComponent title='Tallenna asetukset' color={props.saveButtonEnabled ? '#4E00C5' : '#eee'} saveButtonEnabled={props.saveButtonEnabled} function={() => props.updateSettings()} />
@@ -42,6 +42,7 @@ const SettingsComponent = (props) => {
          </Body>
       </CardItem>
       </Card>
+      }
       </Content>
    )
 }

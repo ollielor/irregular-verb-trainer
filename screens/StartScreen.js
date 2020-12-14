@@ -203,7 +203,7 @@ const clearSettings = () => {
                      <ButtonComponent color='#7E00C5' title='Ruotsi' function={() => console.log('Ruotsi')} />
                      <ButtonComponent color='#7E00C5' title='Saksa' function={() => navigate('Saksa')} />
                      <ButtonComponent color='#4E00C5' title='Omat tulokseni' function={() => navigate('Omat tulokseni (saksa)')} />
-                  <SettingsComponent clearSettings={clearSettings} />
+                  <SettingsComponent />
                   <FormsSelector />
                   </Content>
                   <FooterComponent />

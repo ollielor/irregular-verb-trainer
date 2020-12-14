@@ -12,8 +12,8 @@ const FooterComponent = (props) => {
       <Footer style={{ backgroundColor: '#0047c5' }}>
          <FooterTab>
             <FooterButtonComponent
-               title="Koti"
-               function={() => console.log('Koti')}
+               title="Asetukset"
+               function={() => navigation.navigate('Koti')}
             />
          </FooterTab>
          <FooterTab>
@@ -24,7 +24,7 @@ const FooterComponent = (props) => {
          </FooterTab>
          <FooterTab>
             <FooterButtonComponent
-               title="Asetukset"
+               title="Ohjeet"
                function={() => console.log('Asetukset')}
             />
          </FooterTab>
