@@ -179,7 +179,10 @@ const clearSettings = () => {
     return (
          <Container style={styles.container}>
             {!fontsLoaded && 
-               <SpinnerComponent />
+               <SpinnerComponent text='Ladataan fontteja...' />
+            }
+            {!settingsLoaded && 
+               <SpinnerComponent text='Ladataan asetuksia...' />
             }
             {fontsLoaded && settingsLoaded &&
                <Container>
