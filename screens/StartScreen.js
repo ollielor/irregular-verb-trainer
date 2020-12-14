@@ -76,6 +76,10 @@ const StartScreen = (props) => {
                console.log(error);
             }
          );
+         fetchSettings();
+   }, [])
+
+   const fetchSettings = () => {
       DatabaseSettings.transaction(
          (tx) => {
          tx.executeSql(
@@ -83,6 +87,7 @@ const StartScreen = (props) => {
             [],
             (tx, results) => {
                console.log(results)
+                  if (results) {
                      setSettingsLength(results.rows._array.length)
                      if (results.rows._array.length > 0) {
                         props.dispatch(updateLanguage(results.rows._array[0].language))
@@ -93,6 +98,7 @@ const StartScreen = (props) => {
                         props.dispatch(updatePresperf(results.rows._array[0].presperf === 1 ? true : false))
                         setSettingsLoaded(true);
                      }
+                  }
             },
             (tx, error) => {
                console.log("Could not execute query: ", error);
@@ -103,7 +109,13 @@ const StartScreen = (props) => {
          console.log("Transaction error: ", error);
          }
       );
-  }, [])
+  }
+
+  useEffect(() => {
+     if (!settingsLoaded) {
+        fetchSettings();
+     }
+  }, [settingsLoaded])
 
    useEffect(() => {
       let query;
