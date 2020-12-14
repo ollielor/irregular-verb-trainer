@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Body, Button, Card, CardItem, Content, Text } from 'native-base'
 import { StyleSheet } from 'react-native'
 
+import SpinnerComponent from '../components/SpinnerComponent';
+
 import { rndIntGenerator } from '../helpers/helpers'
 
 const CardComponentMeanings = (props) => {
@@ -54,7 +56,7 @@ const CardComponentMeanings = (props) => {
 
    return (
       <Content>
-         {!rndAlternativesLoaded && <Text>Ladataan vaihtoehtoja...</Text>}
+         {!rndAlternativesLoaded && <SpinnerComponent text='Ladataan vaihtoehtoja' />}
          {rndAlternativesLoaded && (
             <Card>
                <CardItem header style={{backgroundColor: '#e8e8e8'}}>
