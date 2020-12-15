@@ -450,7 +450,9 @@ const FormsScreenGerman = (props) => {
                      )
                   )
                :
-               <SpinnerComponent text='Ladataan verbejä...' />
+               <Content>
+                  <SpinnerComponent text='Ladataan verbejä...' />
+               </Content>
                }
                {formsSelected && randomizedVerbs &&
                <ButtonComponent

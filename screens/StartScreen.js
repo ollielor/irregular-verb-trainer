@@ -2,17 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Alert, StyleSheet } from 'react-native';
 import { 
    Container, 
-   Button, 
-   Body,
-   Left,
-   Right, 
-   Spinner, 
-   Header,
-   Text,
-   Title, 
    Content,
-   Icon
 } from 'native-base';
+
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -32,12 +24,8 @@ const StartScreen = (props) => {
 
    const [fontsLoaded, setFontsLoaded] = useState(false);
    const [settingsLength, setSettingsLength] = useState(0);
-   const [saveButtonEnabled, setSaveButtonEnabled] = useState(false);
    const [settingsEmpty, setSettingsEmpty] = useState(false);
-   const [settingsSaved, setSettingsSaved] = useState(false);
-   const [settingsCleared, setSettingsCleared] = useState(false);
    const [settingsLoaded, setSettingsLoaded] = useState(false);
-   const [initialized, setInitialized] = useState(false);
 
    const { navigation: {navigate} } = props;
 
@@ -144,30 +132,13 @@ const StartScreen = (props) => {
               console.log("Transaction error (Save): ", error);
             },
             null,
-            null, //updateList
+            null,
           );
   }, [props.level, props.language, props.infinitive, props.present, props.past, props.presperf]);
  
-  /*useEffect(() => {
-   const loadFonts = async () => {
-      try {
-         await Font.loadAsync({
-         Roboto: require('native-base/Fonts/Roboto.ttf'),
-         Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-         ...Ionicons.font,
-         })
-         setIsReady(true);
-      } catch (error) {
-         console.log(error);
-      }
-   }
-   loadFonts();
-}, [])*/
 
-
-// Only used for testing purposes
+// This function is only used for testing purposes
 const clearSettings = () => {
-   Alert.alert('testi');
    DatabaseSettings.transaction(
       tx => {
          tx.executeSql(

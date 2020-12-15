@@ -38,7 +38,6 @@ const StartScreenGerman = props => {
                'select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id',
                [],
                (tx, results) => {
-                  console.log('Results: ', results.rows._array)
                   props.dispatch(fetchVerbsGerman(results.rows._array));
                },
                (tx, error) => {

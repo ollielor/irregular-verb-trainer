@@ -18,7 +18,6 @@ import HeaderComponent from "../../components/header/HeaderComponent";
 import CardComponentMeanings from "../../components/cards/CardComponentMeanings";
 import GermanResultView from "../../components/results/GermanResultView";
 import LatestResultsGerman from "../../components/results/LatestResultsGerman";
-import LevelComponent from '../../components/LevelComponent';
 import SpinnerComponent from '../../components/styling/SpinnerComponent';
 
 import { connect } from 'react-redux';
@@ -277,8 +276,6 @@ const MeaningsScreenGerman = (props) => {
 
   return (
     <Container style={styles.container}>
-      {console.log('Verb level: ', props.level)}
-      {console.log(verbs)}
       <HeaderComponent title="Verbien merkityksiä" goBack={navigation.goBack} />
       <Content>
         {!randomizedVerbs && <Text>Arvotaan verbejä...</Text>}
