@@ -1,9 +1,9 @@
-import React from 'react'
-import { StyleSheet, Platform } from 'react-native'
-import { Text } from 'native-base'
+import React from 'react';
+import { StyleSheet, Platform } from 'react-native';
+import { Text } from 'native-base';
 
 const CorrectAnswerComponent = (props) => {
-   console.log('correctAnswerComponent: ', props)
+   console.log('correctAnswerComponent: ', props);
 
    return (
       <Text style={Platform.OS === 'ios' ? styles.textIOS : styles.textAndroid}>
@@ -15,10 +15,10 @@ const CorrectAnswerComponent = (props) => {
               )
             : props.form}
       </Text>
-   )
-}
+   );
+};
 
-export default CorrectAnswerComponent
+export default CorrectAnswerComponent;
 
 const styles = StyleSheet.create({
    textIOS: {
@@ -28,4 +28,4 @@ const styles = StyleSheet.create({
       color: '#7E00C5',
       paddingLeft: 8,
    },
-})
+});

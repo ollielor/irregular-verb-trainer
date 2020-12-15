@@ -1,26 +1,32 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Body, Button, Card, CardItem, Content, Text } from 'native-base'
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
+import {
+   Body,
+   Button,
+   Card,
+   CardItem,
+   Content,
+   Spinner,
+   Text,
+} from 'native-base';
 
-import moment from 'moment'
+import moment from 'moment';
 
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native';
 
-import Heading from './Heading'
+import Heading from '../styling/Heading';
 
-const LatestResultsGerman = (props) => {
-   const navigation = useNavigation()
+const ResultHistoryView = (props) => {
+   const navigation = useNavigation();
 
    return (
       <Content>
-         <Heading>{props.count} viimeisintä tulosta</Heading>
+         {!props.hideButton && <Heading>10 viimeisintä tulosta</Heading>}
          {props.resultHistory &&
             props.resultHistory
-               .filter(historyItem => historyItem.type === props.type)
                .sort((a, b) =>
                   a.datetime < b.datetime ? 1 : a.datetime > b.datetime ? -1 : 0
                )
-               .slice(0, props.count)
                .map((historyItem) => (
                   <Card key={historyItem.id}>
                      <CardItem header>
@@ -65,10 +71,10 @@ const LatestResultsGerman = (props) => {
             </Button>
          )}
       </Content>
-   )
-}
+   );
+};
 
-export default LatestResultsGerman
+export default ResultHistoryView;
 
 const styles = StyleSheet.create({
    header: {
@@ -84,4 +90,4 @@ const styles = StyleSheet.create({
       marginTop: 20,
       marginBottom: 20,
    },
-})
+});

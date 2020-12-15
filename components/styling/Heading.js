@@ -1,5 +1,5 @@
-import React from 'react'
-import { Text } from 'native-base'
+import React from 'react';
+import { Text } from 'native-base';
 
 const Heading = (props) => {
    return (
@@ -14,7 +14,7 @@ const Heading = (props) => {
             marginBottom: 15,
          }}
       />
-   )
-}
+   );
+};
 
-export default Heading
+export default Heading;

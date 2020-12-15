@@ -1,11 +1,11 @@
-import React from 'react'
-import { Body, Card, CardItem, Content, Text } from 'native-base'
+import React from 'react';
+import { Body, Card, CardItem, Content, Text } from 'native-base';
 
 const CardComponentBrowse = (props) => {
    return (
       <Content>
          <Card>
-            <CardItem style={{backgroundColor: '#e8e8e8'}}>
+            <CardItem style={{ backgroundColor: '#e8e8e8' }}>
                <Body>
                   <Text style={{ color: '#7E00C5', fontWeight: 'bold' }}>
                      {props.verb.infinitive},&nbsp;
@@ -23,7 +23,7 @@ const CardComponentBrowse = (props) => {
             </CardItem>
          </Card>
       </Content>
-   )
-}
+   );
+};
 
-export default CardComponentBrowse
+export default CardComponentBrowse;

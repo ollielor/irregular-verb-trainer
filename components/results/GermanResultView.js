@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Button, Container, Content, Text } from 'native-base'
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Button, Container, Content, Text } from 'native-base';
 
 const GermanResultView = (props) => {
    return (
@@ -28,19 +28,19 @@ const GermanResultView = (props) => {
             Oikeita vastauksia: {props.results.amountCorrectAnswers} /{' '}
             {props.results.totalAnswered || props.results.maxQuestions}
          </Text>
-         {props.forms &&
+         {props.forms && (
             <Text style={styles.feedbackPoints}>
                Katso oikeat vastaukset alta.
             </Text>
-         }
+         )}
          <Button style={styles.startAgainButton} onPress={props.startAgain}>
             <Text uppercase={false}>Aloita uudestaan</Text>
          </Button>
       </Content>
-   )
-}
+   );
+};
 
-export default GermanResultView
+export default GermanResultView;
 
 const styles = StyleSheet.create({
    feedback: {
@@ -60,4 +60,4 @@ const styles = StyleSheet.create({
       marginTop: 20,
       marginBottom: 20,
    },
-})
+});

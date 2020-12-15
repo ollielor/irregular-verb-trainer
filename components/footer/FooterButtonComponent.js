@@ -1,5 +1,5 @@
-import React from 'react'
-import { Button, Text } from 'native-base'
+import React from 'react';
+import { Button, Text } from 'native-base';
 
 const ButtonComponent = (props) => {
    return (
@@ -8,7 +8,7 @@ const ButtonComponent = (props) => {
             {props.title}
          </Text>
       </Button>
-   )
-}
+   );
+};
 
-export default ButtonComponent
+export default ButtonComponent;

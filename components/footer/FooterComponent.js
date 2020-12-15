@@ -1,12 +1,12 @@
-import React from 'react'
-import { Footer, FooterTab } from 'native-base'
+import React from 'react';
+import { Footer, FooterTab } from 'native-base';
 
-import FooterButtonComponent from '../components/FooterButtonComponent'
+import FooterButtonComponent from './FooterButtonComponent';
 
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native';
 
 const FooterComponent = (props) => {
-   const navigation = useNavigation()
+   const navigation = useNavigation();
 
    return (
       <Footer style={{ backgroundColor: '#0047c5' }}>
@@ -29,7 +29,7 @@ const FooterComponent = (props) => {
             />
          </FooterTab>
       </Footer>
-   )
-}
+   );
+};
 
-export default FooterComponent
+export default FooterComponent;

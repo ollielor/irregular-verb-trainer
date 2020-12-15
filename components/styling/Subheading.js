@@ -1,5 +1,5 @@
-import React from 'react'
-import { Text } from 'native-base'
+import React from 'react';
+import { Text } from 'native-base';
 
 const Subheading = (props) => {
    return (
@@ -12,7 +12,7 @@ const Subheading = (props) => {
             marginBottom: 10,
          }}
       />
-   )
-}
+   );
+};
 
-export default Subheading
+export default Subheading;
