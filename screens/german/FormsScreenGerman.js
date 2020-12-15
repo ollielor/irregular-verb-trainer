@@ -70,7 +70,6 @@ const FormsScreenGerman = (props) => {
 
    useEffect(() => {
       if (props.tenses) {
-         console.log(props.tenses);
          const amountSelectedForms = Object.values(props.tenses).filter(
             (tense) => tense === true
          );
@@ -80,19 +79,15 @@ const FormsScreenGerman = (props) => {
       let tensesArray = [];
       if (props.infinitive) {
          tensesArray = [...tensesArray, 1];
-         console.log('infinitive');
       }
       if (props.present) {
          tensesArray = [...tensesArray, 2];
-         console.log('present');
       }
       if (props.past) {
          tensesArray = [...tensesArray, 3];
-         console.log('past');
       }
       if (props.presperf) {
          tensesArray = [...tensesArray, 4];
-         console.log('presperf');
       }
       setTenseNames(
          tensesArray
@@ -293,7 +288,6 @@ const FormsScreenGerman = (props) => {
    };
 
    const evaluate = (answer, correct, tense, index) => {
-      console.log('Index: ', index);
       // This function is responsible for setting the points state and setting the state for focusing in CardComponentForms.js
       const preparedAnswer = prepareAnswer(answer, tense);
       let correctModified;
@@ -306,9 +300,7 @@ const FormsScreenGerman = (props) => {
       if (checkAnswerStrings(preparedAnswer, correctModified)) {
          setPoints(points + 10);
          // Focus to next component if the user has given a correct answer to the last field of the component
-         console.log('tenseNames: ', tenseNames);
          const lastForm = tenseNames[tenseNames.length - 1];
-         console.log('lastForm: ', lastForm);
          if (lastForm === tense && index <= 4) {
             setAnsweredIndex(index + 1);
          }

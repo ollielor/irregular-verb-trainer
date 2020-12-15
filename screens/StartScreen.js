@@ -58,7 +58,6 @@ const StartScreen = (props) => {
             tx.executeSql(
                'create table if not exists settings (id integer primary key not null, language integer, level integer, infinitive integer, present integer, past intteger, presperf integer);'
             );
-            console.log('Table created');
          },
          null,
          null,
@@ -76,7 +75,6 @@ const StartScreen = (props) => {
                'select * from settings where id=1;',
                [],
                (tx, results) => {
-                  console.log('Results from fetchSettings: ', results);
                   if (results) {
                      setSettingsLength(results.rows._array.length);
                      if (results.rows._array.length > 0) {

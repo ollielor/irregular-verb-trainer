@@ -95,13 +95,10 @@ const MeaningsScreenGerman = (props) => {
    const evaluate = (accuracy) => {
       if (accuracy) {
          setPoints(points + 20);
-         console.log(points);
          setAnswered([...answered, { accuracy: 'correct' }]);
-         console.log(answered);
       }
       if (!accuracy) {
          setAnswered([...answered, { accuracy: 'incorrect' }]);
-         console.log(answered);
       }
       setMaxPoints(maxPoints + 20);
    };

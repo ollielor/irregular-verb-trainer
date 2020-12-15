@@ -45,7 +45,6 @@ const CardComponentForms = (props) => {
             past: pastSynonyms,
             presPerf: presPerfSynonyms,
          });
-         console.log('SynonymousForms: ', synonymousForms);
       }
    }, []);
 
@@ -171,8 +170,6 @@ const CardComponentForms = (props) => {
    const inputRef2 = useRef();
    const inputRef3 = useRef();
    const inputRef4 = useRef();
-
-   console.log(props.answeredIndex);
 
    return (
       <>
