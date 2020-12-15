@@ -13,13 +13,13 @@ import {
   filterVerbsByLevel
 } from "../../helpers/helpers";
 
-import FooterComponent from "../../components/FooterComponent";
-import HeaderComponent from "../../components/HeaderComponent";
-import CardComponentMeanings from "../../components/CardComponentMeanings";
-import GermanResultView from "../../components/GermanResultView";
-import LatestResultsGerman from "../../components/LatestResultsGerman";
+import FooterComponent from "../../components/footer/FooterComponent";
+import HeaderComponent from "../../components/header/HeaderComponent";
+import CardComponentMeanings from "../../components/cards/CardComponentMeanings";
+import GermanResultView from "../../components/results/GermanResultView";
+import LatestResultsGerman from "../../components/results/LatestResultsGerman";
 import LevelComponent from '../../components/LevelComponent';
-import SpinnerComponent from '../../components/SpinnerComponent';
+import SpinnerComponent from '../../components/styling/SpinnerComponent';
 
 import { connect } from 'react-redux';
 

@@ -23,9 +23,9 @@ import DatabaseVerbs from '../../modules/DatabaseVerbs';
 
 import { connect } from 'react-redux';
 
-import ButtonComponent from '../../components/ButtonComponent';
-import FooterComponent from '../../components/FooterComponent';
-import HeaderComponent from '../../components/HeaderComponent';
+import ButtonComponent from '../../components/buttons/ButtonComponent';
+import FooterComponent from '../../components/footer/FooterComponent';
+import HeaderComponent from '../../components/header/HeaderComponent';
 
 const StartScreenGerman = props => {
 

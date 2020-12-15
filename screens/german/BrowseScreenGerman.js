@@ -15,12 +15,12 @@ import { useNavigation } from '@react-navigation/native';
 
 import DatabaseVerbs from '../../modules/DatabaseVerbs';
 
-import FooterComponent from '../../components/FooterComponent';
-import HeaderComponent from '../../components/HeaderComponent';
-import CardComponentBrowse from '../../components/CardComponentBrowse';
-import Heading from '../../components/Heading';
+import FooterComponent from '../../components/footer/FooterComponent';
+import HeaderComponent from '../../components/header/HeaderComponent';
+import CardComponentBrowse from '../../components/cards/CardComponentBrowse';
+import Heading from '../../components/styling/Heading';
 
-const GermanBrowseScreen = props => {
+const BrowseScreenGerman = props => {
 
    const [dbOpened, setDbOpened] = useState(false);
    const [verbs, setVerbs] = useState([]);
@@ -94,7 +94,7 @@ const mapStateToProps = state => ({
 
 export default connect(
    mapStateToProps,
-)(GermanBrowseScreen);
+)(BrowseScreenGerman);
 
 const styles = StyleSheet.create({
   container: {

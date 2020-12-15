@@ -2,14 +2,14 @@ import React from 'react'
 import { StyleSheet } from 'react-native';
 import { Body, Card, CardItem, Content } from 'native-base';
 
-import ButtonComponent from '../components/ButtonComponent';
-import ButtonComponentNarrow from '../components/ButtonComponentNarrow'
-import Heading from '../components/Heading'
-import Subheading from './Subheading';
+import ButtonComponent from '../buttons/ButtonComponent';
+import ButtonComponentNarrow from '../buttons/ButtonComponentNarrow'
+import Heading from '../styling/Heading'
+import Subheading from '../styling/Subheading';
 
 import { connect } from 'react-redux';
 
-import { updateLanguage, updateLevel } from '../store/actions/settings';
+import { updateLanguage, updateLevel } from '../../store/actions/settings';
 
 const SettingsComponent = (props) => {
 

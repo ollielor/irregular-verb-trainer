@@ -14,7 +14,7 @@ import moment from 'moment'
 
 import { useNavigation } from '@react-navigation/native'
 
-import Heading from './Heading'
+import Heading from '../styling/Heading'
 
 const ResultHistoryView = (props) => {
    const navigation = useNavigation()

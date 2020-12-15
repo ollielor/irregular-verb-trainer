@@ -10,14 +10,14 @@ import {
 import { useNavigation } from '@react-navigation/native';
 
 import DatabaseResults from '../../modules/DatabaseResults';
-import ResultHistoryView from '../../components/ResultHistoryView';
-import Heading from '../../components/Heading';
-import HeaderComponent from '../../components/HeaderComponent';
-import Subheading from '../../components/Subheading';
-import FooterComponent from '../../components/FooterComponent';
-import ButtonComponent from '../../components/ButtonComponent';
-import ProgressComponent from '../../components/ProgressComponent';
-import SpinnerComponent from '../../components/SpinnerComponent';
+import ResultHistoryView from '../../components/results/ResultHistoryView';
+import Heading from '../../components/styling/Heading';
+import HeaderComponent from '../../components/header/HeaderComponent';
+import Subheading from '../../components/styling/Subheading';
+import FooterComponent from '../../components/footer/FooterComponent';
+import ButtonComponent from '../../components/buttons/ButtonComponent';
+import ProgressComponent from '../../components/results/ProgressComponent';
+import SpinnerComponent from '../../components/styling/SpinnerComponent';
 
 const HistoryScreenGerman = props => {
 

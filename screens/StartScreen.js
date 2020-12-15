@@ -19,14 +19,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import { updateLanguage, updateLevel, updateInfinitive, updatePresent, updatePast, updatePresperf } from '../store/actions/settings';
 
-import ButtonComponent from '../components/ButtonComponent';
-import FooterComponent from '../components/FooterComponent';
-import HeaderComponent from '../components/HeaderComponent';
-import FormsSelector from '../components/FormsSelector';
-import SpinnerComponent from '../components/SpinnerComponent';
+import ButtonComponent from '../components/buttons/ButtonComponent';
+import FooterComponent from '../components/footer/FooterComponent';
+import HeaderComponent from '../components/header/HeaderComponent';
+import FormsSelector from '../components/settings/FormsSelector';
+import SpinnerComponent from '../components/styling/SpinnerComponent';
 
 import DatabaseSettings from '../modules/DatabaseSettings'
-import SettingsComponent from '../components/SettingsComponent';
+import SettingsComponent from '../components/settings/SettingsComponent';
 
 const StartScreen = (props) => {
 

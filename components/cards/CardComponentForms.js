@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { StyleSheet, TextInput, Platform, ScrollView } from 'react-native'
 import { Body, Card, CardItem, Spinner, Text } from 'native-base'
-import CorrectAnswerComponent from './CorrectAnswerComponent'
+import CorrectAnswerComponent from '../styling/CorrectAnswerComponent'
 import { connect } from 'react-redux'
-import { checkIfLast, checkNext } from '../helpers/helpers'
-import InputComponentForms from '../components/InputComponentForms';
+import { checkIfLast, checkNext } from '../../helpers/helpers'
+import InputComponentForms from '../forms/InputComponentForms';
 
 const CardComponentForms = (props) => {
    const [correctInfinitive, setCorrectInfinitive] = useState(false)

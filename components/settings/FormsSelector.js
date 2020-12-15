@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native';
 import { Body, Card, CardItem, Content, Left, List, ListItem, Right, Switch, Text } from 'native-base';
 
-import ButtonComponent from '../components/ButtonComponent';
-import ButtonComponentNarrow from '../components/ButtonComponentNarrow'
-import Heading from '../components/Heading'
-import Subheading from './Subheading';
+import ButtonComponent from '../buttons/ButtonComponent';
+import ButtonComponentNarrow from '../buttons/ButtonComponentNarrow'
+import Heading from '../styling/Heading'
+import Subheading from '../styling/Subheading';
 
 import { connect } from 'react-redux';
 
-import { updateInfinitive, updatePresent, updatePast, updatePresperf } from '../store/actions/settings';
+import { updateInfinitive, updatePresent, updatePast, updatePresperf } from '../../store/actions/settings';
 
 const FormsSelector = (props) => {
 

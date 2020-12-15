@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { Body, Button, Card, CardItem, Content, Text } from 'native-base'
 import { StyleSheet } from 'react-native'
 
-import SpinnerComponent from '../components/SpinnerComponent';
+import SpinnerComponent from '../styling/SpinnerComponent';
 
-import { rndIntGenerator } from '../helpers/helpers'
+import { rndIntGenerator } from '../../helpers/helpers'
 
 const CardComponentMeanings = (props) => {
    const [correct, setCorrect] = useState(false)

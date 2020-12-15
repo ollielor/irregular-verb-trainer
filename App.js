@@ -6,7 +6,7 @@ import { createStackNavigator} from'@react-navigation/stack';
 import StartScreen from './screens/StartScreen';
 import StartScreenGerman from './screens/german/StartScreenGerman';
 
-import GermanBrowseScreen from './screens/german/GermanBrowseScreen';
+import BrowseScreenGerman from './screens/german/BrowseScreenGerman';
 import MeaningsScreenGerman from './screens/german/MeaningsScreenGerman';
 import HistoryScreenGerman from './screens/german/HistoryScreenGerman';
 import FormsScreenGerman from './screens/german/FormsScreenGerman';
@@ -58,7 +58,7 @@ const App = () => {
                }}>
                <Stack.Screen name='Koti' component={StartScreen} />
                <Stack.Screen name='Saksa' component={StartScreenGerman} />
-               <Stack.Screen name='Selaa ja opettele (saksa)' component={GermanBrowseScreen} />
+               <Stack.Screen name='Selaa ja opettele (saksa)' component={BrowseScreenGerman} />
                <Stack.Screen name='Harjoittele merkityksiä (saksa)' component={MeaningsScreenGerman} />
                <Stack.Screen name='Harjoittele muotoja (saksa)' component={FormsScreenGerman} />
                <Stack.Screen name='Omat tulokseni (saksa)' component={HistoryScreenGerman} />
