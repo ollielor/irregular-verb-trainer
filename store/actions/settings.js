@@ -5,44 +5,44 @@ export const UPDATE_PRESENT = 'UPDATE_PRESENT';
 export const UPDATE_PAST = 'UPDATE_PAST';
 export const UPDATE_PRESPERF = 'UPDATE_PRESPERF';
 
-export const updateLanguage = language => {
+export const updateLanguage = (language) => {
    return {
       type: UPDATE_LANGUAGE,
-      payload: language
-   }
-}
+      payload: language,
+   };
+};
 
-export const updateLevel = level => {
+export const updateLevel = (level) => {
    return {
       type: UPDATE_LEVEL,
-      payload: level
-   }   
-}
+      payload: level,
+   };
+};
 
-export const updateInfinitive = infinitive => {
+export const updateInfinitive = (infinitive) => {
    return {
       type: UPDATE_INFINITIVE,
-      payload: infinitive
-   }   
-}
+      payload: infinitive,
+   };
+};
 
-export const updatePresent = present => {
+export const updatePresent = (present) => {
    return {
       type: UPDATE_PRESENT,
-      payload: present
-   }   
-}
+      payload: present,
+   };
+};
 
-export const updatePast = past => {
+export const updatePast = (past) => {
    return {
       type: UPDATE_PAST,
-      payload: past
-   }   
-}
+      payload: past,
+   };
+};
 
-export const updatePresperf = presperf => {
+export const updatePresperf = (presperf) => {
    return {
       type: UPDATE_PRESPERF,
-      payload: presperf
-   }   
-}
+      payload: presperf,
+   };
+};
