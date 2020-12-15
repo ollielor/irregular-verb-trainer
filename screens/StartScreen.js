@@ -33,7 +33,7 @@ const StartScreen = (props) => {
    const [fontsLoaded, setFontsLoaded] = useState(false);
    const [settingsLength, setSettingsLength] = useState(0);
    const [saveButtonEnabled, setSaveButtonEnabled] = useState(false);
-   const [settingsDbCreated, setSettingsDbCreated] = useState(false);
+   const [settingsEmpty, setSettingsEmpty] = useState(false);
    const [settingsSaved, setSettingsSaved] = useState(false);
    const [settingsCleared, setSettingsCleared] = useState(false);
    const [settingsLoaded, setSettingsLoaded] = useState(false);
@@ -66,7 +66,7 @@ const StartScreen = (props) => {
          DatabaseSettings.transaction(
             (tx) => {
             tx.executeSql(
-               "create table if not exists settings (id integer primary key not null, language int not null, level int not null, infinitive int not null, present int not null, past int not null, presperf int not null);"
+               "create table if not exists settings (id integer primary key not null, language integer, level integer, infinitive integer, present integer, past intteger, presperf integer);"
             );
             console.log('Table created')
               },
@@ -97,6 +97,8 @@ const StartScreen = (props) => {
                         props.dispatch(updatePast(results.rows._array[0].past === 1 ? true : false))
                         props.dispatch(updatePresperf(results.rows._array[0].presperf === 1 ? true : false))
                         setSettingsLoaded(true);
+                     } else {
+                        setSettingsEmpty(true);
                      }
                   }
             },
@@ -162,6 +164,8 @@ const StartScreen = (props) => {
    loadFonts();
 }, [])*/
 
+
+// Only used for testing purposes
 const clearSettings = () => {
    Alert.alert('testi');
    DatabaseSettings.transaction(
@@ -193,7 +197,7 @@ const clearSettings = () => {
             {!fontsLoaded && 
                <SpinnerComponent text='Ladataan fontteja...' />
             }
-            {!settingsLoaded && 
+            {!settingsLoaded && !settingsEmpty && 
                <SpinnerComponent text='Ladataan asetuksia...' />
             }
             {fontsLoaded && settingsLoaded &&

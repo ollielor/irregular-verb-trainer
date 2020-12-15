@@ -27,9 +27,7 @@ import ButtonComponent from '../../components/ButtonComponent';
 import FooterComponent from '../../components/FooterComponent';
 import HeaderComponent from '../../components/HeaderComponent';
 
-const GermanStartScreen = props => {
-
-   console.log('Props from GermanStartScreen: ', props);
+const StartScreenGerman = props => {
 
    const navigation = useNavigation();
 
@@ -76,7 +74,7 @@ const mapStateToProps = state => ({
 
 export default connect(
    mapStateToProps,
-)(GermanStartScreen);
+)(StartScreenGerman);
 
 const styles = StyleSheet.create({
   container: {

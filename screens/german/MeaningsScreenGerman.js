@@ -23,7 +23,7 @@ import SpinnerComponent from '../../components/SpinnerComponent';
 
 import { connect } from 'react-redux';
 
-const GermanMeaningsScreen = (props) => {
+const MeaningsScreenGerman = (props) => {
   const [verbs, setVerbs] = useState([]);
   const [verbsFiltered, setVerbsFiltered] = useState(false);
   const [randomizedVerbs, setRandomizedVerbs] = useState([]);
@@ -313,7 +313,7 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-)(GermanMeaningsScreen);
+)(MeaningsScreenGerman);
 
 const styles = StyleSheet.create({
   container: {

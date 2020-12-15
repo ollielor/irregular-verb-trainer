@@ -19,7 +19,7 @@ import ButtonComponent from '../../components/ButtonComponent';
 import ProgressComponent from '../../components/ProgressComponent';
 import SpinnerComponent from '../../components/SpinnerComponent';
 
-const GermanHistoryScreen = props => {
+const HistoryScreenGerman = props => {
 
    const [historyMeanings, setHistoryMeanings] = useState([]);
    const [historyForms, setHistoryForms] = useState([]);
@@ -202,7 +202,7 @@ const GermanHistoryScreen = props => {
     );
 }
 
-export default GermanHistoryScreen;
+export default HistoryScreenGerman;
 
 const styles = StyleSheet.create({
   container: {

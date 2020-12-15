@@ -23,8 +23,9 @@ import GermanResultView from '../../components/GermanResultView'
 import CardComponentForms from '../../components/CardComponentForms'
 import ButtonComponent from '../../components/ButtonComponent'
 import LatestResultsGerman from '../../components/LatestResultsGerman'
+import SpinnerComponent from '../../components/SpinnerComponent'
 
-const GermanFormsScreen = (props) => {
+const FormsScreenGerman = (props) => {
    const [verbs, setVerbs] = useState([])
    const [verbsFiltered, setVerbsFiltered] = useState(false)
    const [randomizedVerbs, setRandomizedVerbs] = useState([])
@@ -52,8 +53,6 @@ const GermanFormsScreen = (props) => {
    const [resultsSaved, setResultsSaved] = useState(false);
 
    const navigation = useNavigation();
-
-   const { navigation: {navigate} } = props;
 
    console.log('Tenses: ', props.tenses)
 
@@ -401,7 +400,7 @@ const GermanFormsScreen = (props) => {
                      <LatestResultsGerman resultHistory={resultHistory} type={2} count={3} />
                   </>
                )}
-               {!formsSelected ? 
+               {!formsSelected && 
                <>
                   <Text
                   style={{
@@ -417,8 +416,8 @@ const GermanFormsScreen = (props) => {
                   </Text>
                   <ButtonComponent color='#7E00C5' title='Muuta asetuksia' function={() => navigation.navigate('Koti')} />
                   </>
-               :               
-               randomizedVerbs ?
+               }               
+               {randomizedVerbs ?
                   randomizedVerbs.map((verbFormArray, index) =>
                      verbFormArray.length === 1 ? (
                         verbFormArray.map((v, i) => (
@@ -451,8 +450,9 @@ const GermanFormsScreen = (props) => {
                      )
                   )
                :
-               null}
-               {formsSelected &&
+               <SpinnerComponent text='Ladataan verbejä...' />
+               }
+               {formsSelected && randomizedVerbs &&
                <ButtonComponent
                   color="#7E00C5"
                   title="Valmis"
@@ -479,7 +479,7 @@ const mapStateToProps = state => ({
 
 export default connect(
    mapStateToProps,
-)(GermanFormsScreen);
+)(FormsScreenGerman);
 
 const styles = StyleSheet.create({
    container: {

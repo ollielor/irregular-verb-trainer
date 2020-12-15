@@ -4,12 +4,12 @@ import { StyleSheet, View } from 'react-native';
 import { NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator} from'@react-navigation/stack';
 import StartScreen from './screens/StartScreen';
-import GermanStartScreen from './screens/german/GermanStartScreen';
+import StartScreenGerman from './screens/german/StartScreenGerman';
 
 import GermanBrowseScreen from './screens/german/GermanBrowseScreen';
-import GermanMeaningsScreen from './screens/german/GermanMeaningsScreen';
-import GermanHistoryScreen from './screens/german/GermanHistoryScreen';
-import GermanFormsScreen from './screens/german/GermanFormsScreen';
+import MeaningsScreenGerman from './screens/german/MeaningsScreenGerman';
+import HistoryScreenGerman from './screens/german/HistoryScreenGerman';
+import FormsScreenGerman from './screens/german/FormsScreenGerman';
 
 import DatabaseVerbs from './modules/DatabaseVerbs';
 
@@ -57,11 +57,11 @@ const App = () => {
                   headerShown: false
                }}>
                <Stack.Screen name='Koti' component={StartScreen} />
-               <Stack.Screen name='Saksa' component={GermanStartScreen} />
+               <Stack.Screen name='Saksa' component={StartScreenGerman} />
                <Stack.Screen name='Selaa ja opettele (saksa)' component={GermanBrowseScreen} />
-               <Stack.Screen name='Harjoittele merkityksiä (saksa)' component={GermanMeaningsScreen} />
-               <Stack.Screen name='Harjoittele muotoja (saksa)' component={GermanFormsScreen} />
-               <Stack.Screen name='Omat tulokseni (saksa)' component={GermanHistoryScreen} />
+               <Stack.Screen name='Harjoittele merkityksiä (saksa)' component={MeaningsScreenGerman} />
+               <Stack.Screen name='Harjoittele muotoja (saksa)' component={FormsScreenGerman} />
+               <Stack.Screen name='Omat tulokseni (saksa)' component={HistoryScreenGerman} />
             </Stack.Navigator>
          </NavigationContainer>
       </Provider>
