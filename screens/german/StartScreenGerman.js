@@ -1,20 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet } from 'react-native';
 import { 
    Container, 
-   Button, 
-   Text,
-   Body,
-   Left,
-   Right, 
-   Spinner, 
-   Header,
-   Title, 
    Content,
-   Footer,
-   FooterTab,
-   Icon,
-   Form
 } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { fetchVerbsGerman } from '../../store/actions/verbs';

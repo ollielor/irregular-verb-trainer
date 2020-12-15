@@ -7,8 +7,7 @@ import DatabaseResults from "../../modules/DatabaseResults";
 import { useNavigation } from "@react-navigation/native";
 
 import {
-  rndIntGenerator,
-  getRandomVerb,
+  getRndVerbs,
   getCurrentDate,
   filterVerbsByLevel
 } from "../../helpers/helpers";
@@ -48,56 +47,10 @@ const MeaningsScreenGerman = (props) => {
 
   useEffect(() => {
     setVerbsFiltered(false);
-    console.log('verbsGerman: ', props.verbsGerman)
     const filteredVerbs = filterVerbsByLevel(props.verbsGerman, props.level);
     setVerbs(filteredVerbs);
     setVerbsFiltered(true);
   }, [props.level, props.verbsGerman])
-
-  /*useEffect(() => {
-    DatabaseVerbs;
-  });*/
-
-  /*const loadVerbs = () => {
-    let query;
-    switch (level) {
-      case 1:
-        query =
-          "select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id where level=1;";
-        break;
-      case 2:
-        query =
-          "select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id where level=2;";
-        break;
-      case 3:
-        query =
-          "select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id where level=3;";
-        break;
-      case 4:
-        query =
-          "select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id;";
-        break;
-    }
-    DatabaseVerbs.transaction(
-      (tx) => {
-        tx.executeSql(
-          query,
-          [],
-          (tx, results) => {
-            setVerbs(results.rows._array);
-            setVerbsLoaded(true);
-          },
-          (tx, error) => {
-            console.log("Could not execute query: ", error);
-          }
-        );
-      },
-      (error) => {
-        console.log("Transaction error: ", error);
-      }
-    );
-    createResultsDb();
-  };*/
 
   const createResultsDb = () => {
     DatabaseResults.transaction(
@@ -134,31 +87,7 @@ const MeaningsScreenGerman = (props) => {
 
   useEffect(() => {
     if (verbsFiltered) {
-      let rndVerb;
-      let rndVerbs = [];
-      let rndVerbsFinal = [];
-      while (rndVerbsFinal.length <= 14) {
-        const rndInt = rndIntGenerator(verbs.length);
-        rndVerb = getRandomVerb(rndInt, verbs);
-        if (rndVerb !== undefined) {
-          rndVerbs.push(rndVerb);
-        }
-        if (rndVerb !== undefined && rndVerbs.length > 1) {
-          rndVerbsFinal = rndVerbs.filter(
-            (verb, index, self) =>
-              index === self.findIndex((v) => v.verb_id === verb.verb_id)
-          );
-        }
-      }
-      let rndVerbsThree = [];
-      let verbObjectArray = [];
-      for (let i = 0; i < rndVerbsFinal.length; i++) {
-        rndVerbsThree.push(rndVerbsFinal[i]);
-        if ((i + 1) % 3 === 0) {
-          verbObjectArray.push(rndVerbsThree);
-          rndVerbsThree = [];
-        }
-      }
+      const verbObjectArray = getRndVerbs(verbs, 14);
       setRandomizedVerbs(verbObjectArray);
     }
   }, [verbsFiltered]);
