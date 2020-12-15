@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { 
-   Container, 
-   Content
-} from 'native-base';
+import { Container, Content } from 'native-base';
 
 import * as SQLite from 'expo-sqlite';
 import * as FileSystem from 'expo-file-system';
@@ -20,8 +17,7 @@ import HeaderComponent from '../../components/header/HeaderComponent';
 import CardComponentBrowse from '../../components/cards/CardComponentBrowse';
 import Heading from '../../components/styling/Heading';
 
-const BrowseScreenGerman = props => {
-
+const BrowseScreenGerman = (props) => {
    const [dbOpened, setDbOpened] = useState(false);
    const [verbs, setVerbs] = useState([]);
    const [verbsIntermediate, setVerbsIntermediate] = useState([]);
@@ -30,12 +26,10 @@ const BrowseScreenGerman = props => {
    const navigation = useNavigation();
 
    useEffect(() => {
-      return () => {
+      return () => {};
+   }, []);
 
-      }
-   }, [])
-
-         /*FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/verbs_german.db`)
+   /*FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/verbs_german.db`)
          .then(result => {
          if (result.exists) {
             const db = SQLite.openDatabase('verbs_german.db');
@@ -48,7 +42,7 @@ const BrowseScreenGerman = props => {
 
       const db = SQLite.openDatabase('verbs_german.db');*/
 
-      /*DatabaseVerbs.transaction(
+   /*DatabaseVerbs.transaction(
          tx => {
             tx.executeSql(
                'select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id;', 
@@ -66,41 +60,51 @@ const BrowseScreenGerman = props => {
          },
       );*/
 
-    return (
-               <Container style={styles.container}>
-                  <HeaderComponent title='Selaa ja opettele' goBack={navigation.goBack} />
-                  <Content style={styles.contentContainer}>
-                     <Heading>
-                        Taso 1
-                     </Heading>
-                     {props.verbsGerman.filter(verb => verb.level === 1).sort((a,b) => a.infinitive > b.infinitive ? 1 : -1).map((verb, index) => <CardComponentBrowse key={index} verb={verb} /> )}
-                     <Heading>
-                        Taso 2
-                     </Heading>
-                     {props.verbsGerman.filter(verb => verb.level === 2).sort((a,b) => a.infinitive > b.infinitive ? 1 : -1).map((verb, index) => <CardComponentBrowse key={index} verb={verb} /> )}
-                     <Heading>
-                        Taso 3
-                     </Heading>
-                     {props.verbsGerman.filter(verb => verb.level === 3).sort((a,b) => a.infinitive > b.infinitive ? 1 : -1).map((verb, index) => <CardComponentBrowse key={index} verb={verb} /> )}
-                  </Content>
-                  <FooterComponent />
-               </Container>
-    );
-}
+   return (
+      <Container style={styles.container}>
+         <HeaderComponent
+            title="Selaa ja opettele"
+            goBack={navigation.goBack}
+         />
+         <Content style={styles.contentContainer}>
+            <Heading>Taso 1</Heading>
+            {props.verbsGerman
+               .filter((verb) => verb.level === 1)
+               .sort((a, b) => (a.infinitive > b.infinitive ? 1 : -1))
+               .map((verb, index) => (
+                  <CardComponentBrowse key={index} verb={verb} />
+               ))}
+            <Heading>Taso 2</Heading>
+            {props.verbsGerman
+               .filter((verb) => verb.level === 2)
+               .sort((a, b) => (a.infinitive > b.infinitive ? 1 : -1))
+               .map((verb, index) => (
+                  <CardComponentBrowse key={index} verb={verb} />
+               ))}
+            <Heading>Taso 3</Heading>
+            {props.verbsGerman
+               .filter((verb) => verb.level === 3)
+               .sort((a, b) => (a.infinitive > b.infinitive ? 1 : -1))
+               .map((verb, index) => (
+                  <CardComponentBrowse key={index} verb={verb} />
+               ))}
+         </Content>
+         <FooterComponent />
+      </Container>
+   );
+};
 
-const mapStateToProps = state => ({
-   verbsGerman: state.verbs.verbsGerman
-})
+const mapStateToProps = (state) => ({
+   verbsGerman: state.verbs.verbsGerman,
+});
 
-export default connect(
-   mapStateToProps,
-)(BrowseScreenGerman);
+export default connect(mapStateToProps)(BrowseScreenGerman);
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#d2d2d2',
-  },
-  contentContainer: {
-     padding: 10
-  },
-  });
+   container: {
+      backgroundColor: '#d2d2d2',
+   },
+   contentContainer: {
+      padding: 10,
+   },
+});

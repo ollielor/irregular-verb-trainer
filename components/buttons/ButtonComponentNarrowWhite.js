@@ -1,10 +1,15 @@
-import React from 'react'
-import { Button, Text } from 'native-base'
+import React from 'react';
+import { Button, Text } from 'native-base';
 
 const ButtonComponentNarrowWhite = (props) => {
    return (
       <Button
-         style={{ backgroundColor: 'transparent', borderColor: '#eee', marginLeft: 2, marginRight: 2 }}
+         style={{
+            backgroundColor: 'transparent',
+            borderColor: '#eee',
+            marginLeft: 2,
+            marginRight: 2,
+         }}
          onPress={props.function}
          bordered
       >
@@ -12,7 +17,7 @@ const ButtonComponentNarrowWhite = (props) => {
             {props.title}
          </Text>
       </Button>
-   )
-}
+   );
+};
 
-export default ButtonComponentNarrowWhite
+export default ButtonComponentNarrowWhite;

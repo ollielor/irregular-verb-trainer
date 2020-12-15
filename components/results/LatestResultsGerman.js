@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, View } from 'react-native'
-import { Body, Button, Card, CardItem, Content, Text } from 'native-base'
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Body, Button, Card, CardItem, Content, Text } from 'native-base';
 
-import moment from 'moment'
+import moment from 'moment';
 
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native';
 
-import Heading from '../styling/Heading'
+import Heading from '../styling/Heading';
 
 const LatestResultsGerman = (props) => {
-   const navigation = useNavigation()
+   const navigation = useNavigation();
 
    return (
       <Content>
          <Heading>{props.count} viimeisintä tulosta</Heading>
          {props.resultHistory &&
             props.resultHistory
-               .filter(historyItem => historyItem.type === props.type)
+               .filter((historyItem) => historyItem.type === props.type)
                .sort((a, b) =>
                   a.datetime < b.datetime ? 1 : a.datetime > b.datetime ? -1 : 0
                )
@@ -65,10 +65,10 @@ const LatestResultsGerman = (props) => {
             </Button>
          )}
       </Content>
-   )
-}
+   );
+};
 
-export default LatestResultsGerman
+export default LatestResultsGerman;
 
 const styles = StyleSheet.create({
    header: {
@@ -84,4 +84,4 @@ const styles = StyleSheet.create({
       marginTop: 20,
       marginBottom: 20,
    },
-})
+});

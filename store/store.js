@@ -4,7 +4,7 @@ import settingsReducer from './reducers/settings';
 
 const rootReducer = combineReducers({
    verbs: verbsReducer,
-   settings: settingsReducer
+   settings: settingsReducer,
 });
 
 const store = createStore(rootReducer);
