@@ -54,7 +54,6 @@ const StartScreenGerman = props => {
     return (
             
                <Container style={styles.container}>
-                  {console.log(props.verbsGerman)}
                   <HeaderComponent title='Saksa' goBack={navigation.goBack} />
                   <Content style={styles.contentContainer}>
                      <ButtonComponent color='#7E00C5' title='Selaa ja opettele verbejä' function={() => navigation.navigate('Selaa ja opettele (saksa)')} />
