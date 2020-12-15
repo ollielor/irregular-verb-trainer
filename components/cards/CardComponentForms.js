@@ -48,16 +48,6 @@ const CardComponentForms = (props) => {
       }
    }, []);
 
-   /*useEffect(() => {
-      // Focus on the first input of each card element
-      if (props.answeredIndex === props.index) {
-         props.infinitive ? inputRef1.current.focus() :
-         props.present ? inputRef2.current.focus() :
-         props.past ? inputRef3.current.focus() :
-         inputRef4.current.focus()
-      }
-   }, [props.answeredIndex, props.index])*/
-
    useEffect(() => {
       // Focus on the first input of each card element
       if (props.answeredIndex === props.index) {
@@ -199,7 +189,6 @@ const CardComponentForms = (props) => {
                                  unanswered={
                                     unansweredInfinitive ? true : false
                                  }
-                                 //onBlur={() => correctInfinitive && checkNext(props.tenseNames, 0, 'present') ? inputRef2.current.focus() : null}
                                  onBlur={() =>
                                     correctInfinitive && props.present
                                        ? inputRef2.current.focus()
@@ -209,8 +198,6 @@ const CardComponentForms = (props) => {
                                          props.presperf &&
                                          inputRef4.current.focus()
                                  }
-                                 /*onBlur={() => (correctInfinitive && props.present && inputRef2.current.focus()) || 
-                     (correctInfinitive && !props.present && props.past && inputRef3.current.focus()) ||*/
                                  placeholder="Perusmuoto"
                                  onChangeText={(answer) =>
                                     setAnswerInfinitive(answer)

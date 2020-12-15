@@ -29,37 +29,6 @@ const BrowseScreenGerman = (props) => {
       return () => {};
    }, []);
 
-   /*FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite/verbs_german.db`)
-         .then(result => {
-         if (result.exists) {
-            const db = SQLite.openDatabase('verbs_german.db');
-         } else {
-         FileSystem.downloadAsync(
-            Asset.fromModule(require('../../assets/verbs_german.db')).uri,
-            `${FileSystem.documentDirectory}SQLite/verbs_german.db`
-         )}
-         });
-
-      const db = SQLite.openDatabase('verbs_german.db');*/
-
-   /*DatabaseVerbs.transaction(
-         tx => {
-            tx.executeSql(
-               'select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id;', 
-               [],
-               (tx, results) => {
-                  setVerbs(results.rows._array);
-               },
-               (tx, error) => {
-                  console.log('Could not execute query: ', error);
-               }
-            );
-         },
-         error => {
-            console.log('Transaction error: ', error);
-         },
-      );*/
-
    return (
       <Container style={styles.container}>
          <HeaderComponent

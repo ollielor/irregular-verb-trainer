@@ -18,10 +18,7 @@ const InputComponentForms = React.forwardRef((props, ref) => {
                   : styles.formInput
             }
             ref={ref}
-            //onBlur={() => correctInfinitive && checkNext(props.tenseNames, 0, 'present') ? inputRef2.current.focus() : null}
             onBlur={props.onBlur}
-            /*onBlur={() => (correctInfinitive && props.present && inputRef2.current.focus()) || 
-            (correctInfinitive && !props.present && props.past && inputRef3.current.focus()) ||*/
             placeholder={props.placeholder}
             onChangeText={props.onChangeText}
             editable={props.editable}
