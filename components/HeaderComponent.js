@@ -1,9 +1,14 @@
 import React from 'react'
+import { StatusBar, Platform } from 'react-native';
 import { Button, Body, Left, Right, Header, Text, Title, Icon } from 'native-base'
 
 import { connect } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 const HeaderComponent = (props) => {
+
+   const navigation = useNavigation();
+
    return (
       <Header
          iosBarStyle="light-content"
@@ -21,7 +26,7 @@ const HeaderComponent = (props) => {
             <Title style={{ color: '#D2D2D2' }}>{props.title}</Title>
          </Body>
          <Right style={{ flex: 1 }}>
-            <Text style={{color: '#d2d2d2'}}>
+            <Text style={{color: '#d2d2d2'}} onPress={() => navigation.navigate('Koti')}>
                {props.language === 1 && 'SV, taso '}
                {props.language === 2 && 'DE, taso '}
                {props.level}

@@ -70,16 +70,3 @@ const App = () => {
 
 export default App;
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#404040',
-  },
-  contentContainer: {
-     padding: 10
-  },
-  centered: {
-     color: '#fff',
-     alignContent: 'center',
-     alignItems: 'center'
-  }
-  });
