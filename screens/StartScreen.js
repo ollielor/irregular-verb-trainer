@@ -134,6 +134,7 @@ const StartScreen = (props) => {
    useEffect(() => {
       let query;
       if (settingsLength === 0) {
+         setSettingsEmpty(true);
          query =
             'insert into settings (language, level, infinitive, present, past, presperf) values (?, ?, ?, ?, ?, ?);';
       } else {
