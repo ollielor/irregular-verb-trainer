@@ -3,7 +3,6 @@ import { StyleSheet, Platform } from 'react-native';
 import { Text } from 'native-base';
 
 const CorrectAnswerComponent = (props) => {
-   console.log('correctAnswerComponent: ', props);
 
    return (
       <Text style={Platform.OS === 'ios' ? styles.textIOS : styles.textAndroid}>
