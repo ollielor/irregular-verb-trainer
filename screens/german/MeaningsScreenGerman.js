@@ -58,7 +58,7 @@ const MeaningsScreenGerman = (props) => {
       const filteredVerbs = filterVerbsByLevel(verbsByLanguage, props.level);
       setVerbs(filteredVerbs);
       setVerbsFiltered(true);
-   }, [props.level, props.verbsGerman, props.verbsSwedish]);
+   }, [props.level, props.language]);
 
    const createResultsDb = () => {
       DatabaseResults.transaction(

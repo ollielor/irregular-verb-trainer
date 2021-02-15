@@ -60,6 +60,21 @@ const FormsScreenGerman = (props) => {
          );
       }
    });*/
+   
+   /*useEffect(() => {
+      setVerbsFiltered(false);
+      let verbsByLanguage;
+      if (props.language === 1) {
+         verbsByLanguage = props.verbsSwedish.filter(verb => verb.infinitive.length > 1);
+         console.log(verbsByLanguage);
+      } else {
+         verbsByLanguage = props.verbsGerman;
+      }
+      console.log('Level: ', props.level)
+      const filteredVerbs = filterVerbsByLevel(verbsByLanguage, props.level);
+      setVerbs(filteredVerbs);
+      setVerbsFiltered(true);
+   }, [props.level, props.language]);*/
 
    useEffect(() => {
       if (props.infinitive || props.present || props.past || props.presperf) {
@@ -112,7 +127,13 @@ const FormsScreenGerman = (props) => {
 
    useEffect(() => {
       setVerbsFiltered(false);
-      const filteredVerbs = filterVerbsByLevel(props.verbsGerman, props.level);
+      let verbsByLanguage;
+      if (props.language === 1) {
+         verbsByLanguage = props.verbsSwedish.filter(verb => verb.infinitive.length > 1);
+      } else {
+         verbsByLanguage = props.verbsGerman;
+      }
+      const filteredVerbs = filterVerbsByLevel(verbsByLanguage, props.level);
       setVerbs(filteredVerbs);
       setVerbsFiltered(true);
    }, [props.level, props.verbsGerman]);
@@ -246,7 +267,7 @@ const FormsScreenGerman = (props) => {
       }
    }, [finished]);
 
-   const prepareAnswer = (answer) => {
+   const prepareAnswerGerman = (answer) => {
       // The function prepares the given answers for accuracy check using different string operations
       let preparedAnswer = '';
       // Replace German sharp S with the string '1'
@@ -273,6 +294,30 @@ const FormsScreenGerman = (props) => {
       return preparedAnswer.trim();
    };
 
+   const prepareAnswerSwedish = (answer) => {
+      // The function prepares the given answers for accuracy check using different string operations
+      let preparedAnswer = '';
+      // Replace German sharp S with the string '1'
+      let stringArray = answer
+         .trim()
+         .toUpperCase()
+         .toLowerCase()
+         .split(' ');
+      // Filter out pronouns if they precede verb form
+      let withoutPronounsArray = stringArray.filter(
+         (word) =>
+            word !== 'han' &&
+            word !== 'hon' &&
+            word !== 'hen' &&
+            word !== 'han/hon' &&
+            word !== 'han/hon/hen'
+      );
+      for (let i = 0; i < withoutPronounsArray.length; i++) {
+         preparedAnswer += ' ' + withoutPronounsArray[i];
+      }
+      return preparedAnswer.trim();
+   };
+
    const checkAnswerStrings = (preparedAnswer, correct) => {
       // The function checks if the prepared answer matches with the correct answer and returns true if they match
       // Check if the correct answer is an array (i.e. if it has synonymous forms)
@@ -289,7 +334,12 @@ const FormsScreenGerman = (props) => {
 
    const evaluate = (answer, correct, tense, index) => {
       // This function is responsible for setting the points state and setting the state for focusing in CardComponentForms.js
-      const preparedAnswer = prepareAnswer(answer, tense);
+      let preparedAnswer;
+      if (props.language === 1) {
+         preparedAnswer = prepareAnswerSwedish(answer);
+      } else {
+         preparedAnswer = prepareAnswerGerman(answer);
+      }
       let correctModified;
       if (!Array.isArray(correct)) {
          correctModified = correct.replace('/', '');
@@ -416,15 +466,16 @@ const FormsScreenGerman = (props) => {
                      function={finish}
                   />
                )}
-               <FooterComponent />
             </ScrollView>
          </KeyboardAvoidingView>
+         <FooterComponent />
       </Container>
    );
 };
 
 const mapStateToProps = (state) => ({
    verbsGerman: state.verbs.verbsGerman,
+   verbsSwedish: state.verbs.verbsSwedish,
    level: state.settings.level,
    language: state.settings.language,
    infinitive: state.settings.tenses.infinitive,
