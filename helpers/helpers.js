@@ -3,8 +3,10 @@ export const rndIntGenerator = (highest) => {
 };
 
 export const getRandomVerb = (rndInt, verbs) => {
-   return verbs.filter((verb) => verb.verb_id === rndInt)[0];
-};
+   console.log('Verbs from getRandomVerb: ', verbs)
+   console.log('From getRandomVerb: ', verbs.filter((verb) => verb.meaning_id === rndInt)[0]);
+   return verbs[rndInt];
+}
 
 export const getCurrentDate = () => {
    return new Date().toISOString();
@@ -18,13 +20,10 @@ export const filterVerbsByLevel = (verbs, level) => {
    switch (level) {
       case 1:
          return verbs.filter((verb) => verb.level === 1);
-         break;
       case 2:
          return verbs.filter((verb) => verb.level === 1 || verb.level === 2);
-         break;
       case 3:
          return verbs;
-         break;
       default:
          return verbs;
    }
@@ -32,16 +31,17 @@ export const filterVerbsByLevel = (verbs, level) => {
 
 // This function is used for randomizing verbs for Meanings screen
 export const getRndVerbs = (verbs, amount) => {
+   console.log('Verbs: ', verbs)
    let rndVerb;
    let rndVerbs = [];
    let rndVerbsFinal = [];
-   while (rndVerbsFinal.length <= amount - 1) {
+   while (rndVerbsFinal.length < amount) {
       const rndInt = rndIntGenerator(verbs.length);
       rndVerb = getRandomVerb(rndInt, verbs);
       if (rndVerb !== undefined) {
          rndVerbs.push(rndVerb);
       }
-      if (rndVerb !== undefined && rndVerbs.length > 1) {
+      if (rndVerbs.length > 1) {
          rndVerbsFinal = rndVerbs.filter(
             (verb, index, self) =>
                index === self.findIndex((v) => v.verb_id === verb.verb_id)
@@ -57,6 +57,7 @@ export const getRndVerbs = (verbs, amount) => {
          rndVerbsThree = [];
       }
    }
+   console.log(verbObjectArray)
    return verbObjectArray;
 };
 

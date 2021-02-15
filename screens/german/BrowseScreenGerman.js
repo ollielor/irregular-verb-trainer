@@ -10,8 +10,6 @@ import { connect } from 'react-redux';
 
 import { useNavigation } from '@react-navigation/native';
 
-import DatabaseVerbs from '../../modules/DatabaseVerbs';
-
 import FooterComponent from '../../components/footer/FooterComponent';
 import HeaderComponent from '../../components/header/HeaderComponent';
 import CardComponentBrowse from '../../components/cards/CardComponentBrowse';
@@ -19,9 +17,13 @@ import Heading from '../../components/styling/Heading';
 
 const BrowseScreenGerman = (props) => {
    const [dbOpened, setDbOpened] = useState(false);
-   const [verbs, setVerbs] = useState([]);
-   const [verbsIntermediate, setVerbsIntermediate] = useState([]);
-   const [verbsDifficult, setVerbsDifficult] = useState([]);
+
+   let verbs;
+   if (props.language === 1) {
+      verbs = props.verbsSwedish;
+   } else {
+      verbs = props.verbsGerman;
+   }
 
    const navigation = useNavigation();
 
@@ -37,21 +39,21 @@ const BrowseScreenGerman = (props) => {
          />
          <Content style={styles.contentContainer}>
             <Heading>Taso 1</Heading>
-            {props.verbsGerman
+            {verbs
                .filter((verb) => verb.level === 1)
                .sort((a, b) => (a.infinitive > b.infinitive ? 1 : -1))
                .map((verb, index) => (
                   <CardComponentBrowse key={index} verb={verb} />
                ))}
             <Heading>Taso 2</Heading>
-            {props.verbsGerman
+            {verbs
                .filter((verb) => verb.level === 2)
                .sort((a, b) => (a.infinitive > b.infinitive ? 1 : -1))
                .map((verb, index) => (
                   <CardComponentBrowse key={index} verb={verb} />
                ))}
             <Heading>Taso 3</Heading>
-            {props.verbsGerman
+            {verbs
                .filter((verb) => verb.level === 3)
                .sort((a, b) => (a.infinitive > b.infinitive ? 1 : -1))
                .map((verb, index) => (
@@ -65,6 +67,8 @@ const BrowseScreenGerman = (props) => {
 
 const mapStateToProps = (state) => ({
    verbsGerman: state.verbs.verbsGerman,
+   verbsSwedish: state.verbs.verbsSwedish,
+   language: state.settings.language
 });
 
 export default connect(mapStateToProps)(BrowseScreenGerman);

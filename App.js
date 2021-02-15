@@ -11,7 +11,8 @@ import MeaningsScreenGerman from './screens/german/MeaningsScreenGerman';
 import HistoryScreenGerman from './screens/german/HistoryScreenGerman';
 import FormsScreenGerman from './screens/german/FormsScreenGerman';
 
-import DatabaseVerbs from './modules/DatabaseVerbs';
+import DatabaseVerbsGerman from './modules/DatabaseVerbsGerman';
+import DatabaseVerbsSwedish from './modules/DatabaseVerbsSwedish';
 
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
@@ -37,7 +38,7 @@ const App = () => {
          })
          .then((result) => {
             if (result.exists) {
-               DatabaseVerbs;
+               DatabaseVerbsGerman;
             } else {
                FileSystem.downloadAsync(
                   Asset.fromModule(require('./assets/verbs_german.db')).uri,
@@ -49,6 +50,35 @@ const App = () => {
             console.log(error);
          });
    }, []);
+
+   useEffect(() => {
+      FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`)
+         .then((result) => {
+            if (!result.exists) {
+               FileSystem.makeDirectoryAsync(
+                  `${FileSystem.documentDirectory}SQLite`,
+                  { intermediates: true }
+               );
+            }
+            return FileSystem.getInfoAsync(
+               `${FileSystem.documentDirectory}SQLite/verbs_swedish.db`
+            );
+         })
+         .then((result) => {
+            if (result.exists) {
+               DatabaseVerbsSwedish;
+            } else {
+               FileSystem.downloadAsync(
+                  Asset.fromModule(require('./assets/verbs_swedish.db')).uri,
+                  `${FileSystem.documentDirectory}SQLite/verbs_swedish.db`
+               );
+            }
+         })
+         .catch((error) => {
+            console.log(error);
+         });
+   }, []);
+
 
    return (
       <Provider store={store}>

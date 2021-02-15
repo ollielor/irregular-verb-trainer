@@ -47,10 +47,18 @@ const MeaningsScreenGerman = (props) => {
 
    useEffect(() => {
       setVerbsFiltered(false);
-      const filteredVerbs = filterVerbsByLevel(props.verbsGerman, props.level);
+      let verbsByLanguage;
+      if (props.language === 1) {
+         verbsByLanguage = props.verbsSwedish.filter(verb => verb.infinitive.length > 1);
+         console.log(verbsByLanguage);
+      } else {
+         verbsByLanguage = props.verbsGerman;
+      }
+      console.log('Level: ', props.level)
+      const filteredVerbs = filterVerbsByLevel(verbsByLanguage, props.level);
       setVerbs(filteredVerbs);
       setVerbsFiltered(true);
-   }, [props.level, props.verbsGerman]);
+   }, [props.level, props.verbsGerman, props.verbsSwedish]);
 
    const createResultsDb = () => {
       DatabaseResults.transaction(
@@ -86,8 +94,13 @@ const MeaningsScreenGerman = (props) => {
    };
 
    useEffect(() => {
+      let amount = 15;
+      /*if (props.language === 1 && props.level === 1) {
+         amount = 6;
+      }*/
       if (verbsFiltered) {
-         const verbObjectArray = getRndVerbs(verbs, 15);
+         const verbObjectArray = getRndVerbs(verbs, amount); // 15
+         console.log(verbObjectArray)
          setRandomizedVerbs(verbObjectArray);
       }
    }, [verbsFiltered]);
@@ -236,6 +249,7 @@ const MeaningsScreenGerman = (props) => {
 
 const mapStateToProps = (state) => ({
    verbsGerman: state.verbs.verbsGerman,
+   verbsSwedish: state.verbs.verbsSwedish,
    language: state.settings.language,
    level: state.settings.level,
 });

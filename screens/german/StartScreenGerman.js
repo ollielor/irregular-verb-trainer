@@ -3,8 +3,10 @@ import { StyleSheet } from 'react-native';
 import { Container, Content } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 import { fetchVerbsGerman } from '../../store/actions/verbs';
+import { fetchVerbsSwedish } from '../../store/actions/verbs';
 
-import DatabaseVerbs from '../../modules/DatabaseVerbs';
+import DatabaseVerbsGerman from '../../modules/DatabaseVerbsGerman';
+import DatabaseVerbsSwedish from '../../modules/DatabaseVerbsSwedish';
 
 import { connect } from 'react-redux';
 
@@ -16,13 +18,33 @@ const StartScreenGerman = (props) => {
    const navigation = useNavigation();
 
    useEffect(() => {
-      DatabaseVerbs.transaction(
+      DatabaseVerbsGerman.transaction(
          (tx) => {
             tx.executeSql(
                'select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id',
                [],
                (tx, results) => {
                   props.dispatch(fetchVerbsGerman(results.rows._array));
+               },
+               (tx, error) => {
+                  console.log('Could not execute query: ', error);
+               }
+            );
+         },
+         (error) => {
+            console.log('Transaction error: ', error);
+         }
+      );
+   }, []);
+
+   useEffect(() => {
+      DatabaseVerbsSwedish.transaction(
+         (tx) => {
+            tx.executeSql(
+               'select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id',
+               [],
+               (tx, results) => {
+                  props.dispatch(fetchVerbsSwedish(results.rows._array));
                },
                (tx, error) => {
                   console.log('Could not execute query: ', error);

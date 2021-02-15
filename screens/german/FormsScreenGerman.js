@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Container, Spinner, Text } from 'native-base';
 
-import DatabaseVerbs from '../../modules/DatabaseVerbs';
+import DatabaseVerbs from '../../modules/DatabaseVerbsGerman';
 import DatabaseResults from '../../modules/DatabaseResults';
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
@@ -48,18 +48,18 @@ const FormsScreenGerman = (props) => {
 
    const navigation = useNavigation();
 
-   FileSystem.getInfoAsync(
+   /*FileSystem.getInfoAsync(
       `${FileSystem.documentDirectory}SQLite/verbs_german.db`
    ).then((result) => {
       if (result.exists) {
-         DatabaseVerbs;
+         DatabaseVerbsGerman;
       } else {
          FileSystem.downloadAsync(
             Asset.fromModule(require('../../assets/verbs_german.db')).uri,
             `${FileSystem.documentDirectory}SQLite/verbs_german.db`
          );
       }
-   });
+   });*/
 
    useEffect(() => {
       if (props.infinitive || props.present || props.past || props.presperf) {
