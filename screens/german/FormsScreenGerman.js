@@ -380,7 +380,7 @@ const FormsScreenGerman = (props) => {
          <HeaderComponent title="Verbien muotoja" goBack={navigation.goBack} />
          <KeyboardAvoidingView
             style={styles.flexOne}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'null'}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
          >
             <ScrollView
                keyboardShouldPersistTaps="always"
