@@ -103,6 +103,7 @@ const mapStateToProps = (state) => ({
    present: state.settings.tenses.present,
    past: state.settings.tenses.past,
    presperf: state.settings.tenses.presperf,
+   language: state.settings.language
 });
 
 export default connect(mapStateToProps)(FormsSelector);

@@ -463,6 +463,7 @@ const FormsScreenGerman = (props) => {
                   <ButtonComponent
                      color="#7E00C5"
                      title="Valmis"
+                     withMargin
                      function={finish}
                   />
                )}

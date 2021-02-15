@@ -5,6 +5,7 @@ import CorrectAnswerComponent from '../styling/CorrectAnswerComponent';
 import { connect } from 'react-redux';
 import { checkIfLast, checkNext } from '../../helpers/helpers';
 import InputComponentForms from '../forms/InputComponentForms';
+import { useLinkProps } from '@react-navigation/native';
 
 const CardComponentForms = (props) => {
    const [correctInfinitive, setCorrectInfinitive] = useState(false);
@@ -237,7 +238,7 @@ const CardComponentForms = (props) => {
                               ref={inputRef2}
                               correct={correctPresent || false}
                               unanswered={unansweredPresent ? true : false}
-                              placeholder="Preesens (er/sie/es)"
+                              placeholder={props.language === 1 ? "Preesens" : "Preesens (er/sie/es)"}
                               onBlur={() =>
                                  correctPresent && props.past
                                     ? inputRef3.current.focus()
@@ -277,7 +278,7 @@ const CardComponentForms = (props) => {
                         <>
                            <InputComponentForms
                               label="Imperfekti"
-                              placeholder="Imperfekti (er/sie/es)"
+                              placeholder={props.language === 1 ? "Imperfekti" : "Imperfekti (er/sie/es)"}
                               correct={correctPast || false}
                               unanswered={unansweredPast ? true : false}
                               ref={inputRef3}
@@ -312,8 +313,8 @@ const CardComponentForms = (props) => {
                      {props.presperf && (
                         <>
                            <InputComponentForms
-                              label="Perfekti"
-                              placeholder="Perfekti (er/sie/es)"
+                              label={props.language === 1 ? "Supiini (4. muoto)" : "Perfekti"}
+                              placeholder={props.language === 1 ? "Supiini (4. muoto)" : "Perfekti (er/sie/es)"}
                               correct={correctPresPerf || false}
                               unanswered={unansweredPresPerf ? true : false}
                               ref={inputRef4}
@@ -360,6 +361,7 @@ const mapStateToProps = (state) => ({
    present: state.settings.tenses.present,
    past: state.settings.tenses.past,
    presperf: state.settings.tenses.presperf,
+   language: state.settings.language
 });
 
 export default connect(mapStateToProps)(CardComponentForms);
