@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, StyleSheet } from 'react-native';
+import { Alert, StyleSheet, Text } from 'react-native';
 import { Container, Content } from 'native-base';
 
 import * as Font from 'expo-font';
@@ -110,9 +110,9 @@ const StartScreen = (props) => {
                                  : false
                            )
                         );
-                        setSettingsLoaded(true);
                      }
                   }
+                  setSettingsLoaded(true);
                },
                (tx, error) => {
                   console.log('Could not execute query: ', error);
@@ -125,19 +125,18 @@ const StartScreen = (props) => {
       );
    };
 
-   useEffect(() => {
+   /*useEffect(() => {
       if (!settingsLoaded) {
          fetchSettings();
       }
-   }, [settingsLoaded]);
+   }, [settingsLoaded]);*/
 
    useEffect(() => {
       let query;
-      if (settingsLength === 0) {
-         setSettingsEmpty(true);
+      if (settingsLength === 0 && settingsLoaded) {
          query =
             'insert into settings (language, level, infinitive, present, past, presperf) values (?, ?, ?, ?, ?, ?);';
-      } else {
+      } else if (settingsLength > 0 && settingsLoaded) {
          query =
             'update settings set language = ?, level = ?, infinitive = ?, present = ?, past = ?, presperf = ? where id=1;';
       }
@@ -196,10 +195,10 @@ const StartScreen = (props) => {
    return (
       <Container style={styles.container}>
          {!fontsLoaded && <SpinnerComponent text="Ladataan fontteja..." />}
-         {!settingsLoaded && !settingsEmpty && (
+         {!settingsLoaded && (
             <SpinnerComponent text="Ladataan asetuksia..." />
          )}
-         {fontsLoaded && settingsLoaded && (
+         {fontsLoaded && settingsLoaded && 
             <Container>
                <HeaderComponent title="Verbivalmentaja" noArrow />
                <Content style={styles.contentContainer}>
@@ -223,7 +222,7 @@ const StartScreen = (props) => {
                </Content>
                <FooterComponent />
             </Container>
-         )}
+         }
       </Container>
    );
 };
