@@ -164,7 +164,7 @@ const HistoryScreenGerman = (props) => {
                )}
                {historyForms.filter(
                   (historyItem) =>
-                     historyItem.level === 1 && historyItem.language === 2
+                     historyItem.level === 1 && historyItem.language === props.language
                ).length > 0 && (
                   <>
                      <Subheading>Taso 1</Subheading>
@@ -172,7 +172,7 @@ const HistoryScreenGerman = (props) => {
                         data={historyForms.filter(
                            (historyItem) =>
                               historyItem.level === 1 &&
-                              historyItem.language === 2
+                              historyItem.language === props.language
                         )}
                      />
                      <ResultHistoryView
@@ -180,14 +180,14 @@ const HistoryScreenGerman = (props) => {
                         resultHistory={historyForms.filter(
                            (historyItem) =>
                               historyItem.level === 1 &&
-                              historyItem.language === 2
+                              historyItem.language === props.language
                         )}
                      />
                   </>
                )}
                {historyForms.filter(
                   (historyItem) =>
-                     historyItem.level === 2 && historyItem.language === 2
+                     historyItem.level === 2 && historyItem.language === props.language
                ).length > 0 && (
                   <>
                      <Subheading>Taso 2</Subheading>
@@ -195,7 +195,7 @@ const HistoryScreenGerman = (props) => {
                         data={historyForms.filter(
                            (historyItem) =>
                               historyItem.level === 2 &&
-                              historyItem.language === 2
+                              historyItem.language === props.language
                         )}
                      />
                      <ResultHistoryView
@@ -203,14 +203,14 @@ const HistoryScreenGerman = (props) => {
                         resultHistory={historyForms.filter(
                            (historyItem) =>
                               historyItem.level === 2 &&
-                              historyItem.language === 2
+                              historyItem.language === props.language
                         )}
                      />
                   </>
                )}
                {historyForms.filter(
                   (historyItem) =>
-                     historyItem.level === 3 && historyItem.language === 2
+                     historyItem.level === 3 && historyItem.language === props.language
                ).length > 0 && (
                   <>
                      <Subheading>Taso 3</Subheading>
@@ -218,7 +218,7 @@ const HistoryScreenGerman = (props) => {
                         data={historyForms.filter(
                            (historyItem) =>
                               historyItem.level === 3 &&
-                              historyItem.language === 2
+                              historyItem.language === props.language
                         )}
                      />
                      <ResultHistoryView
@@ -226,7 +226,7 @@ const HistoryScreenGerman = (props) => {
                         resultHistory={historyForms.filter(
                            (historyItem) =>
                               historyItem.level === 3 &&
-                              historyItem.language === 2
+                              historyItem.language === props.language
                         )}
                      />
                   </>

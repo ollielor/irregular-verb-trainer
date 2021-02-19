@@ -5,12 +5,18 @@
                [
                   {
                      "text":"Du måste öva lite till!"
+                  },
+                  {
+                     "text":"Kämpa på!"
                   }
                ],
             "good":
                [
                   {
                      "text":"Bra!"
+                  },
+                  {
+                     "text":"Bra jobbat!"
                   }
                ],
             "high":
@@ -20,6 +26,12 @@
                   },
                   {
                      "text":"Fint!"
+                  },
+                  {
+                     "text":"Utmärkt!"
+                  },
+                  {
+                     "text":"Toppen!"
                   }
             ]
          },
@@ -29,18 +41,33 @@
                [
                   {
                      "text":"Du musst noch üben!"
+                  },
+                  {
+                     "text":"Du brauchst noch Übung!"
                   }
                ],
             "good":
                [
                   {
                      "text":"Gut!"
+                  },
+                  {
+                     "text":"Gut gemacht!"
                   }
                ],
             "high":
                [
                   {
                      "text":"Sehr gut!"
+                  },
+                  {
+                     "text":"Toll!"
+                  },
+                  {
+                     "text":"Prima!"
+                  },
+                  {
+                     "text":"Super!"
                   }
                ]
          }
