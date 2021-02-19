@@ -1,16 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Container, Content, Text } from 'native-base';
+import feedbackTexts from '../../feedback/feedback.json';
+
+import { connect } from 'react-redux';
+
+import { rndIntGenerator } from '../../helpers/helpers';
 
 const GermanResultView = (props) => {
+
+   const [feedback, setFeedback] = useState('');
+
+   console.log(feedbackTexts);
+
+   useEffect(() => {
+      if (props.results.totalPercentage > 87.5) {
+         setFeedback(feedbackTexts[props.language].high[rndIntGenerator(feedbackTexts[props.language].high.length)].text)
+      } else if (props.results.totalPercentage > 77.5) {
+         setFeedback(feedbackTexts[props.language].good[rndIntGenerator(feedbackTexts[props.language].good.length)].text)
+      } else {
+         setFeedback(feedbackTexts[props.language].low[rndIntGenerator(feedbackTexts[props.language].low.length)].text)
+      }
+   }, []);
+
    return (
       <Content>
          <Text style={styles.feedback}>
-            {props.results.totalPercentage > 87.5
-               ? 'Super!'
-               : props.results.totalPercentage > 77.5
-               ? 'Gut!'
-               : 'Du musst noch üben!'}
+            {feedback}
          </Text>
          <Text style={styles.feedbackPoints}>
             Sait {props.results.totalPoints.toFixed(2).replace('.', ',')} /{' '}
@@ -40,7 +56,11 @@ const GermanResultView = (props) => {
    );
 };
 
-export default GermanResultView;
+const mapStateToProps = (state) => ({
+   language: state.settings.language,
+});
+
+export default connect(mapStateToProps)(GermanResultView);
 
 const styles = StyleSheet.create({
    feedback: {

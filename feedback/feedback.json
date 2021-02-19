@@ -1,0 +1,47 @@
+{
+   "1":
+         {
+            "low": 
+               [
+                  {
+                     "text":"Du måste öva lite till!"
+                  }
+               ],
+            "good":
+               [
+                  {
+                     "text":"Bra!"
+                  }
+               ],
+            "high":
+               [
+                  {
+                     "text":"Jättebra!"
+                  },
+                  {
+                     "text":"Fint!"
+                  }
+            ]
+         },
+   "2":
+         {
+            "low": 
+               [
+                  {
+                     "text":"Du musst noch üben!"
+                  }
+               ],
+            "good":
+               [
+                  {
+                     "text":"Gut!"
+                  }
+               ],
+            "high":
+               [
+                  {
+                     "text":"Sehr gut!"
+                  }
+               ]
+         }
+}
