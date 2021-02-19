@@ -4,12 +4,12 @@ import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import StartScreen from './screens/StartScreen';
-import StartScreenGerman from './screens/german/StartScreenGerman';
+//import StartScreen from './screens/german/StartScreenGerman';
 
-import BrowseScreenGerman from './screens/german/BrowseScreenGerman';
-import MeaningsScreenGerman from './screens/german/MeaningsScreenGerman';
-import HistoryScreenGerman from './screens/german/HistoryScreenGerman';
-import FormsScreenGerman from './screens/german/FormsScreenGerman';
+import BrowseScreen from './screens/german/BrowseScreen';
+import MeaningsScreen from './screens/german/MeaningsScreen';
+import HistoryScreen from './screens/german/HistoryScreen';
+import FormsScreen from './screens/german/FormsScreen';
 
 import DatabaseVerbsGerman from './modules/DatabaseVerbsGerman';
 import DatabaseVerbsSwedish from './modules/DatabaseVerbsSwedish';
@@ -89,22 +89,21 @@ const App = () => {
                }}
             >
                <Stack.Screen name="Koti" component={StartScreen} />
-               <Stack.Screen name="Saksa" component={StartScreenGerman} />
                <Stack.Screen
-                  name="Selaa ja opettele (saksa)"
-                  component={BrowseScreenGerman}
+                  name="Selaa ja opettele"
+                  component={BrowseScreen}
                />
                <Stack.Screen
-                  name="Harjoittele merkityksiä (saksa)"
-                  component={MeaningsScreenGerman}
+                  name="Harjoittele merkityksiä"
+                  component={MeaningsScreen}
                />
                <Stack.Screen
-                  name="Harjoittele muotoja (saksa)"
-                  component={FormsScreenGerman}
+                  name="Harjoittele muotoja"
+                  component={FormsScreen}
                />
                <Stack.Screen
-                  name="Omat tulokseni (saksa)"
-                  component={HistoryScreenGerman}
+                  name="Omat tulokseni"
+                  component={HistoryScreen}
                />
             </Stack.Navigator>
          </NavigationContainer>

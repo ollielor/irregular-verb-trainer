@@ -15,13 +15,13 @@ import {
 import FooterComponent from '../../components/footer/FooterComponent';
 import HeaderComponent from '../../components/header/HeaderComponent';
 import CardComponentMeanings from '../../components/cards/CardComponentMeanings';
-import GermanResultView from '../../components/results/GermanResultView';
+import ResultView from '../../components/results/ResultView';
 import LatestResultsGerman from '../../components/results/LatestResultsGerman';
 import SpinnerComponent from '../../components/styling/SpinnerComponent';
 
 import { connect } from 'react-redux';
 
-const MeaningsScreenGerman = (props) => {
+const MeaningsScreen = (props) => {
    const [verbs, setVerbs] = useState([]);
    const [verbsFiltered, setVerbsFiltered] = useState(false);
    const [randomizedVerbs, setRandomizedVerbs] = useState([]);
@@ -232,7 +232,7 @@ const MeaningsScreenGerman = (props) => {
                ))}
             {finished && results && resultsSaved && resultHistory && (
                <>
-                  <GermanResultView results={results} startAgain={startAgain} />
+                  <ResultView results={results} startAgain={startAgain} />
                   <LatestResultsGerman
                      resultHistory={resultHistory}
                      type={1}
@@ -254,7 +254,7 @@ const mapStateToProps = (state) => ({
    level: state.settings.level,
 });
 
-export default connect(mapStateToProps)(MeaningsScreenGerman);
+export default connect(mapStateToProps)(MeaningsScreen);
 
 const styles = StyleSheet.create({
    container: {

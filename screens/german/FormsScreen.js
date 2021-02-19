@@ -18,13 +18,13 @@ import {
 
 import FooterComponent from '../../components/footer/FooterComponent';
 import HeaderComponent from '../../components/header/HeaderComponent';
-import GermanResultView from '../../components/results/GermanResultView';
+import ResultView from '../../components/results/ResultView';
 import CardComponentForms from '../../components/cards/CardComponentForms';
 import ButtonComponent from '../../components/buttons/ButtonComponent';
 import LatestResultsGerman from '../../components/results/LatestResultsGerman';
 import SpinnerComponent from '../../components/styling/SpinnerComponent';
 
-const FormsScreenGerman = (props) => {
+const FormsScreen = (props) => {
    const [verbs, setVerbs] = useState([]);
    const [verbsFiltered, setVerbsFiltered] = useState(false);
    const [randomizedVerbs, setRandomizedVerbs] = useState([]);
@@ -393,7 +393,7 @@ const FormsScreenGerman = (props) => {
                   resultsSaved &&
                   resultHistory && (
                      <>
-                        <GermanResultView
+                        <ResultView
                            results={resultsData}
                            startAgain={startAgain}
                            forms
@@ -486,7 +486,7 @@ const mapStateToProps = (state) => ({
    tenses: state.settings.tenses,
 });
 
-export default connect(mapStateToProps)(FormsScreenGerman);
+export default connect(mapStateToProps)(FormsScreen);
 
 const styles = StyleSheet.create({
    container: {

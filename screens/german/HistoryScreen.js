@@ -16,7 +16,7 @@ import SpinnerComponent from '../../components/styling/SpinnerComponent';
 
 import { connect } from 'react-redux';
 
-const HistoryScreenGerman = (props) => {
+const HistoryScreen = (props) => {
    const [historyMeanings, setHistoryMeanings] = useState([]);
    const [historyForms, setHistoryForms] = useState([]);
    const [showModal, setShowModal] = useState(false);
@@ -270,7 +270,7 @@ const mapStateToProps = (state) => ({
    level: state.settings.level
 });
 
-export default connect(mapStateToProps)(HistoryScreenGerman);
+export default connect(mapStateToProps)(HistoryScreen);
 
 const styles = StyleSheet.create({
    container: {

@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 import { rndIntGenerator } from '../../helpers/helpers';
 
-const GermanResultView = (props) => {
+const ResultView = (props) => {
 
    const [feedback, setFeedback] = useState('');
 
@@ -60,7 +60,7 @@ const mapStateToProps = (state) => ({
    language: state.settings.language,
 });
 
-export default connect(mapStateToProps)(GermanResultView);
+export default connect(mapStateToProps)(ResultView);
 
 const styles = StyleSheet.create({
    feedback: {

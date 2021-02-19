@@ -15,7 +15,7 @@ import HeaderComponent from '../../components/header/HeaderComponent';
 import CardComponentBrowse from '../../components/cards/CardComponentBrowse';
 import Heading from '../../components/styling/Heading';
 
-const BrowseScreenGerman = (props) => {
+const BrowseScreen = (props) => {
    const [dbOpened, setDbOpened] = useState(false);
 
    let verbs;
@@ -71,7 +71,7 @@ const mapStateToProps = (state) => ({
    language: state.settings.language
 });
 
-export default connect(mapStateToProps)(BrowseScreenGerman);
+export default connect(mapStateToProps)(BrowseScreen);
 
 const styles = StyleSheet.create({
    container: {

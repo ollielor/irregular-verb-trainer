@@ -15,6 +15,8 @@ import {
    updatePresperf,
 } from '../store/actions/settings';
 
+import { useNavigation } from '@react-navigation/native';
+
 import ButtonComponent from '../components/buttons/ButtonComponent';
 import FooterComponent from '../components/footer/FooterComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
@@ -24,15 +26,19 @@ import SpinnerComponent from '../components/styling/SpinnerComponent';
 import DatabaseSettings from '../modules/DatabaseSettings';
 import SettingsComponent from '../components/settings/SettingsComponent';
 
+import { fetchVerbsGerman } from '../store/actions/verbs';
+import { fetchVerbsSwedish } from '../store/actions/verbs';
+
+import DatabaseVerbsGerman from '../modules/DatabaseVerbsGerman';
+import DatabaseVerbsSwedish from '../modules/DatabaseVerbsSwedish';
+
 const StartScreen = (props) => {
    const [fontsLoaded, setFontsLoaded] = useState(false);
    const [settingsLength, setSettingsLength] = useState(0);
    const [settingsEmpty, setSettingsEmpty] = useState(false);
    const [settingsLoaded, setSettingsLoaded] = useState(false);
 
-   const {
-      navigation: { navigate },
-   } = props;
+   const navigation = useNavigation();
 
    useEffect(() => {
       return () => {};
@@ -192,6 +198,47 @@ const StartScreen = (props) => {
       );
    };
 
+   useEffect(() => {
+      DatabaseVerbsGerman.transaction(
+         (tx) => {
+            tx.executeSql(
+               'select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id',
+               [],
+               (tx, results) => {
+                  props.dispatch(fetchVerbsGerman(results.rows._array));
+               },
+               (tx, error) => {
+                  console.log('Could not execute query: ', error);
+               }
+            );
+         },
+         (error) => {
+            console.log('Transaction error: ', error);
+         }
+      );
+   }, []);
+
+   useEffect(() => {
+      DatabaseVerbsSwedish.transaction(
+         (tx) => {
+            tx.executeSql(
+               'select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id',
+               [],
+               (tx, results) => {
+                  props.dispatch(fetchVerbsSwedish(results.rows._array));
+               },
+               (tx, error) => {
+                  console.log('Could not execute query: ', error);
+               }
+            );
+         },
+         (error) => {
+            console.log('Transaction error: ', error);
+         }
+      );
+   }, []);
+
+
    return (
       <Container style={styles.container}>
          {!fontsLoaded && <SpinnerComponent text="Ladataan fontteja..." />}
@@ -202,23 +249,35 @@ const StartScreen = (props) => {
             <Container>
                <HeaderComponent title="Verbivalmentaja" noArrow />
                <Content style={styles.contentContainer}>
-                  <ButtonComponent
-                     color="#7E00C5"
-                     title="Ruotsi"
-                     function={() => console.log('Ruotsi')}
-                  />
-                  <ButtonComponent
-                     color="#7E00C5"
-                     title="Saksa"
-                     function={() => navigate('Saksa')}
-                  />
+               <Content style={styles.contentContainer}>
+            <ButtonComponent
+               color="#7E00C5"
+               title="Selaa ja opettele verbejä"
+               function={() => navigation.navigate('Selaa ja opettele')}
+            />
+            <ButtonComponent
+               color="#7E00C5"
+               title="Harjoittele verbien merkityksiä"
+               function={() =>
+                  navigation.navigate('Harjoittele merkityksiä')
+               }
+            />
+            <ButtonComponent
+               color="#7E00C5"
+               title="Harjoittele verbien muotoja"
+               function={() =>
+                  navigation.navigate('Harjoittele muotoja')
+               }
+            />
+
                   <ButtonComponent
                      color="#4E00C5"
                      title="Omat tulokseni"
-                     function={() => navigate('Omat tulokseni (saksa)')}
+                     function={() => navigation.navigate('Omat tulokseni')}
                   />
                   <SettingsComponent />
                   <FormsSelector />
+                  </Content>
                </Content>
                <FooterComponent />
             </Container>

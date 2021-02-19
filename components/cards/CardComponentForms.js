@@ -81,7 +81,7 @@ const CardComponentForms = (props) => {
       }
    }, [props.started]);
 
-   // The following useEffects are for checking the answer with evaluate function which is located in GermanFormsScreen
+   // The following useEffects are for checking the answer with evaluate function which is located FormsScreen
    // If the evaluate function returns true, the state of each form is set to true
    // Inputs are styled according to these states
 

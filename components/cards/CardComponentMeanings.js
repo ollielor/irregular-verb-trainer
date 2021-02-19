@@ -16,7 +16,7 @@ const CardComponentMeanings = (props) => {
    const [incorrectIndex, setIncorrectIndex] = useState(-1);
 
    useEffect(() => {
-      // Get one meaning of the three verbs set in MeaningsScreenGerman
+      // Get one meaning of the three verbs set in MeaningsScreen
       const rndInt = rndIntGenerator(3);
       setCorrectMeaning(props.alternatives[rndInt].meaning);
       let randomOrder = [];
