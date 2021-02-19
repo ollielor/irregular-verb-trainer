@@ -14,6 +14,8 @@ import ButtonComponent from '../../components/buttons/ButtonComponent';
 import ProgressComponent from '../../components/results/ProgressComponent';
 import SpinnerComponent from '../../components/styling/SpinnerComponent';
 
+import { connect } from 'react-redux';
+
 const HistoryScreenGerman = (props) => {
    const [historyMeanings, setHistoryMeanings] = useState([]);
    const [historyForms, setHistoryForms] = useState([]);
@@ -77,17 +79,17 @@ const HistoryScreenGerman = (props) => {
    return (
       <Container style={styles.container}>
          <HeaderComponent title="Omat tulokseni" goBack={navigation.goBack} />
-         {historyLoaded ? (
+         {historyMeanings || historyForms ? (
             <Content style={styles.contentContainer}>
-               <Heading>Verbien merkitykset</Heading>
-               {historyMeanings.length === 0 && (
+               <Heading>Verbien merkitykset {props.language === 1 ? '(ruotsi)' : '(saksa)'}</Heading>
+               {historyMeanings.filter((meaningItem) => meaningItem.language === props.language).length === 0 && (
                   <Text style={{ textAlign: 'center' }}>
                      Ei tuloksia tästä kategoriasta.
                   </Text>
                )}
                {historyMeanings.filter(
                   (historyItem) =>
-                     historyItem.level === 1 && historyItem.language === 2
+                     historyItem.level === 1 && historyItem.language === props.language
                ).length > 0 && (
                   <>
                      <Subheading>Taso 1</Subheading>
@@ -95,7 +97,7 @@ const HistoryScreenGerman = (props) => {
                         data={historyMeanings.filter(
                            (historyItem) =>
                               historyItem.level === 1 &&
-                              historyItem.language === 2
+                              historyItem.language === props.language
                         )}
                      />
                      <ResultHistoryView
@@ -103,14 +105,14 @@ const HistoryScreenGerman = (props) => {
                         resultHistory={historyMeanings.filter(
                            (historyItem) =>
                               historyItem.level === 1 &&
-                              historyItem.language === 2
+                              historyItem.language === props.language
                         )}
                      />
                   </>
                )}
                {historyMeanings.filter(
                   (historyItem) =>
-                     historyItem.level === 2 && historyItem.language === 2
+                     historyItem.level === 2 && historyItem.language === props.language
                ).length > 0 && (
                   <>
                      <Subheading>Taso 2</Subheading>
@@ -118,7 +120,7 @@ const HistoryScreenGerman = (props) => {
                         data={historyMeanings.filter(
                            (historyItem) =>
                               historyItem.level === 2 &&
-                              historyItem.language === 2
+                              historyItem.language === props.language
                         )}
                      />
                      <ResultHistoryView
@@ -126,14 +128,14 @@ const HistoryScreenGerman = (props) => {
                         resultHistory={historyMeanings.filter(
                            (historyItem) =>
                               historyItem.level === 2 &&
-                              historyItem.language === 2
+                              historyItem.language === props.language
                         )}
                      />
                   </>
                )}
                {historyMeanings.filter(
                   (historyItem) =>
-                     historyItem.level === 3 && historyItem.language === 2
+                     historyItem.level === 3 && historyItem.language === props.language
                ).length > 0 && (
                   <>
                      <Subheading>Taso 3</Subheading>
@@ -141,7 +143,7 @@ const HistoryScreenGerman = (props) => {
                         data={historyMeanings.filter(
                            (historyItem) =>
                               historyItem.level === 3 &&
-                              historyItem.language === 2
+                              historyItem.language === props.language
                         )}
                      />
                      <ResultHistoryView
@@ -149,13 +151,13 @@ const HistoryScreenGerman = (props) => {
                         resultHistory={historyMeanings.filter(
                            (historyItem) =>
                               historyItem.level === 3 &&
-                              historyItem.language === 2
+                              historyItem.language === props.language
                         )}
                      />
                   </>
                )}
-               <Heading>Verbien muodot</Heading>
-               {historyForms.length === 0 && (
+               <Heading>Verbien muodot {props.language === 1 ? '(ruotsi)' : '(saksa)'}</Heading>
+               {historyForms.filter((formItem) => formItem.language === props.language).length === 0 && (
                   <Text style={{ textAlign: 'center', marginBottom: 20 }}>
                      Ei tuloksia tästä kategoriasta.
                   </Text>
@@ -263,7 +265,12 @@ const HistoryScreenGerman = (props) => {
    );
 };
 
-export default HistoryScreenGerman;
+const mapStateToProps = (state) => ({
+   language: state.settings.language,
+   level: state.settings.level
+});
+
+export default connect(mapStateToProps)(HistoryScreenGerman);
 
 const styles = StyleSheet.create({
    container: {

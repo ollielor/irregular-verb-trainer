@@ -9,13 +9,14 @@ import { useNavigation } from '@react-navigation/native';
 import { connect } from 'react-redux';
 
 import Heading from '../styling/Heading';
+import CardComponentResults from '../cards/CardComponentResults';
 
 const LatestResultsGerman = (props) => {
    const navigation = useNavigation();
 
    return (
       <Content>
-         <Heading>{props.count} viimeisintä tulosta</Heading>
+         <Heading>{props.count} viimeisintä tulosta {props.language === 1 ? '(ruotsi)' : '(saksa)'}</Heading>
          {props.resultHistory &&
             props.resultHistory
                .filter((historyItem) => historyItem.type === props.type)
@@ -24,46 +25,8 @@ const LatestResultsGerman = (props) => {
                   a.datetime < b.datetime ? 1 : a.datetime > b.datetime ? -1 : 0
                )
                .slice(0, props.count)
-               .map((historyItem) => (
-                  <Card key={historyItem.id}>
-                     <CardItem header>
-                        <Body>
-                           <Text
-                              style={{ color: '#7E00C5', fontWeight: 'bold' }}
-                           >
-                              {moment(historyItem.datetime).format(
-                                 'DD.MM.YYYY HH:mm:ss'
-                              )}
-                           </Text>
-                           <Text>
-                              {historyItem.language === 1
-                                 ? 'Kieli: ruotsi'
-                                 : 'Kieli: saksa'
-                              }
-                           </Text>
-                           <Text>
-                              {historyItem.level === 1
-                                 ? 'Taso 1'
-                                 : historyItem.level === 2
-                                 ? 'Taso 2'
-                                 : 'Taso 3'}
-                           </Text>
-                           <Text>
-                              Pisteet:{' '}
-                              {historyItem.points.toFixed(2).replace('.', ',')}{' '}
-                              / {historyItem.maxpoints} (
-                              {historyItem.percentage
-                                 .toFixed(2)
-                                 .replace('.', ',')}{' '}
-                              %)
-                           </Text>
-                           <Text>
-                              Oikeita vastauksia: {historyItem.accuracy} /{' '}
-                              {historyItem.q_total}
-                           </Text>
-                        </Body>
-                     </CardItem>
-                  </Card>
+               .map((historyItem, index) => (
+                  <CardComponentResults historyItem={historyItem} key={index} />
                ))}
          {!props.hideButton && (
             <Button
