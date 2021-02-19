@@ -253,7 +253,7 @@ const HistoryScreenGerman = (props) => {
             <Content
                contentContainerStyle={{ justifyContent: 'center', flex: 1 }}
             >
-               <Heading>Haluatko varmasti tyhjentää tuloshistorian?</Heading>
+               <Heading>Haluatko varmasti tyhjentää tuloshistorian? Tyhjentämällä tuloshistorian menetät suoritustietosi sekä ruotsissa että saksassa.</Heading>
                <ButtonComponent title="Tyhjennä historia" function={dropData} />
                <ButtonComponent
                   title="Peruuta"
