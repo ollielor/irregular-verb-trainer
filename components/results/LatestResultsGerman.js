@@ -6,6 +6,8 @@ import moment from 'moment';
 
 import { useNavigation } from '@react-navigation/native';
 
+import { connect } from 'react-redux';
+
 import Heading from '../styling/Heading';
 
 const LatestResultsGerman = (props) => {
@@ -17,6 +19,7 @@ const LatestResultsGerman = (props) => {
          {props.resultHistory &&
             props.resultHistory
                .filter((historyItem) => historyItem.type === props.type)
+               .filter((historyItem) => historyItem.language === props.language)
                .sort((a, b) =>
                   a.datetime < b.datetime ? 1 : a.datetime > b.datetime ? -1 : 0
                )
@@ -31,6 +34,12 @@ const LatestResultsGerman = (props) => {
                               {moment(historyItem.datetime).format(
                                  'DD.MM.YYYY HH:mm:ss'
                               )}
+                           </Text>
+                           <Text>
+                              {historyItem.language === 1
+                                 ? 'Kieli: ruotsi'
+                                 : 'Kieli: saksa'
+                              }
                            </Text>
                            <Text>
                               {historyItem.level === 1
@@ -68,7 +77,11 @@ const LatestResultsGerman = (props) => {
    );
 };
 
-export default LatestResultsGerman;
+const mapStateToProps = (state) => ({
+   language: state.settings.language
+});
+
+export default connect(mapStateToProps)(LatestResultsGerman);
 
 const styles = StyleSheet.create({
    header: {
