@@ -164,6 +164,7 @@ const StartScreen = (props) => {
          null
       );
    }, [
+      settingsLoaded,
       props.level,
       props.language,
       props.infinitive,
