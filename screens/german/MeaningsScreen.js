@@ -16,7 +16,7 @@ import FooterComponent from '../../components/footer/FooterComponent';
 import HeaderComponent from '../../components/header/HeaderComponent';
 import CardComponentMeanings from '../../components/cards/CardComponentMeanings';
 import ResultView from '../../components/results/ResultView';
-import LatestResultsGerman from '../../components/results/LatestResultsGerman';
+import LatestResults from '../../components/results/LatestResults';
 import SpinnerComponent from '../../components/styling/SpinnerComponent';
 
 import { connect } from 'react-redux';
@@ -233,7 +233,7 @@ const MeaningsScreen = (props) => {
             {finished && results && resultsSaved && resultHistory && (
                <>
                   <ResultView results={results} startAgain={startAgain} />
-                  <LatestResultsGerman
+                  <LatestResults
                      resultHistory={resultHistory}
                      type={1}
                      count={10}

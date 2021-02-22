@@ -21,7 +21,7 @@ import HeaderComponent from '../../components/header/HeaderComponent';
 import ResultView from '../../components/results/ResultView';
 import CardComponentForms from '../../components/cards/CardComponentForms';
 import ButtonComponent from '../../components/buttons/ButtonComponent';
-import LatestResultsGerman from '../../components/results/LatestResultsGerman';
+import LatestResults from '../../components/results/LatestResults';
 import SpinnerComponent from '../../components/styling/SpinnerComponent';
 
 const FormsScreen = (props) => {
@@ -398,7 +398,7 @@ const FormsScreen = (props) => {
                            startAgain={startAgain}
                            forms
                         />
-                        <LatestResultsGerman
+                        <LatestResults
                            resultHistory={resultHistory}
                            type={2}
                            count={3}

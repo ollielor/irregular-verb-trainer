@@ -13,6 +13,7 @@ import FooterComponent from '../../components/footer/FooterComponent';
 import ButtonComponent from '../../components/buttons/ButtonComponent';
 import ProgressComponent from '../../components/results/ProgressComponent';
 import SpinnerComponent from '../../components/styling/SpinnerComponent';
+import ShareResults from '../../components/results/ShareResults';
 
 import { connect } from 'react-redux';
 
@@ -76,11 +77,12 @@ const HistoryScreen = (props) => {
       setDropped(true);
    };
 
-   return (
+   return (    
       <Container style={styles.container}>
          <HeaderComponent title="Omat tulokseni" goBack={navigation.goBack} />
          {historyMeanings || historyForms ? (
             <Content style={styles.contentContainer}>
+               <ShareResults />
                <Heading>Verbien merkitykset {props.language === 1 ? '(ruotsi)' : '(saksa)'}</Heading>
                {historyMeanings.filter((meaningItem) => meaningItem.language === props.language).length === 0 && (
                   <Text style={{ textAlign: 'center' }}>

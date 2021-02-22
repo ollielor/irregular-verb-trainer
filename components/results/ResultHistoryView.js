@@ -34,7 +34,7 @@ const ResultHistoryView = (props) => {
                ))}
          {!props.hideButton && (
             <Button
-               onPress={() => navigation.navigate('Omat tulokseni (saksa)')}
+               onPress={() => navigation.navigate('Omat tulokseni')}
                style={styles.historyButton}
             >
                <Text uppercase={false}>Näytä koko historia</Text>

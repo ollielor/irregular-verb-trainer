@@ -14,8 +14,7 @@ const ProgressComponent = (props) => {
       const questions = props.data.map((result) => result.q_total);
       setTotalQuestions(questions.reduce((a, b) => a + b));
       const percentages = props.data.map((result) => result.percentage);
-      const percentagesAverage =
-         percentages.reduce((a, b) => a + b) / percentages.length;
+      const percentagesAverage = percentages.reduce((a, b) => a + b) / percentages.length;
       setTotalPercentage(percentagesAverage);
    }, [props.data, props.forms]);
 
