@@ -10,10 +10,10 @@ import { connect } from 'react-redux';
 
 import { useNavigation } from '@react-navigation/native';
 
-import FooterComponent from '../../components/footer/FooterComponent';
-import HeaderComponent from '../../components/header/HeaderComponent';
-import CardComponentBrowse from '../../components/cards/CardComponentBrowse';
-import Heading from '../../components/styling/Heading';
+import FooterComponent from '../components/footer/FooterComponent';
+import HeaderComponent from '../components/header/HeaderComponent';
+import CardComponentBrowse from '../components/cards/CardComponentBrowse';
+import Heading from '../components/styling/Heading';
 
 const BrowseScreen = (props) => {
    const [dbOpened, setDbOpened] = useState(false);

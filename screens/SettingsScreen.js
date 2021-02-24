@@ -234,46 +234,19 @@ const StartScreen = (props) => {
 
    return (
       <Container style={styles.container}>
+         <HeaderComponent
+            title="Omat asetukseni"
+            goBack={navigation.goBack}
+         />
          {!fontsLoaded && <SpinnerComponent text="Ladataan fontteja..." />}
          {!settingsLoaded && (
             <SpinnerComponent text="Ladataan asetuksia..." />
          )}
          {fontsLoaded && settingsLoaded && 
             <Container>
-               <HeaderComponent title="Verbivalmentaja" noArrow />
-               <Content style={styles.contentContainer}>
-               <Content style={styles.contentContainer}>
-            <ButtonComponent
-               color="#7E00C5"
-               title="Selaa ja opettele verbejä"
-               function={() => navigation.navigate('Selaa ja opettele')}
-            />
-            <ButtonComponent
-               color="#7E00C5"
-               title="Harjoittele verbien merkityksiä"
-               function={() =>
-                  navigation.navigate('Harjoittele merkityksiä')
-               }
-            />
-            <ButtonComponent
-               color="#7E00C5"
-               title="Harjoittele verbien muotoja"
-               function={() =>
-                  navigation.navigate('Harjoittele muotoja')
-               }
-            />
-
-                  <ButtonComponent
-                     color="#4E00C5"
-                     title="Omat tulokseni"
-                     function={() => navigation.navigate('Omat tulokseni')}
-                  />
-                  <ButtonComponent
-                     color="#4E00C5"
-                     title="Omat asetukseni"
-                     function={() => navigation.navigate('Omat asetukseni')}
-                  />
-                  </Content>
+               <Content>
+                  <SettingsComponent updateSettings={updateSettings} />
+                  <FormsSelector />
                </Content>
                <FooterComponent />
             </Container>

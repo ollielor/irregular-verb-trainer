@@ -4,12 +4,12 @@ import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import StartScreen from './screens/StartScreen';
-//import StartScreen from './screens/german/StartScreenGerman';
 
-import BrowseScreen from './screens/german/BrowseScreen';
-import MeaningsScreen from './screens/german/MeaningsScreen';
-import HistoryScreen from './screens/german/HistoryScreen';
-import FormsScreen from './screens/german/FormsScreen';
+import BrowseScreen from './screens/BrowseScreen';
+import MeaningsScreen from './screens/MeaningsScreen';
+import HistoryScreen from './screens/HistoryScreen';
+import FormsScreen from './screens/FormsScreen';
+import SettingsScreen from './screens/SettingsScreen';
 
 import DatabaseVerbsGerman from './modules/DatabaseVerbsGerman';
 import DatabaseVerbsSwedish from './modules/DatabaseVerbsSwedish';
@@ -104,6 +104,10 @@ const App = () => {
                <Stack.Screen
                   name="Omat tulokseni"
                   component={HistoryScreen}
+               />
+               <Stack.Screen
+                  name="Omat asetukseni"
+                  component={SettingsScreen}
                />
             </Stack.Navigator>
          </NavigationContainer>

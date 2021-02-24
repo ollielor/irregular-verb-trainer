@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { Container, Content, Text } from 'native-base';
 
-import DatabaseResults from '../../modules/DatabaseResults';
+import DatabaseResults from '../modules/DatabaseResults';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -10,14 +10,14 @@ import {
    getRndVerbs,
    getCurrentDate,
    filterVerbsByLevel,
-} from '../../helpers/helpers';
+} from '../helpers/helpers';
 
-import FooterComponent from '../../components/footer/FooterComponent';
-import HeaderComponent from '../../components/header/HeaderComponent';
-import CardComponentMeanings from '../../components/cards/CardComponentMeanings';
-import ResultView from '../../components/results/ResultView';
-import LatestResults from '../../components/results/LatestResults';
-import SpinnerComponent from '../../components/styling/SpinnerComponent';
+import FooterComponent from '../components/footer/FooterComponent';
+import HeaderComponent from '../components/header/HeaderComponent';
+import CardComponentMeanings from '../components/cards/CardComponentMeanings';
+import ResultView from '../components/results/ResultView';
+import LatestResults from '../components/results/LatestResults';
+import SpinnerComponent from '../components/styling/SpinnerComponent';
 
 import { connect } from 'react-redux';
 

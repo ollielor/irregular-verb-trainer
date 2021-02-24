@@ -49,7 +49,6 @@ const SettingsComponent = (props) => {
                disabled={props.level === 3}
             />
          </Body>
-         {props.clearSettings && (
             <Card style={styles.cardStyle}>
                <CardItem style={styles.cardItemStyle}>
                   <Body
@@ -69,7 +68,6 @@ const SettingsComponent = (props) => {
                   </Body>
                </CardItem>
             </Card>
-         )}
       </Content>
    );
 };

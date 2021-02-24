@@ -4,16 +4,16 @@ import { Container, Content } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
-import DatabaseResults from '../../modules/DatabaseResults';
-import ResultHistoryView from '../../components/results/ResultHistoryView';
-import Heading from '../../components/styling/Heading';
-import HeaderComponent from '../../components/header/HeaderComponent';
-import Subheading from '../../components/styling/Subheading';
-import FooterComponent from '../../components/footer/FooterComponent';
-import ButtonComponent from '../../components/buttons/ButtonComponent';
-import ProgressComponent from '../../components/results/ProgressComponent';
-import SpinnerComponent from '../../components/styling/SpinnerComponent';
-import ShareResults from '../../components/results/ShareResults';
+import DatabaseResults from '../modules/DatabaseResults';
+import ResultHistoryView from '../components/results/ResultHistoryView';
+import Heading from '../components/styling/Heading';
+import HeaderComponent from '../components/header/HeaderComponent';
+import Subheading from '../components/styling/Subheading';
+import FooterComponent from '../components/footer/FooterComponent';
+import ButtonComponent from '../components/buttons/ButtonComponent';
+import ProgressComponent from '../components/results/ProgressComponent';
+import SpinnerComponent from '../components/styling/SpinnerComponent';
+import ShareResults from '../components/results/ShareResults';
 
 import { connect } from 'react-redux';
 

@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Container, Spinner, Text } from 'native-base';
 
-import DatabaseVerbs from '../../modules/DatabaseVerbsGerman';
-import DatabaseResults from '../../modules/DatabaseResults';
+import DatabaseVerbs from '../modules/DatabaseVerbsGerman';
+import DatabaseResults from '../modules/DatabaseResults';
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
 
@@ -14,15 +14,15 @@ import {
    getRndVerbsForForms,
    getCurrentDate,
    filterVerbsByLevel,
-} from '../../helpers/helpers';
+} from '../helpers/helpers';
 
-import FooterComponent from '../../components/footer/FooterComponent';
-import HeaderComponent from '../../components/header/HeaderComponent';
-import ResultView from '../../components/results/ResultView';
-import CardComponentForms from '../../components/cards/CardComponentForms';
-import ButtonComponent from '../../components/buttons/ButtonComponent';
-import LatestResults from '../../components/results/LatestResults';
-import SpinnerComponent from '../../components/styling/SpinnerComponent';
+import FooterComponent from '../components/footer/FooterComponent';
+import HeaderComponent from '../components/header/HeaderComponent';
+import ResultView from '../components/results/ResultView';
+import CardComponentForms from '../components/cards/CardComponentForms';
+import ButtonComponent from '../components/buttons/ButtonComponent';
+import LatestResults from '../components/results/LatestResults';
+import SpinnerComponent from '../components/styling/SpinnerComponent';
 
 const FormsScreen = (props) => {
    const [verbs, setVerbs] = useState([]);

@@ -36,7 +36,7 @@ const HeaderComponent = (props) => {
          <Right style={{ flex: 1 }}>
             <Text
                style={{ color: '#d2d2d2' }}
-               onPress={() => navigation.navigate('Koti')}
+               onPress={() => navigation.navigate('Omat asetukseni')}
             >
                {props.language === 1 && 'SV, taso '}
                {props.language === 2 && 'DE, taso '}

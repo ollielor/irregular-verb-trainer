@@ -19,7 +19,7 @@ const FooterComponent = (props) => {
          <FooterTab>
             <FooterButtonComponent
                title="Tulokset"
-               function={() => navigation.navigate('Omat tulokseni (saksa)')}
+               function={() => navigation.navigate('Omat tulokseni')}
             />
          </FooterTab>
          <FooterTab>

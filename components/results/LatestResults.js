@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import Heading from '../styling/Heading';
 import CardComponentResults from '../cards/CardComponentResults';
 
-const LatestResultsGerman = (props) => {
+const LatestResults = (props) => {
    const navigation = useNavigation();
 
    return (
@@ -44,7 +44,7 @@ const mapStateToProps = (state) => ({
    language: state.settings.language
 });
 
-export default connect(mapStateToProps)(LatestResultsGerman);
+export default connect(mapStateToProps)(LatestResults);
 
 const styles = StyleSheet.create({
    header: {
