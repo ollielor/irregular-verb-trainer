@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, StyleSheet, Text } from 'react-native';
-import { Container, Content } from 'native-base';
+import { Container, Content, Toast } from 'native-base';
 
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -31,12 +31,14 @@ import { fetchVerbsSwedish } from '../store/actions/verbs';
 
 import DatabaseVerbsGerman from '../modules/DatabaseVerbsGerman';
 import DatabaseVerbsSwedish from '../modules/DatabaseVerbsSwedish';
+import SaveSettingsComponent from '../components/settings/SaveSettingsComponent';
 
 const StartScreen = (props) => {
    const [fontsLoaded, setFontsLoaded] = useState(false);
    const [settingsLength, setSettingsLength] = useState(0);
    const [settingsEmpty, setSettingsEmpty] = useState(false);
    const [settingsLoaded, setSettingsLoaded] = useState(false);
+   const [settingsSaved, setSettingsSaved] = useState(false);
 
    const navigation = useNavigation();
 
@@ -138,6 +140,7 @@ const StartScreen = (props) => {
    }, [settingsLoaded]);*/
 
    const updateSettings = () => {
+      setSettingsSaved(false);
       let query;
       if (settingsLength === 0 && settingsLoaded) {
          query =
@@ -156,6 +159,12 @@ const StartScreen = (props) => {
                props.past ? 1 : 0,
                props.presperf ? 1 : 0,
             ]);
+            Toast.show({
+                 text: "Asetukset tallennettu!",
+                 position: "bottom",
+                 type: "success",
+                 duration: 5000
+               })
          },
          (error) => {
             console.log('Transaction error (Save): ', error);
@@ -174,8 +183,10 @@ const StartScreen = (props) => {
                [],
                (tx,
                (results) => {
-                  if (results && results.rows && results.rows._array) {
+                  //if (results && results.rows && results.rows._array) {
+                  if (results) {
                      Alert.alert('Table dropped');
+                     fetchSettings();
                   } else {
                      Alert.alert('No results');
                   }
@@ -245,8 +256,9 @@ const StartScreen = (props) => {
          {fontsLoaded && settingsLoaded && 
             <Container>
                <Content>
-                  <SettingsComponent updateSettings={updateSettings} />
+                  <SettingsComponent/>
                   <FormsSelector />
+                  <SaveSettingsComponent updateSettings={updateSettings} clearSettings={clearSettings} settingsSaved={settingsSaved} />
                </Content>
                <FooterComponent />
             </Container>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { Root } from 'native-base';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -81,6 +82,7 @@ const App = () => {
 
 
    return (
+      <Root>
       <Provider store={store}>
          <NavigationContainer>
             <Stack.Navigator
@@ -112,6 +114,7 @@ const App = () => {
             </Stack.Navigator>
          </NavigationContainer>
       </Provider>
+      </Root>
    );
 };
 

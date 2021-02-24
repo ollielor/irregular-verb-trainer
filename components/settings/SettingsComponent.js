@@ -49,25 +49,6 @@ const SettingsComponent = (props) => {
                disabled={props.level === 3}
             />
          </Body>
-            <Card style={styles.cardStyle}>
-               <CardItem style={styles.cardItemStyle}>
-                  <Body
-                     style={{ flexDirection: 'row', justifyContent: 'center' }}
-                  >
-                     <ButtonComponent
-                        title="Tallenna asetukset"
-                        color={props.saveButtonEnabled ? '#4E00C5' : '#eee'}
-                        saveButtonEnabled={props.saveButtonEnabled}
-                        function={() => props.updateSettings()}
-                     />
-                     <ButtonComponent
-                        title="Tyhjennä asetukset"
-                        color="#cc0000"
-                        function={props.clearSettings}
-                     />
-                  </Body>
-               </CardItem>
-            </Card>
       </Content>
    );
 };
