@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TextInput, KeyboardAvoidingView } from 'react-native';
 import { Container, Content, Text } from 'native-base';
 import ButtonComponent from '../components/buttons/ButtonComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
@@ -13,6 +13,8 @@ import { useNavigation } from '@react-navigation/native';
 
 
 const ShareResultsScreen = (props) => {
+
+   const [name, setName] = useState('');
 
    console.log('Props from ShareResultsScreen: ', props)
 
@@ -61,7 +63,7 @@ const ShareResultsScreen = (props) => {
    }
 
    const sendWhatsAppMessage = () => {
-      let text = 'Verbivalmentaja - käyttäjän X suoritustiedot kielestä';
+      let text = `Verbivalmentaja - käyttäjän ${name} suoritustiedot kielestä`;
       if (props.language === 1) {
          text += ' ruotsi';
       } else {
@@ -77,11 +79,18 @@ const ShareResultsScreen = (props) => {
    }
 
    return (
-      <Container>
+      <Container style={styles.container}>
          <HeaderComponent title="Omat tulokseni" goBack={navigation.goBack} />
-      <Content>
+         <KeyboardAvoidingView
+            style={styles.flexOne}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+         >
+      <Content style={styles.contentContainer}>
+         <Text style={styles.label}>Nimesi (näkyy vain viestin vastaanottajalle)</Text>
+         <TextInput style={styles.formInput} onChangeText={(text => setName(text))} />
          <ButtonComponent title='Jaa tulokset WhatsAppilla' color="#7E00C5" function={sendWhatsAppMessage} />
       </Content>
+      </KeyboardAvoidingView>
       <FooterComponent />
       </Container>
    );
@@ -94,21 +103,25 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps)(ShareResultsScreen);
 
 const styles = StyleSheet.create({
-   feedback: {
-      textAlign: 'center',
-      fontWeight: 'bold',
-      fontSize: 24,
-      color: '#4E00C5',
-      marginTop: 20,
+   container: {
+      backgroundColor: '#d2d2d2',
    },
-   feedbackPoints: {
-      textAlign: 'center',
-      paddingTop: 10,
+   contentContainer: {
+      padding: 10,
    },
-   startAgainButton: {
-      backgroundColor: '#4E00C5',
-      alignSelf: 'center',
-      marginTop: 20,
-      marginBottom: 20,
+   label: {
+      marginTop: 15,
+   },
+   formInput: {
+      fontSize: 16,
+      padding: 10,
+      borderColor: '#7E00C5',
+      borderWidth: 1,
+      width: '100%',
+      marginTop: 10,
+      marginBottom: 10
+   },
+   flexOne: {
+      flex: 1,
    },
 });
