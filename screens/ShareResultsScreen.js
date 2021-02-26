@@ -97,7 +97,7 @@ const ShareResultsScreen = (props) => {
 
    return (
       <Container style={styles.container}>
-         <HeaderComponent title="Omat tulokseni" goBack={navigation.goBack} />
+         <HeaderComponent title="Jaa tulokset" goBack={navigation.goBack} />
          <KeyboardAvoidingView
             style={styles.flexOne}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
