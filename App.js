@@ -11,6 +11,7 @@ import MeaningsScreen from './screens/MeaningsScreen';
 import HistoryScreen from './screens/HistoryScreen';
 import FormsScreen from './screens/FormsScreen';
 import SettingsScreen from './screens/SettingsScreen';
+import ShareResultsScreen from './screens/ShareResultsScreen';
 
 import DatabaseVerbsGerman from './modules/DatabaseVerbsGerman';
 import DatabaseVerbsSwedish from './modules/DatabaseVerbsSwedish';
@@ -20,6 +21,7 @@ import { Asset } from 'expo-asset';
 
 import { Provider } from 'react-redux';
 import store from './store/store';
+
 
 const Stack = createStackNavigator();
 
@@ -110,6 +112,10 @@ const App = () => {
                <Stack.Screen
                   name="Omat asetukseni"
                   component={SettingsScreen}
+               />
+               <Stack.Screen
+                  name="Jaa tulokset"
+                  component={ShareResultsScreen}
                />
             </Stack.Navigator>
          </NavigationContainer>
