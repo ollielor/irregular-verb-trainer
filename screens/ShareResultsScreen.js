@@ -15,6 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 const ShareResultsScreen = (props) => {
 
    const [name, setName] = useState('');
+   const [email, setEmail] = useState('');
 
    console.log('Props from ShareResultsScreen: ', props)
 
@@ -75,7 +76,23 @@ const ShareResultsScreen = (props) => {
       text += '%0a%0aVerbien muodot';
       // Number 2 stands for Forms mode
       text += getResultText(2);
-      Linking.openURL(`whatsapp://send?text=${text}&phone=+358407437870`);
+      Linking.openURL(`whatsapp://send?text=${text}`);
+   }
+
+   const sendEmail = () => {
+      let text = `Verbivalmentaja - käyttäjän ${name} suoritustiedot kielestä`;
+      if (props.language === 1) {
+         text += ' ruotsi';
+      } else {
+         text += ' saksa';
+      }
+      text += '%0a%0aVerbien merkitykset';
+      // Number 1 stands for Meanings mode
+      text += getResultText(1);
+      text += '%0a%0aVerbien muodot';
+      // Number 2 stands for Forms mode
+      text += getResultText(2);
+      Linking.openURL(`mailto:${email}?subject=Käyttäjän ${name} tulokset Verbivalmentajasta&body=${text}`);
    }
 
    return (
@@ -89,6 +106,9 @@ const ShareResultsScreen = (props) => {
          <Text style={styles.label}>Nimesi (näkyy vain viestin vastaanottajalle)</Text>
          <TextInput style={styles.formInput} onChangeText={(text => setName(text))} />
          <ButtonComponent title='Jaa tulokset WhatsAppilla' color="#7E00C5" function={sendWhatsAppMessage} />
+         <Text style={styles.label}>Vastaanottajan sähköpostiosoite</Text>
+         <TextInput style={styles.formInput} onChangeText={(text => setEmail(text))} />
+         <ButtonComponent title='Jaa tulokset sähköpostilla' color="#7E00C5" function={sendEmail} />
       </Content>
       </KeyboardAvoidingView>
       <FooterComponent />
