@@ -36,11 +36,28 @@ const ShareResults = (props) => {
          const percentages = historyFiltered.map((result) => result.percentage);
          const percentagesAverage = percentages.reduce((a, b) => a + b) / percentages.length;
          return {
+            totalAttempts: historyFiltered.length,
             totalCorrectAnswers: totalCorrectAnswers, 
             totalQuestions: totalQuestions,
             percentagesAverage: percentagesAverage
          }
       }
+   }
+
+   const getResultText = (type) => {
+      let resultText = ''; 
+      for (let i=1; i <= 3; i++) {
+         if (getResults(type, i, props.language)) {
+            resultText += `%0aTaso ${i}: %0a- Suorituskertoja yhteensä: ${getResults(type, i, props.language).totalAttempts}`;
+            resultText += `%0a- Oikeita vastauksia: ${getResults(type, i, props.language).totalCorrectAnswers}`;
+            resultText += ` / ${getResults(type, i, props.language).totalQuestions}`;
+            resultText += `%0a- Keskimääräinen osaaminen ${getResults(type, i, props.language).percentagesAverage.toFixed(2).replace('.', ',')} prosenttia`            
+         } else {
+            resultText += `%0aTaso ${i}: %0a- Ei suorituskertoja`;
+         }
+      }
+      console.log('resultText: ', resultText)
+      return resultText;
    }
 
    const sendWhatsAppMessage = () => {
@@ -51,16 +68,12 @@ const ShareResults = (props) => {
          text += ' saksa';
       }
       text += '%0a%0aVerbien merkitykset';
-      for (let i=1; i <= 3; i++) {
-         // Number 1 stands for Meanings mode
-         if (getResults(1, i, props.language)) {
-            text += `%0aTaso ${i}: %0a- Oikeita vastauksia: ${getResults(1, i, props.language).totalCorrectAnswers}`;
-            text += ` / ${getResults(1, i, props.language).totalQuestions}`;
-            text += `%0a- Keskimääräinen osaaminen ${getResults(1, i, props.language).percentagesAverage.toFixed(2).replace('.', ',')} prosenttia`            
-         }
-      }
+      // Number 1 stands for Meanings mode
+      text += getResultText(1);
       text += '%0a%0aVerbien muodot';
-      for (let i=1; i <= 3; i++) {
+      // Number 2 stands for Forms mode
+      text += getResultText(2);
+      /*for (let i=1; i <= 3; i++) {
          // Number 2 stands for Forms mode
          if (getResults(2, i, props.language)) {
             text += `%0aTaso ${i}: %0a- Oikeita vastauksia: ${getResults(2, i, props.language).totalCorrectAnswers}`;
@@ -68,7 +81,7 @@ const ShareResults = (props) => {
             text += `%0a- Keskimääräinen osaaminen ${getResults(2, i, props.language).percentagesAverage.toFixed(2).replace('.', ',')} prosenttia`            
          }
       }
-      /*if (getResultsMeanings(1, props.language)) {
+      if (getResultsMeanings(1, props.language)) {
          text += `%0aTaso 1 %0a- Oikeita vastauksia: ${getResultsMeanings(1, props.language).totalCorrectAnswers}`
       }
       if (getResultsMeanings(2, props.language)) {
