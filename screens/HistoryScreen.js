@@ -82,7 +82,7 @@ const HistoryScreen = (props) => {
          <HeaderComponent title="Omat tulokseni" goBack={navigation.goBack} />
          {historyMeanings || historyForms ? (
             <Content style={styles.contentContainer}>
-               <ShareResults />
+               <ShareResults historyMeanings={historyMeanings} historyForms={historyForms} />
                <Heading>Verbien merkitykset {props.language === 1 ? '(ruotsi)' : '(saksa)'}</Heading>
                {historyMeanings.filter((meaningItem) => meaningItem.language === props.language).length === 0 && (
                   <Text style={{ textAlign: 'center' }}>
