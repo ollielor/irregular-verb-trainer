@@ -5,6 +5,7 @@ import { StyleSheet } from 'react-native';
 import SpinnerComponent from '../styling/SpinnerComponent';
 
 import { rndIntGenerator } from '../../helpers/helpers';
+import MeaningsButton from '../buttons/MeaningsButton';
 
 const CardComponentMeanings = (props) => {
    const [correct, setCorrect] = useState(false);
@@ -14,6 +15,7 @@ const CardComponentMeanings = (props) => {
    const [randomizedAlternatives, setRandomizedAlternatives] = useState([]);
    const [correctIndex, setCorrectIndex] = useState(-1);
    const [incorrectIndex, setIncorrectIndex] = useState(-1);
+   const [locked, setLocked] = useState(false);
 
    useEffect(() => {
       // Get one meaning of the three verbs set in MeaningsScreen
@@ -35,22 +37,25 @@ const CardComponentMeanings = (props) => {
       }
       let newOrderArray = [];
       // Push the alternatives into a new array which is set to a state
-      for (let i = 0; i < randomOrderFinal.length; i++) {
+      for (let i=0; i < randomOrderFinal.length; i++) {
          newOrderArray.push(props.alternatives[randomOrderFinal[i]]);
       }
-      setRandomizedAlternatives(newOrderArray);
+     setRandomizedAlternatives(newOrderArray);
       setRndAlternativesLoaded(true);
    }, []);
 
    const evaluateAnswers = (meaning, index) => {
+      
       if (meaning === correctMeaning) {
-         setCorrect(true);
+         //setCorrect(true);
          setCorrectIndex(index);
          props.evaluate(true);
+         setLocked(true);
       } else {
-         setIncorrect(true);
+         //setIncorrect(true);
          setIncorrectIndex(index);
          props.evaluate(false);
+         setLocked(true);
       }
    };
 
@@ -72,57 +77,18 @@ const CardComponentMeanings = (props) => {
                   <Body
                      style={{ flexDirection: 'row', justifyContent: 'center' }}
                   >
-                     <Button
-                        onPress={() =>
-                           evaluateAnswers(randomizedAlternatives[0].meaning, 0)
-                        }
-                        disabled={correct || incorrect}
-                        style={[
-                           correct && correctIndex === 0
-                              ? styles.correctAnswer
-                              : incorrect && incorrectIndex === 0
-                              ? styles.incorrectAnswer
-                              : styles.notAnswered,
-                        ]}
-                     >
-                        <Text uppercase={false}>
-                           {randomizedAlternatives[0].infinitive}
-                        </Text>
-                     </Button>
-                     <Button
-                        onPress={() =>
-                           evaluateAnswers(randomizedAlternatives[1].meaning, 1)
-                        }
-                        disabled={correct || incorrect}
-                        style={[
-                           correct && correctIndex === 1
-                              ? styles.correctAnswer
-                              : incorrect && incorrectIndex === 1
-                              ? styles.incorrectAnswer
-                              : styles.notAnswered,
-                        ]}
-                     >
-                        <Text uppercase={false}>
-                           {randomizedAlternatives[1].infinitive}
-                        </Text>
-                     </Button>
-                     <Button
-                        onPress={() =>
-                           evaluateAnswers(randomizedAlternatives[2].meaning, 2)
-                        }
-                        disabled={correct || incorrect}
-                        style={[
-                           correct && correctIndex === 2
-                              ? styles.correctAnswer
-                              : incorrect && incorrectIndex === 2
-                              ? styles.incorrectAnswer
-                              : styles.notAnswered,
-                        ]}
-                     >
-                        <Text uppercase={false}>
-                           {randomizedAlternatives[2].infinitive}
-                        </Text>
-                     </Button>
+                     {randomizedAlternatives.map((alternative, index) => (
+                        <MeaningsButton 
+                           alternative={alternative} 
+                           evaluateAnswers={evaluateAnswers}
+                           index={index} 
+                           locked={locked}
+                           correctMeaning={correctMeaning}
+                           correctIndex={correctIndex}
+                           incorrectIndex={incorrectIndex}
+                        />
+                     )
+                     )}
                   </Body>
                </CardItem>
             </Card>

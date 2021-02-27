@@ -221,8 +221,18 @@ const MeaningsScreen = (props) => {
          />
          <Content>
             {!randomizedVerbs && <Text>Arvotaan verbejä...</Text>}
-            {answered.length < 5 &&
-               randomizedVerbs &&
+            {finished && results && resultsSaved && resultHistory && (
+               <>
+                  <ResultView results={results} startAgain={startAgain} />
+                  <LatestResults
+                     resultHistory={resultHistory}
+                     type={1}
+                     count={3}
+                  />
+               </>
+            )}
+            {!resultHistory && <SpinnerComponent text="Tuloksia ladataan..." />}
+            {randomizedVerbs &&
                randomizedVerbs.map((verbGroup, index) => (
                   <CardComponentMeanings
                      key={index}
@@ -230,17 +240,6 @@ const MeaningsScreen = (props) => {
                      evaluate={evaluate}
                   />
                ))}
-            {finished && results && resultsSaved && resultHistory && (
-               <>
-                  <ResultView results={results} startAgain={startAgain} />
-                  <LatestResults
-                     resultHistory={resultHistory}
-                     type={1}
-                     count={10}
-                  />
-               </>
-            )}
-            {!resultHistory && <SpinnerComponent text="Tuloksia ladataan..." />}
          </Content>
          <FooterComponent />
       </Container>

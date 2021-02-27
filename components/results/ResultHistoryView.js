@@ -22,7 +22,7 @@ const ResultHistoryView = (props) => {
 
    return (
       <Content>
-         {!props.hideButton && <Heading>10 viimeisintä tulosta</Heading>}
+         {!props.hideButton && <Heading>3 viimeisintä tulosta</Heading>}
          {props.resultHistory &&
             props.resultHistory
                .filter((result) => result.language === props.language)

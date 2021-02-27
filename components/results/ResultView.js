@@ -44,11 +44,9 @@ const ResultView = (props) => {
             Oikeita vastauksia: {props.results.amountCorrectAnswers} /{' '}
             {props.results.totalAnswered || props.results.maxQuestions}
          </Text>
-         {props.forms && (
-            <Text style={styles.feedbackPoints}>
+         <Text style={styles.feedbackPoints}>
                Katso oikeat vastaukset alta.
-            </Text>
-         )}
+         </Text>
          <Button style={styles.startAgainButton} onPress={props.startAgain}>
             <Text uppercase={false}>Aloita uudestaan</Text>
          </Button>
