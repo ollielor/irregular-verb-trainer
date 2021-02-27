@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, TextInput, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { Container, Content, Text } from 'native-base';
 import ButtonComponent from '../components/buttons/ButtonComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
@@ -51,48 +51,58 @@ const ShareResultsScreen = (props) => {
       let resultText = ''; 
       for (let i=1; i <= 3; i++) {
          if (getResults(type, i, props.language)) {
-            resultText += `%0aTaso ${i}: %0a- Suorituskertoja yhteensä: ${getResults(type, i, props.language).totalAttempts}`;
-            resultText += `%0a- Oikeita vastauksia: ${getResults(type, i, props.language).totalCorrectAnswers}`;
+            resultText += `|<br>Taso ${i}: |<br>- Suorituskertoja yhteensä: ${getResults(type, i, props.language).totalAttempts}`;
+            resultText += `|<br>- Oikeita vastauksia: ${getResults(type, i, props.language).totalCorrectAnswers}`;
             resultText += ` / ${getResults(type, i, props.language).totalQuestions}`;
-            resultText += `%0a- Keskimääräinen osaaminen ${getResults(type, i, props.language).percentagesAverage.toFixed(2).replace('.', ',')} prosenttia`            
+            resultText += `|<br>- Keskimääräinen osaaminen ${getResults(type, i, props.language).percentagesAverage.toFixed(2).replace('.', ',')} prosenttia`            
          } else {
-            resultText += `%0aTaso ${i}: %0a- Ei suorituskertoja`;
+            resultText += `|<br>|Taso ${i}:|<br>|- Ei suorituskertoja`;
          }
       }
       console.log('resultText: ', resultText)
       return resultText;
    }
 
-   const sendWhatsAppMessage = () => {
+   const sendMesssage = (type) => {
       let text = `Verbivalmentaja - käyttäjän ${name} suoritustiedot kielestä`;
       if (props.language === 1) {
-         text += ' ruotsi';
+         text += '| ruotsi';
       } else {
-         text += ' saksa';
+         text += '| saksa';
       }
-      text += '%0a%0aVerbien merkitykset';
+      text += '|<br>|<br>|Verbien merkitykset';
       // Number 1 stands for Meanings mode
       text += getResultText(1);
-      text += '%0a%0aVerbien muodot';
+      text += '|<br>|<br>|Verbien muodot';
       // Number 2 stands for Forms mode
       text += getResultText(2);
-      Linking.openURL(`whatsapp://send?text=${text}`);
-   }
-
-   const sendEmail = () => {
-      let text = `Verbivalmentaja - käyttäjän ${name} suoritustiedot kielestä`;
-      if (props.language === 1) {
-         text += ' ruotsi';
+      let textFinal;
+      let textArray;
+      if (Platform.OS === 'android') {
+         textArray = text.split("|");
+         let textReplaced;
+         let textParsed = '';
+         for (let i=0; i < textArray.length; i++) {
+            textReplaced = textArray[i].replace('<br>', '%0a');
+            textParsed += textReplaced;
+         } 
+         console.log(textParsed);
+         textFinal = textParsed;
       } else {
-         text += ' saksa';
+         textArray = text.split("|");
+         let textParsed = '';
+         for (let i=0; i < textArray.length; i++) {
+            textParsed += textArray[i];
+         } 
+         console.log(textParsed);
+         textFinal = textParsed;
       }
-      text += '%0a%0aVerbien merkitykset';
-      // Number 1 stands for Meanings mode
-      text += getResultText(1);
-      text += '%0a%0aVerbien muodot';
-      // Number 2 stands for Forms mode
-      text += getResultText(2);
-      Linking.openURL(`mailto:${email}?subject=Käyttäjän ${name} tulokset Verbivalmentajasta&body=${text}`);
+      if (type === 'whatsapp') {
+          Linking.openURL(`whatsapp://send?text=${textFinal}`);
+      }
+      if (type === 'email') {
+         Linking.openURL(`mailto:${email}?subject=Käyttäjän ${name} tulokset Verbivalmentajasta&body=${textFinal}`);
+      }
    }
 
    return (
@@ -105,10 +115,10 @@ const ShareResultsScreen = (props) => {
       <Content style={styles.contentContainer}>
          <Text style={styles.label}>Nimesi (näkyy vain viestin vastaanottajalle)</Text>
          <TextInput style={styles.formInput} onChangeText={(text => setName(text))} />
-         <ButtonComponent title='Jaa tulokset WhatsAppilla' color="#7E00C5" function={sendWhatsAppMessage} />
          <Text style={styles.label}>Vastaanottajan sähköpostiosoite</Text>
-         <TextInput style={styles.formInput} onChangeText={(text => setEmail(text))} />
-         <ButtonComponent title='Jaa tulokset sähköpostilla' color="#7E00C5" function={sendEmail} />
+         <TextInput style={styles.formInput} onChangeText={(text => setEmail(text))} autoCompleteType='email' autoCapitalize='none' />
+         <ButtonComponent title='Jaa tulokset sähköpostilla' color="#7E00C5" function={() => sendMesssage('email')} />
+         <ButtonComponent title='Jaa tulokset WhatsAppilla' color="#7E00C5" function={() => sendMesssage('whatsapp')} />
       </Content>
       </KeyboardAvoidingView>
       <FooterComponent />
