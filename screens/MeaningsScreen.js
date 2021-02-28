@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { StyleSheet, ScrollView } from 'react-native';
 import { Container, Content, Text } from 'native-base';
 
 import DatabaseResults from '../modules/DatabaseResults';
@@ -39,6 +39,14 @@ const MeaningsScreen = (props) => {
    const [tableCreated, setTableCreated] = useState(false);
 
    const navigation = useNavigation();
+
+   const scrollViewRef = useRef();
+
+   useEffect(() => {
+      if (finished) {
+         scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
+      }
+   }, [finished])
 
    useEffect(() => {
       createResultsDb();
@@ -219,6 +227,11 @@ const MeaningsScreen = (props) => {
             title="Verbien merkityksiä"
             goBack={navigation.goBack}
          />
+         <ScrollView
+               keyboardShouldPersistTaps="always"
+               style={styles.flexOne}
+               ref={scrollViewRef}
+            >
          <Content>
             {!randomizedVerbs && <Text>Arvotaan verbejä...</Text>}
             {finished && results && resultsSaved && resultHistory && (
@@ -241,6 +254,7 @@ const MeaningsScreen = (props) => {
                   />
                ))}
          </Content>
+         </ScrollView>
          <FooterComponent />
       </Container>
    );
@@ -261,5 +275,8 @@ const styles = StyleSheet.create({
    },
    contentContainer: {
       padding: 10,
+   },
+   flexOne: {
+      flex: 1,
    },
 });
