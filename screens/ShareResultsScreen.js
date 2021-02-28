@@ -116,7 +116,7 @@ const ShareResultsScreen = (props) => {
          <Text style={styles.label}>Nimesi (näkyy vain viestin vastaanottajalle)</Text>
          <TextInput style={styles.formInput} onChangeText={(text => setName(text))} />
          <Text style={styles.label}>Vastaanottajan sähköpostiosoite</Text>
-         <TextInput style={styles.formInput} onChangeText={(text => setEmail(text))} autoCompleteType='email' autoCapitalize='none' />
+         <TextInput style={styles.formInput} onChangeText={(text => setEmail(text))} autoCompleteType='email' keyboardType='email-address' autoCapitalize='none' />
          <ButtonComponent title='Jaa tulokset sähköpostilla' color="#7E00C5" function={() => sendMesssage('email')} />
          <ButtonComponent title='Jaa tulokset WhatsAppilla' color="#7E00C5" function={() => sendMesssage('whatsapp')} />
       </Content>
