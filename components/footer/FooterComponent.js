@@ -13,7 +13,7 @@ const FooterComponent = (props) => {
          <FooterTab>
             <FooterButtonComponent
                title="Asetukset"
-               function={() => navigation.navigate('Koti')}
+               function={() => navigation.navigate('Omat asetukseni')}
             />
          </FooterTab>
          <FooterTab>
