@@ -39,21 +39,45 @@ const BrowseScreen = (props) => {
             <Heading>Taso 1</Heading>
             {verbs
                .filter((verb) => verb.level === 1)
-               .sort((a, b) => props.language === 1 ? (a.present > b.present ? 1 : -1) : (a.infinitive > b.infinitive ? 1 : -1))
+               .sort((a, b) =>
+                  props.language === 1
+                     ? a.present > b.present
+                        ? 1
+                        : -1
+                     : a.infinitive > b.infinitive
+                     ? 1
+                     : -1
+               )
                .map((verb, index) => (
                   <CardComponentBrowse key={index} verb={verb} />
                ))}
             <Heading>Taso 2</Heading>
             {verbs
                .filter((verb) => verb.level === 2)
-               .sort((a, b) => props.language === 1 ? (a.present > b.present ? 1 : -1) : (a.infinitive > b.infinitive ? 1 : -1))
+               .sort((a, b) =>
+                  props.language === 1
+                     ? a.present > b.present
+                        ? 1
+                        : -1
+                     : a.infinitive > b.infinitive
+                     ? 1
+                     : -1
+               )
                .map((verb, index) => (
                   <CardComponentBrowse key={index} verb={verb} />
                ))}
             <Heading>Taso 3</Heading>
             {verbs
                .filter((verb) => verb.level === 3)
-               .sort((a, b) => props.language === 1 ? (a.present > b.present ? 1 : -1) : (a.infinitive > b.infinitive ? 1 : -1))
+               .sort((a, b) =>
+                  props.language === 1
+                     ? a.present > b.present
+                        ? 1
+                        : -1
+                     : a.infinitive > b.infinitive
+                     ? 1
+                     : -1
+               )
                .map((verb, index) => (
                   <CardComponentBrowse key={index} verb={verb} />
                ))}
@@ -66,7 +90,7 @@ const BrowseScreen = (props) => {
 const mapStateToProps = (state) => ({
    verbsGerman: state.verbs.verbsGerman,
    verbsSwedish: state.verbs.verbsSwedish,
-   language: state.settings.language
+   language: state.settings.language,
 });
 
 export default connect(mapStateToProps)(BrowseScreen);

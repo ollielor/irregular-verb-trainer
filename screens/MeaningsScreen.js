@@ -46,7 +46,7 @@ const MeaningsScreen = (props) => {
       if (finished) {
          scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
       }
-   }, [finished])
+   }, [finished]);
 
    useEffect(() => {
       createResultsDb();
@@ -57,12 +57,14 @@ const MeaningsScreen = (props) => {
       setVerbsFiltered(false);
       let verbsByLanguage;
       if (props.language === 1) {
-         verbsByLanguage = props.verbsSwedish.filter(verb => verb.infinitive.length > 1);
+         // Exclude verbs without infinitive forms
+         verbsByLanguage = props.verbsSwedish.filter(
+            (verb) => verb.infinitive.length > 1
+         );
          console.log(verbsByLanguage);
       } else {
          verbsByLanguage = props.verbsGerman;
       }
-      console.log('Level: ', props.level)
       const filteredVerbs = filterVerbsByLevel(verbsByLanguage, props.level);
       setVerbs(filteredVerbs);
       setVerbsFiltered(true);
@@ -102,17 +104,17 @@ const MeaningsScreen = (props) => {
    };
 
    useEffect(() => {
-      let amount = 15;
-      /*if (props.language === 1 && props.level === 1) {
-         amount = 6;
-      }*/
-      if (verbsFiltered) {
-         const verbObjectArray = getRndVerbs(verbs, amount); // 15
-         console.log(verbObjectArray)
-         setRandomizedVerbs(verbObjectArray);
+      // Amount of verbs shown in Meanings Screen (5 times 3)
+      if (started) {
+         let amount = 15;
+         if (verbsFiltered) {
+            const verbObjectArray = getRndVerbs(verbs, amount);
+            setRandomizedVerbs(verbObjectArray);
+         }
       }
    }, [verbsFiltered]);
 
+   // This function is responsible for evaluating the answers and setting the amount of points
    const evaluate = (accuracy) => {
       if (accuracy) {
          setPoints(points + 20);
@@ -157,6 +159,7 @@ const MeaningsScreen = (props) => {
       updateList();
    }, [resultsSaved]);
 
+   // This function clears all values when the exercise is started again
    const startAgain = () => {
       setStarted(true);
       setFinished(false);
@@ -207,7 +210,7 @@ const MeaningsScreen = (props) => {
          } else {
             totalPoints = points * 1.0;
          }
-         // Weighted percentage: points with bonus points or minus points or without them are divided by max points
+         // Points with bonus points or without them are divided by max points
          let totalPercentage = (totalPoints / maxPoints) * 100.0;
          setResults({
             totalPoints: totalPoints,
@@ -228,32 +231,34 @@ const MeaningsScreen = (props) => {
             goBack={navigation.goBack}
          />
          <ScrollView
-               keyboardShouldPersistTaps="always"
-               style={styles.flexOne}
-               ref={scrollViewRef}
-            >
-         <Content>
-            {!randomizedVerbs && <Text>Arvotaan verbejä...</Text>}
-            {finished && results && resultsSaved && resultHistory && (
-               <>
-                  <ResultView results={results} startAgain={startAgain} />
-                  <LatestResults
-                     resultHistory={resultHistory}
-                     type={1}
-                     count={3}
-                  />
-               </>
-            )}
-            {!resultHistory && <SpinnerComponent text="Tuloksia ladataan..." />}
-            {randomizedVerbs &&
-               randomizedVerbs.map((verbGroup, index) => (
-                  <CardComponentMeanings
-                     key={index}
-                     alternatives={verbGroup}
-                     evaluate={evaluate}
-                  />
-               ))}
-         </Content>
+            keyboardShouldPersistTaps="always"
+            style={styles.flexOne}
+            ref={scrollViewRef}
+         >
+            <Content>
+               {!randomizedVerbs && <Text>Arvotaan verbejä...</Text>}
+               {finished && results && resultsSaved && resultHistory && (
+                  <>
+                     <ResultView results={results} startAgain={startAgain} />
+                     <LatestResults
+                        resultHistory={resultHistory}
+                        type={1}
+                        count={3}
+                     />
+                  </>
+               )}
+               {!resultHistory && (
+                  <SpinnerComponent text="Tuloksia ladataan..." />
+               )}
+               {randomizedVerbs && !finished &&
+                  randomizedVerbs.map((verbGroup, index) => (
+                     <CardComponentMeanings
+                        key={index}
+                        alternatives={verbGroup}
+                        evaluate={evaluate}
+                     />
+                  ))}
+            </Content>
          </ScrollView>
          <FooterComponent />
       </Container>

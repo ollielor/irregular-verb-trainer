@@ -8,8 +8,6 @@ import { rndIntGenerator } from '../../helpers/helpers';
 import MeaningsButton from '../buttons/MeaningsButton';
 
 const CardComponentMeanings = (props) => {
-   const [correct, setCorrect] = useState(false);
-   const [incorrect, setIncorrect] = useState(false);
    const [rndAlternativesLoaded, setRndAlternativesLoaded] = useState(false);
    const [correctMeaning, setCorrectMeaning] = useState('');
    const [randomizedAlternatives, setRandomizedAlternatives] = useState([]);
@@ -42,17 +40,15 @@ const CardComponentMeanings = (props) => {
       }
      setRandomizedAlternatives(newOrderArray);
       setRndAlternativesLoaded(true);
-   }, []);
+   }, [props.started]);
 
    const evaluateAnswers = (meaning, index) => {
       
       if (meaning === correctMeaning) {
-         //setCorrect(true);
          setCorrectIndex(index);
          props.evaluate(true);
          setLocked(true);
       } else {
-         //setIncorrect(true);
          setIncorrectIndex(index);
          props.evaluate(false);
          setLocked(true);
@@ -68,12 +64,12 @@ const CardComponentMeanings = (props) => {
             <Card>
                <CardItem header style={{ backgroundColor: '#e8e8e8' }}>
                   <Body
-                     style={{ flexDirection: 'row', justifyContent: 'center' }}
+                     style={styles.cardMeaningBody}
                   >
                      <Text style={styles.prompt}>{correctMeaning}</Text>
                   </Body>
                </CardItem>
-               <CardItem style={{ backgroundColor: '#e8e8e8' }}>
+               <CardItem style={styles.cardItem}>
                   <Body
                      style={{ flexDirection: 'row', justifyContent: 'center' }}
                   >
@@ -120,4 +116,11 @@ const styles = StyleSheet.create({
       marginLeft: 2,
       marginRight: 2,
    },
+   cardMeaningBody: {
+      flexDirection: 'row', 
+      justifyContent: 'center' 
+   },
+   cardItem: { 
+      backgroundColor: '#e8e8e8' 
+   }
 });
