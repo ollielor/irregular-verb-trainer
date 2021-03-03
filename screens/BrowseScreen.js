@@ -16,8 +16,6 @@ import CardComponentBrowse from '../components/cards/CardComponentBrowse';
 import Heading from '../components/styling/Heading';
 
 const BrowseScreen = (props) => {
-   const [dbOpened, setDbOpened] = useState(false);
-
    let verbs;
    if (props.language === 1) {
       verbs = props.verbsSwedish;
@@ -41,21 +39,21 @@ const BrowseScreen = (props) => {
             <Heading>Taso 1</Heading>
             {verbs
                .filter((verb) => verb.level === 1)
-               .sort((a, b) => (a.infinitive > b.infinitive ? 1 : -1))
+               .sort((a, b) => props.language === 1 ? (a.present > b.present ? 1 : -1) : (a.infinitive > b.infinitive ? 1 : -1))
                .map((verb, index) => (
                   <CardComponentBrowse key={index} verb={verb} />
                ))}
             <Heading>Taso 2</Heading>
             {verbs
                .filter((verb) => verb.level === 2)
-               .sort((a, b) => (a.infinitive > b.infinitive ? 1 : -1))
+               .sort((a, b) => props.language === 1 ? (a.present > b.present ? 1 : -1) : (a.infinitive > b.infinitive ? 1 : -1))
                .map((verb, index) => (
                   <CardComponentBrowse key={index} verb={verb} />
                ))}
             <Heading>Taso 3</Heading>
             {verbs
                .filter((verb) => verb.level === 3)
-               .sort((a, b) => (a.infinitive > b.infinitive ? 1 : -1))
+               .sort((a, b) => props.language === 1 ? (a.present > b.present ? 1 : -1) : (a.infinitive > b.infinitive ? 1 : -1))
                .map((verb, index) => (
                   <CardComponentBrowse key={index} verb={verb} />
                ))}
