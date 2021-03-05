@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
    },
    answerButtonStyle: {
       marginBottom: 5,
-      flex: 1,
       backgroundColor: '#0000cc',
    },
    correctAnswer: {

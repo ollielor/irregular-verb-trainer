@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { StyleSheet, TextInput, Platform, ScrollView } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Body, Card, CardItem, Spinner, Text } from 'native-base';
 import CorrectAnswerComponent from '../styling/CorrectAnswerComponent';
 import { connect } from 'react-redux';

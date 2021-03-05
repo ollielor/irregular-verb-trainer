@@ -44,7 +44,7 @@ const MeaningsScreen = (props) => {
 
    useEffect(() => {
       if (finished) {
-         scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
+         scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: false });
       }
    }, [finished]);
 
