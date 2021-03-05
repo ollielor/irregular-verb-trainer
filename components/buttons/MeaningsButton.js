@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { Button, Text } from 'native-base';
-import { useEffect } from 'react/cjs/react.development';
 
 const MeaningsButton = (props) => {
 
       const [correct, setCorrect] = useState(false);
       const [incorrect, setIncorrect] = useState(false);
-
-      console.log(props);
 
       useEffect(() => {
          if (props.correctIndex === props.index) {
@@ -20,23 +17,22 @@ const MeaningsButton = (props) => {
       }, [props.locked])
 
       return (
-      <Button
-      onPress={() =>
-         props.evaluateAnswers(props.alternative.meaning, props.index)
-      }
-      disabled={props.locked}
-      style={[
-         props.locked && correct || props.locked && props.alternative.meaning === props.correctMeaning
-            ? styles.correctAnswer
-            : props.locked && incorrect
-            ? styles.incorrectAnswer
-            : styles.notAnswered,
-      ]}
-      >
-      <Text uppercase={false}>
-         {props.alternative.infinitive}
-      </Text>
-      </Button>
+         <Button
+            full
+            onPress={() =>
+               props.evaluateAnswers(props.alternative.meaning, props.index)
+            }
+            disabled={props.locked}
+            style={
+               props.locked && correct || props.locked && props.alternative.meaning === props.correctMeaning ? [styles.answerButtonStyle, styles.correctAnswer] 
+               : props.locked && incorrect ? [styles.answerButtonStyle, styles.incorrectAnswer]
+               : styles.answerButtonStyle
+            }
+         >
+            <Text uppercase={false}>
+               {props.alternative.infinitive}
+            </Text>
+         </Button>
       )
 }
 
@@ -48,19 +44,15 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       textAlign: 'center',
    },
-   notAnswered: {
+   answerButtonStyle: {
+      marginBottom: 5,
+      flex: 1,
       backgroundColor: '#0000cc',
-      marginLeft: 2,
-      marginRight: 2,
    },
    correctAnswer: {
       backgroundColor: '#006600',
-      marginLeft: 2,
-      marginRight: 2,
    },
    incorrectAnswer: {
       backgroundColor: '#cc0000',
-      marginLeft: 2,
-      marginRight: 2,
    },
 });

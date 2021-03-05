@@ -56,7 +56,7 @@ const CardComponentMeanings = (props) => {
    };
 
    return (
-      <Content>
+      <Content style={{overflow: 'visible'}}>
          {!rndAlternativesLoaded && (
             <SpinnerComponent text="Ladataan vaihtoehtoja" />
          )}
@@ -70,9 +70,7 @@ const CardComponentMeanings = (props) => {
                   </Body>
                </CardItem>
                <CardItem style={styles.cardItem}>
-                  <Body
-                     style={{ flexDirection: 'row', justifyContent: 'center' }}
-                  >
+                  <Body>
                      {randomizedAlternatives.map((alternative, index) => (
                         <MeaningsButton
                            key={index} 
