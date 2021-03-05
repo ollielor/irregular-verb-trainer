@@ -74,7 +74,8 @@ const CardComponentMeanings = (props) => {
                      style={{ flexDirection: 'row', justifyContent: 'center' }}
                   >
                      {randomizedAlternatives.map((alternative, index) => (
-                        <MeaningsButton 
+                        <MeaningsButton
+                           key={index} 
                            alternative={alternative} 
                            evaluateAnswers={evaluateAnswers}
                            index={index} 
