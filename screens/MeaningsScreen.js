@@ -20,6 +20,7 @@ import LatestResults from '../components/results/LatestResults';
 import SpinnerComponent from '../components/styling/SpinnerComponent';
 
 import { connect } from 'react-redux';
+import CardComponentCorrectAnswers from '../components/cards/CardComponentCorrectAnswers';
 
 const MeaningsScreen = (props) => {
    const [verbs, setVerbs] = useState([]);
@@ -37,6 +38,8 @@ const MeaningsScreen = (props) => {
    const [resultsSaved, setResultsSaved] = useState(false);
    const [dateTime, setDateTime] = useState(null);
    const [tableCreated, setTableCreated] = useState(false);
+   const [mastered, setMastered] = useState([]);
+   const [notMastered, setNotMastered] = useState([]);
 
    const navigation = useNavigation();
 
@@ -106,6 +109,8 @@ const MeaningsScreen = (props) => {
    useEffect(() => {
       // Amount of verbs shown in Meanings Screen (5 times 3)
       if (started) {
+         setMastered([]);
+         setNotMastered([]);
          let amount = 15;
          if (verbsFiltered) {
             const verbObjectArray = getRndVerbs(verbs, amount);
@@ -115,13 +120,15 @@ const MeaningsScreen = (props) => {
    }, [verbsFiltered]);
 
    // This function is responsible for evaluating the answers and setting the amount of points
-   const evaluate = (accuracy) => {
+   const evaluate = (accuracy, meaning, correctInfinitive, answeredInfinitive) => {
       if (accuracy) {
          setPoints(points + 20);
          setAnswered([...answered, { accuracy: 'correct' }]);
+         setMastered([...mastered, { infinitive: correctInfinitive, meaning: meaning }])
       }
       if (!accuracy) {
          setAnswered([...answered, { accuracy: 'incorrect' }]);
+         setNotMastered([...notMastered, { infinitive: correctInfinitive, meaning: meaning, wrongAnswer: answeredInfinitive }])
       }
       setMaxPoints(maxPoints + 20);
    };
@@ -258,6 +265,9 @@ const MeaningsScreen = (props) => {
                         evaluate={evaluate}
                      />
                   ))}
+               {finished &&
+                  <CardComponentCorrectAnswers mastered={mastered} notMastered={notMastered} />
+               }
             </Content>
          </ScrollView>
          <FooterComponent />

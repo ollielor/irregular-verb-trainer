@@ -10,6 +10,7 @@ import MeaningsButton from '../buttons/MeaningsButton';
 const CardComponentMeanings = (props) => {
    const [rndAlternativesLoaded, setRndAlternativesLoaded] = useState(false);
    const [correctMeaning, setCorrectMeaning] = useState('');
+   const [correctInfinitive, setCorrectInfinitive] = useState('');
    const [randomizedAlternatives, setRandomizedAlternatives] = useState([]);
    const [correctIndex, setCorrectIndex] = useState(-1);
    const [incorrectIndex, setIncorrectIndex] = useState(-1);
@@ -19,6 +20,7 @@ const CardComponentMeanings = (props) => {
       // Get one meaning of the three verbs set in MeaningsScreen
       const rndInt = rndIntGenerator(3);
       setCorrectMeaning(props.alternatives[rndInt].meaning);
+      setCorrectInfinitive(props.alternatives[rndInt].infinitive);
       let randomOrder = [];
       let randomOrderFinal = [];
       // Randomize alternatives
@@ -42,15 +44,15 @@ const CardComponentMeanings = (props) => {
       setRndAlternativesLoaded(true);
    }, [props.started]);
 
-   const evaluateAnswers = (meaning, index) => {
+   const evaluateAnswers = (meaning, index, infinitive) => {
       
       if (meaning === correctMeaning) {
          setCorrectIndex(index);
-         props.evaluate(true);
+         props.evaluate(true, correctMeaning, correctInfinitive, infinitive);
          setLocked(true);
       } else {
          setIncorrectIndex(index);
-         props.evaluate(false);
+         props.evaluate(false, correctMeaning, correctInfinitive, infinitive);
          setLocked(true);
       }
    };

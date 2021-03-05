@@ -20,7 +20,7 @@ const MeaningsButton = (props) => {
          <Button
             full
             onPress={() =>
-               props.evaluateAnswers(props.alternative.meaning, props.index)
+               props.evaluateAnswers(props.alternative.meaning, props.index, props.alternative.infinitive)
             }
             disabled={props.locked}
             style={
