@@ -20,7 +20,7 @@ import LatestResults from '../components/results/LatestResults';
 import SpinnerComponent from '../components/styling/SpinnerComponent';
 
 import { connect } from 'react-redux';
-import CardComponentCorrectAnswers from '../components/cards/CardComponentCorrectAnswers';
+import CardComponentMastery from '../components/cards/CardComponentMastery';
 
 const MeaningsScreen = (props) => {
    const [verbs, setVerbs] = useState([]);
@@ -109,8 +109,6 @@ const MeaningsScreen = (props) => {
    useEffect(() => {
       // Amount of verbs shown in Meanings Screen (5 times 3)
       if (started) {
-         setMastered([]);
-         setNotMastered([]);
          let amount = 15;
          if (verbsFiltered) {
             const verbObjectArray = getRndVerbs(verbs, amount);
@@ -176,6 +174,8 @@ const MeaningsScreen = (props) => {
       setResults({});
       setResultsReady(false);
       setResultsSaved(false);
+      setMastered([]);
+      setNotMastered([]);
    };
 
    useEffect(() => {
@@ -247,6 +247,12 @@ const MeaningsScreen = (props) => {
                {finished && results && resultsSaved && resultHistory && (
                   <>
                      <ResultView results={results} startAgain={startAgain} />
+                     {mastered.length > 0 && 
+                        <CardComponentMastery mastered={mastered} />
+                     }
+                     {notMastered.length > 0 &&
+                        <CardComponentMastery notMastered={notMastered} />
+                     }
                      <LatestResults
                         resultHistory={resultHistory}
                         type={1}
@@ -265,9 +271,6 @@ const MeaningsScreen = (props) => {
                         evaluate={evaluate}
                      />
                   ))}
-               {finished &&
-                  <CardComponentCorrectAnswers mastered={mastered} notMastered={notMastered} />
-               }
             </Content>
          </ScrollView>
          <FooterComponent />
