@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, ScrollView, KeyboardAvoidingView } from 'react-native';
-import { Container, Spinner, Text } from 'native-base';
+import { Container, Text } from 'native-base';
 
-import DatabaseVerbs from '../modules/DatabaseVerbsGerman';
 import DatabaseResults from '../modules/DatabaseResults';
-import * as FileSystem from 'expo-file-system';
-import { Asset } from 'expo-asset';
 
 import { connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';

@@ -3,9 +3,7 @@ import { StyleSheet } from 'react-native';
 import { Body, Card, CardItem, Spinner, Text } from 'native-base';
 import CorrectAnswerComponent from '../styling/CorrectAnswerComponent';
 import { connect } from 'react-redux';
-import { checkIfLast, checkNext } from '../../helpers/helpers';
 import InputComponentForms from '../forms/InputComponentForms';
-import { useLinkProps } from '@react-navigation/native';
 
 const CardComponentForms = (props) => {
    const [correctInfinitive, setCorrectInfinitive] = useState(false);

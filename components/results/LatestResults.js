@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Body, Button, Card, CardItem, Content, Text } from 'native-base';
-
-import moment from 'moment';
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { Button, Content, Text } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 

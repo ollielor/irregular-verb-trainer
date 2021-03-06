@@ -1,5 +1,4 @@
 import React from 'react';
-import { StatusBar, Platform } from 'react-native';
 import {
    Button,
    Body,

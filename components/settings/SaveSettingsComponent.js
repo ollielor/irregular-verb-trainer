@@ -1,11 +1,8 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Body, Card, CardItem, Content } from 'native-base';
+import { Body, Content } from 'native-base';
 
 import ButtonComponent from '../buttons/ButtonComponent';
-import ButtonComponentNarrow from '../buttons/ButtonComponentNarrow';
-import Heading from '../styling/Heading';
-import Subheading from '../styling/Subheading';
 
 import { connect } from 'react-redux';
 

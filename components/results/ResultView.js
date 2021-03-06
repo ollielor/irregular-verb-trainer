@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Button, Container, Content, Text } from 'native-base';
+import { StyleSheet } from 'react-native';
+import { Button, Content, Text } from 'native-base';
 import feedbackTexts from '../../feedback/feedback.json';
 
 import { connect } from 'react-redux';

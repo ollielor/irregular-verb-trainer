@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Body, Button, Card, CardItem, Content, Text } from 'native-base';
-import { StyleSheet } from 'react-native';
+import React from 'react';
+import { Body, Card, CardItem, Text } from 'native-base';
 
 import moment from 'moment';
 

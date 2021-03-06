@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { Container, Content, Text } from 'native-base';
 import ButtonComponent from '../components/buttons/ButtonComponent';

@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Container, Content } from 'native-base';
-
-import * as SQLite from 'expo-sqlite';
-import * as FileSystem from 'expo-file-system';
-import { Asset } from 'expo-asset';
 
 import { connect } from 'react-redux';
 

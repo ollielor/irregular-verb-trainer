@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React from 'react';
+import { StyleSheet } from 'react-native';
 import {
-   Body,
    Button,
-   Card,
-   CardItem,
    Content,
-   Spinner,
    Text,
 } from 'native-base';
 

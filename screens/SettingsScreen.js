@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, StyleSheet, Text } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 import { Container, Content, Toast } from 'native-base';
 
 import * as Font from 'expo-font';
