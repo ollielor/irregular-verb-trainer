@@ -6,8 +6,6 @@ import ButtonComponent from '../buttons/ButtonComponent';
 
 import { connect } from 'react-redux';
 
-import { updateLanguage, updateLevel } from '../../store/actions/settings';
-
 const SaveSettingsComponent = (props) => {
    return (
       <Content>
@@ -16,12 +14,8 @@ const SaveSettingsComponent = (props) => {
                >
                   <ButtonComponent
                      title="Tallenna asetukset"
+                     color="#7E00C5"
                      function={props.updateSettings}
-                  />
-                  <ButtonComponent
-                     title="Tyhjennä asetukset"
-                     color="#cc0000"
-                     function={props.clearSettings}
                   />
                </Body>
       </Content>

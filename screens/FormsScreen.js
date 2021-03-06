@@ -456,7 +456,7 @@ const FormsScreen = (props) => {
                      <SpinnerComponent text="Ladataan verbejä..." />
                   </Content>
                )}
-               {formsSelected && randomizedVerbs && (
+               {formsSelected && randomizedVerbs && !finished && (
                   <ButtonComponent
                      color="#7E00C5"
                      title="Valmis"

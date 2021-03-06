@@ -20,11 +20,9 @@ import { useNavigation } from '@react-navigation/native';
 import ButtonComponent from '../components/buttons/ButtonComponent';
 import FooterComponent from '../components/footer/FooterComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
-import FormsSelector from '../components/settings/FormsSelector';
 import SpinnerComponent from '../components/styling/SpinnerComponent';
 
 import DatabaseSettings from '../modules/DatabaseSettings';
-import SettingsComponent from '../components/settings/SettingsComponent';
 
 import { fetchVerbsGerman } from '../store/actions/verbs';
 import { fetchVerbsSwedish } from '../store/actions/verbs';

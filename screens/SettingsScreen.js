@@ -249,11 +249,10 @@ const StartScreen = (props) => {
             title="Omat asetukseni"
             goBack={navigation.goBack}
          />
-         {!fontsLoaded && <SpinnerComponent text="Ladataan fontteja..." />}
          {!settingsLoaded && (
             <SpinnerComponent text="Ladataan asetuksia..." />
          )}
-         {fontsLoaded && settingsLoaded && 
+         {settingsLoaded && 
             <Container>
                <Content>
                   <SettingsComponent/>
