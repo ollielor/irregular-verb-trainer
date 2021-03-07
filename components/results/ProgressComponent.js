@@ -35,7 +35,7 @@ const ProgressComponent = (props) => {
                   </Text>
                   <Text style={styles.progressStyle}>
                      Osaamisprosentti:{' '}
-                     {totalPercentage.toFixed(2).replace('.', ',')} %
+                     {totalPercentage && totalPercentage.toFixed(2).replace('.', ',')} %
                   </Text>
                   <Text style={styles.progressStyle}>
                      (sisältää aikabonukset)

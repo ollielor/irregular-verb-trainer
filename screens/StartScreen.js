@@ -5,6 +5,9 @@ import { Container, Content } from 'native-base';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 
+import * as FileSystem from 'expo-file-system';
+import { Asset } from 'expo-asset';
+
 import { connect } from 'react-redux';
 import {
    updateLanguage,
@@ -33,27 +36,182 @@ import DatabaseVerbsSwedish from '../modules/DatabaseVerbsSwedish';
 const StartScreen = (props) => {
    const [fontsLoaded, setFontsLoaded] = useState(false);
    const [settingsLength, setSettingsLength] = useState(0);
-   const [settingsEmpty, setSettingsEmpty] = useState(false);
    const [settingsLoaded, setSettingsLoaded] = useState(false);
+   const [germanLoaded, setGermanLoaded] = useState(false);
+   const [swedishLoaded, setSwedishLoaded] = useState(false);
 
    const navigation = useNavigation();
+
+   useEffect(() => {
+      const initializeDbGerman = async () => {
+         const directory = await FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`);
+         console.log(directory);
+         if (!directory.exists) {
+            FileSystem.makeDirectoryAsync(
+               `${FileSystem.documentDirectory}SQLite`,
+               { intermediates: true }
+            );
+         }
+         const file = await FileSystem.getInfoAsync(
+            `${FileSystem.documentDirectory}SQLite/verbs_german.db`
+         );
+         console.log('File: ', file);
+         if (!file.exists) {
+               await FileSystem.downloadAsync(
+                  Asset.fromModule(require('../assets/verbs_german.db')).uri,
+                  `${FileSystem.documentDirectory}SQLite/verbs_german.db`
+               );
+         }
+         setGermanLoaded(true);
+      }
+      initializeDbGerman();
+   }, [])
+
+   useEffect(() => {
+      const initializeDbSwedish = async () => {
+         const directory = await FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`);
+         console.log(directory);
+         if (!directory.exists) {
+            FileSystem.makeDirectoryAsync(
+               `${FileSystem.documentDirectory}SQLite`,
+               { intermediates: true }
+            );
+         }
+         const file = await FileSystem.getInfoAsync(
+            `${FileSystem.documentDirectory}SQLite/verbs_swedish.db`
+         );
+         console.log('File: ', file);
+         if (!file.exists) {
+               await FileSystem.downloadAsync(
+                  Asset.fromModule(require('../assets/verbs_swedish.db')).uri,
+                  `${FileSystem.documentDirectory}SQLite/verbs_swedish.db`
+               );
+         }
+         setSwedishLoaded(true);
+      }
+      initializeDbSwedish();
+   }, [])
+
+   /* useEffect(() => {
+      FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`)
+         .then((result) => {
+            if (!result.exists) {
+               FileSystem.makeDirectoryAsync(
+                  `${FileSystem.documentDirectory}SQLite`,
+                  { intermediates: true }
+               );
+            }
+            return FileSystem.getInfoAsync(
+               `${FileSystem.documentDirectory}SQLite/verbs_german.db`
+            );
+         })
+         .then((result) => {
+            if (!result.exists) {
+               FileSystem.downloadAsync(
+                  Asset.fromModule(require('../assets/verbs_german.db')).uri,
+                  `${FileSystem.documentDirectory}SQLite/verbs_german.db`
+               );
+               setGermanLoaded(true);
+            } else {
+               setGermanLoaded(true);
+            }
+         })
+         .catch((error) => {
+            console.log(error);
+         });
+   }, []);
+
+   useEffect(() => {
+      FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`)
+         .then((result) => {
+            if (!result.exists) {
+               FileSystem.makeDirectoryAsync(
+                  `${FileSystem.documentDirectory}SQLite`,
+                  { intermediates: true }
+               );
+            }
+            return FileSystem.getInfoAsync(
+               `${FileSystem.documentDirectory}SQLite/verbs_swedish.db`
+            );
+         })
+         .then((result) => {
+            if (!result.exists) {
+               FileSystem.downloadAsync(
+                  Asset.fromModule(require('../assets/verbs_swedish.db')).uri,
+                  `${FileSystem.documentDirectory}SQLite/verbs_swedish.db`
+               );
+               setSwedishLoaded(true);
+            } else {
+               setSwedishLoaded(true);
+            }
+         })
+         .catch((error) => {
+            console.log(error);
+         });
+   }, []);*/
+
+   useEffect(() => {
+      if (germanLoaded) {
+         DatabaseVerbsGerman.transaction(
+            (tx) => {
+               tx.executeSql(
+                  'select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id',
+                  [],
+                  (tx, results) => {
+                     props.dispatch(fetchVerbsGerman(results.rows._array));
+                  },
+                  (tx, error) => {
+                     console.log('Could not execute query: ', error);
+                  }
+               );
+            },
+            (error) => {
+               console.log('Transaction error: ', error);
+            }
+         );
+      }
+   }, [germanLoaded]);
+
+   useEffect(() => {
+      if (swedishLoaded) {
+         DatabaseVerbsSwedish.transaction(
+            (tx) => {
+               tx.executeSql(
+                  'select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id',
+                  [],
+                  (tx, results) => {
+                     props.dispatch(fetchVerbsSwedish(results.rows._array));
+                  },
+                  (tx, error) => {
+                     console.log('Could not execute query: ', error);
+                  }
+               );
+            },
+            (error) => {
+               console.log('Transaction error: ', error);
+            }
+         );
+      }
+   }, [swedishLoaded]);
 
    useEffect(() => {
       return () => {};
    }, []);
 
    useEffect(() => {
-      Font.loadAsync({
-         Roboto: require('native-base/Fonts/Roboto.ttf'),
-         Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-         ...Ionicons.font,
-      })
-         .then((result) => {
-            setFontsLoaded(true);
-         })
-         .catch((error) => {
+      const loadFonts = async() => {
+         try {             
+            await Font.loadAsync({
+               Roboto: require('native-base/Fonts/Roboto.ttf'),
+               Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+               ...Ionicons.font,
+            })
+            setFontsLoaded(true);  
+         } catch (error) {
             console.log(error);
-         });
+         };
+      }
+      loadFonts();
    }, []);
 
    useEffect(() => {
@@ -128,107 +286,6 @@ const StartScreen = (props) => {
          }
       );
    };
-
-   /*useEffect(() => {
-      if (!settingsLoaded) {
-         fetchSettings();
-      }
-   }, [settingsLoaded]);*/
-
-   const updateSettings = () => {
-      let query;
-      if (settingsLength === 0 && settingsLoaded) {
-         query =
-            'insert into settings (language, level, infinitive, present, past, presperf) values (?, ?, ?, ?, ?, ?);';
-      } else if (settingsLength > 0 && settingsLoaded) {
-         query =
-            'update settings set language = ?, level = ?, infinitive = ?, present = ?, past = ?, presperf = ? where id=1;';
-      }
-      DatabaseSettings.transaction(
-         (tx) => {
-            tx.executeSql(query, [
-               props.language,
-               props.level,
-               props.infinitive ? 1 : 0,
-               props.present ? 1 : 0,
-               props.past ? 1 : 0,
-               props.presperf ? 1 : 0,
-            ]);
-         },
-         (error) => {
-            console.log('Transaction error (Save): ', error);
-         },
-         null,
-         null
-      );
-   }
-
-   // This function is only used for testing purposes
-   const clearSettings = () => {
-      DatabaseSettings.transaction(
-         (tx) => {
-            tx.executeSql(
-               'drop table if exists settings;',
-               [],
-               (tx,
-               (results) => {
-                  if (results && results.rows && results.rows._array) {
-                     Alert.alert('Table dropped');
-                  } else {
-                     Alert.alert('No results');
-                  }
-               }),
-               (tx, error) => {
-                  console.log('Could not execute query: ', error);
-               }
-            );
-         },
-         (error) => {
-            console.log('Transaction error: ', error);
-         }
-      );
-   };
-
-   useEffect(() => {
-      DatabaseVerbsGerman.transaction(
-         (tx) => {
-            tx.executeSql(
-               'select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id',
-               [],
-               (tx, results) => {
-                  props.dispatch(fetchVerbsGerman(results.rows._array));
-               },
-               (tx, error) => {
-                  console.log('Could not execute query: ', error);
-               }
-            );
-         },
-         (error) => {
-            console.log('Transaction error: ', error);
-         }
-      );
-   }, []);
-
-   useEffect(() => {
-      DatabaseVerbsSwedish.transaction(
-         (tx) => {
-            tx.executeSql(
-               'select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id',
-               [],
-               (tx, results) => {
-                  props.dispatch(fetchVerbsSwedish(results.rows._array));
-               },
-               (tx, error) => {
-                  console.log('Could not execute query: ', error);
-               }
-            );
-         },
-         (error) => {
-            console.log('Transaction error: ', error);
-         }
-      );
-   }, []);
-
 
    return (
       <Container style={styles.container}>

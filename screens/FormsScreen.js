@@ -45,34 +45,6 @@ const FormsScreen = (props) => {
 
    const navigation = useNavigation();
 
-   /*FileSystem.getInfoAsync(
-      `${FileSystem.documentDirectory}SQLite/verbs_german.db`
-   ).then((result) => {
-      if (result.exists) {
-         DatabaseVerbsGerman;
-      } else {
-         FileSystem.downloadAsync(
-            Asset.fromModule(require('../../assets/verbs_german.db')).uri,
-            `${FileSystem.documentDirectory}SQLite/verbs_german.db`
-         );
-      }
-   });*/
-   
-   /*useEffect(() => {
-      setVerbsFiltered(false);
-      let verbsByLanguage;
-      if (props.language === 1) {
-         verbsByLanguage = props.verbsSwedish.filter(verb => verb.infinitive.length > 1);
-         console.log(verbsByLanguage);
-      } else {
-         verbsByLanguage = props.verbsGerman;
-      }
-      console.log('Level: ', props.level)
-      const filteredVerbs = filterVerbsByLevel(verbsByLanguage, props.level);
-      setVerbs(filteredVerbs);
-      setVerbsFiltered(true);
-   }, [props.level, props.language]);*/
-
    useEffect(() => {
       if (props.infinitive || props.present || props.past || props.presperf) {
          setFormsSelected(true);
@@ -268,7 +240,7 @@ const FormsScreen = (props) => {
       // The function prepares the given answers for accuracy check using different string operations
       let preparedAnswer = '';
       // Replace German sharp S with the string '1'
-      let stringArray = answer
+      let stringArray = answer && answer
          .trim()
          .replace('/', '')
          .replace(/\u00df/g, '1')
@@ -286,7 +258,7 @@ const FormsScreen = (props) => {
       );
       // Replace string '1' with German sharp S
       for (let i = 0; i < withoutPronounsArray.length; i++) {
-         preparedAnswer += ' ' + withoutPronounsArray[i].replace('1', '\u00df');
+         preparedAnswer += preparedAnswer && ' ' + withoutPronounsArray[i].replace('1', '\u00df');
       }
       return preparedAnswer.trim();
    };
@@ -320,7 +292,7 @@ const FormsScreen = (props) => {
       // Check if the correct answer is an array (i.e. if it has synonymous forms)
       if (Array.isArray(correct)) {
          for (let i = 0; i < correct.length; i++) {
-            if (preparedAnswer === correct[i].replace('/', '')) {
+            if (preparedAnswer && preparedAnswer === correct[i].replace('/', '')) {
                return true;
             }
          }

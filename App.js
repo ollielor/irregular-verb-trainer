@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
 import { Root } from 'native-base';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -16,72 +15,14 @@ import ShareResultsScreen from './screens/ShareResultsScreen';
 import DatabaseVerbsGerman from './modules/DatabaseVerbsGerman';
 import DatabaseVerbsSwedish from './modules/DatabaseVerbsSwedish';
 
-import * as FileSystem from 'expo-file-system';
-import { Asset } from 'expo-asset';
-
 import { Provider } from 'react-redux';
 import store from './store/store';
 
+import SQLite from 'expo-sqlite';
 
 const Stack = createStackNavigator();
 
 const App = () => {
-   useEffect(() => {
-      FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`)
-         .then((result) => {
-            if (!result.exists) {
-               FileSystem.makeDirectoryAsync(
-                  `${FileSystem.documentDirectory}SQLite`,
-                  { intermediates: true }
-               );
-            }
-            return FileSystem.getInfoAsync(
-               `${FileSystem.documentDirectory}SQLite/verbs_german.db`
-            );
-         })
-         .then((result) => {
-            if (result.exists) {
-               DatabaseVerbsGerman;
-            } else {
-               FileSystem.downloadAsync(
-                  Asset.fromModule(require('./assets/verbs_german.db')).uri,
-                  `${FileSystem.documentDirectory}SQLite/verbs_german.db`
-               );
-            }
-         })
-         .catch((error) => {
-            console.log(error);
-         });
-   }, []);
-
-   useEffect(() => {
-      FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`)
-         .then((result) => {
-            if (!result.exists) {
-               FileSystem.makeDirectoryAsync(
-                  `${FileSystem.documentDirectory}SQLite`,
-                  { intermediates: true }
-               );
-            }
-            return FileSystem.getInfoAsync(
-               `${FileSystem.documentDirectory}SQLite/verbs_swedish.db`
-            );
-         })
-         .then((result) => {
-            if (result.exists) {
-               DatabaseVerbsSwedish;
-            } else {
-               FileSystem.downloadAsync(
-                  Asset.fromModule(require('./assets/verbs_swedish.db')).uri,
-                  `${FileSystem.documentDirectory}SQLite/verbs_swedish.db`
-               );
-            }
-         })
-         .catch((error) => {
-            console.log(error);
-         });
-   }, []);
-
 
    return (
       <Root>

@@ -29,12 +29,12 @@ const ResultView = (props) => {
             {feedback}
          </Text>
          <Text style={styles.feedbackPoints}>
-            Sait {props.results.totalPoints.toFixed(2).replace('.', ',')} /{' '}
+            Sait {props.results.totalPoints && props.results.totalPoints.toFixed(2).replace('.', ',')} /{' '}
             {props.results.maxPointsWeighted
                ? props.results.maxPointsWeighted
                : props.results.maxPoints}{' '}
             pistettä eli{' '}
-            {props.results.totalPercentage
+            {props.results.totalPercentage && props.results.totalPercentage
                .toFixed(2)
                .toString()
                .replace('.', ',')}{' '}

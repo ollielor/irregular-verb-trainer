@@ -47,20 +47,6 @@ const StartScreen = (props) => {
    }, []);
 
    useEffect(() => {
-      Font.loadAsync({
-         Roboto: require('native-base/Fonts/Roboto.ttf'),
-         Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
-         ...Ionicons.font,
-      })
-         .then((result) => {
-            setFontsLoaded(true);
-         })
-         .catch((error) => {
-            console.log(error);
-         });
-   }, []);
-
-   useEffect(() => {
       DatabaseSettings.transaction(
          (tx) => {
             tx.executeSql(
@@ -133,12 +119,6 @@ const StartScreen = (props) => {
       );
    };
 
-   /*useEffect(() => {
-      if (!settingsLoaded) {
-         fetchSettings();
-      }
-   }, [settingsLoaded]);*/
-
    const updateSettings = () => {
       setSettingsSaved(false);
       let query;
@@ -173,34 +153,6 @@ const StartScreen = (props) => {
          null
       );
    }
-
-   // This function is only used for testing purposes
-   const clearSettings = () => {
-      DatabaseSettings.transaction(
-         (tx) => {
-            tx.executeSql(
-               'drop table if exists settings;',
-               [],
-               (tx,
-               (results) => {
-                  //if (results && results.rows && results.rows._array) {
-                  if (results) {
-                     Alert.alert('Table dropped');
-                     fetchSettings();
-                  } else {
-                     Alert.alert('No results');
-                  }
-               }),
-               (tx, error) => {
-                  console.log('Could not execute query: ', error);
-               }
-            );
-         },
-         (error) => {
-            console.log('Transaction error: ', error);
-         }
-      );
-   };
 
    useEffect(() => {
       DatabaseVerbsGerman.transaction(
@@ -257,7 +209,7 @@ const StartScreen = (props) => {
                <Content>
                   <SettingsComponent/>
                   <FormsSelector />
-                  <SaveSettingsComponent updateSettings={updateSettings} clearSettings={clearSettings} settingsSaved={settingsSaved} />
+                  <SaveSettingsComponent updateSettings={updateSettings} settingsSaved={settingsSaved} />
                </Content>
                <FooterComponent />
             </Container>
