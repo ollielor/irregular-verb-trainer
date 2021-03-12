@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Root } from 'native-base';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,13 +12,8 @@ import FormsScreen from './screens/FormsScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import ShareResultsScreen from './screens/ShareResultsScreen';
 
-import DatabaseVerbsGerman from './modules/DatabaseVerbsGerman';
-import DatabaseVerbsSwedish from './modules/DatabaseVerbsSwedish';
-
 import { Provider } from 'react-redux';
 import store from './store/store';
-
-import SQLite from 'expo-sqlite';
 
 const Stack = createStackNavigator();
 

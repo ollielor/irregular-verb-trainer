@@ -1,4 +1,7 @@
 import React from 'react';
+
+import { StatusBar } from 'react-native';
+
 import {
    Button,
    Body,
@@ -20,7 +23,7 @@ const HeaderComponent = (props) => {
       <Header
          iosBarStyle="light-content"
          androidStatusBarColor="#0047c5"
-         style={{ backgroundColor: '#0047c5' }}
+         style={{ backgroundColor: '#0047c5', paddingTop: StatusBar.currentHeight, paddingBottom: 10 }}
       >
          <Left style={{ flex: 1 }}>
             {!props.noArrow ? (

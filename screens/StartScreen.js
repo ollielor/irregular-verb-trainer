@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, StyleSheet, Text } from 'react-native';
+import { StyleSheet, StatusBar } from 'react-native';
 import { Container, Content } from 'native-base';
 
 import * as Font from 'expo-font';
@@ -41,6 +41,8 @@ const StartScreen = (props) => {
    const [swedishLoaded, setSwedishLoaded] = useState(false);
 
    const navigation = useNavigation();
+
+   console.log(StatusBar.currentHeight);
 
    useEffect(() => {
       const initializeDbGerman = async () => {
@@ -91,64 +93,6 @@ const StartScreen = (props) => {
       }
       initializeDbSwedish();
    }, [])
-
-   /* useEffect(() => {
-      FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`)
-         .then((result) => {
-            if (!result.exists) {
-               FileSystem.makeDirectoryAsync(
-                  `${FileSystem.documentDirectory}SQLite`,
-                  { intermediates: true }
-               );
-            }
-            return FileSystem.getInfoAsync(
-               `${FileSystem.documentDirectory}SQLite/verbs_german.db`
-            );
-         })
-         .then((result) => {
-            if (!result.exists) {
-               FileSystem.downloadAsync(
-                  Asset.fromModule(require('../assets/verbs_german.db')).uri,
-                  `${FileSystem.documentDirectory}SQLite/verbs_german.db`
-               );
-               setGermanLoaded(true);
-            } else {
-               setGermanLoaded(true);
-            }
-         })
-         .catch((error) => {
-            console.log(error);
-         });
-   }, []);
-
-   useEffect(() => {
-      FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`)
-         .then((result) => {
-            if (!result.exists) {
-               FileSystem.makeDirectoryAsync(
-                  `${FileSystem.documentDirectory}SQLite`,
-                  { intermediates: true }
-               );
-            }
-            return FileSystem.getInfoAsync(
-               `${FileSystem.documentDirectory}SQLite/verbs_swedish.db`
-            );
-         })
-         .then((result) => {
-            if (!result.exists) {
-               FileSystem.downloadAsync(
-                  Asset.fromModule(require('../assets/verbs_swedish.db')).uri,
-                  `${FileSystem.documentDirectory}SQLite/verbs_swedish.db`
-               );
-               setSwedishLoaded(true);
-            } else {
-               setSwedishLoaded(true);
-            }
-         })
-         .catch((error) => {
-            console.log(error);
-         });
-   }, []);*/
 
    useEffect(() => {
       if (germanLoaded) {
@@ -296,7 +240,7 @@ const StartScreen = (props) => {
          {fontsLoaded && settingsLoaded && 
             <Container>
                <HeaderComponent title="Verbivalmentaja" noArrow />
-               <Content style={styles.contentContainer}>
+               <>
                <Content style={styles.contentContainer}>
             <ButtonComponent
                color="#7E00C5"
@@ -329,7 +273,7 @@ const StartScreen = (props) => {
                      function={() => navigation.navigate('Omat asetukseni')}
                   />
                   </Content>
-               </Content>
+               </>
                <FooterComponent />
             </Container>
          }
