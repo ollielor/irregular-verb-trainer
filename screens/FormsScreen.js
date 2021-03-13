@@ -53,6 +53,7 @@ const FormsScreen = (props) => {
    }, [props.infinitive, props.present, props.past, props.presperf]);
 
    useEffect(() => {
+      // Set forms to be exercised in Forms mode
       if (props.tenses) {
          const amountSelectedForms = Object.values(props.tenses).filter(
             (tense) => tense === true
@@ -237,7 +238,7 @@ const FormsScreen = (props) => {
    }, [finished]);
 
    const prepareAnswerGerman = (answer) => {
-      // The function prepares the given answers for accuracy check using different string operations
+      // The function prepares the given answers for accuracy check using several string operations
       let preparedAnswer = '';
       // Replace German sharp S with the string '1'
       let stringArray = answer && answer
@@ -266,21 +267,11 @@ const FormsScreen = (props) => {
    const prepareAnswerSwedish = (answer) => {
       // The function prepares the given answers for accuracy check using different string operations
       let preparedAnswer = '';
-      // Replace German sharp S with the string '1'
       let stringArray = answer
          .trim()
          .toUpperCase()
          .toLowerCase()
          .split(' ');
-      // Filter out pronouns if they precede verb form
-      let withoutPronounsArray = stringArray.filter(
-         (word) =>
-            word !== 'han' &&
-            word !== 'hon' &&
-            word !== 'hen' &&
-            word !== 'han/hon' &&
-            word !== 'han/hon/hen'
-      );
       for (let i = 0; i < withoutPronounsArray.length; i++) {
          preparedAnswer += ' ' + withoutPronounsArray[i];
       }
