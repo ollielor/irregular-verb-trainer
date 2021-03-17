@@ -272,8 +272,8 @@ const FormsScreen = (props) => {
          .toUpperCase()
          .toLowerCase()
          .split(' ');
-      for (let i = 0; i < withoutPronounsArray.length; i++) {
-         preparedAnswer += ' ' + withoutPronounsArray[i];
+      for (let i = 0; i < stringArray.length; i++) {
+         preparedAnswer += ' ' + stringArray[i];
       }
       return preparedAnswer.trim();
    };
@@ -323,10 +323,10 @@ const FormsScreen = (props) => {
    };
 
    useEffect(() => {
-      if (finished && resultsData) {
+      if (finished && resultsData || started) {
          scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
       }
-   }, [finished, resultsData]);
+   }, [finished, resultsData, started]);
 
    const finish = () => {
       setStarted(false);

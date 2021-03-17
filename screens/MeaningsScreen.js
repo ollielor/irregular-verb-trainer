@@ -233,7 +233,7 @@ const MeaningsScreen = (props) => {
 
    return (
       <Container style={styles.container}>
-         <HeaderComponent
+            <HeaderComponent
             title="Verbien merkityksiä"
             goBack={navigation.goBack}
          />

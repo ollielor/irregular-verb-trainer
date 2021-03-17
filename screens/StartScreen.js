@@ -32,6 +32,7 @@ import { fetchVerbsSwedish } from '../store/actions/verbs';
 
 import DatabaseVerbsGerman from '../modules/DatabaseVerbsGerman';
 import DatabaseVerbsSwedish from '../modules/DatabaseVerbsSwedish';
+import LatestResults from '../components/results/LatestResults';
 
 const StartScreen = (props) => {
    const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -238,7 +239,7 @@ const StartScreen = (props) => {
             <SpinnerComponent text="Ladataan asetuksia..." />
          )}
          {fontsLoaded && settingsLoaded && 
-            <Container>
+            <Container style={styles.container}>
                <HeaderComponent title="Verbivalmentaja" noArrow />
                <>
                <Content style={styles.contentContainer}>
@@ -273,6 +274,7 @@ const StartScreen = (props) => {
                      function={() => navigation.navigate('Omat asetukseni')}
                   />
                   </Content>
+                  <LatestResults count={5} />
                </>
                <FooterComponent />
             </Container>

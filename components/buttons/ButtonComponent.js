@@ -21,7 +21,7 @@ export default ButtonComponent;
 
 const styles = StyleSheet.create({
    defaultStyle: {
-      margin: 0
+      margin: 3
    },
    withMargin: {
       marginBottom: Platform.OS === 'android' ? 25 : 7
