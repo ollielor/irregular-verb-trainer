@@ -18,6 +18,10 @@ import {
    updatePresperf,
 } from '../store/actions/settings';
 
+import {
+   updateResults
+} from '../store/actions/results';
+
 import { useNavigation } from '@react-navigation/native';
 
 import ButtonComponent from '../components/buttons/ButtonComponent';
@@ -27,11 +31,11 @@ import SpinnerComponent from '../components/styling/SpinnerComponent';
 
 import DatabaseSettings from '../modules/DatabaseSettings';
 
-import { fetchVerbsGerman } from '../store/actions/verbs';
-import { fetchVerbsSwedish } from '../store/actions/verbs';
+import { fetchVerbsGerman,  fetchVerbsSwedish } from '../store/actions/verbs';
 
 import DatabaseVerbsGerman from '../modules/DatabaseVerbsGerman';
 import DatabaseVerbsSwedish from '../modules/DatabaseVerbsSwedish';
+import DatabaseResults from '../modules/DatabaseResults';
 import LatestResults from '../components/results/LatestResults';
 
 const StartScreen = (props) => {
@@ -43,7 +47,7 @@ const StartScreen = (props) => {
 
    const navigation = useNavigation();
 
-   console.log(StatusBar.currentHeight);
+   console.log(props.results);
 
    useEffect(() => {
       const initializeDbGerman = async () => {
@@ -94,6 +98,27 @@ const StartScreen = (props) => {
       }
       initializeDbSwedish();
    }, [])
+
+   useEffect(() => {
+      DatabaseResults.transaction(
+         (tx) => {
+            tx.executeSql(
+               'select * from results;',
+               [],
+               (tx, results) => {
+                  console.log(props);
+                  props.dispatch(updateResults(results.rows._array));
+               },
+               (tx, error) => {
+                  console.log('Could not execute query: ', error);
+               }
+            );
+         },
+         (error) => {
+            console.log('Transaction error: ', error);
+         }
+      );
+   }, []);
 
    useEffect(() => {
       if (germanLoaded) {
@@ -290,6 +315,7 @@ const mapStateToProps = (state) => ({
    present: state.settings.tenses.present,
    past: state.settings.tenses.past,
    presperf: state.settings.tenses.presperf,
+   results: state.results.results,
 });
 
 export default connect(mapStateToProps)(StartScreen);

@@ -12,6 +12,8 @@ import {
    filterVerbsByLevel,
 } from '../helpers/helpers';
 
+import { updateResults } from '../store/actions/results';
+
 import FooterComponent from '../components/footer/FooterComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
 import CardComponentMeanings from '../components/cards/CardComponentMeanings';
@@ -44,6 +46,8 @@ const MeaningsScreen = (props) => {
    const navigation = useNavigation();
 
    const scrollViewRef = useRef();
+
+   console.log(props.results);
 
    useEffect(() => {
       if (finished) {
@@ -93,7 +97,7 @@ const MeaningsScreen = (props) => {
                'select * from results;',
                [],
                (tx, results) => {
-                  setResultHistory(results.rows._array);
+                  updateResults(results.rows._array);
                },
                (tx, error) => {
                   console.log('Could not execute query: ', error);
@@ -283,6 +287,7 @@ const mapStateToProps = (state) => ({
    verbsSwedish: state.verbs.verbsSwedish,
    language: state.settings.language,
    level: state.settings.level,
+   results: state.results.results,
 });
 
 export default connect(mapStateToProps)(MeaningsScreen);
