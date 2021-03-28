@@ -2,6 +2,9 @@ import React from 'react';
 import { Text, TextInput, StyleSheet, Platform } from 'react-native';
 
 const InputComponentForms = React.forwardRef((props, ref) => {
+
+   console.log('Props from InputComponentForms: ', props)
+
    return (
       <>
          <Text style={styles.label}>{props.label}</Text>

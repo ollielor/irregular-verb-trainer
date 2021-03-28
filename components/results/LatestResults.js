@@ -15,9 +15,9 @@ const LatestResults = (props) => {
    return (
       <Content>
          <Heading>{props.count} viimeisintä tulosta {props.language === 1 ? '(ruotsi)' : '(saksa)'}</Heading>
-         {props.resultHistory &&
-            props.resultHistory
-               .filter((historyItem) => historyItem.type === props.type)
+         {props.results &&
+            props.results
+               //.filter((historyItem) => historyItem.type === props.type)
                .filter((historyItem) => historyItem.language === props.language)
                .sort((a, b) =>
                   a.datetime < b.datetime ? 1 : a.datetime > b.datetime ? -1 : 0
@@ -39,7 +39,8 @@ const LatestResults = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-   language: state.settings.language
+   language: state.settings.language,
+   results: state.results.results
 });
 
 export default connect(mapStateToProps)(LatestResults);

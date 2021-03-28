@@ -23,6 +23,7 @@ import SpinnerComponent from '../components/styling/SpinnerComponent';
 
 import { connect } from 'react-redux';
 import CardComponentMastery from '../components/cards/CardComponentMastery';
+import { createResultsDb } from '../helpers/results';
 
 const MeaningsScreen = (props) => {
    const [verbs, setVerbs] = useState([]);
@@ -56,9 +57,13 @@ const MeaningsScreen = (props) => {
    }, [finished]);
 
    useEffect(() => {
-      createResultsDb();
       return () => {};
    }, []);
+
+   useEffect(() => {
+      createResultsDb();
+      setTableCreated(true);
+   }, [])
 
    useEffect(() => {
       setVerbsFiltered(false);
@@ -77,38 +82,13 @@ const MeaningsScreen = (props) => {
       setVerbsFiltered(true);
    }, [props.level, props.language]);
 
-   const createResultsDb = () => {
-      DatabaseResults.transaction(
-         (tx) => {
-            tx.executeSql(
-               'create table if not exists results (id integer primary key not null, type integer, language integer, level integer, accuracy integer, q_total integer, points real, maxpoints integer, percentage real, datetime real);'
-            );
-         },
-         null,
-         updateList
-      );
-      setTableCreated(true);
-   };
-
-   const updateList = () => {
-      DatabaseResults.transaction(
-         (tx) => {
-            tx.executeSql(
-               'select * from results;',
-               [],
-               (tx, results) => {
-                  updateResults(results.rows._array);
-               },
-               (tx, error) => {
-                  console.log('Could not execute query: ', error);
-               }
-            );
-         },
-         (error) => {
-            console.log('Transaction error: ', error);
-         }
-      );
-   };
+      const updateResultsAsync = async () => {
+         props.dispatch(updateResults(await getResults()));
+      }
+    
+      useEffect(() => {
+         updateResultsAsync();
+      }, [resultsSaved]);
 
    useEffect(() => {
       // Amount of verbs shown in Meanings Screen (5 times 3)
@@ -158,14 +138,14 @@ const MeaningsScreen = (props) => {
                console.log('Transaction error: ', error);
             },
             null,
-            updateList
+            null
          );
          setResultsSaved(true);
       }
    }, [resultsReady, dateTime, tableCreated]);
 
    useEffect(() => {
-      updateList();
+      updateResultsAsync();
    }, [resultsSaved]);
 
    // This function clears all values when the exercise is started again
@@ -248,9 +228,9 @@ const MeaningsScreen = (props) => {
          >
             <Content>
                {!randomizedVerbs && <Text>Arvotaan verbejä...</Text>}
-               {finished && results && resultsSaved && resultHistory && (
+               {finished && resultsSaved && results ? (
                   <>
-                     <ResultView results={results} startAgain={startAgain} />
+                     <ResultView resultsData={results} startAgain={startAgain} />
                      {mastered.length > 0 && 
                         <CardComponentMastery mastered={mastered} />
                      }
@@ -258,13 +238,13 @@ const MeaningsScreen = (props) => {
                         <CardComponentMastery notMastered={notMastered} />
                      }
                      <LatestResults
-                        resultHistory={resultHistory}
-                        type={1}
                         count={3}
                      />
                   </>
+               ) : (
+                  <Text>Ei ladattu</Text>
                )}
-               {!resultHistory && (
+               {!props.results && (
                   <SpinnerComponent text="Tuloksia ladataan..." />
                )}
                {randomizedVerbs && !finished &&

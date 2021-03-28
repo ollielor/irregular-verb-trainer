@@ -30,6 +30,20 @@ const HistoryScreen = (props) => {
    }, []);
 
    useEffect(() => {
+      console.log(props.results);
+      setHistoryMeanings(
+         props.results.filter(
+            (historyItem) => historyItem.type === 1
+         )
+      );
+      setHistoryForms(
+         props.results.filter(
+            (historyItem) => historyItem.type === 2
+         )
+      );
+   }, [dropped]);
+
+/*    useEffect(() => {
       DatabaseResults.transaction(
          (tx) => {
             tx.executeSql(
@@ -37,12 +51,12 @@ const HistoryScreen = (props) => {
                [],
                (tx, results) => {
                   setHistoryMeanings(
-                     results.rows._array.filter(
+                     props.results.filter(
                         (historyItem) => historyItem.type === 1
                      )
                   );
                   setHistoryForms(
-                     results.rows._array.filter(
+                     props.results.filter(
                         (historyItem) => historyItem.type === 2
                      )
                   );
@@ -59,7 +73,7 @@ const HistoryScreen = (props) => {
             console.log('Transaction error: ', error);
          }
       );
-   }, [dropped]);
+   }, [dropped]); */
 
    const dropData = () => {
       DatabaseResults.transaction(
@@ -269,7 +283,8 @@ const HistoryScreen = (props) => {
 
 const mapStateToProps = (state) => ({
    language: state.settings.language,
-   level: state.settings.level
+   level: state.settings.level,
+   results: state.results.results
 });
 
 export default connect(mapStateToProps)(HistoryScreen);

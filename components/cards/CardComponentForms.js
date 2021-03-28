@@ -26,6 +26,10 @@ const CardComponentForms = (props) => {
    });
 
    useEffect(() => {
+      return () => {};
+   }, []);
+
+   useEffect(() => {
       // Create arrays of synonymous forms for each tense
       if (props.synonyms) {
          const infinitiveSynonyms = props.verbForm.map(

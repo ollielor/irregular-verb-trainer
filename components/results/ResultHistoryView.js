@@ -19,8 +19,8 @@ const ResultHistoryView = (props) => {
    return (
       <Content>
          {!props.hideButton && <Heading>3 viimeisintä tulosta</Heading>}
-         {props.resultHistory &&
-            props.resultHistory
+         {props.results &&
+            props.results
                .filter((result) => result.language === props.language)
                .sort((a, b) =>
                   a.datetime < b.datetime ? 1 : a.datetime > b.datetime ? -1 : 0
@@ -41,7 +41,8 @@ const ResultHistoryView = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-   language: state.settings.language
+   language: state.settings.language,
+   results: state.results.results
 });
 
 export default connect(mapStateToProps)(ResultHistoryView);

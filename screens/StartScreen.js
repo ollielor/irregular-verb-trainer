@@ -22,6 +22,8 @@ import {
    updateResults
 } from '../store/actions/results';
 
+import { getResults } from '../helpers/results';
+
 import { useNavigation } from '@react-navigation/native';
 
 import ButtonComponent from '../components/buttons/ButtonComponent';
@@ -47,7 +49,7 @@ const StartScreen = (props) => {
 
    const navigation = useNavigation();
 
-   console.log(props.results);
+   console.log('Results from Redux: ', props.results);
 
    useEffect(() => {
       const initializeDbGerman = async () => {
@@ -99,27 +101,27 @@ const StartScreen = (props) => {
       initializeDbSwedish();
    }, [])
 
+   const updateResultsAsync = async () => {
+      props.dispatch(updateResults(await getResults()));
+   }
+ 
+   useEffect(() => {
+      updateResultsAsync();
+   }, []);
+
    useEffect(() => {
       DatabaseResults.transaction(
          (tx) => {
             tx.executeSql(
-               'select * from results;',
-               [],
-               (tx, results) => {
-                  console.log(props);
-                  props.dispatch(updateResults(results.rows._array));
-               },
-               (tx, error) => {
-                  console.log('Could not execute query: ', error);
-               }
+               'create table if not exists results (id integer primary key not null, type integer, language integer, level integer, accuracy integer, q_total integer, points real, maxpoints integer, percentage real, datetime real);'
             );
          },
-         (error) => {
-            console.log('Transaction error: ', error);
-         }
+         null,
+         null
+         // updateList
       );
    }, []);
-
+   
    useEffect(() => {
       if (germanLoaded) {
          DatabaseVerbsGerman.transaction(

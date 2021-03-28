@@ -8,10 +8,16 @@ import { connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
 import {
+   updateResults
+} from '../store/actions/results';
+
+import {
    getRndVerbsForForms,
    getCurrentDate,
    filterVerbsByLevel,
 } from '../helpers/helpers';
+
+import { getResults, createResultsDb } from '../helpers/results';
 
 import FooterComponent from '../components/footer/FooterComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
@@ -44,6 +50,17 @@ const FormsScreen = (props) => {
    const [resultsSaved, setResultsSaved] = useState(false);
 
    const navigation = useNavigation();
+
+   console.log(props);
+
+   useEffect(() => {
+      createResultsDb();
+      setTableCreated(true);
+   }, [])
+
+   useEffect(() => {
+      return () => {};
+   }, []);
 
    useEffect(() => {
       if (props.infinitive || props.present || props.past || props.presperf) {
@@ -108,20 +125,9 @@ const FormsScreen = (props) => {
       setVerbsFiltered(true);
    }, [props.level, props.verbsGerman]);
 
-   useEffect(() => {
-      DatabaseResults.transaction(
-         (tx) => {
-            tx.executeSql(
-               'create table if not exists results (id integer primary key not null, type integer, language integer, level integer, accuracy integer, q_total integer, points real, maxpoints integer, percentage real, datetime real);'
-            );
-         },
-         null,
-         updateList
-      ),
-         setTableCreated(true);
-   }, []);
 
-   const updateList = () => {
+
+/*    const updateList = () => {
       DatabaseResults.transaction(
          (tx) => {
             tx.executeSql(
@@ -140,7 +146,9 @@ const FormsScreen = (props) => {
             console.log('Transaction error: ', error);
          }
       );
-   };
+   }; */
+
+
 
    useEffect(() => {
       if (points >= maxPoints) {
@@ -156,7 +164,7 @@ const FormsScreen = (props) => {
       }
    }, [verbsFiltered, verbs, started]);
 
-   useEffect(() => {
+/*    useEffect(() => {
       if (tableCreated && resultsReady && dateTime && !resultsSaved) {
          DatabaseResults.transaction(
             (tx) => {
@@ -184,7 +192,47 @@ const FormsScreen = (props) => {
          setResultsSaved(true);
          updateList();
       }
+   }, [resultsReady, dateTime, tableCreated]); */
+
+   useEffect(() => {
+      if (tableCreated && resultsReady && dateTime && !resultsSaved) {
+         DatabaseResults.transaction(
+            (tx) => {
+               tx.executeSql(
+                  'insert into results (type, language, level, accuracy, q_total, points, maxpoints, percentage, datetime) values (?, ?, ?, ?, ?, ?, ?, ?, ?);',
+                  [
+                     2,
+                     props.language,
+                     props.level,
+                     resultsData.amountCorrectAnswers,
+                     resultsData.maxQuestions,
+                     resultsData.totalPoints,
+                     resultsData.maxPoints,
+                     resultsData.totalPercentage,
+                     dateTime,
+                  ]
+               );
+            },
+            (error) => {
+               console.log('Transaction error: ', error);
+            },
+            null,
+            null
+         );
+         setResultsSaved(true);
+/*        const results = getResults();
+         console.log('Results: ', results);
+         props.dispatch(updateResults(results)); */
+      }
    }, [resultsReady, dateTime, tableCreated]);
+
+   const updateResultsAsync = async () => {
+      props.dispatch(updateResults(await getResults()));
+   }
+ 
+   useEffect(() => {
+      updateResultsAsync();
+   }, [resultsSaved]);
 
    const startAgain = () => {
       setStarted(true);
@@ -350,16 +398,16 @@ const FormsScreen = (props) => {
                {finished &&
                   resultsReady &&
                   resultsData &&
-                  resultsSaved &&
-                  resultHistory && (
+                  resultsSaved && (
+                  //resultHistory && (
                      <>
                         <ResultView
-                           results={resultsData}
+                           resultsData={resultsData}
                            startAgain={startAgain}
                            forms
                         />
                         <LatestResults
-                           resultHistory={resultHistory}
+                           //resultHistory={props.results}
                            type={2}
                            count={3}
                         />
@@ -399,6 +447,7 @@ const FormsScreen = (props) => {
                               index={index}
                               tenseNames={tenseNames}
                               answeredIndex={answeredIndex}
+                              started={started}
                            />
                         ))
                      ) : (
@@ -411,6 +460,7 @@ const FormsScreen = (props) => {
                            index={index}
                            tenseNames={tenseNames}
                            answeredIndex={answeredIndex}
+                           started={started}
                         />
                      )
                   )
@@ -444,6 +494,7 @@ const mapStateToProps = (state) => ({
    past: state.settings.tenses.past,
    presperf: state.settings.tenses.presperf,
    tenses: state.settings.tenses,
+   results: state.results.results
 });
 
 export default connect(mapStateToProps)(FormsScreen);

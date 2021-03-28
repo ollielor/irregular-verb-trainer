@@ -29,20 +29,20 @@ const ResultView = (props) => {
             {feedback}
          </Text>
          <Text style={styles.feedbackPoints}>
-            Sait {props.results.totalPoints && props.results.totalPoints.toFixed(2).replace('.', ',')} /{' '}
-            {props.results.maxPointsWeighted
-               ? props.results.maxPointsWeighted
-               : props.results.maxPoints}{' '}
+            Sait {props.resultsData.totalPoints && props.resultsData.totalPoints.toFixed(2).replace('.', ',')} /{' '}
+            {props.resultsData.maxPointsWeighted
+               ? props.resultsData.maxPointsWeighted
+               : props.resultsData.maxPoints}{' '}
             pistettä eli{' '}
-            {props.results.totalPercentage && props.results.totalPercentage
+            {props.resultsData.totalPercentage && props.resultsData.totalPercentage
                .toFixed(2)
                .toString()
                .replace('.', ',')}{' '}
             % maksimista.
          </Text>
          <Text style={styles.feedbackPoints}>
-            Oikeita vastauksia: {props.results.amountCorrectAnswers} /{' '}
-            {props.results.totalAnswered || props.results.maxQuestions}
+            Oikeita vastauksia: {props.resultsData.amountCorrectAnswers} /{' '}
+            {props.resultsData.totalAnswered || props.resultsData.maxQuestions}
          </Text>
          <Text style={styles.feedbackPoints}>
                Katso oikeat vastaukset alta.
@@ -56,6 +56,7 @@ const ResultView = (props) => {
 
 const mapStateToProps = (state) => ({
    language: state.settings.language,
+   results: state.results.results
 });
 
 export default connect(mapStateToProps)(ResultView);
