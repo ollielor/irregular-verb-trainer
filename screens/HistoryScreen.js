@@ -4,6 +4,10 @@ import { Container, Content } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
+import { updateResults } from '../store/actions/results'
+
+import { getResults, createResultsDb } from '../helpers/results';
+
 import DatabaseResults from '../modules/DatabaseResults';
 import ResultHistoryView from '../components/results/ResultHistoryView';
 import Heading from '../components/styling/Heading';
@@ -25,23 +29,37 @@ const HistoryScreen = (props) => {
 
    const navigation = useNavigation();
 
+   console.log('HistoryScreen props: ', props);
+
    useEffect(() => {
       return () => {};
    }, []);
 
+   const createResultsAsync = async () => {
+      console.log('crateResultsDb: ', await createResultsDb());
+      props.dispatch(updateResults(await getResults()));
+   }
+ 
+   useEffect(() => {
+      if (dropped) {
+         createResultsAsync();
+      }
+   }, [dropped]);
+
+
    useEffect(() => {
       console.log(props.results);
-      setHistoryMeanings(
-         props.results.filter(
-            (historyItem) => historyItem.type === 1
-         )
-      );
-      setHistoryForms(
-         props.results.filter(
-            (historyItem) => historyItem.type === 2
-         )
-      );
-   }, [dropped]);
+         setHistoryMeanings(
+            props.results.filter(
+               (historyItem) => historyItem.type === 1
+            )
+         );
+         setHistoryForms(
+            props.results.filter(
+               (historyItem) => historyItem.type === 2
+            )
+         );
+   }, [props.results, dropped]);
 
 /*    useEffect(() => {
       DatabaseResults.transaction(
@@ -78,7 +96,9 @@ const HistoryScreen = (props) => {
    const dropData = () => {
       DatabaseResults.transaction(
          (tx) => {
-            tx.executeSql('drop table if exists results;', [], (tx, error) => {
+            tx.executeSql('drop table if exists results;', [],
+            setDropped(true),            
+            (tx, error) => {
                console.log('Could not execute query: ', error);
             });
          },
@@ -87,7 +107,7 @@ const HistoryScreen = (props) => {
          }
       );
       setShowModal(false);
-      setDropped(true);
+
    };
 
    return (    

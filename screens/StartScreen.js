@@ -22,7 +22,7 @@ import {
    updateResults
 } from '../store/actions/results';
 
-import { getResults } from '../helpers/results';
+import { getResults, createResultsDb } from '../helpers/results';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -50,6 +50,10 @@ const StartScreen = (props) => {
    const navigation = useNavigation();
 
    console.log('Results from Redux: ', props.results);
+
+   useEffect(() => {
+      createResultsDb();
+   }, [])
 
    useEffect(() => {
       const initializeDbGerman = async () => {

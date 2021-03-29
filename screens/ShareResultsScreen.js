@@ -63,7 +63,7 @@ const ShareResultsScreen = (props) => {
       return resultText;
    }
 
-   const sendMesssage = (type) => {
+   const sendMessage = (type) => {
       let text = `Verbivalmentaja - käyttäjän ${name} suoritustiedot kielestä`;
       if (props.language === 1) {
          text += '| ruotsi';
@@ -117,8 +117,8 @@ const ShareResultsScreen = (props) => {
          <TextInput style={styles.formInput} onChangeText={(text => setName(text))} />
          <Text style={styles.label}>Vastaanottajan sähköpostiosoite</Text>
          <TextInput style={styles.formInput} onChangeText={(text => setEmail(text))} autoCompleteType='email' keyboardType='email-address' autoCapitalize='none' />
-         <ButtonComponent title='Jaa tulokset sähköpostilla' color="#7E00C5" function={() => sendMesssage('email')} />
-         <ButtonComponent title='Jaa tulokset WhatsAppilla' color="#7E00C5" function={() => sendMesssage('whatsapp')} />
+         <ButtonComponent title='Jaa tulokset sähköpostilla' color="#7E00C5" function={() => sendMessage('email')} />
+         <ButtonComponent title='Jaa tulokset WhatsAppilla' color="#7E00C5" function={() => sendMessage('whatsapp')} />
       </Content>
       </KeyboardAvoidingView>
       <FooterComponent />

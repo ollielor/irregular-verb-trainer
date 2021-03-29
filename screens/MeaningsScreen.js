@@ -23,7 +23,7 @@ import SpinnerComponent from '../components/styling/SpinnerComponent';
 
 import { connect } from 'react-redux';
 import CardComponentMastery from '../components/cards/CardComponentMastery';
-import { createResultsDb } from '../helpers/results';
+import { createResultsDb, getResults } from '../helpers/results';
 
 const MeaningsScreen = (props) => {
    const [verbs, setVerbs] = useState([]);
@@ -133,6 +133,7 @@ const MeaningsScreen = (props) => {
                      dateTime,
                   ]
                );
+               setResultsSaved(true);
             },
             (error) => {
                console.log('Transaction error: ', error);
@@ -140,7 +141,6 @@ const MeaningsScreen = (props) => {
             null,
             null
          );
-         setResultsSaved(true);
       }
    }, [resultsReady, dateTime, tableCreated]);
 
