@@ -15,6 +15,9 @@ const LatestResults = (props) => {
    return (
       <Content>
          <Heading>{props.count} viimeisintä tulosta {props.language === 1 ? '(ruotsi)' : '(saksa)'}</Heading>
+         {props.results.length === 0 &&
+            <Text style={styles.text}>Sinulla ei ole vielä suorituksia.</Text>
+         }         
          {props.results &&
             props.results
                .filter((historyItem) => historyItem.language === props.language)
@@ -30,7 +33,7 @@ const LatestResults = (props) => {
                onPress={() => navigation.navigate('Omat tulokseni')}
                style={styles.historyButton}
             >
-               <Text uppercase={false}>Näytä koko historia</Text>
+               {props.results.length > 0 && <Text uppercase={false}>Näytä koko historia</Text>}
             </Button>
          )}
       </Content>
@@ -58,4 +61,7 @@ const styles = StyleSheet.create({
       marginTop: 20,
       marginBottom: 20,
    },
+   text: {
+      textAlign: 'center'
+   }
 });

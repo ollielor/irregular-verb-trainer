@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, StatusBar } from 'react-native';
-import { Container, Content } from 'native-base';
+import { Container, Content, Text } from 'native-base';
 
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -293,7 +293,6 @@ const StartScreen = (props) => {
                   navigation.navigate('Harjoittele muotoja')
                }
             />
-
                   <ButtonComponent
                      color="#4E00C5"
                      title="Omat tulokseni"
@@ -304,8 +303,8 @@ const StartScreen = (props) => {
                      title="Omat asetukseni"
                      function={() => navigation.navigate('Omat asetukseni')}
                   />
-                  </Content>
                   <LatestResults count={5} showTypes />
+                  </Content>
                </>
                <FooterComponent />
             </Container>
@@ -333,4 +332,8 @@ const styles = StyleSheet.create({
    contentContainer: {
       padding: 10,
    },
+   text: {
+      marginTop: 20,
+      textAlign: 'center'
+   }
 });
