@@ -305,7 +305,7 @@ const StartScreen = (props) => {
                      function={() => navigation.navigate('Omat asetukseni')}
                   />
                   </Content>
-                  <LatestResults count={5} />
+                  <LatestResults count={5} showTypes />
                </>
                <FooterComponent />
             </Container>

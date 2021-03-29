@@ -25,7 +25,7 @@ const HistoryScreen = (props) => {
    const [historyForms, setHistoryForms] = useState([]);
    const [showModal, setShowModal] = useState(false);
    const [dropped, setDropped] = useState(false);
-   const [historyLoaded, setHistoryLoaded] = useState(false);
+   const [tableCreated, setTableCreated] = useState(false);
 
    const navigation = useNavigation();
 
@@ -36,8 +36,10 @@ const HistoryScreen = (props) => {
    }, []);
 
    const createResultsAsync = async () => {
-      console.log('crateResultsDb: ', await createResultsDb());
-      props.dispatch(updateResults(await getResults()));
+      if (await createResultsDb()) {
+         setTableCreated(true);
+         props.dispatch(updateResults(await getResults()));
+      }
    }
  
    useEffect(() => {
@@ -59,7 +61,7 @@ const HistoryScreen = (props) => {
                (historyItem) => historyItem.type === 2
             )
          );
-   }, [props.results, dropped]);
+   }, [props.results, dropped, tableCreated]);
 
 /*    useEffect(() => {
       DatabaseResults.transaction(
@@ -290,9 +292,10 @@ const HistoryScreen = (props) => {
                contentContainerStyle={{ justifyContent: 'center', flex: 1 }}
             >
                <Heading>Haluatko varmasti tyhjentää tuloshistorian? Tyhjentämällä tuloshistorian menetät suoritustietosi sekä ruotsissa että saksassa.</Heading>
-               <ButtonComponent title="Tyhjennä historia" function={dropData} />
+               <ButtonComponent title="Tyhjennä historia" color="#7E00C5" function={dropData} />
                <ButtonComponent
                   title="Peruuta"
+                  color="#7E00C5"
                   function={() => setShowModal(false)}
                />
             </Content>

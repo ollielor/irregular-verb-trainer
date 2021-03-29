@@ -17,14 +17,13 @@ const LatestResults = (props) => {
          <Heading>{props.count} viimeisintä tulosta {props.language === 1 ? '(ruotsi)' : '(saksa)'}</Heading>
          {props.results &&
             props.results
-               //.filter((historyItem) => historyItem.type === props.type)
                .filter((historyItem) => historyItem.language === props.language)
                .sort((a, b) =>
                   a.datetime < b.datetime ? 1 : a.datetime > b.datetime ? -1 : 0
                )
                .slice(0, props.count)
                .map((historyItem, index) => (
-                  <CardComponentResults historyItem={historyItem} key={index} />
+                  <CardComponentResults historyItem={historyItem} key={index} showTypes={props.showTypes} />
                ))}
          {!props.hideButton && (
             <Button

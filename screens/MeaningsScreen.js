@@ -228,7 +228,7 @@ const MeaningsScreen = (props) => {
          >
             <Content>
                {!randomizedVerbs && <Text>Arvotaan verbejä...</Text>}
-               {finished && resultsSaved && results ? (
+               {finished && resultsSaved && results && (
                   <>
                      <ResultView resultsData={results} startAgain={startAgain} />
                      {mastered.length > 0 && 
@@ -241,8 +241,6 @@ const MeaningsScreen = (props) => {
                         count={3}
                      />
                   </>
-               ) : (
-                  <Text>Ei ladattu</Text>
                )}
                {!props.results && (
                   <SpinnerComponent text="Tuloksia ladataan..." />

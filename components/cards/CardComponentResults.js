@@ -18,6 +18,16 @@ const CardComponentResults = (props) => {
                         'DD.MM.YYYY HH:mm:ss'
                      )}
                   </Text>
+                  {props.showTypes && props.historyItem.type === 1 &&
+                     <Text>
+                        Verbien merkitykset
+                     </Text>                  
+                  }
+                  {props.showTypes && props.historyItem.type === 2 &&
+                     <Text>
+                        Verbien muodot
+                     </Text>                  
+                  }
                   <Text>
                      {props.historyItem.language === 1
                         ? 'Kieli: ruotsi'
