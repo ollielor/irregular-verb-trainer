@@ -21,12 +21,12 @@ const ShareResultsScreen = (props) => {
 
    const navigation = useNavigation();
 
-   const getResults = (type, level, language) => {
+   const getResultsForSharing = (type, level, language) => {
       let history;
       if (type === 1) {
-         history = props.route.params.historyMeanings;
+         history = props.results.filter((result) => result.type === 1);
       } else {
-         history = props.route.params.historyForms;
+         history = props.results.filter((result) => result.type === 2);
       }
       const historyFiltered = history.filter((historyItem) => historyItem.level === level && historyItem.language === language);
       if (historyFiltered.length === 0) {
@@ -50,11 +50,11 @@ const ShareResultsScreen = (props) => {
    const getResultText = (type) => {
       let resultText = ''; 
       for (let i=1; i <= 3; i++) {
-         if (getResults(type, i, props.language)) {
-            resultText += `|<br>Taso ${i}: |<br>- Suorituskertoja yhteensä: ${getResults(type, i, props.language).totalAttempts}`;
-            resultText += `|<br>- Oikeita vastauksia: ${getResults(type, i, props.language).totalCorrectAnswers}`;
-            resultText += ` / ${getResults(type, i, props.language).totalQuestions}`;
-            resultText += `|<br>- Keskimääräinen osaaminen ${getResults(type, i, props.language).percentagesAverage.toFixed(2).replace('.', ',')} prosenttia`            
+         if (getResultsForSharing(type, i, props.language)) {
+            resultText += `|<br>Taso ${i}: |<br>- Suorituskertoja yhteensä: ${getResultsForSharing(type, i, props.language).totalAttempts}`;
+            resultText += `|<br>- Oikeita vastauksia: ${getResultsForSharing(type, i, props.language).totalCorrectAnswers}`;
+            resultText += ` / ${getResultsForSharing(type, i, props.language).totalQuestions}`;
+            resultText += `|<br>- Keskimääräinen osaaminen ${getResultsForSharing(type, i, props.language).percentagesAverage.toFixed(2).replace('.', ',')} prosenttia`            
          } else {
             resultText += `|<br>|Taso ${i}:|<br>|- Ei suorituskertoja`;
          }
@@ -128,6 +128,7 @@ const ShareResultsScreen = (props) => {
 
 const mapStateToProps = (state) => ({
    language: state.settings.language,
+   results: state.results.results
 });
 
 export default connect(mapStateToProps)(ShareResultsScreen);
