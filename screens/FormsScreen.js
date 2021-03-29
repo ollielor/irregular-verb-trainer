@@ -17,7 +17,7 @@ import {
    filterVerbsByLevel,
 } from '../helpers/helpers';
 
-import { getResults, createResultsDb } from '../helpers/results';
+import { getResults, createResultsDb, saveResults } from '../helpers/results';
 
 import FooterComponent from '../components/footer/FooterComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
@@ -196,7 +196,8 @@ const FormsScreen = (props) => {
 
    useEffect(() => {
       if (tableCreated && resultsReady && dateTime && !resultsSaved) {
-         DatabaseResults.transaction(
+         saveResultsAsync()
+        /*  DatabaseResults.transaction(
             (tx) => {
                tx.executeSql(
                   'insert into results (type, language, level, accuracy, q_total, points, maxpoints, percentage, datetime) values (?, ?, ?, ?, ?, ?, ?, ?, ?);',
@@ -218,13 +219,32 @@ const FormsScreen = (props) => {
             },
             null,
             null
-         );
+         ); */
          setResultsSaved(true);
 /*        const results = getResults();
          console.log('Results: ', results);
          props.dispatch(updateResults(results)); */
       }
    }, [resultsReady, dateTime, tableCreated]);
+
+   const saveResultsAsync = async () => {
+      try {
+         await saveResults(
+            2,
+            props.language,
+            props.level,
+            resultsData.amountCorrectAnswers,
+            resultsData.maxQuestions,
+            resultsData.totalPoints,
+            resultsData.maxPoints,
+            resultsData.totalPercentage,
+            dateTime,
+         ) 
+         setResultsSaved(true);
+      } catch (error) {
+         console.log(error);
+      }
+   }
 
    const updateResultsAsync = async () => {
       props.dispatch(updateResults(await getResults()));
@@ -407,9 +427,8 @@ const FormsScreen = (props) => {
                            forms
                         />
                         <LatestResults
-                           //resultHistory={props.results}
-                           type={2}
                            count={3}
+                           showTypes
                         />
                      </>
                   )}

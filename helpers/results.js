@@ -101,3 +101,32 @@ import DatabaseResults from '../modules/DatabaseResults';
          )
    } */
 
+   export const saveResults = (type, language, level, accuracy, q_total, points, maxpoints, percentage, datetime) => {
+      return new Promise((resolve, reject) => {
+         DatabaseResults.transaction(
+         (tx) => {
+            tx.executeSql(
+               'insert into results (type, language, level, accuracy, q_total, points, maxpoints, percentage, datetime) values (?, ?, ?, ?, ?, ?, ?, ?, ?);',
+               [
+                  type,
+                  language,
+                  level,
+                  accuracy,
+                  q_total,
+                  points,
+                  maxpoints,
+                  percentage,
+                  datetime,
+               ]
+            );
+            resolve(true);
+         },
+         (error) => {
+            console.log('Transaction error: ', error);
+            reject(false);
+         },
+         null,
+         null
+      );
+   })
+   }

@@ -23,7 +23,7 @@ import SpinnerComponent from '../components/styling/SpinnerComponent';
 
 import { connect } from 'react-redux';
 import CardComponentMastery from '../components/cards/CardComponentMastery';
-import { createResultsDb, getResults } from '../helpers/results';
+import { createResultsDb, getResults, saveResults } from '../helpers/results';
 
 const MeaningsScreen = (props) => {
    const [verbs, setVerbs] = useState([]);
@@ -117,6 +117,11 @@ const MeaningsScreen = (props) => {
 
    useEffect(() => {
       if (tableCreated && resultsReady && dateTime && !resultsSaved) {
+         saveResultsAsync();
+         setResultsSaved(true);
+      }
+   
+/*       if (tableCreated && resultsReady && dateTime && !resultsSaved) {
          DatabaseResults.transaction(
             (tx) => {
                tx.executeSql(
@@ -141,8 +146,28 @@ const MeaningsScreen = (props) => {
             null,
             null
          );
-      }
+      } */
    }, [resultsReady, dateTime, tableCreated]);
+
+   const saveResultsAsync = async () => {
+      try {
+         await saveResults(
+            1,
+            props.language,
+            props.level,
+            results.amountCorrectAnswers,
+            results.totalAnswered,
+            results.totalPoints,
+            results.maxPoints,
+            results.totalPercentage,
+            dateTime,
+         ) 
+         setResultsSaved(true);
+      } catch (error) {
+         console.log(error);
+      }
+   }
+
 
    useEffect(() => {
       updateResultsAsync();
@@ -239,6 +264,7 @@ const MeaningsScreen = (props) => {
                      }
                      <LatestResults
                         count={3}
+                        showTypes
                      />
                   </>
                )}

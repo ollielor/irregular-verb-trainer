@@ -39,7 +39,7 @@ const CardComponentResults = (props) => {
                   </Text>
                   <Text>
                      Pisteet:{' '}
-                     {props.historyItem && props.historyItem.points.toFixed(2).replace('.', ',')}{' '}
+                     {props.historyItem.points && props.historyItem.points.toFixed(2).replace('.', ',')}{' '}
                      / {props.historyItem.maxpoints} (
                      {props.historyItem.percentage && props.historyItem.percentage
                         .toFixed(2)

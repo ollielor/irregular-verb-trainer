@@ -51,6 +51,21 @@ const StartScreen = (props) => {
 
    console.log('Results from Redux: ', props.results);
 
+/*    useEffect(() => {
+      DatabaseResults.transaction(
+         (tx) => {
+            tx.executeSql('drop table if exists results;', [],
+            setDropped(true),            
+            (tx, error) => {
+               console.log('Could not execute query: ', error);
+            });
+         },
+         (error) => {
+            console.log('Transaction error: ', error);
+         }
+      );
+      }, []); */
+
    useEffect(() => {
       createResultsDb();
    }, [])

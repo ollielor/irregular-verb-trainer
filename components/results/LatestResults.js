@@ -12,6 +12,8 @@ import CardComponentResults from '../cards/CardComponentResults';
 const LatestResults = (props) => {
    const navigation = useNavigation();
 
+   console.log(props.results)
+
    return (
       <Content>
          <Heading>{props.count} viimeisintä tulosta {props.language === 1 ? '(ruotsi)' : '(saksa)'}</Heading>
@@ -27,7 +29,8 @@ const LatestResults = (props) => {
                .slice(0, props.count)
                .map((historyItem, index) => (
                   <CardComponentResults historyItem={historyItem} key={index} showTypes={props.showTypes} />
-               ))}
+               ))
+         }
          {!props.hideButton && (
             <Button
                onPress={() => navigation.navigate('Omat tulokseni')}
