@@ -19,10 +19,11 @@ import ProgressComponent from '../components/results/ProgressComponent';
 import SpinnerComponent from '../components/styling/SpinnerComponent';
 
 import { connect } from 'react-redux';
+import ResultComponent from '../components/results/ResultComponent';
 
 const HistoryScreen = (props) => {
-   const [historyMeanings, setHistoryMeanings] = useState([]);
-   const [historyForms, setHistoryForms] = useState([]);
+   //const [historyMeanings, setHistoryMeanings] = useState([]);
+   //const [historyForms, setHistoryForms] = useState([]);
    const [showModal, setShowModal] = useState(false);
    const [dropped, setDropped] = useState(false);
    const [tableCreated, setTableCreated] = useState(false);
@@ -49,7 +50,7 @@ const HistoryScreen = (props) => {
    }, [dropped]);
 
 
-   useEffect(() => {
+   /*useEffect(() => {
       console.log(props.results);
          setHistoryMeanings(
             props.results.filter(
@@ -61,7 +62,7 @@ const HistoryScreen = (props) => {
                (historyItem) => historyItem.type === 2
             )
          );
-   }, [props.results, dropped, tableCreated]);
+   }, [props.results, dropped, tableCreated]);*/
 
 /*    useEffect(() => {
       DatabaseResults.transaction(
@@ -115,173 +116,55 @@ const HistoryScreen = (props) => {
    return (    
       <Container style={styles.container}>
          <HeaderComponent title="Omat tulokseni" goBack={navigation.goBack} />
-         {historyMeanings || historyForms ? (
+         <>
+         {props.results ? (
             <Content style={styles.contentContainer}>
                <ButtonComponent title='Jaa tulokset' color="#7E00C5" function={() => navigation.navigate('Jaa tulokset', {historyMeanings: historyMeanings, historyForms: historyForms})} />
                <Heading>Verbien merkitykset {props.language === 1 ? '(ruotsi)' : '(saksa)'}</Heading>
-               {historyMeanings.filter((meaningItem) => meaningItem.language === props.language).length === 0 && (
-                  <Text style={{ textAlign: 'center' }}>
-                     Ei tuloksia tästä kategoriasta.
-                  </Text>
-               )}
-               {historyMeanings.filter(
-                  (historyItem) =>
-                     historyItem.level === 1 && historyItem.language === props.language
-               ).length > 0 && (
+               <Subheading>Taso 1</Subheading>
                   <>
-                     <Subheading>Taso 1</Subheading>
-                     <ProgressComponent
-                        data={historyMeanings.filter(
-                           (historyItem) =>
-                              historyItem.level === 1 &&
-                              historyItem.language === props.language
-                        )}
-                     />
-                     <ResultHistoryView
-                        hideButton
-                        resultHistory={historyMeanings.filter(
-                           (historyItem) =>
-                              historyItem.level === 1 &&
-                              historyItem.language === props.language
-                        )}
-                     />
+                     <ProgressComponent historyLevel={1} type={1} />
+                     <ResultHistoryView historyLevel={1} type={1} hideButton />
                   </>
-               )}
-               {historyMeanings.filter(
-                  (historyItem) =>
-                     historyItem.level === 2 && historyItem.language === props.language
-               ).length > 0 && (
+               <Subheading>Taso 2</Subheading>
                   <>
-                     <Subheading>Taso 2</Subheading>
-                     <ProgressComponent
-                        data={historyMeanings.filter(
-                           (historyItem) =>
-                              historyItem.level === 2 &&
-                              historyItem.language === props.language
-                        )}
-                     />
-                     <ResultHistoryView
-                        hideButton
-                        resultHistory={historyMeanings.filter(
-                           (historyItem) =>
-                              historyItem.level === 2 &&
-                              historyItem.language === props.language
-                        )}
-                     />
+                     <ProgressComponent historyLevel={2} type={1} />
+                     {/* <ProgressComponent data={historyMeanings} historyLevel={2} type={1} /> */}
+                     <ResultHistoryView historyLevel={2} type={1} hideButton />
                   </>
-               )}
-               {historyMeanings.filter(
-                  (historyItem) =>
-                     historyItem.level === 3 && historyItem.language === props.language
-               ).length > 0 && (
+               <Subheading>Taso 3</Subheading>
                   <>
-                     <Subheading>Taso 3</Subheading>
-                     <ProgressComponent
-                        data={historyMeanings.filter(
-                           (historyItem) =>
-                              historyItem.level === 3 &&
-                              historyItem.language === props.language
-                        )}
-                     />
-                     <ResultHistoryView
-                        hideButton
-                        resultHistory={historyMeanings.filter(
-                           (historyItem) =>
-                              historyItem.level === 3 &&
-                              historyItem.language === props.language
-                        )}
-                     />
+                     <ProgressComponent historyLevel={3} type={1} />
+                     <ResultHistoryView historyLevel={3} type={1} hideButton />
                   </>
-               )}
                <Heading>Verbien muodot {props.language === 1 ? '(ruotsi)' : '(saksa)'}</Heading>
-               {historyForms.filter((formItem) => formItem.language === props.language).length === 0 && (
-                  <Text style={{ textAlign: 'center', marginBottom: 20 }}>
-                     Ei tuloksia tästä kategoriasta.
-                  </Text>
-               )}
-               {historyForms.filter(
-                  (historyItem) =>
-                     historyItem.level === 1 && historyItem.language === props.language
-               ).length > 0 && (
+               <Subheading>Taso 1</Subheading>
                   <>
-                     <Subheading>Taso 1</Subheading>
-                     <ProgressComponent
-                        data={historyForms.filter(
-                           (historyItem) =>
-                              historyItem.level === 1 &&
-                              historyItem.language === props.language
-                        )}
-                     />
-                     <ResultHistoryView
-                        hideButton
-                        resultHistory={historyForms.filter(
-                           (historyItem) =>
-                              historyItem.level === 1 &&
-                              historyItem.language === props.language
-                        )}
-                     />
+                     <ProgressComponent historyLevel={1} type={2} />
+                     <ResultHistoryView historyLevel={1} type={2} hideButton />
                   </>
-               )}
-               {historyForms.filter(
-                  (historyItem) =>
-                     historyItem.level === 2 && historyItem.language === props.language
-               ).length > 0 && (
+               <Subheading>Taso 2</Subheading>
                   <>
-                     <Subheading>Taso 2</Subheading>
-                     <ProgressComponent
-                        data={historyForms.filter(
-                           (historyItem) =>
-                              historyItem.level === 2 &&
-                              historyItem.language === props.language
-                        )}
-                     />
-                     <ResultHistoryView
-                        hideButton
-                        resultHistory={historyForms.filter(
-                           (historyItem) =>
-                              historyItem.level === 2 &&
-                              historyItem.language === props.language
-                        )}
-                     />
+                     <ProgressComponent historyLevel={2} type={2} />
+                     <ResultHistoryView historyLevel={2} type={2} hideButton />
                   </>
-               )}
-               {historyForms.filter(
-                  (historyItem) =>
-                     historyItem.level === 3 && historyItem.language === props.language
-               ).length > 0 && (
+               <Subheading>Taso 3</Subheading>
                   <>
-                     <Subheading>Taso 3</Subheading>
-                     <ProgressComponent
-                        data={historyForms.filter(
-                           (historyItem) =>
-                              historyItem.level === 3 &&
-                              historyItem.language === props.language
-                        )}
-                     />
-                     <ResultHistoryView
-                        hideButton
-                        resultHistory={historyForms.filter(
-                           (historyItem) =>
-                              historyItem.level === 3 &&
-                              historyItem.language === props.language
-                        )}
-                     />
+                     <ProgressComponent historyLevel={3} type={2} />
+                     <ResultHistoryView historyLevel={3} type={2} hideButton />
                   </>
-               )}
-               {historyForms.length > 0 || historyMeanings.length > 0 ? (
                   <ButtonComponent
-                     title="Tyhjennä tuloshistoria"
-                     color="#cc0000"
-                     function={() => setShowModal(true)}
-                     withMarginBottomAndTop
-                  />
-               ) : null}
-            </Content>
+                        color="red"
+                        title="Tyhjennä tuloshistoria"
+                        function={() => setShowModal(true)}
+                     />             
+            </Content>  
          ) : (
             <Content>
                <SpinnerComponent text="Tuloksia ladataan..." />
             </Content>
          )}
+         </>
          <FooterComponent />
          <Modal
             animationType="slide"

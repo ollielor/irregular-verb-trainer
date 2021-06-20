@@ -19,7 +19,7 @@ const CardComponentBrowse = (props) => {
                      {props.verb.present},&nbsp;
                      {infAndPresLength > 15 && `\n`}
                      {props.verb.present_alt && ` / ${props.verb.present_alt}`}
-                     {props.verb.past_alt && props.verb.prespast.length > 7 && "\n"}
+                     {props.verb.past_alt && props.verb.past_alt.length > 7 && "\n"}
                      {!props.verb.past_alt && `${props.verb.past}, `}
                      {props.verb.past_alt.length > 1 && `${props.verb.past} / ${props.verb.past_alt}`}
                      {props.verb.presperf}

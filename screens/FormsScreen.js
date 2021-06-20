@@ -309,14 +309,14 @@ const FormsScreen = (props) => {
       // The function prepares the given answers for accuracy check using several string operations
       let preparedAnswer = '';
       // Replace German sharp S with the string '1'
-      let stringArray = answer && answer
+      let stringArray = answer
          .trim()
          .replace('/', '')
          .replace(/\u00df/g, '1')
          .toUpperCase()
          .toLowerCase()
          .split(' ');
-      // Filter out pronouns if they precede verb form
+      console.log('stringArray: ', stringArray);
       let withoutPronounsArray = stringArray.filter(
          (word) =>
             word !== 'er' &&
@@ -325,10 +325,12 @@ const FormsScreen = (props) => {
             word !== 'er/sie' &&
             word !== 'er/sie/es'
       );
+      console.log('WithoutPronounsArray: ', withoutPronounsArray)
       // Replace string '1' with German sharp S
       for (let i = 0; i < withoutPronounsArray.length; i++) {
-         preparedAnswer += preparedAnswer && ' ' + withoutPronounsArray[i].replace('1', '\u00df');
+         preparedAnswer += ' ' + withoutPronounsArray[i].replace('1', '\u00df');
       }
+      console.log('PreparedAnswer: ', preparedAnswer)
       return preparedAnswer.trim();
    };
 
@@ -374,6 +376,7 @@ const FormsScreen = (props) => {
       } else {
          correctModified = correct;
       }
+      console.log('CorrectModified: ', correctModified)
       // CheckAnswerStrings function is called and points are given if it returns true
       if (checkAnswerStrings(preparedAnswer, correctModified)) {
          setPoints(points + 10);

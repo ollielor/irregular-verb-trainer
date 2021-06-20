@@ -21,7 +21,7 @@ const ResultHistoryView = (props) => {
          {!props.hideButton && <Heading>3 viimeisintä tulosta</Heading>}
          {props.results &&
             props.results
-               .filter((result) => result.language === props.language)
+               .filter((result) => result.language === props.language && parseInt(result.level) === parseInt(props.historyLevel) && parseInt(result.type) === parseInt(props.type))
                .sort((a, b) =>
                   a.datetime < b.datetime ? 1 : a.datetime > b.datetime ? -1 : 0
                )

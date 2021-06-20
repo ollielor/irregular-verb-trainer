@@ -14,9 +14,9 @@ const ResultView = (props) => {
    console.log(feedbackTexts);
 
    useEffect(() => {
-      if (props.results.totalPercentage > 87.5) {
+      if (props.resultsData.totalPercentage > 87.5) {
          setFeedback(feedbackTexts[props.language].high[rndIntGenerator(feedbackTexts[props.language].high.length)].text)
-      } else if (props.results.totalPercentage > 77.5) {
+      } else if (props.resultsData.totalPercentage > 77.5) {
          setFeedback(feedbackTexts[props.language].good[rndIntGenerator(feedbackTexts[props.language].good.length)].text)
       } else {
          setFeedback(feedbackTexts[props.language].low[rndIntGenerator(feedbackTexts[props.language].low.length)].text)

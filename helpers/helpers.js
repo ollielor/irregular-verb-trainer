@@ -12,7 +12,13 @@ export const getCurrentDate = () => {
    return new Date().toISOString();
 };
 
+/* export const getRandomVerbArray = (rndInt, verbs) => {
+   console.log('From getRandomVerbArray: ', verbs.filter((verb) => verb.meaning_id === rndInt));
+   return verbs.filter((verb) => verb.meaning_id === rndInt);
+};
+ */
 export const getRandomVerbArray = (rndInt, verbs) => {
+   console.log('From getRandomVerbArray: ', verbs.filter((verb) => verb.meaning_id === rndInt));
    return verbs.filter((verb) => verb.meaning_id === rndInt);
 };
 
@@ -77,8 +83,10 @@ export const getRndVerbsForForms = (verbs, amount) => {
          rndVerbsFinal = rndVerbs.filter(
             (verbArray, index, self) =>
                index ===
-               self.findIndex((v) => v[0].verb_id === verbArray[0].verb_id)
+               //self.findIndex((v) => v[0].verb_id === verbArray[0].verb_id)
+               self.findIndex((v) => v[0].meaning_id === verbArray[0].meaning_id)
          );
+         console.log('rndVerbsFinal: ', rndVerbsFinal)
       }
    }
    return rndVerbsFinal;
