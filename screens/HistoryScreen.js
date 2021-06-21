@@ -157,6 +157,7 @@ const HistoryScreen = (props) => {
                         color="red"
                         title="Tyhjennä tuloshistoria"
                         function={() => setShowModal(true)}
+                        withMarginBottomAndTop
                      />             
             </Content>  
          ) : (
