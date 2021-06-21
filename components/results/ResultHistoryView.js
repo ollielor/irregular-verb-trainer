@@ -26,7 +26,7 @@ const ResultHistoryView = (props) => {
                   a.datetime < b.datetime ? 1 : a.datetime > b.datetime ? -1 : 0
                )
                .map((historyItem, index) => (
-                  <CardComponentResults historyItem={historyItem} key={index} />
+                  <CardComponentResults showTypes historyItem={historyItem} key={index} />
                ))}
          {!props.hideButton && (
             <Button
