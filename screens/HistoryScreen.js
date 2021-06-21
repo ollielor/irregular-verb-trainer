@@ -119,7 +119,7 @@ const HistoryScreen = (props) => {
          <>
          {props.results ? (
             <Content style={styles.contentContainer}>
-               <ButtonComponent title='Jaa tulokset' color="#7E00C5" function={() => navigation.navigate('Jaa tulokset', {historyMeanings: historyMeanings, historyForms: historyForms})} />
+               <ButtonComponent title='Jaa tulokset' color="#7E00C5" function={() => navigation.navigate('Jaa tulokset')} />
                <Heading>Verbien merkitykset {props.language === 1 ? '(ruotsi)' : '(saksa)'}</Heading>
                <Subheading>Taso 1</Subheading>
                   <>
