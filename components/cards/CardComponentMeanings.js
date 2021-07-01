@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native';
 
 import SpinnerComponent from '../styling/SpinnerComponent';
 
-import { rndIntGenerator } from '../../helpers/helpers';
+import { rndIntGenerator, rndIntGeneratorZero } from '../../helpers/helpers';
 import MeaningsButton from '../buttons/MeaningsButton';
 
 const CardComponentMeanings = (props) => {
@@ -18,14 +18,14 @@ const CardComponentMeanings = (props) => {
 
    useEffect(() => {
       // Get one meaning of the three verbs set in MeaningsScreen
-      const rndInt = rndIntGenerator(3);
+      const rndInt = rndIntGeneratorZero(3);
       setCorrectMeaning(props.alternatives[rndInt].meaning);
       setCorrectInfinitive(props.alternatives[rndInt].infinitive);
       let randomOrder = [];
       let randomOrderFinal = [];
       // Randomize alternatives
       while (randomOrderFinal.length < 3) {
-         const rndIntAlternatives = rndIntGenerator(3);
+         const rndIntAlternatives = rndIntGeneratorZero(3);
          randomOrder.push(rndIntAlternatives);
          // Check that same number doesn't occur twice or more
          if (randomOrder.length > 1) {

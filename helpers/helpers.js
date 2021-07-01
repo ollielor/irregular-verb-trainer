@@ -1,12 +1,12 @@
 // This function generates a random integer for the randomizing of verbs
-// The random integer creation starts from 0
+// The random integer creation starts from 1
 export const rndIntGenerator = (highest) => {
    return Math.floor(Math.random() * highest) + 1;
 };
 
 // This function generates a random integer for the randomizing of feedback texts
-// The random integer creation starts from 1
-export const rndIntGeneratorFeedback = (highest) => {
+// The random integer creation starts from 0
+export const rndIntGeneratorZero = (highest) => {
    return Math.floor(Math.random() * highest);
 };
 
@@ -60,7 +60,10 @@ export const getRndVerbs = (verbs, amount) => {
    let rndVerbs = [];
    let rndVerbsFinal = [];
    while (rndVerbsFinal.length < amount) {
-      const rndInt = rndIntGenerator(verbs.length);
+      // The range of random numbers (0-300) is excessive 
+      // in order to involve all verbs of
+      // a certain level in randomizing.
+      const rndInt = rndIntGenerator(300);
       rndVerb = getRandomVerb(rndInt, verbs);
       if (rndVerb !== undefined) {
          rndVerbs.push(rndVerb);
@@ -92,6 +95,11 @@ export const getRndVerbsForForms = (verbs, amount) => {
    let rndVerbsFinal = [];
    while (rndVerbsFinal.length < amount) {
       console.log('verbs.length: ', verbs.length)
+      // The range of random numbers (0-300) is excessive 
+      // in order to involve all verbs of
+      // a certain level in randomizing.
+      // The random number shall match a meaning_id
+      // If no match, the randomizing will be repeated
       const rndInt = rndIntGenerator(300);
       console.log('rndInt: ', rndInt)
       rndVerbArray = getRandomVerbArray(rndInt, verbs);

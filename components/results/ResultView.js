@@ -5,7 +5,7 @@ import feedbackTexts from '../../feedback/feedback.json';
 
 import { connect } from 'react-redux';
 
-import { rndIntGeneratorFeedback } from '../../helpers/helpers';
+import { rndIntGeneratorZero } from '../../helpers/helpers';
 
 const ResultView = (props) => {
 
@@ -15,11 +15,11 @@ const ResultView = (props) => {
 
    useEffect(() => {
       if (props.resultsData.totalPercentage > 87.5) {
-         setFeedback(feedbackTexts[props.language].high[rndIntGeneratorFeedback(feedbackTexts[props.language].high.length)].text)
+         setFeedback(feedbackTexts[props.language].high[rndIntGeneratorZero(feedbackTexts[props.language].high.length)].text)
       } else if (props.resultsData.totalPercentage > 77.5) {
-         setFeedback(feedbackTexts[props.language].good[rndIntGeneratorFeedback(feedbackTexts[props.language].good.length)].text)
+         setFeedback(feedbackTexts[props.language].good[rndIntGeneratorZero(feedbackTexts[props.language].good.length)].text)
       } else {
-         setFeedback(feedbackTexts[props.language].low[rndIntGeneratorFeedback(feedbackTexts[props.language].low.length)].text)
+         setFeedback(feedbackTexts[props.language].low[rndIntGeneratorZero(feedbackTexts[props.language].low.length)].text)
       }
    }, []);
 
