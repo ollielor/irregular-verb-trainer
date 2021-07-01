@@ -25,21 +25,15 @@ export const getCurrentDate = () => {
    return verbs.filter((verb) => verb.meaning_id === rndInt);
 };
  */
+
+// This function creates an array of verbs with same meaning
 export const getRandomVerbArray = (rndInt, verbs) => {
-   console.log('From getRandomVerbArray: ', verbs.filter((verb) => verb.meaning_id === rndInt));
-   console.log('rndInt from getRandomVerbArray: ', rndInt);
    let verbsArray = [];
    let matchingVerbs = verbs.filter((verb) => verb.meaning_id === rndInt);
-   let verbsMapped = verbs.map((verb) => verb.meaning_id);
-   console.log('verbsMapped: ', verbsMapped)
-   console.log('matchingVerbs: ', matchingVerbs)
    for (let i=0; i < matchingVerbs.length; i++) {
       console.log('Matching: ', matchingVerbs[i])
       verbsArray.push(matchingVerbs[i]);
    }
-   //let verbsArray = verbs.filter((verb) => verb.meaning_id === rndInt);
-   console.log('verbsArray from getRandomVerbArray: ', verbsArray)
-   console.log('verbs from getRandomVerbArray', verbs[rndInt])
    if (verbsArray.length > 0) {
       return verbsArray;
    }

@@ -399,6 +399,7 @@ const FormsScreen = (props) => {
    useEffect(() => {
       if (finished && resultsData || started) {
          scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
+         setAnsweredIndex(0);
       }
    }, [finished, resultsData, started]);
 
