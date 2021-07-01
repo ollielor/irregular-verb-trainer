@@ -112,18 +112,20 @@ const FormsScreen = (props) => {
       props.presperf,
    ]);
 
-   useEffect(() => {
+      useEffect(() => {
       setVerbsFiltered(false);
       let verbsByLanguage;
       if (props.language === 1) {
          verbsByLanguage = props.verbsSwedish.filter(verb => verb.infinitive.length > 1);
+         console.log('verbsByLanguage: ', verbsByLanguage)
       } else {
          verbsByLanguage = props.verbsGerman;
       }
       const filteredVerbs = filterVerbsByLevel(verbsByLanguage, props.level);
       setVerbs(filteredVerbs);
+      console.log('filteredVerbs length: ', filteredVerbs.length)
       setVerbsFiltered(true);
-   }, [props.level, props.verbsGerman]);
+   }, [props.level, props.verbsSwedish, props.verbsGerman]);
 
 
 
@@ -308,10 +310,10 @@ const FormsScreen = (props) => {
    const prepareAnswerGerman = (answer) => {
       // The function prepares the given answers for accuracy check using several string operations
       let preparedAnswer = '';
-      // Replace German sharp S with the string '1'
       let stringArray = answer
          .trim()
          .replace('/', '')
+         // Replace German sharp S with the string '1'
          .replace(/\u00df/g, '1')
          .toUpperCase()
          .toLowerCase()
@@ -335,7 +337,7 @@ const FormsScreen = (props) => {
    };
 
    const prepareAnswerSwedish = (answer) => {
-      // The function prepares the given answers for accuracy check using different string operations
+      // The function prepares the given answers for accuracy check using several string operations
       let preparedAnswer = '';
       let stringArray = answer
          .trim()
@@ -344,6 +346,7 @@ const FormsScreen = (props) => {
          .split(' ');
       for (let i = 0; i < stringArray.length; i++) {
          preparedAnswer += ' ' + stringArray[i];
+         console.log('preparedAnswer from prepareAnswerSwedish: ', preparedAnswer);
       }
       return preparedAnswer.trim();
    };
@@ -408,7 +411,7 @@ const FormsScreen = (props) => {
 
    return (
       <Container style={styles.container}>
-         <HeaderComponent title="Verbien muotoja" goBack={navigation.goBack} />
+         <HeaderComponent title="Verbien muodot" goBack={navigation.goBack} />
          <KeyboardAvoidingView
             style={styles.flexOne}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

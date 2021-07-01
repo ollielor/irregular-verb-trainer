@@ -1,4 +1,12 @@
+// This function generates a random integer for the randomizing of verbs
+// The random integer creation starts from 0
 export const rndIntGenerator = (highest) => {
+   return Math.floor(Math.random() * highest) + 1;
+};
+
+// This function generates a random integer for the randomizing of feedback texts
+// The random integer creation starts from 1
+export const rndIntGeneratorFeedback = (highest) => {
    return Math.floor(Math.random() * highest);
 };
 
@@ -19,12 +27,28 @@ export const getCurrentDate = () => {
  */
 export const getRandomVerbArray = (rndInt, verbs) => {
    console.log('From getRandomVerbArray: ', verbs.filter((verb) => verb.meaning_id === rndInt));
-   return verbs.filter((verb) => verb.meaning_id === rndInt);
+   console.log('rndInt from getRandomVerbArray: ', rndInt);
+   let verbsArray = [];
+   let matchingVerbs = verbs.filter((verb) => verb.meaning_id === rndInt);
+   let verbsMapped = verbs.map((verb) => verb.meaning_id);
+   console.log('verbsMapped: ', verbsMapped)
+   console.log('matchingVerbs: ', matchingVerbs)
+   for (let i=0; i < matchingVerbs.length; i++) {
+      console.log('Matching: ', matchingVerbs[i])
+      verbsArray.push(matchingVerbs[i]);
+   }
+   //let verbsArray = verbs.filter((verb) => verb.meaning_id === rndInt);
+   console.log('verbsArray from getRandomVerbArray: ', verbsArray)
+   console.log('verbs from getRandomVerbArray', verbs[rndInt])
+   if (verbsArray.length > 0) {
+      return verbsArray;
+   }
 };
 
 export const filterVerbsByLevel = (verbs, level) => {
    switch (level) {
       case 1:
+         console.log('level: 1', verbs.filter((verb) => verb.level === 1))
          return verbs.filter((verb) => verb.level === 1);
       case 2:
          return verbs.filter((verb) => verb.level === 1 || verb.level === 2);
@@ -50,7 +74,7 @@ export const getRndVerbs = (verbs, amount) => {
       if (rndVerbs.length > 1) {
          rndVerbsFinal = rndVerbs.filter(
             (verb, index, self) =>
-               index === self.findIndex((v) => v.verb_id === verb.verb_id)
+               index === self.findIndex((v) => v.meaning_id === verb.meaning_id)
          );
       }
    }
@@ -72,22 +96,25 @@ export const getRndVerbsForForms = (verbs, amount) => {
    let rndVerbArray = [];
    let rndVerbs = [];
    let rndVerbsFinal = [];
-   while (rndVerbsFinal.length <= amount - 1) {
-      const rndInt = rndIntGenerator(verbs.length);
+   while (rndVerbsFinal.length < amount) {
+      console.log('verbs.length: ', verbs.length)
+      const rndInt = rndIntGenerator(300);
+      console.log('rndInt: ', rndInt)
       rndVerbArray = getRandomVerbArray(rndInt, verbs);
-      if (rndVerbArray.length > 0) {
+      console.log('rndVerbArray from getRndVerbsForForms: ', rndVerbArray)
+      if (rndVerbArray) {
          rndVerbs.push(rndVerbArray);
       }
       if (rndVerbs.length > 1) {
-         // Check for duplicates
+         console.log('rndVerbs: ', rndVerbs)
+         // Check for duplicates with same meaning
          rndVerbsFinal = rndVerbs.filter(
             (verbArray, index, self) =>
                index ===
-               //self.findIndex((v) => v[0].verb_id === verbArray[0].verb_id)
                self.findIndex((v) => v[0].meaning_id === verbArray[0].meaning_id)
          );
-         console.log('rndVerbsFinal: ', rndVerbsFinal)
       }
+         console.log('rndVerbsFinal: ', rndVerbsFinal)
    }
    return rndVerbsFinal;
 };

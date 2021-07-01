@@ -243,7 +243,7 @@ const MeaningsScreen = (props) => {
    return (
       <Container style={styles.container}>
             <HeaderComponent
-            title="Verbien merkityksiä"
+            title="Verbien merkitykset"
             goBack={navigation.goBack}
          />
          <ScrollView
