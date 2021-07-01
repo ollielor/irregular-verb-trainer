@@ -351,7 +351,7 @@ const FormsScreen = (props) => {
       return preparedAnswer.trim();
    };
 
-   const checkAnswerStrings = (preparedAnswer, correct) => {
+   const checkAnswerStrings = (preparedAnswer, correct, correctAlt) => {
       // The function checks if the prepared answer matches with the correct answer and returns true if they match
       // Check if the correct answer is an array (i.e. if it has synonymous forms)
       if (Array.isArray(correct)) {
@@ -359,13 +359,19 @@ const FormsScreen = (props) => {
             if (preparedAnswer && preparedAnswer === correct[i].replace('/', '')) {
                return true;
             }
+/*             if (preparedAnswer && preparedAnswer === correctAlt[i].replace('/', '')) {
+               return true;
+            } */
          }
       } else if (!Array.isArray(correct) && preparedAnswer === correct) {
          return true;
       }
+      if (correctAlt && correctAlt.length > 0 && preparedAnswer === correctAlt) {
+         return true;
+      }
    };
 
-   const evaluate = (answer, correct, tense, index) => {
+   const evaluate = (answer, correct, correctAlt, tense, index) => {
       // This function is responsible for setting the points state and setting the state for focusing in CardComponentForms.js
       let preparedAnswer;
       if (props.language === 1) {
@@ -374,14 +380,17 @@ const FormsScreen = (props) => {
          preparedAnswer = prepareAnswerGerman(answer);
       }
       let correctModified;
+      let correctAltModified;
       if (!Array.isArray(correct)) {
          correctModified = correct.replace('/', '');
+         correctAltModified = correctAlt && correctAlt.replace('/', '');
       } else {
          correctModified = correct;
+         correctAltModified = correctAlt && correctAlt;
       }
       console.log('CorrectModified: ', correctModified)
       // CheckAnswerStrings function is called and points are given if it returns true
-      if (checkAnswerStrings(preparedAnswer, correctModified)) {
+      if (checkAnswerStrings(preparedAnswer, correctModified, correctAltModified)) {
          setPoints(points + 10);
          // Focus to next component if the user has given a correct answer to the last field of the component
          const lastForm = tenseNames[tenseNames.length - 1];

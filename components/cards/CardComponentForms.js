@@ -49,6 +49,7 @@ const CardComponentForms = (props) => {
             presPerf: presPerfSynonyms,
          });
       }
+      console.log('props.verbForm: ', props.verbForm)
    }, []);
 
    useEffect(() => {
@@ -97,6 +98,7 @@ const CardComponentForms = (props) => {
             props.synonyms && synonymousForms
                ? synonymousForms.infinitive
                : props.verbForm.infinitive,
+            null,
             'infinitive',
             props.index
          )
@@ -115,6 +117,7 @@ const CardComponentForms = (props) => {
             props.synonyms && synonymousForms
                ? synonymousForms.present
                : props.verbForm.present,
+            props.verbForm.present_alt,
             'present',
             props.index
          )
@@ -133,6 +136,7 @@ const CardComponentForms = (props) => {
             props.synonyms && synonymousForms
                ? synonymousForms.past
                : props.verbForm.past,
+            props.verbForm.past_alt,
             'past',
             props.index
          )
@@ -151,6 +155,7 @@ const CardComponentForms = (props) => {
             props.synonyms && synonymousForms
                ? synonymousForms.presPerf
                : props.verbForm.presperf,
+            props.verbForm.presperf_alt,
             'presperf',
             props.index
          )
