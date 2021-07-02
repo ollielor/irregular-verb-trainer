@@ -69,10 +69,10 @@ const CardComponentForms = (props) => {
 
    useEffect(() => {
       if (props.started) {
-         inputRef1.current.clear();
-         inputRef2.current.clear();
-         inputRef3.current.clear();
-         inputRef4.current.clear();
+         props.infinitive && inputRef1.current.clear();
+         props.present && inputRef2.current.clear();
+         props.past && inputRef3.current.clear();
+         props.presperf && inputRef4.current.clear();
          setUnansweredInfinitive(true);
          setUnansweredPresent(true);
          setUnansweredPast(true);
@@ -98,6 +98,7 @@ const CardComponentForms = (props) => {
             props.synonyms && synonymousForms
                ? synonymousForms.infinitive
                : props.verbForm.infinitive,
+            // This is null because the infinitive can't have alternative forms
             null,
             'infinitive',
             props.index

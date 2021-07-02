@@ -17,7 +17,18 @@ import {
    filterVerbsByLevel,
 } from '../helpers/helpers';
 
-import { getResults, createResultsDb, saveResults } from '../helpers/results';
+import {
+   calcEstimatedAccomplishTime,
+   calcTotalPoints,
+   calcTotalPercentage,
+   calcAmountCorrectAnswers 
+} from '../helpers/points';
+
+import { 
+   getResults, 
+   createResultsDb, 
+   saveResults 
+} from '../helpers/results';
 
 import FooterComponent from '../components/footer/FooterComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
@@ -65,7 +76,7 @@ const FormsScreen = (props) => {
    useEffect(() => {
       if (props.infinitive || props.present || props.past || props.presperf) {
          setFormsSelected(true);
-         setFormsSelectedArray([...formsSelectedArray, 10]);
+         //setFormsSelectedArray([...formsSelectedArray, 10]);
       }
    }, [props.infinitive, props.present, props.past, props.presperf]);
 
@@ -284,23 +295,15 @@ const FormsScreen = (props) => {
 
    useEffect(() => {
       if (finished) {
-         const estimatedAccomplishTime = 1.2 * maxPoints;
-         let totalPoints;
-         if (counterState <= estimatedAccomplishTime && points === maxPoints) {
-            totalPoints = points + counterState * 0.05;
-         } else if (points === 0) {
-            totalPoints = points * 1.0;
-         } else {
-            totalPoints = (points - counterState * 0.1) * 1.0;
-         }
-         const totalPercentage = (totalPoints / maxPoints) * 100.0;
-         const amountCorrectAnswers = points / 10;
+         // The points calculation functions are located in /helpers/points.js
+         const estimatedAccomplishTime = calcEstimatedAccomplishTime(maxPoints);
+         const totalPoints = calcTotalPoints(counterState, estimatedAccomplishTime, points, maxPoints);
          setResultsData({
             totalPoints: totalPoints,
             maxPoints: maxPoints,
             maxQuestions: maxQuestions,
-            totalPercentage: totalPercentage,
-            amountCorrectAnswers: amountCorrectAnswers,
+            totalPercentage: calcTotalPercentage(totalPoints, maxPoints),
+            amountCorrectAnswers: calcAmountCorrectAnswers(points),
          });
          setDateTime(getCurrentDate());
          setResultsReady(true);
