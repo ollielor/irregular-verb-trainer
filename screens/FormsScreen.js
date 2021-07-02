@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, ScrollView, KeyboardAvoidingView, Platform, View } from 'react-native';
 import { Container, Text } from 'native-base';
 
 import DatabaseResults from '../modules/DatabaseResults';
@@ -424,7 +424,7 @@ const FormsScreen = (props) => {
          <HeaderComponent title="Verbien muodot" goBack={navigation.goBack} />
          <KeyboardAvoidingView
             style={styles.flexOne}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            behavior={Platform.OS === 'ios' ? 'padding' : null}
          >
             <ScrollView
                keyboardShouldPersistTaps="always"
@@ -508,7 +508,6 @@ const FormsScreen = (props) => {
                   <ButtonComponent
                      color="#7E00C5"
                      title="Valmis"
-                     withMargin
                      function={finish}
                   />
                )}

@@ -9,7 +9,7 @@ const FooterComponent = (props) => {
    const navigation = useNavigation();
 
    return (
-      <Footer style={{ backgroundColor: '#0047c5' }}>
+      <Footer style={{ backgroundColor: '#0047c5', display: 'absolute', bottom: 0 }}>
          <FooterTab>
             <FooterButtonComponent
                title="Asetukset"
