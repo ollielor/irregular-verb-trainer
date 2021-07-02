@@ -2,10 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, ScrollView, KeyboardAvoidingView, Platform, View } from 'react-native';
 import { Container, Text } from 'native-base';
 
-import DatabaseResults from '../modules/DatabaseResults';
-
 import { connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+
+import {
+   prepareAnswerGerman,
+   prepareAnswerSwedish,
+   checkAnswerStrings
+} from '../helpers/answerHandling';
 
 import {
    updateResults
@@ -50,13 +54,13 @@ const FormsScreen = (props) => {
    const [counterState, setCounterState] = useState(null);
    const [started, setStarted] = useState(true);
    const [tenseNames, setTenseNames] = useState([]);
-   const [resultHistory, setResultHistory] = useState([]);
-   const [resultsLoaded, setResultsLoaded] = useState(false);
+   //const [resultHistory, setResultHistory] = useState([]);
+   //const [resultsLoaded, setResultsLoaded] = useState(false);
    const [dateTime, setDateTime] = useState(null);
    const [answeredIndex, setAnsweredIndex] = useState(0);
    const [resultsReady, setResultsReady] = useState(false);
    const [formsSelected, setFormsSelected] = useState(false);
-   const [formsSelectedArray, setFormsSelectedArray] = useState([]);
+   //const [formsSelectedArray, setFormsSelectedArray] = useState([]);
    const [tableCreated, setTableCreated] = useState(false);
    const [resultsSaved, setResultsSaved] = useState(false);
 
@@ -69,6 +73,7 @@ const FormsScreen = (props) => {
       setTableCreated(true);
    }, [])
 
+   // useEffect cleanup
    useEffect(() => {
       return () => {};
    }, []);
@@ -138,31 +143,6 @@ const FormsScreen = (props) => {
       setVerbsFiltered(true);
    }, [props.level, props.verbsSwedish, props.verbsGerman]);
 
-
-
-/*    const updateList = () => {
-      DatabaseResults.transaction(
-         (tx) => {
-            tx.executeSql(
-               'select * from results;',
-               [],
-               (tx, results) => {
-                  setResultHistory(results.rows._array);
-                  setResultsLoaded(true);
-               },
-               (tx, error) => {
-                  console.log('Could not execute query: ', error);
-               }
-            );
-         },
-         (error) => {
-            console.log('Transaction error: ', error);
-         }
-      );
-   }; */
-
-
-
    useEffect(() => {
       if (points >= maxPoints) {
          setFinished(true);
@@ -177,66 +157,10 @@ const FormsScreen = (props) => {
       }
    }, [verbsFiltered, verbs, started]);
 
-/*    useEffect(() => {
-      if (tableCreated && resultsReady && dateTime && !resultsSaved) {
-         DatabaseResults.transaction(
-            (tx) => {
-               tx.executeSql(
-                  'insert into results (type, language, level, accuracy, q_total, points, maxpoints, percentage, datetime) values (?, ?, ?, ?, ?, ?, ?, ?, ?);',
-                  [
-                     2,
-                     props.language,
-                     props.level,
-                     resultsData.amountCorrectAnswers,
-                     resultsData.maxQuestions,
-                     resultsData.totalPoints,
-                     resultsData.maxPoints,
-                     resultsData.totalPercentage,
-                     dateTime,
-                  ]
-               );
-            },
-            (error) => {
-               console.log('Transaction error: ', error);
-            },
-            null,
-            updateList
-         );
-         setResultsSaved(true);
-         updateList();
-      }
-   }, [resultsReady, dateTime, tableCreated]); */
-
    useEffect(() => {
       if (tableCreated && resultsReady && dateTime && !resultsSaved) {
          saveResultsAsync()
-        /*  DatabaseResults.transaction(
-            (tx) => {
-               tx.executeSql(
-                  'insert into results (type, language, level, accuracy, q_total, points, maxpoints, percentage, datetime) values (?, ?, ?, ?, ?, ?, ?, ?, ?);',
-                  [
-                     2,
-                     props.language,
-                     props.level,
-                     resultsData.amountCorrectAnswers,
-                     resultsData.maxQuestions,
-                     resultsData.totalPoints,
-                     resultsData.maxPoints,
-                     resultsData.totalPercentage,
-                     dateTime,
-                  ]
-               );
-            },
-            (error) => {
-               console.log('Transaction error: ', error);
-            },
-            null,
-            null
-         ); */
          setResultsSaved(true);
-/*        const results = getResults();
-         console.log('Results: ', results);
-         props.dispatch(updateResults(results)); */
       }
    }, [resultsReady, dateTime, tableCreated]);
 
@@ -310,70 +234,6 @@ const FormsScreen = (props) => {
       }
    }, [finished]);
 
-   const prepareAnswerGerman = (answer) => {
-      // The function prepares the given answers for accuracy check using several string operations
-      let preparedAnswer = '';
-      let stringArray = answer
-         .trim()
-         .replace('/', '')
-         // Replace German sharp S with the string '1'
-         .replace(/\u00df/g, '1')
-         .toUpperCase()
-         .toLowerCase()
-         .split(' ');
-      console.log('stringArray: ', stringArray);
-      let withoutPronounsArray = stringArray.filter(
-         (word) =>
-            word !== 'er' &&
-            word !== 'sie' &&
-            word !== 'es' &&
-            word !== 'er/sie' &&
-            word !== 'er/sie/es'
-      );
-      console.log('WithoutPronounsArray: ', withoutPronounsArray)
-      // Replace string '1' with German sharp S
-      for (let i = 0; i < withoutPronounsArray.length; i++) {
-         preparedAnswer += ' ' + withoutPronounsArray[i].replace('1', '\u00df');
-      }
-      console.log('PreparedAnswer: ', preparedAnswer)
-      return preparedAnswer.trim();
-   };
-
-   const prepareAnswerSwedish = (answer) => {
-      // The function prepares the given answers for accuracy check using several string operations
-      let preparedAnswer = '';
-      let stringArray = answer
-         .trim()
-         .toUpperCase()
-         .toLowerCase()
-         .split(' ');
-      for (let i = 0; i < stringArray.length; i++) {
-         preparedAnswer += ' ' + stringArray[i];
-         console.log('preparedAnswer from prepareAnswerSwedish: ', preparedAnswer);
-      }
-      return preparedAnswer.trim();
-   };
-
-   const checkAnswerStrings = (preparedAnswer, correct, correctAlt) => {
-      // The function checks if the prepared answer matches with the correct answer and returns true if they match
-      // Check if the correct answer is an array (i.e. if it has synonymous forms)
-      if (Array.isArray(correct)) {
-         for (let i = 0; i < correct.length; i++) {
-            if (preparedAnswer && preparedAnswer === correct[i].replace('/', '')) {
-               return true;
-            }
-/*             if (preparedAnswer && preparedAnswer === correctAlt[i].replace('/', '')) {
-               return true;
-            } */
-         }
-      } else if (!Array.isArray(correct) && preparedAnswer === correct) {
-         return true;
-      }
-      if (correctAlt && correctAlt.length > 0 && preparedAnswer === correctAlt) {
-         return true;
-      }
-   };
-
    const evaluate = (answer, correct, correctAlt, tense, index) => {
       // This function is responsible for setting the points state and setting the state for focusing in CardComponentForms.js
       let preparedAnswer;
@@ -438,7 +298,6 @@ const FormsScreen = (props) => {
                   resultsReady &&
                   resultsData &&
                   resultsSaved && (
-                  //resultHistory && (
                      <>
                         <ResultView
                            resultsData={resultsData}
