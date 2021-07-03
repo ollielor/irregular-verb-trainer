@@ -41,6 +41,7 @@ import CardComponentForms from '../components/cards/CardComponentForms';
 import ButtonComponent from '../components/buttons/ButtonComponent';
 import LatestResults from '../components/results/LatestResults';
 import SpinnerComponent from '../components/styling/SpinnerComponent';
+import { set } from 'react-native-reanimated';
 
 const FormsScreen = (props) => {
    const [verbs, setVerbs] = useState([]);
@@ -60,6 +61,8 @@ const FormsScreen = (props) => {
    const [formsSelected, setFormsSelected] = useState(false);
    const [tableCreated, setTableCreated] = useState(false);
    const [resultsSaved, setResultsSaved] = useState(false);
+   const [correctAns, setCorrectAns] = useState({});
+   const [attempts, setAttempts] = useState(0);
 
    const navigation = useNavigation();
 
@@ -251,8 +254,12 @@ const FormsScreen = (props) => {
       }
       console.log('CorrectModified: ', correctModified)
       // CheckAnswerStrings function is called and points are given if it returns true
+      console.log('checkAnswerStrings: ', checkAnswerStrings(preparedAnswer, correctModified, correctAltModified))
       if (checkAnswerStrings(preparedAnswer, correctModified, correctAltModified)) {
-         setPoints(points + 10);
+         setAttempts(attempts + 1);
+         if (attempts <= 1) {
+            setPoints(points + 10);
+         }
          // Focus to next component if the user has given a correct answer to the last field of the component
          const lastForm = tenseNames[tenseNames.length - 1];
          if (lastForm === tense && index <= 4) {
@@ -260,9 +267,7 @@ const FormsScreen = (props) => {
          }
          return true;
       } else {
-         setTimeout(() => {
-            return false;
-         }, 2000);
+         return false;
       }
    };
 
@@ -343,6 +348,7 @@ const FormsScreen = (props) => {
                               tenseNames={tenseNames}
                               answeredIndex={answeredIndex}
                               started={started}
+                              correctAns={correctAns}
                            />
                         ))
                      ) : (
@@ -356,6 +362,7 @@ const FormsScreen = (props) => {
                            tenseNames={tenseNames}
                            answeredIndex={answeredIndex}
                            started={started}
+                           correctAns={correctAns}
                         />
                      )
                   )

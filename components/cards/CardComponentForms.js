@@ -24,6 +24,8 @@ const CardComponentForms = (props) => {
       past: [],
       presPerf: [],
    });
+   const [evaluated, setEvaluated] = useState(0);
+   const [correctAnsInfinitive, setCorrectAnsInfinitive] = useState('');
 
    useEffect(() => {
       return () => {};
@@ -89,24 +91,34 @@ const CardComponentForms = (props) => {
    // Inputs are styled according to these states
 
    useEffect(() => {
+      checkAnswer();
+   }, [answerInfinitive]);
+   
+
+   const checkAnswer = () => {
       if (answerInfinitive.length > 0) {
          setUnansweredInfinitive(false);
       }
       if (
-         props.evaluate(
-            answerInfinitive,
-            props.synonyms && synonymousForms
-               ? synonymousForms.infinitive
-               : props.verbForm.infinitive,
-            // This is null because the infinitive can't have alternative forms
-            null,
-            'infinitive',
-            props.index
-         )
-      ) {
-         setCorrectInfinitive(true);
-      }
-   }, [props.synonyms, synonymousForms, answerInfinitive]);
+            props.evaluate(
+               answerInfinitive,
+               props.synonyms && synonymousForms
+                  ? synonymousForms.infinitive
+                  : props.verbForm.infinitive,
+               // This is null because the infinitive can't have alternative forms
+               null,
+               'infinitive',
+               props.index
+            ) 
+         ) {
+            setCorrectInfinitive(true);
+         } else {
+            setCorrectInfinitive(false);
+         }
+
+}
+
+
 
    useEffect(() => {
       if (answerPresent.length > 0) {
@@ -373,6 +385,8 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(CardComponentForms);
+
+
 
 const styles = StyleSheet.create({
    formInput: {

@@ -50,11 +50,12 @@ export const checkAnswerStrings = (preparedAnswer, correct, correctAlt) => {
          if (preparedAnswer && preparedAnswer === correct[i].replace('/', '')) {
             return true;
          }
+      }
 /*             if (preparedAnswer && preparedAnswer === correctAlt[i].replace('/', '')) {
             return true;
          } */
-      }
-   } else if (!Array.isArray(correct) && preparedAnswer === correct) {
+   }
+   if (!Array.isArray(correct) && preparedAnswer === correct) {
       return true;
    }
    if (correctAlt && correctAlt.length > 0 && preparedAnswer === correctAlt) {
