@@ -91,8 +91,8 @@ const CardComponentForms = (props) => {
    // Inputs are styled according to these states
 
    useEffect(() => {
-      checkAnswer();
-   }, [answerInfinitive]);
+         checkAnswer();
+   }, [props.synonyms, synonymousForms, answerInfinitive]);
    
 
    const checkAnswer = () => {
@@ -112,10 +112,15 @@ const CardComponentForms = (props) => {
             ) 
          ) {
             setCorrectInfinitive(true);
+            setCorrectAnsInfinitive(answerInfinitive);
+            props.calcPoints(10);
          } else {
             setCorrectInfinitive(false);
          }
-
+         if (correctInfinitive && answerInfinitive.length > correctAnsInfinitive.length) {
+            setCorrectInfinitive(false);
+            props.calcPoints(-10);
+         }
 }
 
 

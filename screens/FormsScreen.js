@@ -235,6 +235,10 @@ const FormsScreen = (props) => {
       }
    }, [finished]);
 
+   const calcPoints = (amount) => {
+      setPoints(points + amount);
+   }
+
    const evaluate = (answer, correct, correctAlt, tense, index) => {
       // This function is responsible for setting the points state and setting the state for focusing in CardComponentForms.js
       let preparedAnswer;
@@ -256,10 +260,6 @@ const FormsScreen = (props) => {
       // CheckAnswerStrings function is called and points are given if it returns true
       console.log('checkAnswerStrings: ', checkAnswerStrings(preparedAnswer, correctModified, correctAltModified))
       if (checkAnswerStrings(preparedAnswer, correctModified, correctAltModified)) {
-         setAttempts(attempts + 1);
-         if (attempts <= 1) {
-            setPoints(points + 10);
-         }
          // Focus to next component if the user has given a correct answer to the last field of the component
          const lastForm = tenseNames[tenseNames.length - 1];
          if (lastForm === tense && index <= 4) {
@@ -349,6 +349,7 @@ const FormsScreen = (props) => {
                               answeredIndex={answeredIndex}
                               started={started}
                               correctAns={correctAns}
+                              calcPoints={calcPoints}
                            />
                         ))
                      ) : (
@@ -363,6 +364,7 @@ const FormsScreen = (props) => {
                            answeredIndex={answeredIndex}
                            started={started}
                            correctAns={correctAns}
+                           calcPoints={calcPoints}
                         />
                      )
                   )
