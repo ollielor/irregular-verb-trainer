@@ -23,9 +23,9 @@ import {
 
 import {
    calcEstimatedAccomplishTime,
-   calcTotalPoints,
+   calcTotalPointsForms,
    calcTotalPercentage,
-   calcAmountCorrectAnswers 
+   calcAmountCorrectAnswersForms 
 } from '../helpers/points';
 
 import { 
@@ -54,13 +54,10 @@ const FormsScreen = (props) => {
    const [counterState, setCounterState] = useState(null);
    const [started, setStarted] = useState(true);
    const [tenseNames, setTenseNames] = useState([]);
-   //const [resultHistory, setResultHistory] = useState([]);
-   //const [resultsLoaded, setResultsLoaded] = useState(false);
    const [dateTime, setDateTime] = useState(null);
    const [answeredIndex, setAnsweredIndex] = useState(0);
    const [resultsReady, setResultsReady] = useState(false);
    const [formsSelected, setFormsSelected] = useState(false);
-   //const [formsSelectedArray, setFormsSelectedArray] = useState([]);
    const [tableCreated, setTableCreated] = useState(false);
    const [resultsSaved, setResultsSaved] = useState(false);
 
@@ -68,6 +65,7 @@ const FormsScreen = (props) => {
 
    console.log(props);
 
+   // This useEffect creates the result database
    useEffect(() => {
       createResultsDb();
       setTableCreated(true);
@@ -221,13 +219,13 @@ const FormsScreen = (props) => {
       if (finished) {
          // The points calculation functions are located in /helpers/points.js
          const estimatedAccomplishTime = calcEstimatedAccomplishTime(maxPoints);
-         const totalPoints = calcTotalPoints(counterState, estimatedAccomplishTime, points, maxPoints);
+         const totalPoints = calcTotalPointsForms(counterState, estimatedAccomplishTime, points, maxPoints);
          setResultsData({
             totalPoints: totalPoints,
             maxPoints: maxPoints,
             maxQuestions: maxQuestions,
             totalPercentage: calcTotalPercentage(totalPoints, maxPoints),
-            amountCorrectAnswers: calcAmountCorrectAnswers(points),
+            amountCorrectAnswers: calcAmountCorrectAnswersForms(points),
          });
          setDateTime(getCurrentDate());
          setResultsReady(true);

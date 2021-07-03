@@ -12,6 +12,13 @@ import {
    filterVerbsByLevel,
 } from '../helpers/helpers';
 
+import {
+   calcTotalPercentage,
+   calcAmountCorrectAnswersMeanings,
+   calcAccuracyPercentage,
+   calcTotalPointsMeanings
+} from '../helpers/points';
+
 import { updateResults } from '../store/actions/results';
 
 import FooterComponent from '../components/footer/FooterComponent';
@@ -36,7 +43,7 @@ const MeaningsScreen = (props) => {
    const [results, setResults] = useState({});
    const [counterState, setCounterState] = useState(null);
    const [started, setStarted] = useState(true);
-   const [resultHistory, setResultHistory] = useState([]);
+   //const [resultHistory, setResultHistory] = useState([]);
    const [resultsReady, setResultsReady] = useState(false);
    const [resultsSaved, setResultsSaved] = useState(false);
    const [dateTime, setDateTime] = useState(null);
@@ -120,33 +127,6 @@ const MeaningsScreen = (props) => {
          saveResultsAsync();
          setResultsSaved(true);
       }
-   
-/*       if (tableCreated && resultsReady && dateTime && !resultsSaved) {
-         DatabaseResults.transaction(
-            (tx) => {
-               tx.executeSql(
-                  'insert into results (type, language, level, accuracy, q_total, points, maxpoints, percentage, datetime) values (?, ?, ?, ?, ?, ?, ?, ?, ?);',
-                  [
-                     1,
-                     props.language,
-                     props.level,
-                     results.amountCorrectAnswers,
-                     answered.length,
-                     results.totalPoints,
-                     results.maxPoints,
-                     results.totalPercentage,
-                     dateTime,
-                  ]
-               );
-               setResultsSaved(true);
-            },
-            (error) => {
-               console.log('Transaction error: ', error);
-            },
-            null,
-            null
-         );
-      } */
    }, [resultsReady, dateTime, tableCreated]);
 
    const saveResultsAsync = async () => {
@@ -209,30 +189,13 @@ const MeaningsScreen = (props) => {
 
    useEffect(() => {
       if (finished) {
-         // Sum of correct answers
-         let correctAnswers = answered.filter(
-            (answer) => answer.accuracy === 'correct'
-         );
-         let totalPoints;
-         // Accuracy percentage, i.e. points amount divided by max points
-         let accuracyPercentage = (points / maxPoints) * 100.0;
-         // If time elapsed is less than 10 seconds and accuracy is at least 80 %, extra points are given
-         if (counterState < 10 && accuracyPercentage >= 80) {
-            totalPoints = (points + counterState * 0.1) * 1.0;
-            // If time elapsed is greater than 30, minus points are given
-         } else if (counterState >= 30) {
-            totalPoints = (points - counterState * 0.1) * 1.0;
-            // If time elapsed is average (not under 10 seconds or over 30 seconds), no bonus or minus points are given
-         } else {
-            totalPoints = points * 1.0;
-         }
-         // Points with bonus points or without them are divided by max points
-         let totalPercentage = (totalPoints / maxPoints) * 100.0;
+         let accuracyPercentage = calcAccuracyPercentage(points, maxPoints);
+         let totalPoints = calcTotalPointsMeanings(counterState, accuracyPercentage, points);
          setResults({
-            totalPoints: totalPoints,
+            totalPoints: calcTotalPointsMeanings(counterState, accuracyPercentage, points),
             maxPoints: maxPoints,
-            totalPercentage: totalPercentage,
-            amountCorrectAnswers: correctAnswers.length,
+            totalPercentage: calcTotalPercentage(totalPoints, maxPoints),
+            amountCorrectAnswers: calcAmountCorrectAnswersMeanings(answered),
             totalAnswered: answered.length,
          });
          setDateTime(getCurrentDate());
