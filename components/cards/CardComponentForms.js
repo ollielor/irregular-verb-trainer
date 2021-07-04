@@ -5,6 +5,10 @@ import CorrectAnswerComponent from '../styling/CorrectAnswerComponent';
 import { connect } from 'react-redux';
 import InputComponentForms from '../forms/InputComponentForms';
 
+import {
+   getSynonymousForms
+} from '../helpers/formsHandling';
+
 const CardComponentForms = (props) => {
    const [correctInfinitive, setCorrectInfinitive] = useState(false);
    const [correctPresent, setCorrectPresent] = useState(false);
@@ -26,31 +30,14 @@ const CardComponentForms = (props) => {
    });
    const [correctAnsInfinitive, setCorrectAnsInfinitive] = useState('');
 
+   // useEffect cleanup
    useEffect(() => {
       return () => {};
    }, []);
 
    useEffect(() => {
       // Create arrays of synonymous forms for each tense
-      if (props.synonyms) {
-         const infinitiveSynonyms = props.verbForm.map(
-            (verbForm) => verbForm.infinitive
-         );
-         const presentSynonyms = props.verbForm.map(
-            (verbForm) => verbForm.present
-         );
-         const pastSynonyms = props.verbForm.map((verbForm) => verbForm.past);
-         const presPerfSynonyms = props.verbForm.map(
-            (verbForm) => verbForm.presperf
-         );
-         setSynonymousForms({
-            infinitive: infinitiveSynonyms,
-            present: presentSynonyms,
-            past: pastSynonyms,
-            presPerf: presPerfSynonyms,
-         });
-      }
-      console.log('props.verbForm: ', props.verbForm)
+      setSynonymousForms(getSynonymousForms(props.synonyms, props.verbForms));
    }, []);
 
    useEffect(() => {

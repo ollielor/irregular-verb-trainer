@@ -34,6 +34,10 @@ import {
    saveResults 
 } from '../helpers/results';
 
+import {
+   getSynonymousForms
+} from '../helpers/formsHandling';
+
 import FooterComponent from '../components/footer/FooterComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
 import ResultView from '../components/results/ResultView';
@@ -41,7 +45,6 @@ import CardComponentForms from '../components/cards/CardComponentForms';
 import ButtonComponent from '../components/buttons/ButtonComponent';
 import LatestResults from '../components/results/LatestResults';
 import SpinnerComponent from '../components/styling/SpinnerComponent';
-import { set } from 'react-native-reanimated';
 
 const FormsScreen = (props) => {
    const [verbs, setVerbs] = useState([]);
