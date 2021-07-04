@@ -25,7 +25,8 @@ import {
    calcEstimatedAccomplishTime,
    calcTotalPointsForms,
    calcTotalPercentage,
-   calcAmountCorrectAnswersForms 
+   calcAmountCorrectAnswersForms,
+   calcPoints 
 } from '../helpers/points';
 
 import { 
@@ -33,10 +34,6 @@ import {
    createResultsDb, 
    saveResults 
 } from '../helpers/results';
-
-import {
-   getSynonymousForms
-} from '../helpers/formsHandling';
 
 import FooterComponent from '../components/footer/FooterComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
@@ -238,10 +235,6 @@ const FormsScreen = (props) => {
       }
    }, [finished]);
 
-   const calcPoints = (amount) => {
-      setPoints(points + amount);
-   }
-
    const evaluate = (answer, correct, correctAlt, tense, index) => {
       // This function is responsible for setting the points state and setting the state for focusing in CardComponentForms.js
       let preparedAnswer;
@@ -352,6 +345,8 @@ const FormsScreen = (props) => {
                               answeredIndex={answeredIndex}
                               started={started}
                               correctAns={correctAns}
+                              points={points}
+                              setPoints={setPoints}
                               calcPoints={calcPoints}
                            />
                         ))
@@ -367,6 +362,8 @@ const FormsScreen = (props) => {
                            answeredIndex={answeredIndex}
                            started={started}
                            correctAns={correctAns}
+                           points={points}
+                           setPoints={setPoints}
                            calcPoints={calcPoints}
                         />
                      )

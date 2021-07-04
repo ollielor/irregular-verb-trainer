@@ -7,7 +7,11 @@ import InputComponentForms from '../forms/InputComponentForms';
 
 import {
    getSynonymousForms
-} from '../helpers/formsHandling';
+} from '../../helpers/formsHandling';
+
+import {
+   calcPoints
+} from '../../helpers/points';
 
 const CardComponentForms = (props) => {
    const [correctInfinitive, setCorrectInfinitive] = useState(false);
@@ -37,7 +41,7 @@ const CardComponentForms = (props) => {
 
    useEffect(() => {
       // Create arrays of synonymous forms for each tense
-      setSynonymousForms(getSynonymousForms(props.synonyms, props.verbForms));
+      setSynonymousForms(getSynonymousForms(props.synonyms, props.verbForm));
    }, []);
 
    useEffect(() => {
@@ -55,6 +59,7 @@ const CardComponentForms = (props) => {
       }
    }, [props.answeredIndex, props.index, props.tenseNames]);
 
+   // This useEffect is responsible for clearing the inputs and resetting unanswered and correct states
    useEffect(() => {
       if (props.started) {
          props.infinitive && inputRef1.current.clear();
@@ -99,13 +104,13 @@ const CardComponentForms = (props) => {
          ) {
             setCorrectInfinitive(true);
             setCorrectAnsInfinitive(answerInfinitive);
-            props.calcPoints(10);
+            props.setPoints(calcPoints(props.points, 10));
          } else {
             setCorrectInfinitive(false);
          }
          if (correctInfinitive && answerInfinitive !== correctAnsInfinitive) {
             setCorrectInfinitive(false);
-            props.calcPoints(-10);
+            props.setPoints(calcPoints(props.points, -10));
          }
 }
 
@@ -191,6 +196,7 @@ const CardComponentForms = (props) => {
                            ? props.verbForm[0].meaning
                            : props.verbForm.meaning}
                      </Text>
+                     {props.tenseNames.map(tense => console.log('Tense: ', tense))}
                      {props.infinitive && (
                         <>
                            {

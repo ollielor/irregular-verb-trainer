@@ -47,3 +47,9 @@ export const calcTotalPointsMeanings = (counterState, accuracyPercentage, points
       return points * 1.0;
    }
 };
+
+// This function is responsible for calculating the points in Forms mode
+export const calcPoints = (points, amount) => {
+   return points + amount;
+}
+
