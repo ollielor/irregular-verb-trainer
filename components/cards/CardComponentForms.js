@@ -24,7 +24,6 @@ const CardComponentForms = (props) => {
       past: [],
       presPerf: [],
    });
-   const [evaluated, setEvaluated] = useState(0);
    const [correctAnsInfinitive, setCorrectAnsInfinitive] = useState('');
 
    useEffect(() => {
@@ -117,7 +116,7 @@ const CardComponentForms = (props) => {
          } else {
             setCorrectInfinitive(false);
          }
-         if (correctInfinitive && answerInfinitive.length > correctAnsInfinitive.length) {
+         if (correctInfinitive && answerInfinitive !== correctAnsInfinitive) {
             setCorrectInfinitive(false);
             props.calcPoints(-10);
          }

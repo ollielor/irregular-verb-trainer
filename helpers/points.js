@@ -3,14 +3,14 @@ export const calcEstimatedAccomplishTime = (maxPoints) => {
    return 1.2 * maxPoints;
 }
 
-// This function calculates the total points, the potential bonus points included
+// This function calculates the total points (Forms mode), the potential bonus points included
 export const calcTotalPointsForms = (counterState, estimatedAccomplishTime, points, maxPoints) => {
    if (counterState <= estimatedAccomplishTime && points === maxPoints) {
       return points + counterState * 0.05;
    } else if (points === 0) {
       return points * 1.0;
    } else {
-      return (points - counterState * 0.1) * 1.0;
+      return (points - counterState * 0.05) * 1.0;
    }
 };
 
