@@ -340,7 +340,7 @@ const FormsScreen = (props) => {
                               synonyms={false}
                               evaluate={evaluate}
                               finished={finished}
-                              index={index}
+                              componentIndex={index}
                               tenseNames={tenseNames}
                               answeredIndex={answeredIndex}
                               started={started}
@@ -357,7 +357,7 @@ const FormsScreen = (props) => {
                            synonyms={true}
                            evaluate={evaluate}
                            finished={finished}
-                           index={index}
+                           componentIndex={index}
                            tenseNames={tenseNames}
                            answeredIndex={answeredIndex}
                            started={started}
