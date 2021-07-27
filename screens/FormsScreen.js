@@ -362,9 +362,8 @@ const FormsScreen = (props) => {
                            answeredIndex={answeredIndex}
                            started={started}
                            correctAns={correctAns}
-                           points={points}
                            setPoints={setPoints}
-                           calcPoints={calcPoints}
+                           points={points}
                         />
                      )
                   )

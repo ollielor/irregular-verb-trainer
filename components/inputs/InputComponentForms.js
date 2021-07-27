@@ -1,16 +1,30 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Text, TextInput, StyleSheet, Platform } from 'react-native';
 
-const InputComponentForms = React.forwardRef((props, ref) => {
+import { connect } from 'react-redux';
+
+const InputComponentForms = forwardRef((props, ref) => {
 
    console.log('Props from InputComponentForms: ', props)
 
-
-
+/*    const focusOnNextInput = (index) => {
+      ref.current.focus();
+   }
+ */
    return (
       <>
-         <Text style={styles.label}>{props.label}</Text>
+         <Text style={styles.label}>
+            {props.componentIndex}
+            {
+               props.tense === 'infinitive' ? 'Perusmuoto' :
+               props.tense === 'present' ? 'Preesens' :
+               props.tense === 'past' ? 'Imperfekti' :
+               props.tense === 'presperf' && props.language === 1 ? 'Supiini (4. muoto)' :
+               props.tense === 'presperf' && props.language === 2 && 'Perfekti'
+            }
+         </Text>
          <TextInput
+            //autoFocus={props.currentComponentIndex === props.componentIndex ? true : false}
             style={
                props.correct && Platform.OS === 'ios'
                   ? styles.formInputCorrectIOS
@@ -22,11 +36,31 @@ const InputComponentForms = React.forwardRef((props, ref) => {
                   ? styles.formInputIOS
                   : styles.formInput
             }
-            ref={ref}
-            onBlur={props.onBlur}
+/*             onBlur={
+               props.correct && props.tense === 'infinitive' ? props.focusOnNextInput(2) :
+               props.correct && props.tense === 'present' ? props.focusOnNextInput(3) :
+               props.correct && props.tense === 'past' ? props.focusOnNextInput(4) :
+               props.correct && props.tense === 'presperf' && props.focusOnNextInput(1)
+            } */
+            //onBlur={}
+/*             onBlur={
+               props.correct && props.tense === 'infinitive' ?
+               ref.current.focus() :
+               props.correct && props.tense === 'present' ? 
+               ref.current.focus() :
+               props.correct && props.tense === 'past' &&
+               ref.current.focus()
+            } */
             placeholder={props.placeholder}
+/*             onChangeText={
+               props.tense === 'infinitive' ? (answer) => props.setAnswerInfinitive(answer) :
+               props.tense === 'present' ? (answer) => props.setAnswerPresent(answer) :
+               props.tense === 'past' ? (answer) => props.setAnswerPast(answer) :
+               props.tense === 'presperf' ? (answer) => props.setAnswerPresPerf(answer) :
+               ''
+            } */
             onChangeText={props.onChangeText}
-            editable={props.editable}
+            editable={props.correct ? false : true}
             autoCapitalize="none"
             autoCorrect={false}
             keyboardType={
@@ -42,13 +76,18 @@ const InputComponentForms = React.forwardRef((props, ref) => {
                   ? '#ff0033'
                   : '#7E00C5'
             }
-            value={props.value}
+            //value={props.value}
+            blurOnSubmit={props.blurOnSubmit}
          />
       </>
    );
 });
 
-export default InputComponentForms;
+const mapStateToProps = (state) => ({
+   language: state.settings.language
+});
+
+export default connect(mapStateToProps, null, null, { forwardRef: true })(InputComponentForms);
 
 const styles = StyleSheet.create({
    label: {

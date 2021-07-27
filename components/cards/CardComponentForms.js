@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useRef, createRef } from 'react';
+import React, { useEffect, useState, useRef, createRef, forwardRef } from 'react';
 import { StyleSheet } from 'react-native';
 import { Body, Card, CardItem, Spinner, Text } from 'native-base';
 import CorrectAnswerComponent from '../styling/CorrectAnswerComponent';
 import { connect } from 'react-redux';
 import InputComponentForms from '../inputs/InputComponentForms';
-import InputComponentFormsImproved from '../inputs/InputComponentFormsImproved';
 
 import {
    getSynonymousForms
@@ -14,7 +13,7 @@ import {
    calcPoints
 } from '../../helpers/points';
 
-const CardComponentForms = (props) => {
+const CardComponentForms = forwardRef((props, ref) => {
 
    console.log('props from CardComponentForms: ', props)
 
@@ -40,6 +39,7 @@ const CardComponentForms = (props) => {
    const [correctAnsPresent, setCorrectAnsPresent] = useState('');
    const [correctAnsPast, setCorrectAnsPast] = useState('');
    const [correctAnsPresPerf, setCorrectAnsPresPerf] = useState('');
+   const [currentComponentIndex, setCurrentComponentIndex] = useState(0);
 
 /*    const tenseNamesWithRefs = props.tenseNames.map((tense, index) => ({
       id: index,
@@ -47,7 +47,9 @@ const CardComponentForms = (props) => {
       ref: ''
    })) */
 
-
+   const refs = useRef([]);
+   refs.current = props.tenseNames.map((el, index) => refs.current[index] ?? createRef());
+   console.log('refs from CardComponentForms: ', refs);
 
    // useEffect cleanup
    useEffect(() => {
@@ -55,16 +57,20 @@ const CardComponentForms = (props) => {
    }, []);
 
    useEffect(() => {
-      if (inputRef1.current) {
-         inputRef1.current.focus();
-      } else if (inputRef2.current) {
-         inputRef2.current.focus();
-      } else if (inputRef3.current) {
-         inputRef3.current.focus()
-      } else {
-         inputRef4.current.focus();
-      }
+      setCurrentComponentIndex(1);
    }, [])
+
+   //useEffect(() => {
+      //if (inputRef1.current) {
+         //inputRef1.current.focus();
+      /* else if (props.componentIndex === 1 && inputRef2.current) {
+         inputRef2.current.focus();
+      } else if (props.componentIndex === 1 && inputRef3.current) {
+         inputRef3.current.focus()
+      } else if (props.componentIndex === 1 && inputRef4.current) {
+         inputRef4.current.focus();
+      } */
+   //}, [currentComponentIndex])
 
 /*    for (let i=0; i <= 4; i++) {
       for (let y=1; y <= 4; y++) {
@@ -116,9 +122,9 @@ const CardComponentForms = (props) => {
    useEffect(() => {
       // Create arrays of synonymous forms for each tense
       setSynonymousForms(getSynonymousForms(props.synonyms, props.verbForm));
-   }, []);
+   }, [props.synonyms, props.verbForm]);
 
-   useEffect(() => {
+/*    useEffect(() => {
       // Focus on the first input of each card element
       if (props.answeredIndex === props.index) {
          inputRef1.current && props.tenseNames[0] === 'infinitive'
@@ -131,15 +137,16 @@ const CardComponentForms = (props) => {
               props.tenseNames[0] === 'presperf' &&
               inputRef4.current.focus();
       }
-   }, [props.answeredIndex, props.index, props.tenseNames]);
+   }, [props.answeredIndex, props.index, props.tenseNames]); */
 
   
    const focusOnNextInput = (next) => {
+      console.log('focusOnNextInput')
       /* console.log('tenseNamesWithRefs[1]: ', tenseNamesWithRefs[1]);
       console.log('tenseNamesWithRefs from focusOnNextInput: ', tenseNamesWithRefs)
       console.log('Refs from focusOnNextInput: ', refs)
       refs[1].focus(); */
-      switch (next) {
+/*       switch (next) {
          case 2:
             if (inputRef2.current) {
                inputRef2.current.focus();
@@ -159,8 +166,8 @@ const CardComponentForms = (props) => {
          case 4:
             inputRef4.current.focus();
             break;
-      }
-   }
+      }*/
+   } 
 
             // Focus on the first input of each card element
 /*             if (prevIndex === 1 && inputRef2.current) {
@@ -305,25 +312,27 @@ const CardComponentForms = (props) => {
    }
    
 
-   const checkAnswer = (tense) => {
-      if (tense === 'infinitive' && answerInfinitive.length > 0) {
+   const checkAnswer = (answer, tense) => {
+      console.log('Answer from checkAnswer: ', answer);
+      console.log('Tense from checkAnswer: ', tense);
+      if (tense === 'infinitive' && answer.length > 0) {
          setUnansweredInfinitive(false);
       }
-      if (tense === 'present' && answerPresent.length > 0) {
-         setUnansweredInfinitive(false);
+      if (tense === 'present' && answer.length > 0) {
+         setUnansweredPresent(false);
       }
-      if (tense === 'past' && answerPast.length > 0) {
-         setUnansweredInfinitive(false);
+      if (tense === 'past' && answer.length > 0) {
+         setUnansweredPast(false);
       }
-      if (tense === 'presperf' && answerPresPerf.length > 0) {
-         setUnansweredInfinitive(false);
+      if (tense === 'presperf' && answer.length > 0) {
+         setUnansweredPresPerf(false);
       }
       if (
          props.evaluate(
-            getParameters(tense).answerState,
+            answer,
             getParameters(tense).synonyms,
             getParameters(tense).alternativeForm,
-            getParameters(tense).tense,
+            tense,
             getParameters(tense).index
          ) 
 /*             props.evaluate(
@@ -337,66 +346,89 @@ const CardComponentForms = (props) => {
                props.index
             )  */
          ) {
+            answerStates(answer, tense);
             correctAnswerStates(tense);
             props.setPoints(calcPoints(props.points, 10));
          } else {
-            checkIncorrect(tense);
+            checkIncorrect(answer, tense);
          }
 
+   }
+
+   const answerStates = (answer, tense) => {
+      switch (tense) {
+         case 'infinitive':
+            setAnswerInfinitive(answer);
+            //setCorrectAnsInfinitive(answerInfinitive);
+            break;
+         case 'present':
+            setAnswerPresent(answer);
+            //setCorrectAnsPresent(answerPresent);
+            break;
+         case 'past':
+            setAnswerPast(answer);
+            //setCorrectAnsPast(answerPresent);
+            break;
+         case 'presperf':
+            setAnswerPresPerf(answer);
+            //setCorrectAnsPresPerf(answerPresent);
+            break;
+      }
    }
 
    const correctAnswerStates = (tense) => {
       switch (tense) {
          case 'infinitive':
             setCorrectInfinitive(true);
-            setCorrectAnsInfinitive(answerInfinitive);
+            //setCorrectAnsInfinitive(answerInfinitive);
             break;
          case 'present':
             setCorrectPresent(true);
-            setCorrectAnsPresent(answerPresent);
+            //setCorrectAnsPresent(answerPresent);
             break;
          case 'past':
             setCorrectPast(true);
-            setCorrectAnsPast(answerPresent);
+            //setCorrectAnsPast(answerPresent);
             break;
          case 'presperf':
             setCorrectPresPerf(true);
-            setCorrectAnsPresPerf(answerPresent);
+            //setCorrectAnsPresPerf(answerPresent);
             break;
       }
    }
 
-   const checkIncorrect = (tense) => {
-      switch (tense) {
-         case 'infinitive':
-            if (correctInfinitive && answerInfinitive !== correctAnsInfinitive) {
-               setCorrectInfinitive(false);
-               props.setPoints(calcPoints(props.points, -10));
-            }    
-            break;
-         case 'present':
-            if (correctPresent && answerPresent !== correctAnsPresent) {
-               setCorrectPresent(false);
-               props.setPoints(calcPoints(props.points, -10));
-            } 
-            break;
-         case 'present':
-            if (correctPast && answerPast !== correctAnsPast) {
-               setCorrectPast(false);
-               props.setPoints(calcPoints(props.points, -10));
-            }      
-            break; 
-         case 'presperf':
-            if (correctPresPerf && answerPresPerf !== correctAnsPresPerf) {
-               setCorrectPresPerf(false);
-               props.setPoints(calcPoints(props.points, -10));
-            } 
-            break;     
+      const checkIncorrect = (answer, tense) => {
+         switch (tense) {
+            case 'infinitive':
+               if (correctInfinitive && answerInfinitive !== answer) {
+                  setCorrectInfinitive(false);
+                  props.setPoints(calcPoints(props.points, -10));
+               }    
+               break;
+            case 'present':
+               if (correctPresent && answerPresent !== answer) {
+                  setCorrectPresent(false);
+                  props.setPoints(calcPoints(props.points, -10));
+               } 
+               break;
+            case 'past':
+               if (correctPast && answerPast !== answer) {
+                  setCorrectPast(false);
+                  props.setPoints(calcPoints(props.points, -10));
+               }      
+               break; 
+            case 'presperf':
+               if (correctPresPerf && answerPresPerf !== answer) {
+                  setCorrectPresPerf(false);
+                  props.setPoints(calcPoints(props.points, -10));
+               } 
+               break;     
+         }
+   
       }
 
-   }
 
-   useEffect(() => {
+   /*    useEffect(() => {
       checkAnswer('infinitive');
    }, [props.synonyms, synonymousForms, answerInfinitive]);
 
@@ -411,7 +443,7 @@ const CardComponentForms = (props) => {
 
    useEffect(() => {
       checkAnswer('presperf')
-   }, [props.synonyms, synonymousForms, answerPresPerf]);
+   }, [props.synonyms, synonymousForms, answerPresPerf]); */
 
 
 
@@ -456,40 +488,77 @@ const CardComponentForms = (props) => {
 {/*                      {wrapperArray.map((wrapperArrayItem, index) => 
                         console.log('wrapperArrayItem: ', wrapperArrayItem))} */}
                      {/* {props.tenseNames.map((tense, index) => */}
-                     {/* {tenseNamesWithRefs.map((tenseObject) => {console.log('tenseObject: ', tenseObject)})}
-                     {tenseNamesWithRefs.map((tenseObject, index) => */}
-                        <InputComponentFormsImproved 
+                     {/* {tenseNamesWithRefs.map((tenseObject) => {console.log('tenseObject: ', tenseObject)})}*/}
+                     {props.tenseNames.map((tense, index) => 
+                        <InputComponentForms 
+                           tense={tense}
+                           key={index}
+                           onChangeText={(answer) => checkAnswer(answer, tense)}
+                           correct={
+                              tense === 'infinitive' ? correctInfinitive :
+                              tense === 'present' ? correctPresent :
+                              tense === 'past' ? correctPast :
+                              tense === 'presperf' && correctPresPerf
+                           }
+                           unanswered={
+                              tense === 'infinitive' ? unansweredInfinitive :
+                              tense === 'present' ? unansweredPresent :
+                              tense === 'past' ? unansweredPast :
+                              tense === 'presperf' && unansweredPresPerf
+                           }
+                           focusOnNextInput={focusOnNextInput}
+                           forwardedRef={(r) => refs.current[index] = r}
+                           componentIndex={props.componentIndex}
+                           currentComponentIndex={currentComponentIndex}
+/*                            value={
+                              tense === 'infinitive' ? answerInfinitive :
+                              tense === 'present' ? answerPresent :
+                              tense === 'past' ? answerPast :
+                              tense === 'presperf' && answerPresPerf    
+                           } */
+                           blurOnSubmit={false}
+                           />
+                        )}
+                        {/* <InputComponentFormsImproved 
                            tense='infinitive'
                            setAnswerInfinitive={setAnswerInfinitive}
                            correct={correctInfinitive ? true : false}
                            unanswered={unansweredInfinitive ? true : false}
-                           forwardedRef={inputRef1}
                            focusOnNextInput={focusOnNextInput}
+                           forwardedRef={inputRef1}
+                           componentIndex={props.componentIndex}
+                           currentComponentIndex={currentComponentIndex}
                         />
                         <InputComponentFormsImproved 
                            tense='present'
                            setAnswerPresent={setAnswerPresent} 
                            correct={correctPresent ? true : false}
                            unanswered={unansweredPresent ? true : false}
-                           forwardedRef={inputRef2}
                            focusOnNextInput={focusOnNextInput}
+                           forwardedRef={inputRef2}
+                           componentIndex={props.componentIndex}
+                           currentComponentIndex={currentComponentIndex}
                         />
                         <InputComponentFormsImproved 
                            tense='past'
                            setAnswerPast={setAnswerPast} 
                            correct={correctPast ? true : false}
                            unanswered={unansweredPast ? true : false}
-                           forwardedRef={inputRef3}
                            focusOnNextInput={focusOnNextInput}
+                           forwardedRef={inputRef3}
+                           componentIndex={props.componentIndex}
+                           currentComponentIndex={currentComponentIndex}
                         />
                         <InputComponentFormsImproved 
                            tense='presperf'
                            setAnswerPresPerf={setAnswerPresPerf} 
                            correct={correctPresPerf ? true : false}
                            unanswered={unansweredPresPerf ? true : false}
-                           forwardedRef={inputRef4}
                            focusOnNextInput={focusOnNextInput}
-                        />
+                           forwardedRef={inputRef4}
+                           componentIndex={props.componentIndex}
+                           currentComponentIndex={currentComponentIndex}
+                        /> */}
                      {/* {props.infinitive && (
                         <>
                            {
@@ -665,7 +734,7 @@ const CardComponentForms = (props) => {
          )}
       </>
    );
-};
+});
 
 const mapStateToProps = (state) => ({
    infinitive: state.settings.tenses.infinitive,
