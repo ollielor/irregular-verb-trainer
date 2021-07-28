@@ -3,6 +3,8 @@ import { Text, TextInput, StyleSheet, Platform } from 'react-native';
 
 import { connect } from 'react-redux';
 
+import CorrectAnswerComponent from '../styling/CorrectAnswerComponent';
+
 const InputComponentForms = forwardRef((props, ref) => {
 
    console.log('Props from InputComponentForms: ', props)
@@ -14,14 +16,14 @@ const InputComponentForms = forwardRef((props, ref) => {
    return (
       <>
          <Text style={styles.label}>
-            {props.componentIndex}
-            {
+{/*             {
                props.tense === 'infinitive' ? 'Perusmuoto' :
                props.tense === 'present' ? 'Preesens' :
                props.tense === 'past' ? 'Imperfekti' :
                props.tense === 'presperf' && props.language === 1 ? 'Supiini (4. muoto)' :
                props.tense === 'presperf' && props.language === 2 && 'Perfekti'
-            }
+            } */}
+            {props.label}
          </Text>
          <TextInput
             //autoFocus={props.currentComponentIndex === props.componentIndex ? true : false}
@@ -61,7 +63,7 @@ const InputComponentForms = forwardRef((props, ref) => {
                ''
             } */
             onChangeText={props.onChangeText}
-            editable={props.correct ? false : true}
+            editable={props.correct || props.finished ? false : true}
             autoCapitalize="none"
             autoCorrect={false}
             keyboardType={
@@ -81,6 +83,19 @@ const InputComponentForms = forwardRef((props, ref) => {
             onBlur={props.onBlur}
             blurOnSubmit={props.blurOnSubmit}
          />
+         {props.finished && props.synonymousForms && !props.correct ?
+                              <CorrectAnswerComponent
+                                 form={props.synonymousForms[props.tense]}
+                                 synonyms={true}
+                              />
+                            : 
+         props.finished && !props.synonymousForms && !props.correct
+                                 &&
+                                 <CorrectAnswerComponent
+                                    form={props.verbForm[props.tense]}
+                                    synonyms={false}
+                                 />
+                           }
       </>
    );
 });

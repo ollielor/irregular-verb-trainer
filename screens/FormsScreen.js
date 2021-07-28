@@ -68,11 +68,16 @@ const FormsScreen = (props) => {
 
    console.log(props);
 
+/*    // This useEffect gets new verbs when the language settings are changed  
+   useEffect(() => {
+      setStartedAgain(true);
+   }, [props.language]); */
+
    // This useEffect creates the result database
    useEffect(() => {
       createResultsDb();
       setTableCreated(true);
-   }, [])
+   }, []);
 
    // useEffect cleanup
    useEffect(() => {
@@ -142,7 +147,7 @@ const FormsScreen = (props) => {
       setVerbs(filteredVerbs);
       console.log('filteredVerbs length: ', filteredVerbs.length)
       setVerbsFiltered(true);
-   }, [props.level, props.verbsSwedish, props.verbsGerman]);
+   }, [props.level, props.verbsSwedish, props.verbsGerman, props.language]);
 
    useEffect(() => {
       if (points >= maxPoints) {
@@ -156,7 +161,7 @@ const FormsScreen = (props) => {
          const rndVerbsFinal = getRndVerbsForForms(verbs, 5);
          setRandomizedVerbs(rndVerbsFinal);
       }
-   }, [verbsFiltered, verbs, started]);
+   }, [verbsFiltered, verbs, started, props.language]);
 
    useEffect(() => {
       if (tableCreated && resultsReady && dateTime && !resultsSaved) {
@@ -191,7 +196,7 @@ const FormsScreen = (props) => {
    useEffect(() => {
       updateResultsAsync();
    }, [resultsSaved]);
-
+   
    const startAgain = () => {
       setStarted(true);
       setFinished(false);
@@ -199,7 +204,8 @@ const FormsScreen = (props) => {
       setResultsData({});
       setResultsReady(false);
       setResultsSaved(false);
-   };
+      setCurrentComponentIndex(0);
+   }
 
    useEffect(() => {
       if (started) {
@@ -235,7 +241,7 @@ const FormsScreen = (props) => {
       }
    }, [finished]);
 
-   const evaluate = (answer, correct, correctAlt, tense, index) => {
+   const evaluate = (answer, correct, correctAlt) => {
       // This function is responsible for setting the points state and setting the state for focusing in CardComponentForms.js
       let preparedAnswer;
       if (props.language === 1) {
