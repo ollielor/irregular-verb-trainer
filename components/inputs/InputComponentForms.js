@@ -25,6 +25,7 @@ const InputComponentForms = forwardRef((props, ref) => {
          </Text>
          <TextInput
             //autoFocus={props.currentComponentIndex === props.componentIndex ? true : false}
+            ref={props.forwardedRef}
             style={
                props.correct && Platform.OS === 'ios'
                   ? styles.formInputCorrectIOS
@@ -77,6 +78,7 @@ const InputComponentForms = forwardRef((props, ref) => {
                   : '#7E00C5'
             }
             //value={props.value}
+            onBlur={props.onBlur}
             blurOnSubmit={props.blurOnSubmit}
          />
       </>

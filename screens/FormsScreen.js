@@ -62,7 +62,7 @@ const FormsScreen = (props) => {
    const [tableCreated, setTableCreated] = useState(false);
    const [resultsSaved, setResultsSaved] = useState(false);
    const [correctAns, setCorrectAns] = useState({});
-   const [attempts, setAttempts] = useState(0);
+   const [currentComponentIndex, setCurrentComponentIndex] = useState(0);
 
    const navigation = useNavigation();
 
@@ -257,10 +257,10 @@ const FormsScreen = (props) => {
       console.log('checkAnswerStrings: ', checkAnswerStrings(preparedAnswer, correctModified, correctAltModified))
       if (checkAnswerStrings(preparedAnswer, correctModified, correctAltModified)) {
          // Focus to next component if the user has given a correct answer to the last field of the component
-         const lastForm = tenseNames[tenseNames.length - 1];
+/*          const lastForm = tenseNames[tenseNames.length - 1];
          if (lastForm === tense && index <= 4) {
             setAnsweredIndex(index + 1);
-         }
+         } */
          return true;
       } else {
          return false;
@@ -348,6 +348,8 @@ const FormsScreen = (props) => {
                               points={points}
                               setPoints={setPoints}
                               calcPoints={calcPoints}
+                              currentComponentIndex={currentComponentIndex}
+                              setCurrentComponentIndex={setCurrentComponentIndex}
                            />
                         ))
                      ) : (
@@ -364,6 +366,8 @@ const FormsScreen = (props) => {
                            correctAns={correctAns}
                            setPoints={setPoints}
                            points={points}
+                           currentComponentIndex={currentComponentIndex}
+                           setCurrentComponentIndex={setCurrentComponentIndex}
                         />
                      )
                   )

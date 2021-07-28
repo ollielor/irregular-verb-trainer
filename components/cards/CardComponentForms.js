@@ -39,7 +39,6 @@ const CardComponentForms = forwardRef((props, ref) => {
    const [correctAnsPresent, setCorrectAnsPresent] = useState('');
    const [correctAnsPast, setCorrectAnsPast] = useState('');
    const [correctAnsPresPerf, setCorrectAnsPresPerf] = useState('');
-   const [currentComponentIndex, setCurrentComponentIndex] = useState(0);
 
 /*    const tenseNamesWithRefs = props.tenseNames.map((tense, index) => ({
       id: index,
@@ -57,10 +56,20 @@ const CardComponentForms = forwardRef((props, ref) => {
    }, []);
 
    useEffect(() => {
-      setCurrentComponentIndex(1);
-   }, [])
+      if (props.currentComponentIndex === props.componentIndex) {
+         refs.current[0].focus();
+      }
+   }, [props.currentComponentIndex]);
 
-   //useEffect(() => {
+   const focusOnNextInput = (index) => {
+      if (index < refs.current.length - 1) {
+         refs.current[index + 1].focus();
+      } else {
+         props.setCurrentComponentIndex(props.currentComponentIndex + 1);
+      }
+   }
+
+    //useEffect(() => {
       //if (inputRef1.current) {
          //inputRef1.current.focus();
       /* else if (props.componentIndex === 1 && inputRef2.current) {
@@ -140,8 +149,8 @@ const CardComponentForms = forwardRef((props, ref) => {
    }, [props.answeredIndex, props.index, props.tenseNames]); */
 
   
-   const focusOnNextInput = (next) => {
-      console.log('focusOnNextInput')
+/*    const focusOnNextInput = (next) => {
+      console.log('focusOnNextInput') */
       /* console.log('tenseNamesWithRefs[1]: ', tenseNamesWithRefs[1]);
       console.log('tenseNamesWithRefs from focusOnNextInput: ', tenseNamesWithRefs)
       console.log('Refs from focusOnNextInput: ', refs)
@@ -167,7 +176,7 @@ const CardComponentForms = forwardRef((props, ref) => {
             inputRef4.current.focus();
             break;
       }*/
-   } 
+   //} 
 
             // Focus on the first input of each card element
 /*             if (prevIndex === 1 && inputRef2.current) {
@@ -506,16 +515,15 @@ const CardComponentForms = forwardRef((props, ref) => {
                               tense === 'past' ? unansweredPast :
                               tense === 'presperf' && unansweredPresPerf
                            }
-                           focusOnNextInput={focusOnNextInput}
                            forwardedRef={(r) => refs.current[index] = r}
                            componentIndex={props.componentIndex}
-                           currentComponentIndex={currentComponentIndex}
 /*                            value={
                               tense === 'infinitive' ? answerInfinitive :
                               tense === 'present' ? answerPresent :
                               tense === 'past' ? answerPast :
                               tense === 'presperf' && answerPresPerf    
                            } */
+                           onBlur={() => focusOnNextInput(index)}
                            blurOnSubmit={false}
                            />
                         )}
