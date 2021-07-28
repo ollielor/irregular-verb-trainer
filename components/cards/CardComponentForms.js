@@ -83,49 +83,33 @@ const CardComponentForms = forwardRef((props, ref) => {
       setSynonymousForms(getSynonymousForms(props.synonyms, props.verbForm));
    }, [props.synonyms, props.verbForm]);
 
-
-   const getParameters = (tense) => {
-      switch (tense) {
-         case 'infinitive': 
-            return {
+   const parameters = {
+      infinitive: {
                synonyms: props.synonyms && synonymousForms
                      ? synonymousForms.infinitive
                      : props.verbForm.infinitive,
-               // This is null because the infinitive can't have alternative forms
-               alternativeForm: null,
-               tense: 'infinitive',
-               index: props.index
-            }
-         case 'present': 
-            return {
+               // This is null because there are no alternative forms for the infinitive in this app
+               alternativeForm: null
+            },
+      present: {
                synonyms: props.synonyms && synonymousForms
                      ? synonymousForms.present
                      : props.verbForm.present,
                alternativeForm: props.verbForm.present_alt,
-               tense: 'present',
-               index: props.index
-            }
-         case 'past': 
-            return {
-               synonyms: props.synonyms && synonymousForms
+            },
+      past: {
+         synonyms: props.synonyms && synonymousForms
                      ? synonymousForms.past
                      : props.verbForm.past,
                alternativeForm: props.verbForm.past_alt,
-               tense: 'past',
-               index: props.index
-            }
-         case 'presperf': 
-            return {
+            },
+      presperf: {
                synonyms: props.synonyms && synonymousForms
                      ? synonymousForms.presPerf
                      : props.verbForm.presperf,
                alternativeForm: props.verbForm.presperf_alt,
-               tense: 'presperf',
-               index: props.index
             }
-      }
    }
-   
 
    const checkAnswer = (answer, tense) => {
       console.log('Answer from checkAnswer: ', answer);
@@ -145,8 +129,8 @@ const CardComponentForms = forwardRef((props, ref) => {
       if (
          props.evaluate(
             answer,
-            getParameters(tense).synonyms,
-            getParameters(tense).alternativeForm,
+            parameters[tense].synonyms,
+            parameters[tense].alternativeForm,
          ) 
          ) {
             answerStates(answer, tense);
