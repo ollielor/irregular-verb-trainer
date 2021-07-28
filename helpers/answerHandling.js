@@ -62,3 +62,35 @@ export const checkAnswerStrings = (preparedAnswer, correct, correctAlt) => {
       return true;
    }
 };
+
+export const evaluate = (answer, correct, correctAlt, language) => {
+   // This function is responsible for setting the points state and setting the state for focusing in CardComponentForms.js
+   let preparedAnswer;
+   if (language === 1) {
+      preparedAnswer = prepareAnswerSwedish(answer);
+   } else {
+      preparedAnswer = prepareAnswerGerman(answer);
+   }
+   let correctModified;
+   let correctAltModified;
+   if (!Array.isArray(correct)) {
+      correctModified = correct.replace('/', '');
+      correctAltModified = correctAlt && correctAlt.replace('/', '');
+   } else {
+      correctModified = correct;
+      correctAltModified = correctAlt && correctAlt;
+   }
+   console.log('CorrectModified: ', correctModified)
+   // CheckAnswerStrings function is called and points are given if it returns true
+   console.log('checkAnswerStrings: ', checkAnswerStrings(preparedAnswer, correctModified, correctAltModified))
+   if (checkAnswerStrings(preparedAnswer, correctModified, correctAltModified)) {
+      // Focus to next component if the user has given a correct answer to the last field of the component
+/*          const lastForm = tenseNames[tenseNames.length - 1];
+      if (lastForm === tense && index <= 4) {
+         setAnsweredIndex(index + 1);
+      } */
+      return true;
+   } else {
+      return false;
+   }
+};

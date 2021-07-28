@@ -68,11 +68,6 @@ const FormsScreen = (props) => {
 
    console.log(props);
 
-/*    // This useEffect gets new verbs when the language settings are changed  
-   useEffect(() => {
-      setStartedAgain(true);
-   }, [props.language]); */
-
    // This useEffect creates the result database
    useEffect(() => {
       createResultsDb();
@@ -241,38 +236,6 @@ const FormsScreen = (props) => {
       }
    }, [finished]);
 
-   const evaluate = (answer, correct, correctAlt) => {
-      // This function is responsible for setting the points state and setting the state for focusing in CardComponentForms.js
-      let preparedAnswer;
-      if (props.language === 1) {
-         preparedAnswer = prepareAnswerSwedish(answer);
-      } else {
-         preparedAnswer = prepareAnswerGerman(answer);
-      }
-      let correctModified;
-      let correctAltModified;
-      if (!Array.isArray(correct)) {
-         correctModified = correct.replace('/', '');
-         correctAltModified = correctAlt && correctAlt.replace('/', '');
-      } else {
-         correctModified = correct;
-         correctAltModified = correctAlt && correctAlt;
-      }
-      console.log('CorrectModified: ', correctModified)
-      // CheckAnswerStrings function is called and points are given if it returns true
-      console.log('checkAnswerStrings: ', checkAnswerStrings(preparedAnswer, correctModified, correctAltModified))
-      if (checkAnswerStrings(preparedAnswer, correctModified, correctAltModified)) {
-         // Focus to next component if the user has given a correct answer to the last field of the component
-/*          const lastForm = tenseNames[tenseNames.length - 1];
-         if (lastForm === tense && index <= 4) {
-            setAnsweredIndex(index + 1);
-         } */
-         return true;
-      } else {
-         return false;
-      }
-   };
-
    useEffect(() => {
       if (finished && resultsData || started) {
          scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
@@ -344,7 +307,6 @@ const FormsScreen = (props) => {
                               key={v.verb_id}
                               verbForm={v}
                               synonyms={false}
-                              evaluate={evaluate}
                               finished={finished}
                               componentIndex={index}
                               tenseNames={tenseNames}
@@ -363,7 +325,6 @@ const FormsScreen = (props) => {
                            key={verbFormArray[0].verb_id}
                            verbForm={verbFormArray}
                            synonyms={true}
-                           evaluate={evaluate}
                            finished={finished}
                            componentIndex={index}
                            tenseNames={tenseNames}

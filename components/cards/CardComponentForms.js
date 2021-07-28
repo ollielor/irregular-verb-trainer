@@ -10,6 +10,10 @@ import {
 } from '../../helpers/formsHandling';
 
 import {
+   evaluate
+} from '../../helpers/answerHandling';
+
+import {
    calcPoints
 } from '../../helpers/points';
 
@@ -127,10 +131,11 @@ const CardComponentForms = forwardRef((props, ref) => {
          setUnansweredPresPerf(false);
       }
       if (
-         props.evaluate(
+         evaluate(
             answer,
             parameters[tense].synonyms,
             parameters[tense].alternativeForm,
+            props.language
          ) 
          ) {
             answerStates(answer, tense);
