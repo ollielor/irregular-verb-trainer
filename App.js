@@ -1,10 +1,11 @@
+import 'react-native-gesture-handler';
 import React from 'react';
 import { Root } from 'native-base';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import StartScreen from './screens/StartScreen';
 
+import StartScreen from './screens/StartScreen';
 import BrowseScreen from './screens/BrowseScreen';
 import MeaningsScreen from './screens/MeaningsScreen';
 import HistoryScreen from './screens/HistoryScreen';
@@ -24,8 +25,10 @@ const App = () => {
       <Provider store={store}>
          <NavigationContainer>
             <Stack.Navigator
+               initialRouteName='Koti'
                screenOptions={{
                   headerShown: false,
+                  animationEnabled: false,
                }}
             >
                <Stack.Screen name="Koti" component={StartScreen} />

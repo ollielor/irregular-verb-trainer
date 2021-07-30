@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, StatusBar } from 'react-native';
-import { Container, Content, Text } from 'native-base';
+import { StyleSheet } from 'react-native';
+import { Container, Content } from 'native-base';
 
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -229,7 +229,7 @@ const StartScreen = (props) => {
                [],
                (tx, results) => {
                   if (results) {
-                     setSettingsLength(results.rows._array.length);
+                     //setSettingsLength(results.rows._array.length);
                      if (results.rows._array.length > 0) {
                         props.dispatch(
                            updateLanguage(results.rows._array[0].language)
@@ -264,8 +264,20 @@ const StartScreen = (props) => {
                            )
                         );
                      }
+                     setSettingsLoaded(true);
+                  } else {
+                     tx.executeSql('insert into settings (language, level, infinitive, present, past, presperf) values (?, ?, ?, ?, ?, ?);',
+                        [
+                           props.language,
+                           props.level,
+                           props.infinitive ? 1 : 0,
+                           props.present ? 1 : 0,
+                           props.past ? 1 : 0,
+                           props.presperf ? 1 : 0,
+   
+                     ]);
+                     setSettingsLoaded(true);
                   }
-                  setSettingsLoaded(true);
                },
                (tx, error) => {
                   console.log('Could not execute query: ', error);
@@ -286,7 +298,7 @@ const StartScreen = (props) => {
          )}
          {fontsLoaded && settingsLoaded && 
             <Container style={styles.container}>
-               <HeaderComponent title="Verbivalmentaja" noArrow />
+            <HeaderComponent title="Verbivalmentaja" noArrow />
                <>
                <Content style={styles.contentContainer}>
             <ButtonComponent
@@ -294,7 +306,7 @@ const StartScreen = (props) => {
                title="Selaa ja opettele verbejä"
                function={() => navigation.navigate('Selaa ja opettele')}
             />
-            <ButtonComponent
+           <ButtonComponent
                color="#7E00C5"
                title="Harjoittele verbien merkityksiä"
                function={() =>
@@ -321,7 +333,7 @@ const StartScreen = (props) => {
                   <LatestResults count={5} showTypes />
                   </Content>
                </>
-               <FooterComponent />
+               {/* <FooterComponent /> */}
             </Container>
          }
       </Container>
