@@ -42,6 +42,7 @@ import CardComponentForms from '../components/cards/CardComponentForms';
 import ButtonComponent from '../components/buttons/ButtonComponent';
 import LatestResults from '../components/results/LatestResults';
 import SpinnerComponent from '../components/styling/SpinnerComponent';
+import ProgressBar from '../components/progress/ProgressBar';
 
 const FormsScreen = (props) => {
    const [verbs, setVerbs] = useState([]);
@@ -253,6 +254,13 @@ const FormsScreen = (props) => {
    return (
       <Container style={styles.container}>
          <HeaderComponent title="Verbien muodot" goBack={navigation.goBack} />
+         {started && points > 0 &&
+            <ProgressBar 
+               currentComponentIndex={currentComponentIndex} 
+               points={points}
+               maxPoints={maxPoints}
+            />
+         }     
          <KeyboardAvoidingView
             style={styles.flexOne}
             behavior={Platform.OS === 'ios' ? 'padding' : null}
