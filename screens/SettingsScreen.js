@@ -39,9 +39,11 @@ const StartScreen = (props) => {
    const [settingsEmpty, setSettingsEmpty] = useState(false);
    const [settingsLoaded, setSettingsLoaded] = useState(false);
    const [settingsSaved, setSettingsSaved] = useState(false);
-
+   const [screenLoad, setScreenLoad] = useState(0);
+   
    const navigation = useNavigation();
 
+   // useEffect cleanup
    useEffect(() => {
       return () => {};
    }, []);
@@ -139,12 +141,6 @@ const StartScreen = (props) => {
                props.past ? 1 : 0,
                props.presperf ? 1 : 0,
             ]);
-            Toast.show({
-                 text: "Asetukset tallennettu!",
-                 position: "bottom",
-                 type: "success",
-                 duration: 5000
-               })
          },
          (error) => {
             console.log('Transaction error (Save): ', error);
@@ -152,6 +148,7 @@ const StartScreen = (props) => {
          null,
          null
       );
+      setSettingsSaved(true);
    }
 
    useEffect(() => {
@@ -195,6 +192,18 @@ const StartScreen = (props) => {
    }, []);
 
 
+   useEffect(() => {
+      if (settingsSaved) {
+         Toast.show({
+            text: "Asetukset tallennettu!",
+            position: "bottom",
+            type: "success",
+            duration: 3000
+          })
+      }
+   }), [settingsSaved]
+
+
    return (
       <Container style={styles.container}>
          <HeaderComponent
@@ -207,7 +216,7 @@ const StartScreen = (props) => {
          {settingsLoaded && 
             <Container>
                <Content>
-                  <SettingsComponent/>
+                  <SettingsComponent />
                   <FormsSelector />
                   <SaveSettingsComponent updateSettings={updateSettings} settingsSaved={settingsSaved} />
                </Content>
