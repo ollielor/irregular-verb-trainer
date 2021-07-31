@@ -192,6 +192,7 @@ const MeaningsScreen = (props) => {
          let accuracyPercentage = calcAccuracyPercentage(points, maxPoints);
          let totalPoints = calcTotalPointsMeanings(counterState, accuracyPercentage, points);
          setResults({
+            points: points,
             totalPoints: calcTotalPointsMeanings(counterState, accuracyPercentage, points),
             maxPoints: maxPoints,
             totalPercentage: calcTotalPercentage(totalPoints, maxPoints),

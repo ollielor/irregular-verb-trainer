@@ -40,6 +40,15 @@ const ResultView = (props) => {
                .replace('.', ',')}{' '}
             % maksimista.
          </Text>
+         {props.resultsData.totalPoints - props.resultsData.points > 0 ?
+            <Text style={styles.feedbackPoints}>
+                Aikabonuksesi: {(props.resultsData.totalPoints - props.resultsData.points).toFixed(2).replace('.', ',')} pistettä
+             </Text> 
+         : props.resultsData.totalPoints - props.resultsData.points < 0 &&
+            <Text style={styles.feedbackPoints}>
+               Aikavähennyksesi: {(props.resultsData.totalPoints - props.resultsData.points).toFixed(2).replace('.', ',')} pistettä
+            </Text>     
+         }
          <Text style={styles.feedbackPoints}>
             Oikeita vastauksia: {props.resultsData.amountCorrectAnswers} /{' '}
             {props.resultsData.totalAnswered || props.resultsData.maxQuestions}

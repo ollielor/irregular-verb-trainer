@@ -36,8 +36,8 @@ export const calcAccuracyPercentage = (points, maxPoints) => {
 };
          
 export const calcTotalPointsMeanings = (counterState, accuracyPercentage, points) => {
-   // If time elapsed is less than 10 seconds and accuracy is at least 80 %, extra points are given
-   if (counterState < 10 && accuracyPercentage >= 80) {
+   // If time elapsed is less than 15 seconds and accuracy is at least 80 %, extra points are given
+   if (counterState < 15 && accuracyPercentage >= 80) {
       return (points + counterState * 0.1) * 1.0;
    // If time elapsed is greater than 30, minus points are given
    } else if (counterState >= 30) {

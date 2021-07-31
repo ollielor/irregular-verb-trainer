@@ -226,6 +226,7 @@ const FormsScreen = (props) => {
          const estimatedAccomplishTime = calcEstimatedAccomplishTime(maxPoints);
          const totalPoints = calcTotalPointsForms(counterState, estimatedAccomplishTime, points, maxPoints);
          setResultsData({
+            points: points,
             totalPoints: totalPoints,
             maxPoints: maxPoints,
             maxQuestions: maxQuestions,

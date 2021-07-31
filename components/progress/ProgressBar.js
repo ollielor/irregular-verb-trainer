@@ -28,7 +28,6 @@ const mapStateToProps = (state) => ({
          color: "#7E00C5",
          padding: 10,
          textAlign: 'center',
-         fontWeight: 'bold'
      }
  })
 
