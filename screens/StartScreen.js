@@ -333,7 +333,7 @@ const StartScreen = (props) => {
                   <LatestResults count={5} showTypes />
                   </Content>
                </>
-               {/* <FooterComponent /> */}
+               <FooterComponent />
             </Container>
          }
       </Container>
