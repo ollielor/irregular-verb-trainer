@@ -1,0 +1,21 @@
+{
+    "1":
+      	[
+            {
+               "header":"Harjoittelumuodot",
+               "text":"Voit harjoitella epäsäännöllisiä ja vahvoja verbejä kolmella tavalla: tutustumalla verbeihin Selaa ja opettele -toiminnolla, harjoittelemalla verbien merkityksiä monivalintatehtävällä (Harjoittele verbien merkityksiä) tai niiden muotoja aukkotehtävällä (Harjoittele verbien muotoja)."
+            },
+            {
+               "header":"Aikabonukset ja -vähennykset",
+               "text":"Voit saada aikabonuspisteitä, jos suoritat tehtävän nopeasti. Oletettua hitaammasta suorituksesta voit saada miinuspisteitä."
+            },
+            {
+               "header":"Asetukset",
+               "text":"Voit muuttaa asetuksia kuten kieltä, vaikeustasoa ja harjoiteltavia muotoja joko painamalla oikeasta yläkulmasta (esim. SV, taso 2) tai alapalkin Asetukset-painikkeesta."
+            },
+            {
+               "header":"Tulosten jakaminen",
+               "text":"Voit jakaa tuloksesi joko WhatsAppilla tai sähköpostilla. Pääset jakamaan tulokset Omat tulokseni -näytöltä."
+            }
+         ]
+ }

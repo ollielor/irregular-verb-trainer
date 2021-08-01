@@ -12,6 +12,7 @@ import HistoryScreen from './screens/HistoryScreen';
 import FormsScreen from './screens/FormsScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import ShareResultsScreen from './screens/ShareResultsScreen';
+import InstructionsScreen from './screens/InstructionsScreen';
 
 import { Provider } from 'react-redux';
 import store from './store/store';
@@ -55,6 +56,10 @@ const App = () => {
                <Stack.Screen
                   name="Jaa tulokset"
                   component={ShareResultsScreen}
+               />
+               <Stack.Screen
+                  name="Ohjeet"
+                  component={InstructionsScreen}
                />
             </Stack.Navigator>
          </NavigationContainer>

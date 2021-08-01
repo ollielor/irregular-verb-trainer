@@ -25,7 +25,7 @@ const FooterComponent = (props) => {
          <FooterTab>
             <FooterButtonComponent
                title="Ohjeet"
-               function={() => console.log('Ohjeet')}
+               function={() => navigation.navigate('Ohjeet')}
             />
          </FooterTab>
       </Footer>
