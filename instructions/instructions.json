@@ -2,20 +2,91 @@
     "1":
       	[
             {
-               "header":"Harjoittelumuodot",
-               "text":"Voit harjoitella epäsäännöllisiä ja vahvoja verbejä kolmella tavalla: tutustumalla verbeihin Selaa ja opettele -toiminnolla, harjoittelemalla verbien merkityksiä monivalintatehtävällä (Harjoittele verbien merkityksiä) tai niiden muotoja aukkotehtävällä (Harjoittele verbien muotoja)."
+               "header":"Tehtävämuodot",
+               "text":"Voit harjoitella epäsäännöllisiä ja vahvoja verbejä kolmella tavalla: tutustumalla verbeihin Selaa ja opettele -toiminnolla, harjoittelemalla verbien merkityksiä monivalintatehtävällä tai verbien muotoja kirjoittamalla.",
+               "buttons": [
+                  {
+                     "buttonText":"Selaa ja opettele",
+                     "buttonAction":"Selaa ja opettele"
+                  },
+                  {
+                     "buttonText":"Harjoittele verbien merkityksiä",
+                     "buttonAction":"Harjoittele merkityksiä"
+                  },
+                  {
+                     "buttonText":"Harjoittele verbien muotoja",
+                     "buttonAction":"Harjoittele muotoja"
+                  }
+               ]
             },
             {
                "header":"Aikabonukset ja -vähennykset",
-               "text":"Voit saada aikabonuspisteitä, jos suoritat tehtävän nopeasti. Oletettua hitaammasta suorituksesta voit saada miinuspisteitä."
+               "text":"Voit saada aikabonuspisteitä, jos suoritat tehtävän nopeasti. Oletettua hitaammasta suorituksesta saat puolestaan miinuspisteitä."
             },
             {
                "header":"Asetukset",
-               "text":"Voit muuttaa asetuksia kuten kieltä, vaikeustasoa ja harjoiteltavia muotoja joko painamalla oikeasta yläkulmasta (esim. SV, taso 2) tai alapalkin Asetukset-painikkeesta."
+               "text":"Voit muuttaa asetuksia kuten kieltä, vaikeustasoa ja harjoiteltavia verbimuotoja joko painamalla oikeasta yläkulmasta (esim. SV, taso 2) tai alapalkin Asetukset-painikkeesta.",
+               "buttons": [
+                  {
+                     "buttonText":"Asetukset",
+                     "buttonAction":"Omat asetukseni"
+                  }
+               ]
             },
             {
                "header":"Tulosten jakaminen",
-               "text":"Voit jakaa tuloksesi joko WhatsAppilla tai sähköpostilla. Pääset jakamaan tulokset Omat tulokseni -näytöltä."
+               "text":"Voit jakaa tuloksesi joko WhatsAppilla tai sähköpostilla. Pääset jakamaan tulokset Omat tulokseni -näytöltä painamalla Jaa tulokset.",
+               "buttons": [
+                  {
+                     "buttonText":"Omat tulokseni",
+                     "buttonAction":"Omat tulokseni"
+                  }
+               ]
             }
-         ]
- }
+         ],
+   "2":
+        [
+           {
+              "header":"Tehtävämuodot",
+              "text":"Voit harjoitella epäsäännöllisiä ja vahvoja verbejä kolmella tavalla: tutustumalla verbeihin Selaa ja opettele -toiminnolla, harjoittelemalla verbien merkityksiä monivalintatehtävällä tai verbien muotoja kirjoittamalla. Eriävät yhdysverbit (esim. an/rufen) voit kirjoittaa kauttaviivalla tai ilman.",
+              "buttons": [
+                 {
+                    "buttonText":"Selaa ja opettele",
+                    "buttonAction":"Selaa ja opettele"
+                 },
+                 {
+                    "buttonText":"Harjoittele verbien merkityksiä",
+                    "buttonAction":"Harjoittele merkityksiä"
+                 },
+                 {
+                    "buttonText":"Harjoittele verbien muotoja",
+                    "buttonAction":"Harjoittele muotoja"
+                 }
+              ]
+           },
+           {
+              "header":"Aikabonukset ja -vähennykset",
+              "text":"Voit saada aikabonuspisteitä, jos suoritat tehtävän nopeasti. Oletettua hitaammasta suorituksesta saat puolestaan miinuspisteitä."
+           },
+           {
+              "header":"Asetukset",
+              "text":"Voit muuttaa asetuksia kuten kieltä, vaikeustasoa ja harjoiteltavia verbimuotoja joko painamalla oikeasta yläkulmasta (esim. DE, taso 2) tai alapalkin Asetukset-painikkeesta.",
+              "buttons": [
+                 {
+                    "buttonText":"Asetukset",
+                    "buttonAction":"Omat asetukseni"
+                 }
+              ]
+           },
+           {
+              "header":"Tulosten jakaminen",
+              "text":"Voit jakaa tuloksesi joko WhatsAppilla tai sähköpostilla. Pääset jakamaan tulokset Omat tulokseni -näytöltä painamalla Jaa tulokset.",
+              "buttons": [
+                 {
+                    "buttonText":"Omat tulokseni",
+                    "buttonAction":"Omat tulokseni"
+                 }
+              ]
+           }
+        ]
+}

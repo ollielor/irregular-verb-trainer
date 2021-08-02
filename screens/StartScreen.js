@@ -42,7 +42,6 @@ import LatestResults from '../components/results/LatestResults';
 
 const StartScreen = (props) => {
    const [fontsLoaded, setFontsLoaded] = useState(false);
-   const [settingsLength, setSettingsLength] = useState(0);
    const [settingsLoaded, setSettingsLoaded] = useState(false);
    const [germanLoaded, setGermanLoaded] = useState(false);
    const [swedishLoaded, setSwedishLoaded] = useState(false);
@@ -329,6 +328,11 @@ const StartScreen = (props) => {
                      color="#4E00C5"
                      title="Omat asetukseni"
                      function={() => navigation.navigate('Omat asetukseni')}
+                  />
+                  <ButtonComponent
+                     color="#4E00C5"
+                     title="Ohjeet"
+                     function={() => navigation.navigate('Ohjeet')}
                   />
                   <LatestResults count={5} showTypes />
                   </Content>

@@ -20,10 +20,12 @@ const InstructionsScreen = (props) => {
       <Container style={styles.container}>
       <HeaderComponent title="Ohjeet" goBack={navigation.goBack} />
       <Content>
-        {instructionTexts[props.language].map((instruction, index) =>
+        {instructionTexts[props.language].map((instruction, index) => 
             <CardComponentInstructions 
-               header={instruction.header}
-               text={instruction.text}
+                  key={index}
+                  header={instruction.header}
+                  text={instruction.text}
+                  buttons={instruction.buttons && instruction.buttons}
             />
         )}
       </Content>
