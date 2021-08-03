@@ -148,7 +148,7 @@ const StartScreen = (props) => {
          null,
          null
       );
-      setSettingsSaved(true);
+      setSettingsSaved(true);   
    }
 
    useEffect(() => {
@@ -201,9 +201,8 @@ const StartScreen = (props) => {
             duration: 3000
           })
       }
-   }), [settingsSaved]
-
-
+   }, [settingsSaved]);
+   
    return (
       <Container style={styles.container}>
          <HeaderComponent

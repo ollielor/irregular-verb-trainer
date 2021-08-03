@@ -27,7 +27,7 @@ const HeaderComponent = (props) => {
       >
          <Left style={{ flex: 1 }}>
             {!props.noArrow ? (
-               <Button transparent onPress={props.goBack}>
+               <Button transparent onPress={() => navigation.goBack()}>
                   <Icon name="arrow-back" style={{ color: '#D2D2D2' }} />
                </Button>
             ) : null}

@@ -50,12 +50,26 @@ const MeaningsScreen = (props) => {
    const [tableCreated, setTableCreated] = useState(false);
    const [mastered, setMastered] = useState([]);
    const [notMastered, setNotMastered] = useState([]);
+   const [settingsChanged, setSettingsChanged] = useState(false);
 
-   const navigation = useNavigation();
+   //const navigation = useNavigation();
+
+   console.log('props from MeaningsScreen: ', props);
 
    const scrollViewRef = useRef();
 
+   const navigation = useNavigation();
+
    console.log(props.results);
+
+   useEffect(() => {
+      const unsubscribe = navigation.addListener('focus', () => {
+         console.log('focus:')
+         setStarted(false);
+         startAgain();
+      });
+      return unsubscribe;
+   }, [navigation]);
 
    useEffect(() => {
       if (finished) {
@@ -73,21 +87,23 @@ const MeaningsScreen = (props) => {
    }, [])
 
    useEffect(() => {
-      setVerbsFiltered(false);
-      let verbsByLanguage;
-      if (props.language === 1) {
-         // Exclude verbs without infinitive forms
-         verbsByLanguage = props.verbsSwedish.filter(
-            (verb) => verb.infinitive.length > 1
-         );
-         console.log(verbsByLanguage);
-      } else {
-         verbsByLanguage = props.verbsGerman;
+      if (started) {
+         setVerbsFiltered(false);
+         let verbsByLanguage;
+         if (props.language === 1) {
+            // Exclude verbs without infinitive forms
+            verbsByLanguage = props.verbsSwedish.filter(
+               (verb) => verb.infinitive.length > 1
+            );
+            console.log(verbsByLanguage);
+         } else {
+            verbsByLanguage = props.verbsGerman;
+         }
+         const filteredVerbs = filterVerbsByLevel(verbsByLanguage, props.level);
+         setVerbs(filteredVerbs);
+         setVerbsFiltered(true);
       }
-      const filteredVerbs = filterVerbsByLevel(verbsByLanguage, props.level);
-      setVerbs(filteredVerbs);
-      setVerbsFiltered(true);
-   }, [props.level, props.language]);
+   }, [props.level, props.language, started]);
 
       const updateResultsAsync = async () => {
          props.dispatch(updateResults(await getResults()));
@@ -210,6 +226,7 @@ const MeaningsScreen = (props) => {
             title="Verbien merkitykset"
             goBack={navigation.goBack}
          />
+         <Text>{String(started)}</Text>
          <ScrollView
             keyboardShouldPersistTaps="always"
             style={styles.flexOne}
@@ -235,7 +252,7 @@ const MeaningsScreen = (props) => {
                {!props.results && (
                   <SpinnerComponent text="Tuloksia ladataan..." />
                )}
-               {randomizedVerbs && !finished &&
+               {started && randomizedVerbs && !finished &&
                   randomizedVerbs.map((verbGroup, index) => (
                      <CardComponentMeanings
                         key={index}
