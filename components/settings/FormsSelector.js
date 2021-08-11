@@ -18,15 +18,6 @@ import ButtonComponentNarrow from '../buttons/ButtonComponentNarrow';
 import Heading from '../styling/Heading';
 import Subheading from '../styling/Subheading';
 
-import { connect } from 'react-redux';
-
-import {
-   updateInfinitive,
-   updatePresent,
-   updatePast,
-   updatePresperf,
-} from '../../store/actions/settings';
-
 const FormsSelector = (props) => {
    const [infinitive, setInfinitive] = useState(false);
    const [present, setPresent] = useState(false);
@@ -47,7 +38,7 @@ const FormsSelector = (props) => {
                   <Switch
                      value={props.infinitive}
                      onValueChange={(value) =>
-                        props.dispatch(updateInfinitive(value))
+                        props.setInfinitive(value)
                      }
                   />
                </Right>
@@ -60,7 +51,7 @@ const FormsSelector = (props) => {
                   <Switch
                      value={props.present}
                      onValueChange={(value) =>
-                        props.dispatch(updatePresent(value))
+                        props.setPresent(value)
                      }
                   />
                </Right>
@@ -73,7 +64,7 @@ const FormsSelector = (props) => {
                   <Switch
                      value={props.past}
                      onValueChange={(value) =>
-                        props.dispatch(updatePast(value))
+                        props.setPast(value)
                      }
                   />
                </Right>
@@ -86,9 +77,9 @@ const FormsSelector = (props) => {
                </Body>
                <Right>
                   <Switch
-                     value={props.presperf}
+                     value={props.presPerf}
                      onValueChange={(value) =>
-                        props.dispatch(updatePresperf(value))
+                        props.setPresPerf(value)
                      }
                   />
                </Right>
@@ -98,15 +89,7 @@ const FormsSelector = (props) => {
    );
 };
 
-const mapStateToProps = (state) => ({
-   infinitive: state.settings.tenses.infinitive,
-   present: state.settings.tenses.present,
-   past: state.settings.tenses.past,
-   presperf: state.settings.tenses.presperf,
-   language: state.settings.language
-});
-
-export default connect(mapStateToProps)(FormsSelector);
+export default FormsSelector;
 
 const styles = StyleSheet.create({
    cardStyle: {

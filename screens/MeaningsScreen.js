@@ -63,15 +63,6 @@ const MeaningsScreen = (props) => {
    console.log(props.results);
 
    useEffect(() => {
-      const unsubscribe = navigation.addListener('focus', () => {
-         console.log('focus:')
-         setStarted(false);
-         startAgain();
-      });
-      return unsubscribe;
-   }, [navigation]);
-
-   useEffect(() => {
       if (finished) {
          scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: false });
       }

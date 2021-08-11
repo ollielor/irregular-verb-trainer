@@ -4,8 +4,6 @@ import { Body, Content } from 'native-base';
 
 import ButtonComponent from '../buttons/ButtonComponent';
 
-import { connect } from 'react-redux';
-
 const SaveSettingsComponent = (props) => {
    return (
       <Content>
@@ -15,19 +13,14 @@ const SaveSettingsComponent = (props) => {
                   <ButtonComponent
                      title="Tallenna asetukset"
                      color="#7E00C5"
-                     function={props.updateSettings}
+                     function={props.saveSettings}
                   />
                </Body>
       </Content>
    );
 };
 
-const mapStateToProps = (state) => ({
-   language: state.settings.language,
-   level: state.settings.level,
-});
-
-export default connect(mapStateToProps)(SaveSettingsComponent);
+export default SaveSettingsComponent;
 
 const styles = StyleSheet.create({
    cardStyle: {

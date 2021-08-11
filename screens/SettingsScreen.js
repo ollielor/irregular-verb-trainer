@@ -39,7 +39,14 @@ const StartScreen = (props) => {
    const [settingsEmpty, setSettingsEmpty] = useState(false);
    const [settingsLoaded, setSettingsLoaded] = useState(false);
    const [settingsSaved, setSettingsSaved] = useState(false);
+   const [settingsUpdated, setSettingsUpdated] = useState(false);
    const [screenLoad, setScreenLoad] = useState(0);
+   const [language, setLanguage] = useState(1);
+   const [level, setLevel] = useState(1);
+   const [infinitive, setInfinitive] = useState(true);
+   const [present, setPresent] = useState(true);
+   const [past, setPast] = useState(true);
+   const [presPerf, setPresPerf] = useState(true);
    
    const navigation = useNavigation();
 
@@ -74,12 +81,19 @@ const StartScreen = (props) => {
                   if (results) {
                      setSettingsLength(results.rows._array.length);
                      if (results.rows._array.length > 0) {
+                        setLanguage(results.rows._array[0].language)
                         props.dispatch(
                            updateLanguage(results.rows._array[0].language)
                         );
+                        setLevel(results.rows._array[0].level)
                         props.dispatch(
                            updateLevel(results.rows._array[0].level)
                         );
+                        setInfinitive(
+                           results.rows._array[0].infinitive === 1
+                           ? true
+                           : false 
+                        )
                         props.dispatch(
                            updateInfinitive(
                               results.rows._array[0].infinitive === 1
@@ -87,6 +101,11 @@ const StartScreen = (props) => {
                                  : false
                            )
                         );
+                        setPresent(
+                           results.rows._array[0].present === 1
+                           ? true
+                           : false 
+                        )
                         props.dispatch(
                            updatePresent(
                               results.rows._array[0].present === 1
@@ -94,11 +113,21 @@ const StartScreen = (props) => {
                                  : false
                            )
                         );
+                        setPast(
+                           results.rows._array[0].past === 1
+                           ? true
+                           : false 
+                        )
                         props.dispatch(
                            updatePast(
                               results.rows._array[0].past === 1 ? true : false
                            )
                         );
+                        setPresPerf(
+                           results.rows._array[0].presperf === 1
+                           ? true
+                           : false 
+                        )
                         props.dispatch(
                            updatePresperf(
                               results.rows._array[0].presperf === 1
@@ -121,7 +150,7 @@ const StartScreen = (props) => {
       );
    };
 
-   const updateSettings = () => {
+   const saveSettings = () => {
       setSettingsSaved(false);
       let query;
       if (settingsLength === 0 && settingsLoaded) {
@@ -134,12 +163,12 @@ const StartScreen = (props) => {
       DatabaseSettings.transaction(
          (tx) => {
             tx.executeSql(query, [
-               props.language,
-               props.level,
-               props.infinitive ? 1 : 0,
-               props.present ? 1 : 0,
-               props.past ? 1 : 0,
-               props.presperf ? 1 : 0,
+               language,
+               level,
+               infinitive ? 1 : 0,
+               present ? 1 : 0,
+               past ? 1 : 0,
+               presPerf ? 1 : 0,
             ]);
          },
          (error) => {
@@ -148,7 +177,14 @@ const StartScreen = (props) => {
          null,
          null
       );
-      setSettingsSaved(true);   
+      fetchSettings();
+      Toast.show({
+         text: "Asetukset tallennettu!",
+         position: "bottom",
+         type: "success",
+         duration: 3000
+       })
+      navigation.navigate('Koti');  
    }
 
    useEffect(() => {
@@ -191,23 +227,11 @@ const StartScreen = (props) => {
       );
    }, []);
 
-
-   useEffect(() => {
-      if (settingsSaved) {
-         Toast.show({
-            text: "Asetukset tallennettu!",
-            position: "bottom",
-            type: "success",
-            duration: 3000
-          })
-      }
-   }, [settingsSaved]);
-   
    return (
       <Container style={styles.container}>
          <HeaderComponent
             title="Omat asetukseni"
-            goBack={navigation.goBack}
+            //goBack={navigation.goBack}
          />
          {!settingsLoaded && (
             <SpinnerComponent text="Ladataan asetuksia..." />
@@ -215,9 +239,26 @@ const StartScreen = (props) => {
          {settingsLoaded && 
             <Container>
                <Content>
-                  <SettingsComponent />
-                  <FormsSelector />
-                  <SaveSettingsComponent updateSettings={updateSettings} settingsSaved={settingsSaved} />
+                  <SettingsComponent 
+                     setLanguage={setLanguage}
+                     setLevel={setLevel}
+                     language={language}
+                     level={level}
+                  />
+                  <FormsSelector 
+                     setInfinitive={setInfinitive}
+                     setPresent={setPresent}
+                     setPast={setPast}
+                     setPresPerf={setPresPerf}
+                     infinitive={infinitive}
+                     present={present}
+                     past={past}
+                     presPerf={presPerf}
+                  />
+                  <SaveSettingsComponent 
+                     saveSettings={saveSettings} 
+                     settingsSaved={settingsSaved} 
+                  />
                </Content>
                <FooterComponent />
             </Container>
