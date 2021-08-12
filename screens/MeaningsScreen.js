@@ -51,6 +51,7 @@ const MeaningsScreen = (props) => {
    const [mastered, setMastered] = useState([]);
    const [notMastered, setNotMastered] = useState([]);
    const [settingsChanged, setSettingsChanged] = useState(false);
+   const [amount, setAmount] = useState(5)
 
    //const navigation = useNavigation();
 
@@ -68,6 +69,7 @@ const MeaningsScreen = (props) => {
       }
    }, [finished]);
 
+   // useEffect cleanup
    useEffect(() => {
       return () => {};
    }, []);
@@ -82,11 +84,10 @@ const MeaningsScreen = (props) => {
          setVerbsFiltered(false);
          let verbsByLanguage;
          if (props.language === 1) {
-            // Exclude verbs without infinitive forms
+            // Exclude verbs without infinitive forms (Swedish)
             verbsByLanguage = props.verbsSwedish.filter(
                (verb) => verb.infinitive.length > 1
             );
-            console.log(verbsByLanguage);
          } else {
             verbsByLanguage = props.verbsGerman;
          }
@@ -107,7 +108,17 @@ const MeaningsScreen = (props) => {
    useEffect(() => {
       // Amount of verbs shown in Meanings Screen (5 times 3)
       if (started) {
-         let amount = 15;
+         switch (props.level) {
+            case 1: 
+               setAmount(5);
+               break;
+            case 2:
+               setAmount(8);
+               break;
+            case 3:
+               setAmount(10);
+               break;
+         }
          if (verbsFiltered) {
             const verbObjectArray = getRndVerbs(verbs, amount);
             setRandomizedVerbs(verbObjectArray);
@@ -175,7 +186,7 @@ const MeaningsScreen = (props) => {
    };
 
    useEffect(() => {
-      if (answered.length === 5) {
+      if (answered.length === amount) {
          setFinished(true);
       }
    }, [answered]);
@@ -217,7 +228,6 @@ const MeaningsScreen = (props) => {
             title="Verbien merkitykset"
             goBack={navigation.goBack}
          />
-         <Text>{String(started)}</Text>
          <ScrollView
             keyboardShouldPersistTaps="always"
             style={styles.flexOne}

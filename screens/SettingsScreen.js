@@ -231,7 +231,7 @@ const StartScreen = (props) => {
       <Container style={styles.container}>
          <HeaderComponent
             title="Omat asetukseni"
-            //goBack={navigation.goBack}
+            noArrow
          />
          {!settingsLoaded && (
             <SpinnerComponent text="Ladataan asetuksia..." />

@@ -59,7 +59,7 @@ export const getRndVerbs = (verbs, amount) => {
    let rndVerb;
    let rndVerbs = [];
    let rndVerbsFinal = [];
-   while (rndVerbsFinal.length < amount) {
+   while (rndVerbsFinal.length < amount * 3) {
       // The range of random numbers (0-300) is excessive 
       // in order to involve all verbs of
       // a certain level in randomizing.
