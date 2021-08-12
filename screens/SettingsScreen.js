@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Container, Content, Toast } from 'native-base';
-
-import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
 
 import { connect } from 'react-redux';
 import {
@@ -17,7 +14,6 @@ import {
 
 import { useNavigation } from '@react-navigation/native';
 
-import ButtonComponent from '../components/buttons/ButtonComponent';
 import FooterComponent from '../components/footer/FooterComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
 import FormsSelector from '../components/settings/FormsSelector';
@@ -34,13 +30,9 @@ import DatabaseVerbsSwedish from '../modules/DatabaseVerbsSwedish';
 import SaveSettingsComponent from '../components/settings/SaveSettingsComponent';
 
 const StartScreen = (props) => {
-   const [fontsLoaded, setFontsLoaded] = useState(false);
    const [settingsLength, setSettingsLength] = useState(0);
-   const [settingsEmpty, setSettingsEmpty] = useState(false);
    const [settingsLoaded, setSettingsLoaded] = useState(false);
    const [settingsSaved, setSettingsSaved] = useState(false);
-   const [settingsUpdated, setSettingsUpdated] = useState(false);
-   const [screenLoad, setScreenLoad] = useState(0);
    const [language, setLanguage] = useState(1);
    const [level, setLevel] = useState(1);
    const [infinitive, setInfinitive] = useState(true);
@@ -186,46 +178,6 @@ const StartScreen = (props) => {
        })
       navigation.navigate('Koti');  
    }
-
-   useEffect(() => {
-      DatabaseVerbsGerman.transaction(
-         (tx) => {
-            tx.executeSql(
-               'select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id',
-               [],
-               (tx, results) => {
-                  props.dispatch(fetchVerbsGerman(results.rows._array));
-               },
-               (tx, error) => {
-                  console.log('Could not execute query: ', error);
-               }
-            );
-         },
-         (error) => {
-            console.log('Transaction error: ', error);
-         }
-      );
-   }, []);
-
-   useEffect(() => {
-      DatabaseVerbsSwedish.transaction(
-         (tx) => {
-            tx.executeSql(
-               'select * from verb_forms left join meanings on verb_forms.meaning_id=meanings.meaning_id',
-               [],
-               (tx, results) => {
-                  props.dispatch(fetchVerbsSwedish(results.rows._array));
-               },
-               (tx, error) => {
-                  console.log('Could not execute query: ', error);
-               }
-            );
-         },
-         (error) => {
-            console.log('Transaction error: ', error);
-         }
-      );
-   }, []);
 
    return (
       <Container style={styles.container}>

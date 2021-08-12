@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 import { Container, Content, Text } from 'native-base';
 
-import DatabaseResults from '../modules/DatabaseResults';
-
 import { useNavigation } from '@react-navigation/native';
 
 import {
@@ -43,25 +41,17 @@ const MeaningsScreen = (props) => {
    const [results, setResults] = useState({});
    const [counterState, setCounterState] = useState(null);
    const [started, setStarted] = useState(true);
-   //const [resultHistory, setResultHistory] = useState([]);
    const [resultsReady, setResultsReady] = useState(false);
    const [resultsSaved, setResultsSaved] = useState(false);
    const [dateTime, setDateTime] = useState(null);
    const [tableCreated, setTableCreated] = useState(false);
    const [mastered, setMastered] = useState([]);
    const [notMastered, setNotMastered] = useState([]);
-   const [settingsChanged, setSettingsChanged] = useState(false);
    const [amount, setAmount] = useState(5)
-
-   //const navigation = useNavigation();
-
-   console.log('props from MeaningsScreen: ', props);
 
    const scrollViewRef = useRef();
 
    const navigation = useNavigation();
-
-   console.log(props.results);
 
    useEffect(() => {
       if (finished) {
@@ -106,7 +96,7 @@ const MeaningsScreen = (props) => {
       }, [resultsSaved]);
 
    useEffect(() => {
-      // Amount of verbs shown in Meanings Screen (5 times 3)
+      // Amount of verbs shown in Meanings Screen
       if (started) {
          switch (props.level) {
             case 1: 
