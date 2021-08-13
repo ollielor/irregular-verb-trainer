@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Platform, StatusBar } from 'react-native';
 
 export const styles = (props) => StyleSheet.create({
    // Button styles
@@ -149,8 +149,21 @@ export const styles = (props) => StyleSheet.create({
       display: 'flex', 
       bottom: 0 
    },
+   // Header styles
+   headerBodyStyle: {
+      flex: 2, 
+      alignItems: 'center'
+   },
+   headerStyle: {
+      backgroundColor: '#0047c5', 
+      paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0, 
+      paddingBottom: 10
+   },
    // Common styles
    overFlowVisible: {
       overflow: 'visible'
+   },
+   flexOne: {
+      flex: 1
    }
 })

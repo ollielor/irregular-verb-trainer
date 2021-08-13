@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { StatusBar, Platform } from 'react-native';
-
 import {
    Button,
    Body,
@@ -15,6 +13,7 @@ import {
 
 import { connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import { styles } from '../../styles/styles';
 
 const HeaderComponent = (props) => {
    const navigation = useNavigation();
@@ -23,21 +22,24 @@ const HeaderComponent = (props) => {
       <Header
          iosBarStyle="light-content"
          androidStatusBarColor="#0047c5"
-         style={{ backgroundColor: '#0047c5', paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0, paddingBottom: 10 }}
+         style={styles(props).headerStyle}
       >
-         <Left style={{ flex: 1 }}>
+         <Left style={styles(props).flexOne}>
             {!props.noArrow ? (
                <Button transparent onPress={() => navigation.goBack()}>
-                  <Icon name="arrow-back" style={{ color: '#D2D2D2' }} />
+                  <Icon
+                     name="arrow-back"
+                     style={styles(props).buttonTextStyle}
+                  />
                </Button>
             ) : null}
          </Left>
-         <Body style={{ flex: 2, alignItems: 'center' }}>
-            <Title style={{ color: '#D2D2D2' }}>{props.title}</Title>
+         <Body style={styles(props).headerBodyStyle}>
+            <Title style={styles(props).buttonTextStyle}>{props.title}</Title>
          </Body>
-         <Right style={{ flex: 1 }}>
+         <Right style={styles(props).flexOne}>
             <Text
-               style={{ color: '#d2d2d2' }}
+               style={styles(props).buttonTextStyle}
                onPress={() => navigation.navigate('Omat asetukseni')}
             >
                {props.language === 1 && 'SV, taso '}
