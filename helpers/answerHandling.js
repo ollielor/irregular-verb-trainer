@@ -18,23 +18,19 @@ export const prepareAnswerGerman = (answer) => {
          word !== 'er/sie' &&
          word !== 'er/sie/es'
    );
-   console.log('WithoutPronounsArray: ', withoutPronounsArray)
+   console.log('WithoutPronounsArray: ', withoutPronounsArray);
    // Replace string '1' with German sharp S
    for (let i = 0; i < withoutPronounsArray.length; i++) {
       preparedAnswer += ' ' + withoutPronounsArray[i].replace('1', '\u00df');
    }
-   console.log('PreparedAnswer: ', preparedAnswer)
+   console.log('PreparedAnswer: ', preparedAnswer);
    return preparedAnswer.trim();
 };
 
 export const prepareAnswerSwedish = (answer) => {
    // The function prepares the given answers for accuracy check using several string operations
    let preparedAnswer = '';
-   let stringArray = answer
-      .trim()
-      .toUpperCase()
-      .toLowerCase()
-      .split(' ');
+   let stringArray = answer.trim().toUpperCase().toLowerCase().split(' ');
    for (let i = 0; i < stringArray.length; i++) {
       preparedAnswer += ' ' + stringArray[i];
       console.log('preparedAnswer from prepareAnswerSwedish: ', preparedAnswer);
@@ -51,9 +47,6 @@ export const checkAnswerStrings = (preparedAnswer, correct, correctAlt) => {
             return true;
          }
       }
-/*             if (preparedAnswer && preparedAnswer === correctAlt[i].replace('/', '')) {
-            return true;
-         } */
    }
    if (!Array.isArray(correct) && preparedAnswer === correct) {
       return true;
@@ -80,15 +73,15 @@ export const evaluate = (answer, correct, correctAlt, language) => {
       correctModified = correct;
       correctAltModified = correctAlt && correctAlt;
    }
-   console.log('CorrectModified: ', correctModified)
+   console.log('CorrectModified: ', correctModified);
    // CheckAnswerStrings function is called and points are given if it returns true
-   console.log('checkAnswerStrings: ', checkAnswerStrings(preparedAnswer, correctModified, correctAltModified))
-   if (checkAnswerStrings(preparedAnswer, correctModified, correctAltModified)) {
-      // Focus to next component if the user has given a correct answer to the last field of the component
-/*          const lastForm = tenseNames[tenseNames.length - 1];
-      if (lastForm === tense && index <= 4) {
-         setAnsweredIndex(index + 1);
-      } */
+   console.log(
+      'checkAnswerStrings: ',
+      checkAnswerStrings(preparedAnswer, correctModified, correctAltModified)
+   );
+   if (
+      checkAnswerStrings(preparedAnswer, correctModified, correctAltModified)
+   ) {
       return true;
    } else {
       return false;

@@ -11,10 +11,13 @@ export const rndIntGeneratorZero = (highest) => {
 };
 
 export const getRandomVerb = (rndInt, verbs) => {
-   console.log('Verbs from getRandomVerb: ', verbs)
-   console.log('From getRandomVerb: ', verbs.filter((verb) => verb.meaning_id === rndInt)[0]);
+   console.log('Verbs from getRandomVerb: ', verbs);
+   console.log(
+      'From getRandomVerb: ',
+      verbs.filter((verb) => verb.meaning_id === rndInt)[0]
+   );
    return verbs[rndInt];
-}
+};
 
 export const getCurrentDate = () => {
    return new Date().toISOString();
@@ -30,8 +33,8 @@ export const getCurrentDate = () => {
 export const getRandomVerbArray = (rndInt, verbs) => {
    let verbsArray = [];
    let matchingVerbs = verbs.filter((verb) => verb.meaning_id === rndInt);
-   for (let i=0; i < matchingVerbs.length; i++) {
-      console.log('Matching: ', matchingVerbs[i])
+   for (let i = 0; i < matchingVerbs.length; i++) {
+      console.log('Matching: ', matchingVerbs[i]);
       verbsArray.push(matchingVerbs[i]);
    }
    if (verbsArray.length > 0) {
@@ -42,7 +45,10 @@ export const getRandomVerbArray = (rndInt, verbs) => {
 export const filterVerbsByLevel = (verbs, level) => {
    switch (level) {
       case 1:
-         console.log('level: 1', verbs.filter((verb) => verb.level === 1))
+         console.log(
+            'level: 1',
+            verbs.filter((verb) => verb.level === 1)
+         );
          return verbs.filter((verb) => verb.level === 1);
       case 2:
          return verbs.filter((verb) => verb.level === 1 || verb.level === 2);
@@ -55,12 +61,12 @@ export const filterVerbsByLevel = (verbs, level) => {
 
 // This function is used for randomizing verbs for Meanings screen
 export const getRndVerbs = (verbs, amount) => {
-   console.log('Verbs: ', verbs)
+   console.log('Verbs: ', verbs);
    let rndVerb;
    let rndVerbs = [];
    let rndVerbsFinal = [];
    while (rndVerbsFinal.length < amount * 3) {
-      // The range of random numbers (0-300) is excessive 
+      // The range of random numbers (0-300) is excessive
       // in order to involve all verbs of
       // a certain level in randomizing.
       const rndInt = rndIntGenerator(300);
@@ -84,7 +90,7 @@ export const getRndVerbs = (verbs, amount) => {
          rndVerbsThree = [];
       }
    }
-   console.log(verbObjectArray)
+   console.log(verbObjectArray);
    return verbObjectArray;
 };
 
@@ -94,29 +100,31 @@ export const getRndVerbsForForms = (verbs, amount) => {
    let rndVerbs = [];
    let rndVerbsFinal = [];
    while (rndVerbsFinal.length < amount) {
-      console.log('verbs.length: ', verbs.length)
-      // The range of random numbers (0-300) is excessive 
+      console.log('verbs.length: ', verbs.length);
+      // The range of random numbers (0-300) is excessive
       // in order to involve all verbs of
       // a certain level in randomizing.
       // The random number shall match a meaning_id
       // If no match, the randomizing will be repeated
       const rndInt = rndIntGenerator(300);
-      console.log('rndInt: ', rndInt)
+      console.log('rndInt: ', rndInt);
       rndVerbArray = getRandomVerbArray(rndInt, verbs);
-      console.log('rndVerbArray from getRndVerbsForForms: ', rndVerbArray)
+      console.log('rndVerbArray from getRndVerbsForForms: ', rndVerbArray);
       if (rndVerbArray) {
          rndVerbs.push(rndVerbArray);
       }
       if (rndVerbs.length > 1) {
-         console.log('rndVerbs: ', rndVerbs)
+         console.log('rndVerbs: ', rndVerbs);
          // Check for duplicates with same meaning
          rndVerbsFinal = rndVerbs.filter(
             (verbArray, index, self) =>
                index ===
-               self.findIndex((v) => v[0].meaning_id === verbArray[0].meaning_id)
+               self.findIndex(
+                  (v) => v[0].meaning_id === verbArray[0].meaning_id
+               )
          );
       }
-         console.log('rndVerbsFinal: ', rndVerbsFinal)
+      console.log('rndVerbsFinal: ', rndVerbsFinal);
    }
    return rndVerbsFinal;
 };

@@ -4,18 +4,14 @@ export const getSynonymousForms = (synonyms, verbForm) => {
       const infinitiveSynonyms = verbForm.map(
          (verbForm) => verbForm.infinitive
       );
-      const presentSynonyms = verbForm.map(
-         (verbForm) => verbForm.present
-      );
+      const presentSynonyms = verbForm.map((verbForm) => verbForm.present);
       const pastSynonyms = verbForm.map((verbForm) => verbForm.past);
-      const presPerfSynonyms = verbForm.map(
-         (verbForm) => verbForm.presperf
-      );
-      return ({
+      const presPerfSynonyms = verbForm.map((verbForm) => verbForm.presperf);
+      return {
          infinitive: infinitiveSynonyms,
          present: presentSynonyms,
          past: pastSynonyms,
          presPerf: presPerfSynonyms,
-      });
+      };
    }
 };
