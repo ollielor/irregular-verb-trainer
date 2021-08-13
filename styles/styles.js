@@ -208,6 +208,14 @@ export const styles = (props) => StyleSheet.create({
       textAlign: 'center',
       paddingTop: 10,
    },
+   // Styles for Settings screen
+   settingsBodyStyle: { 
+      flexDirection: 'row', 
+      justifyContent: 'center' 
+   },
+   settingsListStyle: {
+      marginBottom: 30
+   },
    // Common styles
    overFlowVisible: {
       overflow: 'visible'

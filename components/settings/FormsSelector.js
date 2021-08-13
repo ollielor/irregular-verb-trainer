@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
 import {
    Body,
-   Card,
-   CardItem,
    Content,
-   Left,
    List,
    ListItem,
    Right,
@@ -13,23 +10,17 @@ import {
    Text,
 } from 'native-base';
 
-import ButtonComponent from '../buttons/ButtonComponent';
-import ButtonComponentNarrow from '../buttons/ButtonComponentNarrow';
-import Heading from '../styling/Heading';
+import { styles } from '../../styles/styles';
+
 import Subheading from '../styling/Subheading';
 
 const FormsSelector = (props) => {
-   const [infinitive, setInfinitive] = useState(false);
-   const [present, setPresent] = useState(false);
-   const [past, setPast] = useState(false);
-   const [presperf, setPresperf] = useState(false);
-
    return (
       <Content>
-         <Body style={{ flexDirection: 'row', justifyContent: 'center' }}>
+         <Body style={styles(props).settingsBodyStyle}>
             <Subheading>Harjoiteltavat muodot</Subheading>
          </Body>
-         <List style={{ marginBottom: 30 }}>
+         <List style={styles(props).settingsListStyle}>
             <ListItem>
                <Body>
                   <Text>Perusmuoto</Text>
@@ -37,9 +28,7 @@ const FormsSelector = (props) => {
                <Right>
                   <Switch
                      value={props.infinitive}
-                     onValueChange={(value) =>
-                        props.setInfinitive(value)
-                     }
+                     onValueChange={(value) => props.setInfinitive(value)}
                   />
                </Right>
             </ListItem>
@@ -50,9 +39,7 @@ const FormsSelector = (props) => {
                <Right>
                   <Switch
                      value={props.present}
-                     onValueChange={(value) =>
-                        props.setPresent(value)
-                     }
+                     onValueChange={(value) => props.setPresent(value)}
                   />
                </Right>
             </ListItem>
@@ -63,9 +50,7 @@ const FormsSelector = (props) => {
                <Right>
                   <Switch
                      value={props.past}
-                     onValueChange={(value) =>
-                        props.setPast(value)
-                     }
+                     onValueChange={(value) => props.setPast(value)}
                   />
                </Right>
             </ListItem>
@@ -78,9 +63,7 @@ const FormsSelector = (props) => {
                <Right>
                   <Switch
                      value={props.presPerf}
-                     onValueChange={(value) =>
-                        props.setPresPerf(value)
-                     }
+                     onValueChange={(value) => props.setPresPerf(value)}
                   />
                </Right>
             </ListItem>
@@ -90,12 +73,3 @@ const FormsSelector = (props) => {
 };
 
 export default FormsSelector;
-
-const styles = StyleSheet.create({
-   cardStyle: {
-      borderColor: '#7E00C5',
-   },
-   cardItemStyle: {
-      backgroundColor: '#ebebeb',
-   },
-});

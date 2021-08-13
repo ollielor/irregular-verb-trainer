@@ -42,7 +42,7 @@ const ProgressComponent = (props) => {
          <Card>
             <CardItem
                style={
-                  totalPercentage > 77.5
+                  totalPercentage >= 77.5
                      ? styles(props).progressCardStyleGood
                      : styles(props).progressCardStyleNeutral
                }

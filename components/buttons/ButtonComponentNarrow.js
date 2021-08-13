@@ -7,15 +7,15 @@ import { useLinkProps } from '@react-navigation/native';
 const ButtonComponentNarrow = (props) => {
    return (
       <Button
-         style={
+         style={[props.withMargin && { margin: 2 },
             props.disabled
                ? styles(props).buttonNarrowDisabledStyle
                : styles(useLinkProps).buttonNarrowEnabledStyle
-         }
+         ]}
          onPress={props.function}
          disabled={props.disabled}
       >
-         <Text uppercase={false} style={{ color: '#D2D2D2' }}>
+         <Text uppercase={false} style={styles(props).buttonText}>
             {props.title}
          </Text>
       </Button>

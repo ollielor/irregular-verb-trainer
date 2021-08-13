@@ -15,13 +15,13 @@ const ResultView = (props) => {
    console.log(feedbackTexts);
 
    useEffect(() => {
-      if (props.resultsData.totalPercentage > 87.5) {
+      if (props.resultsData.totalPercentage >= 87.5) {
          setFeedback(
             feedbackTexts[props.language].high[
                rndIntGeneratorZero(feedbackTexts[props.language].high.length)
             ].text
          );
-      } else if (props.resultsData.totalPercentage > 77.5) {
+      } else if (props.resultsData.totalPercentage >= 77.5) {
          setFeedback(
             feedbackTexts[props.language].good[
                rndIntGeneratorZero(feedbackTexts[props.language].good.length)
