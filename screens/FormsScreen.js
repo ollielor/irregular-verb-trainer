@@ -1,19 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, ScrollView, KeyboardAvoidingView, Platform, View } from 'react-native';
+import {
+   ScrollView,
+   KeyboardAvoidingView,
+   Platform,
+} from 'react-native';
 import { Container, Text } from 'native-base';
 
 import { connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 
-import {
-   prepareAnswerGerman,
-   prepareAnswerSwedish,
-   checkAnswerStrings
-} from '../helpers/answerHandling';
-
-import {
-   updateResults
-} from '../store/actions/results';
+import { updateResults } from '../store/actions/results';
 
 import {
    getRndVerbsForForms,
@@ -26,14 +22,10 @@ import {
    calcTotalPointsForms,
    calcTotalPercentage,
    calcAmountCorrectAnswersForms,
-   calcPoints 
+   calcPoints,
 } from '../helpers/points';
 
-import { 
-   getResults, 
-   createResultsDb, 
-   saveResults 
-} from '../helpers/results';
+import { getResults, createResultsDb, saveResults } from '../helpers/results';
 
 import FooterComponent from '../components/footer/FooterComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
@@ -43,6 +35,8 @@ import ButtonComponent from '../components/buttons/ButtonComponent';
 import LatestResults from '../components/results/LatestResults';
 import SpinnerComponent from '../components/styling/SpinnerComponent';
 import ProgressBar from '../components/progress/ProgressBar';
+
+import { styles } from '../styles/styles';
 
 const FormsScreen = (props) => {
    const [verbs, setVerbs] = useState([]);
@@ -66,8 +60,6 @@ const FormsScreen = (props) => {
    const [currentComponentIndex, setCurrentComponentIndex] = useState(0);
 
    const navigation = useNavigation();
-
-   console.log(props);
 
    // This useEffect creates the result database
    useEffect(() => {
@@ -130,18 +122,20 @@ const FormsScreen = (props) => {
       props.presperf,
    ]);
 
-      useEffect(() => {
+   useEffect(() => {
       setVerbsFiltered(false);
       let verbsByLanguage;
       if (props.language === 1) {
-         verbsByLanguage = props.verbsSwedish.filter(verb => verb.infinitive.length > 1);
-         console.log('verbsByLanguage: ', verbsByLanguage)
+         verbsByLanguage = props.verbsSwedish.filter(
+            (verb) => verb.infinitive.length > 1
+         );
+         console.log('verbsByLanguage: ', verbsByLanguage);
       } else {
          verbsByLanguage = props.verbsGerman;
       }
       const filteredVerbs = filterVerbsByLevel(verbsByLanguage, props.level);
       setVerbs(filteredVerbs);
-      console.log('filteredVerbs length: ', filteredVerbs.length)
+      console.log('filteredVerbs length: ', filteredVerbs.length);
       setVerbsFiltered(true);
    }, [props.level, props.verbsSwedish, props.verbsGerman, props.language]);
 
@@ -161,7 +155,7 @@ const FormsScreen = (props) => {
 
    useEffect(() => {
       if (tableCreated && resultsReady && dateTime && !resultsSaved) {
-         saveResultsAsync()
+         saveResultsAsync();
          setResultsSaved(true);
       }
    }, [resultsReady, dateTime, tableCreated]);
@@ -177,22 +171,22 @@ const FormsScreen = (props) => {
             resultsData.totalPoints,
             resultsData.maxPoints,
             resultsData.totalPercentage,
-            dateTime,
-         ) 
+            dateTime
+         );
          setResultsSaved(true);
       } catch (error) {
          console.log(error);
       }
-   }
+   };
 
    const updateResultsAsync = async () => {
       props.dispatch(updateResults(await getResults()));
-   }
- 
+   };
+
    useEffect(() => {
       updateResultsAsync();
    }, [resultsSaved]);
-   
+
    const startAgain = () => {
       setStarted(true);
       setFinished(false);
@@ -201,7 +195,7 @@ const FormsScreen = (props) => {
       setResultsReady(false);
       setResultsSaved(false);
       setCurrentComponentIndex(0);
-   }
+   };
 
    useEffect(() => {
       if (started) {
@@ -224,7 +218,12 @@ const FormsScreen = (props) => {
       if (finished) {
          // The points calculation functions are located in /helpers/points.js
          const estimatedAccomplishTime = calcEstimatedAccomplishTime(maxPoints);
-         const totalPoints = calcTotalPointsForms(counterState, estimatedAccomplishTime, points, maxPoints);
+         const totalPoints = calcTotalPointsForms(
+            counterState,
+            estimatedAccomplishTime,
+            points,
+            maxPoints
+         );
          setResultsData({
             points: points,
             totalPoints: totalPoints,
@@ -239,7 +238,7 @@ const FormsScreen = (props) => {
    }, [finished]);
 
    useEffect(() => {
-      if (finished && resultsData || started) {
+      if ((finished && resultsData) || started) {
          scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
          setAnsweredIndex(0);
       }
@@ -253,40 +252,34 @@ const FormsScreen = (props) => {
    const scrollViewRef = useRef();
 
    return (
-      <Container style={styles.container}>
+      <Container style={styles(props).containerGrey}>
          <HeaderComponent title="Verbien muodot" goBack={navigation.goBack} />
-         {started && points > 0 &&
-            <ProgressBar 
-               currentComponentIndex={currentComponentIndex} 
+         {started && points > 0 && (
+            <ProgressBar
+               currentComponentIndex={currentComponentIndex}
                points={points}
                maxPoints={maxPoints}
             />
-         }     
+         )}
          <KeyboardAvoidingView
-            style={styles.flexOne}
+            style={styles(props).flexOne}
             behavior={Platform.OS === 'ios' ? 'padding' : null}
          >
             <ScrollView
                keyboardShouldPersistTaps="always"
-               style={styles.flexOne}
+               style={styles(props).flexOne}
                ref={scrollViewRef}
             >
-               {finished &&
-                  resultsReady &&
-                  resultsData &&
-                  resultsSaved && (
-                     <>
-                        <ResultView
-                           resultsData={resultsData}
-                           startAgain={startAgain}
-                           forms
-                        />
-                        <LatestResults
-                           count={3}
-                           showTypes
-                        />
-                     </>
-                  )}
+               {finished && resultsReady && resultsData && resultsSaved && (
+                  <>
+                     <ResultView
+                        resultsData={resultsData}
+                        startAgain={startAgain}
+                        forms
+                     />
+                     <LatestResults count={3} showTypes />
+                  </>
+               )}
                {!formsSelected && (
                   <>
                      <Text
@@ -326,7 +319,9 @@ const FormsScreen = (props) => {
                               setPoints={setPoints}
                               calcPoints={calcPoints}
                               currentComponentIndex={currentComponentIndex}
-                              setCurrentComponentIndex={setCurrentComponentIndex}
+                              setCurrentComponentIndex={
+                                 setCurrentComponentIndex
+                              }
                            />
                         ))
                      ) : (
@@ -376,22 +371,7 @@ const mapStateToProps = (state) => ({
    past: state.settings.tenses.past,
    presperf: state.settings.tenses.presperf,
    tenses: state.settings.tenses,
-   results: state.results.results
+   results: state.results.results,
 });
 
 export default connect(mapStateToProps)(FormsScreen);
-
-const styles = StyleSheet.create({
-   container: {
-      backgroundColor: '#d2d2d2',
-   },
-   contentContainer: {
-      padding: 10,
-   },
-   formStyle: {
-      paddingRight: 20,
-   },
-   flexOne: {
-      flex: 1,
-   },
-});

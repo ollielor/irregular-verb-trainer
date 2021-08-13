@@ -18,9 +18,7 @@ import {
    updatePresperf,
 } from '../store/actions/settings';
 
-import {
-   updateResults
-} from '../store/actions/results';
+import { updateResults } from '../store/actions/results';
 
 import { getResults, createResultsDb } from '../helpers/results';
 
@@ -33,12 +31,14 @@ import SpinnerComponent from '../components/styling/SpinnerComponent';
 
 import DatabaseSettings from '../modules/DatabaseSettings';
 
-import { fetchVerbsGerman,  fetchVerbsSwedish } from '../store/actions/verbs';
+import { fetchVerbsGerman, fetchVerbsSwedish } from '../store/actions/verbs';
 
 import DatabaseVerbsGerman from '../modules/DatabaseVerbsGerman';
 import DatabaseVerbsSwedish from '../modules/DatabaseVerbsSwedish';
 import DatabaseResults from '../modules/DatabaseResults';
 import LatestResults from '../components/results/LatestResults';
+
+import { styles } from '../styles/styles';
 
 const StartScreen = (props) => {
    const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -48,30 +48,15 @@ const StartScreen = (props) => {
 
    const navigation = useNavigation();
 
-   console.log('Results from Redux: ', props.results);
-
-/*    useEffect(() => {
-      DatabaseResults.transaction(
-         (tx) => {
-            tx.executeSql('drop table if exists results;', [],
-            setDropped(true),            
-            (tx, error) => {
-               console.log('Could not execute query: ', error);
-            });
-         },
-         (error) => {
-            console.log('Transaction error: ', error);
-         }
-      );
-      }, []); */
-
    useEffect(() => {
       createResultsDb();
-   }, [])
+   }, []);
 
    useEffect(() => {
       const initializeDbGerman = async () => {
-         const directory = await FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`);
+         const directory = await FileSystem.getInfoAsync(
+            `${FileSystem.documentDirectory}SQLite`
+         );
          console.log(directory);
          if (!directory.exists) {
             FileSystem.makeDirectoryAsync(
@@ -84,19 +69,21 @@ const StartScreen = (props) => {
          );
          console.log('File: ', file);
          if (!file.exists) {
-               await FileSystem.downloadAsync(
-                  Asset.fromModule(require('../assets/verbs_german.db')).uri,
-                  `${FileSystem.documentDirectory}SQLite/verbs_german.db`
-               );
+            await FileSystem.downloadAsync(
+               Asset.fromModule(require('../assets/verbs_german.db')).uri,
+               `${FileSystem.documentDirectory}SQLite/verbs_german.db`
+            );
          }
          setGermanLoaded(true);
-      }
+      };
       initializeDbGerman();
-   }, [])
+   }, []);
 
    useEffect(() => {
       const initializeDbSwedish = async () => {
-         const directory = await FileSystem.getInfoAsync(`${FileSystem.documentDirectory}SQLite`);
+         const directory = await FileSystem.getInfoAsync(
+            `${FileSystem.documentDirectory}SQLite`
+         );
          console.log(directory);
          if (!directory.exists) {
             FileSystem.makeDirectoryAsync(
@@ -109,20 +96,20 @@ const StartScreen = (props) => {
          );
          console.log('File: ', file);
          if (!file.exists) {
-               await FileSystem.downloadAsync(
-                  Asset.fromModule(require('../assets/verbs_swedish.db')).uri,
-                  `${FileSystem.documentDirectory}SQLite/verbs_swedish.db`
-               );
+            await FileSystem.downloadAsync(
+               Asset.fromModule(require('../assets/verbs_swedish.db')).uri,
+               `${FileSystem.documentDirectory}SQLite/verbs_swedish.db`
+            );
          }
          setSwedishLoaded(true);
-      }
+      };
       initializeDbSwedish();
-   }, [])
+   }, []);
 
    const updateResultsAsync = async () => {
       props.dispatch(updateResults(await getResults()));
-   }
- 
+   };
+
    useEffect(() => {
       updateResultsAsync();
    }, []);
@@ -136,10 +123,9 @@ const StartScreen = (props) => {
          },
          null,
          null
-         // updateList
       );
    }, []);
-   
+
    useEffect(() => {
       if (germanLoaded) {
          DatabaseVerbsGerman.transaction(
@@ -189,18 +175,18 @@ const StartScreen = (props) => {
    }, []);
 
    useEffect(() => {
-      const loadFonts = async() => {
-         try {             
+      const loadFonts = async () => {
+         try {
             await Font.loadAsync({
                Roboto: require('native-base/Fonts/Roboto.ttf'),
                Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
                ...Ionicons.font,
-            })
-            setFontsLoaded(true);  
+            });
+            setFontsLoaded(true);
          } catch (error) {
             console.log(error);
-         };
-      }
+         }
+      };
       loadFonts();
    }, []);
 
@@ -265,7 +251,8 @@ const StartScreen = (props) => {
                      }
                      setSettingsLoaded(true);
                   } else {
-                     tx.executeSql('insert into settings (language, level, infinitive, present, past, presperf) values (?, ?, ?, ?, ?, ?);',
+                     tx.executeSql(
+                        'insert into settings (language, level, infinitive, present, past, presperf) values (?, ?, ?, ?, ?, ?);',
                         [
                            props.language,
                            props.level,
@@ -273,8 +260,8 @@ const StartScreen = (props) => {
                            props.present ? 1 : 0,
                            props.past ? 1 : 0,
                            props.presperf ? 1 : 0,
-   
-                     ]);
+                        ]
+                     );
                      setSettingsLoaded(true);
                   }
                },
@@ -290,56 +277,56 @@ const StartScreen = (props) => {
    };
 
    return (
-      <Container style={styles.container}>
+      <Container style={styles(props).containerGrey}>
          {!fontsLoaded && <SpinnerComponent text="Ladataan fontteja..." />}
-         {!settingsLoaded && (
-            <SpinnerComponent text="Ladataan asetuksia..." />
-         )}
-         {fontsLoaded && settingsLoaded && 
-            <Container style={styles.container}>
-            <HeaderComponent title="Verbivalmentaja" noArrow />
+         {!settingsLoaded && <SpinnerComponent text="Ladataan asetuksia..." />}
+         {fontsLoaded && settingsLoaded && (
+            <Container style={styles(props).containerGrey}>
+               <HeaderComponent title="Verbivalmentaja" noArrow />
                <>
-               <Content style={styles.contentContainer}>
-            <ButtonComponent
-               color="#7E00C5"
-               title="Selaa ja opettele verbejä"
-               function={() => navigation.navigate('Selaa ja opettele')}
-            />
-           <ButtonComponent
-               color="#7E00C5"
-               title="Harjoittele verbien merkityksiä"
-               function={() =>
-                  navigation.navigate('Harjoittele merkityksiä')
-               }
-            />
-            <ButtonComponent
-               color="#7E00C5"
-               title="Harjoittele verbien muotoja"
-               function={() =>
-                  navigation.navigate('Harjoittele muotoja')
-               }
-            />
-                  <ButtonComponent
-                     color="#4E00C5"
-                     title="Omat tulokseni"
-                     function={() => navigation.navigate('Omat tulokseni')}
-                  />
-                  <ButtonComponent
-                     color="#4E00C5"
-                     title="Omat asetukseni"
-                     function={() => navigation.navigate('Omat asetukseni')}
-                  />
-                  <ButtonComponent
-                     color="#4E00C5"
-                     title="Ohjeet"
-                     function={() => navigation.navigate('Ohjeet')}
-                  />
-                  <LatestResults count={5} showTypes />
+                  <Content style={styles(props).contentContainer}>
+                     <ButtonComponent
+                        color="#7E00C5"
+                        title="Selaa ja opettele verbejä"
+                        function={() =>
+                           navigation.navigate('Selaa ja opettele')
+                        }
+                     />
+                     <ButtonComponent
+                        color="#7E00C5"
+                        title="Harjoittele verbien merkityksiä"
+                        function={() =>
+                           navigation.navigate('Harjoittele merkityksiä')
+                        }
+                     />
+                     <ButtonComponent
+                        color="#7E00C5"
+                        title="Harjoittele verbien muotoja"
+                        function={() =>
+                           navigation.navigate('Harjoittele muotoja')
+                        }
+                     />
+                     <ButtonComponent
+                        color="#4E00C5"
+                        title="Omat tulokseni"
+                        function={() => navigation.navigate('Omat tulokseni')}
+                     />
+                     <ButtonComponent
+                        color="#4E00C5"
+                        title="Omat asetukseni"
+                        function={() => navigation.navigate('Omat asetukseni')}
+                     />
+                     <ButtonComponent
+                        color="#4E00C5"
+                        title="Ohjeet"
+                        function={() => navigation.navigate('Ohjeet')}
+                     />
+                     <LatestResults count={5} showTypes />
                   </Content>
                </>
                <FooterComponent />
             </Container>
-         }
+         )}
       </Container>
    );
 };
@@ -355,16 +342,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(StartScreen);
-
-const styles = StyleSheet.create({
-   container: {
-      backgroundColor: '#d2d2d2',
-   },
-   contentContainer: {
-      padding: 10,
-   },
-   text: {
-      marginTop: 20,
-      textAlign: 'center'
-   }
-});

@@ -30,6 +30,8 @@ import { connect } from 'react-redux';
 import CardComponentMastery from '../components/cards/CardComponentMastery';
 import { createResultsDb, getResults, saveResults } from '../helpers/results';
 
+import { styles } from '../styles/styles';
+
 const MeaningsScreen = (props) => {
    const [verbs, setVerbs] = useState([]);
    const [verbsFiltered, setVerbsFiltered] = useState(false);
@@ -213,14 +215,14 @@ const MeaningsScreen = (props) => {
    }, [finished]);
 
    return (
-      <Container style={styles.container}>
+      <Container style={styles(props).containerGrey}>
             <HeaderComponent
             title="Verbien merkitykset"
             goBack={navigation.goBack}
          />
          <ScrollView
             keyboardShouldPersistTaps="always"
-            style={styles.flexOne}
+            style={styles(props).flexOne}
             ref={scrollViewRef}
          >
             <Content>
@@ -267,15 +269,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(MeaningsScreen);
-
-const styles = StyleSheet.create({
-   container: {
-      backgroundColor: '#d2d2d2',
-   },
-   contentContainer: {
-      padding: 10,
-   },
-   flexOne: {
-      flex: 1,
-   },
-});

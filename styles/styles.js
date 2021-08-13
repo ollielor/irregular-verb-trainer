@@ -228,10 +228,24 @@ export const styles = (props) => StyleSheet.create({
       color: '#7E00C5',
       paddingLeft: 8,
    },
+   // Styles for Share Results screen
+   formInputSharing: {
+      fontSize: 16,
+      padding: 10,
+      borderColor: '#7E00C5',
+      borderWidth: 1,
+      width: '100%',
+   },
    // Common styles
    accent: {
       fontWeight: 'bold',
       color: '#4E00C5'
+   },
+   containerGrey: {
+      backgroundColor: '#d2d2d2',
+   },
+   contentContainer: {
+      padding: 10,
    },
    flexOne: {
       flex: 1

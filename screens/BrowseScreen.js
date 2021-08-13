@@ -10,6 +10,7 @@ import FooterComponent from '../components/footer/FooterComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
 import CardComponentBrowse from '../components/cards/CardComponentBrowse';
 import Heading from '../components/styling/Heading';
+import { styles } from '../styles/styles';
 
 const BrowseScreen = (props) => {
    let verbs;
@@ -26,12 +27,12 @@ const BrowseScreen = (props) => {
    }, []);
 
    return (
-      <Container style={styles.container}>
+      <Container style={styles(props).containerGrey}>
          <HeaderComponent
             title="Selaa ja opettele"
             goBack={navigation.goBack}
          />
-         <Content style={styles.contentContainer}>
+         <Content style={styles(props).contentContainer}>
             <Heading>Taso 1</Heading>
             {verbs
                .filter((verb) => verb.level === 1)
@@ -90,12 +91,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(BrowseScreen);
-
-const styles = StyleSheet.create({
-   container: {
-      backgroundColor: '#d2d2d2',
-   },
-   contentContainer: {
-      padding: 10,
-   },
-});
