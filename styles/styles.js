@@ -41,6 +41,12 @@ export const styles = (props) => StyleSheet.create({
    footerButton: { 
       backgroundColor: '#0047c5' 
    },
+   historyButtonResults: {
+      backgroundColor: '#4E00C5',
+      alignSelf: 'center',
+      marginTop: 20,
+      marginBottom: 20,
+   },
    meaningsButtonStyle: {
       marginBottom: 5,
       backgroundColor: '#0000cc',
@@ -163,6 +169,44 @@ export const styles = (props) => StyleSheet.create({
       color: "#7E00C5",
       padding: 10,
       textAlign: 'center',
+   },
+   // Styles for results
+   headerResults: {
+      textAlign: 'center',
+      fontWeight: 'bold',
+      fontSize: 24,
+      color: '#4E00C5',
+      marginTop: 20,
+   },
+   progressCardStyleNeutral: {
+      backgroundColor: '#e8e8e8',
+   },
+   progressCardStyleGood: {
+      backgroundColor: '#a3dc59',
+   },
+   progressBodyStyle: {
+      justifyContent: 'center',
+      alignItems: 'center',
+   },
+   progressStyle: {
+      color: '#4E00C5',
+      textAlign: 'center',
+      fontWeight: 'bold',
+   },
+   textResults: {
+      textAlign: 'center'
+   },
+   // Styles for feedback
+   feedback: {
+      textAlign: 'center',
+      fontWeight: 'bold',
+      fontSize: 24,
+      color: '#4E00C5',
+      marginTop: 20,
+   },
+   feedbackPoints: {
+      textAlign: 'center',
+      paddingTop: 10,
    },
    // Common styles
    overFlowVisible: {

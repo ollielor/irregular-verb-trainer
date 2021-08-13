@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+
 import { Button, Content, Text } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
@@ -8,18 +8,22 @@ import { connect } from 'react-redux';
 
 import Heading from '../styling/Heading';
 import CardComponentResults from '../cards/CardComponentResults';
+import { styles } from '../../styles/styles';
 
 const LatestResults = (props) => {
    const navigation = useNavigation();
 
-   console.log(props.results)
-
    return (
       <Content>
-         <Heading>{props.count} viimeisintä tulosta {props.language === 1 ? '(ruotsi)' : '(saksa)'}</Heading>
-         {props.results.length === 0 &&
-            <Text style={styles.text}>Sinulla ei ole vielä suorituksia.</Text>
-         }         
+         <Heading>
+            {props.count} viimeisintä tulosta{' '}
+            {props.language === 1 ? '(ruotsi)' : '(saksa)'}
+         </Heading>
+         {props.results.length === 0 && (
+            <Text style={styles(props).textResults}>
+               Sinulla ei ole vielä suorituksia.
+            </Text>
+         )}
          {props.results &&
             props.results
                .filter((historyItem) => historyItem.language === props.language)
@@ -28,15 +32,20 @@ const LatestResults = (props) => {
                )
                .slice(0, props.count)
                .map((historyItem, index) => (
-                  <CardComponentResults historyItem={historyItem} key={index} showTypes={props.showTypes} />
-               ))
-         }
+                  <CardComponentResults
+                     historyItem={historyItem}
+                     key={index}
+                     showTypes={props.showTypes}
+                  />
+               ))}
          {!props.hideButton && (
             <Button
                onPress={() => navigation.navigate('Omat tulokseni')}
-               style={styles.historyButton}
+               style={styles(props).historyButtonResults}
             >
-               {props.results.length > 0 && <Text uppercase={false}>Näytä koko historia</Text>}
+               {props.results.length > 0 && (
+                  <Text uppercase={false}>Näytä koko historia</Text>
+               )}
             </Button>
          )}
       </Content>
@@ -45,26 +54,7 @@ const LatestResults = (props) => {
 
 const mapStateToProps = (state) => ({
    language: state.settings.language,
-   results: state.results.results
+   results: state.results.results,
 });
 
 export default connect(mapStateToProps)(LatestResults);
-
-const styles = StyleSheet.create({
-   header: {
-      textAlign: 'center',
-      fontWeight: 'bold',
-      fontSize: 24,
-      color: '#4E00C5',
-      marginTop: 20,
-   },
-   historyButton: {
-      backgroundColor: '#4E00C5',
-      alignSelf: 'center',
-      marginTop: 20,
-      marginBottom: 20,
-   },
-   text: {
-      textAlign: 'center'
-   }
-});
