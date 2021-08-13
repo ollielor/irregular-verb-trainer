@@ -1,5 +1,4 @@
 import React from 'react';
-import { Platform, StyleSheet } from 'react-native';
 import { Button, Text } from 'native-base';
 
 import { useNavigation } from '@react-navigation/core';

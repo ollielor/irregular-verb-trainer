@@ -3,26 +3,28 @@ import { StyleSheet } from 'react-native';
 import { Body, Card, CardItem, Content, Text } from 'native-base';
 import ButtonInstructions from '../buttons/ButtonInstructions';
 
-const CardComponentInstructions = (props) => {
+import { styles } from '../../styles/styles';
 
+const CardComponentInstructions = (props) => {
    return (
       <Content>
          <Card>
-            <CardItem style={styles.cardItemStyle}>
+            <CardItem style={styles(props).cardComponentGrey}>
                <Body>
-                  <Text style={styles.headerStyle}>
+                  <Text style={styles(props).instructionsHeaderStyle}>
                      {props.header}
                   </Text>
-                  <Text style={styles.plainText}>
+                  <Text style={styles(props).instructionsPlainText}>
                      {props.text}
                   </Text>
-                  {props.buttons && props.buttons.map((button, index) => 
-                     <ButtonInstructions
-                        key={index}
-                        title={button.buttonText}
-                        buttonAction={button.buttonAction}
-                     />
-                  )}
+                  {props.buttons &&
+                     props.buttons.map((button, index) => (
+                        <ButtonInstructions
+                           key={index}
+                           title={button.buttonText}
+                           buttonAction={button.buttonAction}
+                        />
+                     ))}
                </Body>
             </CardItem>
          </Card>
@@ -31,17 +33,3 @@ const CardComponentInstructions = (props) => {
 };
 
 export default CardComponentInstructions;
-
-const styles = StyleSheet.create({
-   cardItemStyle: {
-      backgroundColor: '#e8e8e8'
-   },
-   headerStyle: {
-      color: '#7E00C5', 
-      fontWeight: 'bold',
-      marginBottom: 15
-   },
-   plainText: {
-      marginBottom: 15
-   }
-})

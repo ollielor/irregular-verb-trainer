@@ -1,25 +1,25 @@
-import React, { useEffect, useState, useRef, createRef, forwardRef } from 'react';
+import React, {
+   useEffect,
+   useState,
+   useRef,
+   createRef,
+   forwardRef,
+} from 'react';
 import { StyleSheet } from 'react-native';
 import { Body, Card, CardItem, Spinner, Text } from 'native-base';
-import CorrectAnswerComponent from '../styling/CorrectAnswerComponent';
 import { connect } from 'react-redux';
 import InputComponentForms from '../inputs/InputComponentForms';
 
-import {
-   getSynonymousForms
-} from '../../helpers/formsHandling';
+import { getSynonymousForms } from '../../helpers/formsHandling';
 
-import {
-   evaluate
-} from '../../helpers/answerHandling';
+import { evaluate } from '../../helpers/answerHandling';
 
-import {
-   calcPoints
-} from '../../helpers/points';
+import { calcPoints } from '../../helpers/points';
+
+import { styles } from '../../styles/styles';
 
 const CardComponentForms = forwardRef((props, ref) => {
-
-   console.log('props from CardComponentForms: ', props)
+   console.log('props from CardComponentForms: ', props);
 
    const [correctInfinitive, setCorrectInfinitive] = useState(false);
    const [correctPresent, setCorrectPresent] = useState(false);
@@ -41,8 +41,9 @@ const CardComponentForms = forwardRef((props, ref) => {
    });
 
    const refs = useRef([]);
-   refs.current = props.tenseNames.map((el, index) => refs.current[index] ?? createRef());
-   console.log('refs from CardComponentForms: ', refs);
+   refs.current = props.tenseNames.map(
+      (el, index) => refs.current[index] ?? createRef()
+   );
 
    // useEffect cleanup
    useEffect(() => {
@@ -56,14 +57,12 @@ const CardComponentForms = forwardRef((props, ref) => {
    }, [props.currentComponentIndex]);
 
    const focusOnNextInput = (index) => {
-      console.log('index: ', index);
-      console.log('refs.current.length: ', refs.current.length)
       if (index < refs.current.length - 1) {
          refs.current[index + 1].focus();
       } else if (index === refs.current.length - 1) {
          props.setCurrentComponentIndex(props.currentComponentIndex + 1);
       }
-   }
+   };
 
    const labels = {
       // Labels for Swedish
@@ -71,16 +70,16 @@ const CardComponentForms = forwardRef((props, ref) => {
          infinitive: 'Perusmuoto',
          present: 'Preesens',
          past: 'Imperfekti',
-         presperf: 'Supiini (verbin 4. muoto)'
+         presperf: 'Supiini (verbin 4. muoto)',
       },
       // Placeholder for German
       2: {
          infinitive: 'Perusmuoto',
          present: 'Preesens (er/es/sie)',
          past: 'Imperfekti (er/es/sie)',
-         presperf: 'Perfekti (er/es/sie)'
-      }
-   }
+         presperf: 'Perfekti (er/es/sie)',
+      },
+   };
 
    useEffect(() => {
       // Create arrays of synonymous forms for each tense
@@ -89,31 +88,35 @@ const CardComponentForms = forwardRef((props, ref) => {
 
    const parameters = {
       infinitive: {
-               synonyms: props.synonyms && synonymousForms
-                     ? synonymousForms.infinitive
-                     : props.verbForm.infinitive,
-               // This is null because there are no alternative forms for the infinitive in this app
-               alternativeForm: null
-            },
+         synonyms:
+            props.synonyms && synonymousForms
+               ? synonymousForms.infinitive
+               : props.verbForm.infinitive,
+         // This is null because there are no alternative forms for the infinitive in this app
+         alternativeForm: null,
+      },
       present: {
-               synonyms: props.synonyms && synonymousForms
-                     ? synonymousForms.present
-                     : props.verbForm.present,
-               alternativeForm: props.verbForm.present_alt,
-            },
+         synonyms:
+            props.synonyms && synonymousForms
+               ? synonymousForms.present
+               : props.verbForm.present,
+         alternativeForm: props.verbForm.present_alt,
+      },
       past: {
-         synonyms: props.synonyms && synonymousForms
-                     ? synonymousForms.past
-                     : props.verbForm.past,
-               alternativeForm: props.verbForm.past_alt,
-            },
+         synonyms:
+            props.synonyms && synonymousForms
+               ? synonymousForms.past
+               : props.verbForm.past,
+         alternativeForm: props.verbForm.past_alt,
+      },
       presperf: {
-               synonyms: props.synonyms && synonymousForms
-                     ? synonymousForms.presPerf
-                     : props.verbForm.presperf,
-               alternativeForm: props.verbForm.presperf_alt,
-            }
-   }
+         synonyms:
+            props.synonyms && synonymousForms
+               ? synonymousForms.presPerf
+               : props.verbForm.presperf,
+         alternativeForm: props.verbForm.presperf_alt,
+      },
+   };
 
    const checkAnswer = (answer, tense) => {
       console.log('Answer from checkAnswer: ', answer);
@@ -136,16 +139,15 @@ const CardComponentForms = forwardRef((props, ref) => {
             parameters[tense].synonyms,
             parameters[tense].alternativeForm,
             props.language
-         ) 
-         ) {
-            answerStates(answer, tense);
-            correctAnswerStates(tense);
-            props.setPoints(calcPoints(props.points, 10));
-         } else {
-            checkIncorrect(answer, tense);
-         }
-
-   }
+         )
+      ) {
+         answerStates(answer, tense);
+         correctAnswerStates(tense);
+         props.setPoints(calcPoints(props.points, 10));
+      } else {
+         checkIncorrect(answer, tense);
+      }
+   };
 
    const answerStates = (answer, tense) => {
       switch (tense) {
@@ -162,7 +164,7 @@ const CardComponentForms = forwardRef((props, ref) => {
             setAnswerPresPerf(answer);
             break;
       }
-   }
+   };
 
    const correctAnswerStates = (tense) => {
       switch (tense) {
@@ -179,92 +181,93 @@ const CardComponentForms = forwardRef((props, ref) => {
             setCorrectPresPerf(true);
             break;
       }
-   }
+   };
 
-      // This function checks if the actual answer is longer than the already accepted answer
-      // In that case the points are taken away 
-      const checkIncorrect = (answer, tense) => {
-         switch (tense) {
-            case 'infinitive':
-               if (correctInfinitive && answerInfinitive !== answer) {
-                  setCorrectInfinitive(false);
-                  props.setPoints(calcPoints(props.points, -10));
-               }    
-               break;
-            case 'present':
-               if (correctPresent && answerPresent !== answer) {
-                  setCorrectPresent(false);
-                  props.setPoints(calcPoints(props.points, -10));
-               } 
-               break;
-            case 'past':
-               if (correctPast && answerPast !== answer) {
-                  setCorrectPast(false);
-                  props.setPoints(calcPoints(props.points, -10));
-               }      
-               break; 
-            case 'presperf':
-               if (correctPresPerf && answerPresPerf !== answer) {
-                  setCorrectPresPerf(false);
-                  props.setPoints(calcPoints(props.points, -10));
-               } 
-               break;     
-         }
-   
+   // This function checks if the actual answer is longer than the already accepted answer
+   // In that case the points are taken away
+   const checkIncorrect = (answer, tense) => {
+      switch (tense) {
+         case 'infinitive':
+            if (correctInfinitive && answerInfinitive !== answer) {
+               setCorrectInfinitive(false);
+               props.setPoints(calcPoints(props.points, -10));
+            }
+            break;
+         case 'present':
+            if (correctPresent && answerPresent !== answer) {
+               setCorrectPresent(false);
+               props.setPoints(calcPoints(props.points, -10));
+            }
+            break;
+         case 'past':
+            if (correctPast && answerPast !== answer) {
+               setCorrectPast(false);
+               props.setPoints(calcPoints(props.points, -10));
+            }
+            break;
+         case 'presperf':
+            if (correctPresPerf && answerPresPerf !== answer) {
+               setCorrectPresPerf(false);
+               props.setPoints(calcPoints(props.points, -10));
+            }
+            break;
       }
+   };
 
    return (
       <>
          {props.verbForm ? (
             <Card>
-               <CardItem style={{ backgroundColor: '#e8e8e8' }}>
+               <CardItem style={styles(props).cardComponentGrey}>
                   <Body>
-                     <Text
-                        style={{
-                           color: '#7E00C5',
-                           fontWeight: 'bold',
-                           fontSize: 16,
-                           marginTop: 22,
-                        }}
-                     >
+                     <Text style={styles(props).promptForms}>
                         {props.synonyms
                            ? props.verbForm[0].meaning
                            : props.verbForm.meaning}
                      </Text>
-                     {props.tenseNames.map((tense, index) => 
-                        <InputComponentForms 
+                     {props.tenseNames.map((tense, index) => (
+                        <InputComponentForms
                            tense={tense}
                            key={index}
                            label={labels[props.language][tense]}
                            onChangeText={(answer) => checkAnswer(answer, tense)}
                            correct={
-                              tense === 'infinitive' ? correctInfinitive :
-                              tense === 'present' ? correctPresent :
-                              tense === 'past' ? correctPast :
-                              tense === 'presperf' && correctPresPerf
+                              tense === 'infinitive'
+                                 ? correctInfinitive
+                                 : tense === 'present'
+                                 ? correctPresent
+                                 : tense === 'past'
+                                 ? correctPast
+                                 : tense === 'presperf' && correctPresPerf
                            }
                            unanswered={
-                              tense === 'infinitive' ? unansweredInfinitive :
-                              tense === 'present' ? unansweredPresent :
-                              tense === 'past' ? unansweredPast :
-                              tense === 'presperf' && unansweredPresPerf
+                              tense === 'infinitive'
+                                 ? unansweredInfinitive
+                                 : tense === 'present'
+                                 ? unansweredPresent
+                                 : tense === 'past'
+                                 ? unansweredPast
+                                 : tense === 'presperf' && unansweredPresPerf
                            }
-                           forwardedRef={(r) => refs.current[index] = r}
+                           forwardedRef={(r) => (refs.current[index] = r)}
                            componentIndex={props.componentIndex}
                            onBlur={() =>
-                              tense === 'infinitive' && !unansweredInfinitive ? focusOnNextInput(index) :
-                              tense === 'present' && !unansweredPresent ? focusOnNextInput(index) :
-                              tense === 'past' && !unansweredPast ? focusOnNextInput(index) :
-                              tense === 'presperf' && !unansweredPresPerf && focusOnNextInput(index)
+                              tense === 'infinitive' && !unansweredInfinitive
+                                 ? focusOnNextInput(index)
+                                 : tense === 'present' && !unansweredPresent
+                                 ? focusOnNextInput(index)
+                                 : tense === 'past' && !unansweredPast
+                                 ? focusOnNextInput(index)
+                                 : tense === 'presperf' &&
+                                   !unansweredPresPerf &&
+                                   focusOnNextInput(index)
                            }
                            blurOnSubmit={false}
                            finished={props.finished}
                            synonymousForms={synonymousForms}
                            verbForm={props.verbForm}
-                           />
-                        )                     
-                        }
-
+                        />
+                     ))}
                   </Body>
                </CardItem>
             </Card>
@@ -280,46 +283,7 @@ const mapStateToProps = (state) => ({
    present: state.settings.tenses.present,
    past: state.settings.tenses.past,
    presperf: state.settings.tenses.presperf,
-   language: state.settings.language
+   language: state.settings.language,
 });
 
 export default connect(mapStateToProps)(CardComponentForms);
-
-
-
-const styles = StyleSheet.create({
-   formInput: {
-      fontSize: 16,
-      marginTop: 45,
-      padding: 10,
-      width: '100%',
-   },
-   formInputIOS: {
-      fontSize: 16,
-      marginTop: 45,
-      padding: 10,
-      borderColor: '#7E00C5',
-      borderWidth: 1,
-      width: '100%',
-   },
-   formInputCorrectIOS: {
-      fontSize: 16,
-      fontWeight: 'bold',
-      marginTop: 45,
-      padding: 10,
-      backgroundColor: '#66dd33',
-      borderColor: '#7E00C5',
-      color: 'black',
-      color: '#7E00C5',
-      width: '100%',
-   },
-   formInputIncorrectIOS: {
-      fontSize: 16,
-      marginTop: 45,
-      padding: 10,
-      backgroundColor: '#ff0033',
-      borderColor: '#7E00C5',
-      color: 'white',
-      width: '100%',
-   },
-});

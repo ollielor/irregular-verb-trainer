@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Body, Card, CardItem, Content, Text } from 'native-base';
-import { StyleSheet } from 'react-native';
 
 import SpinnerComponent from '../styling/SpinnerComponent';
 
-import { rndIntGenerator, rndIntGeneratorZero } from '../../helpers/helpers';
+import { rndIntGeneratorZero } from '../../helpers/helpers';
 import ButtonMeanings from '../buttons/ButtonMeanings';
 
 const CardComponentMeanings = (props) => {
@@ -37,15 +36,14 @@ const CardComponentMeanings = (props) => {
       }
       let newOrderArray = [];
       // Push the alternatives into a new array which is set to a state
-      for (let i=0; i < randomOrderFinal.length; i++) {
+      for (let i = 0; i < randomOrderFinal.length; i++) {
          newOrderArray.push(props.alternatives[randomOrderFinal[i]]);
       }
-     setRandomizedAlternatives(newOrderArray);
+      setRandomizedAlternatives(newOrderArray);
       setRndAlternativesLoaded(true);
    }, [props.started]);
 
    const evaluateAnswers = (meaning, index, infinitive) => {
-      
       if (meaning === correctMeaning) {
          setCorrectIndex(index);
          props.evaluate(true, correctMeaning, correctInfinitive, infinitive);
@@ -58,34 +56,33 @@ const CardComponentMeanings = (props) => {
    };
 
    return (
-      <Content style={{overflow: 'visible'}}>
+      <Content style={styles(props).overFlowVisible}>
          {!rndAlternativesLoaded && (
             <SpinnerComponent text="Ladataan vaihtoehtoja" />
          )}
          {rndAlternativesLoaded && (
             <Card>
-               <CardItem header style={{ backgroundColor: '#e8e8e8' }}>
-                  <Body
-                     style={styles.cardMeaningBody}
-                  >
-                     <Text style={styles.prompt}>{correctMeaning}</Text>
+               <CardItem header style={styles(props).cardComponentGrey}>
+                  <Body style={styles(props).cardMeaningBody}>
+                     <Text style={styles(props).promptMeanings}>
+                        {correctMeaning}
+                     </Text>
                   </Body>
                </CardItem>
-               <CardItem style={styles.cardItem}>
+               <CardItem style={styles(props).cardComponentGrey}>
                   <Body>
                      {randomizedAlternatives.map((alternative, index) => (
                         <ButtonMeanings
-                           key={index} 
-                           alternative={alternative} 
+                           key={index}
+                           alternative={alternative}
                            evaluateAnswers={evaluateAnswers}
-                           index={index} 
+                           index={index}
                            locked={locked}
                            correctMeaning={correctMeaning}
                            correctIndex={correctIndex}
                            incorrectIndex={incorrectIndex}
                         />
-                     )
-                     )}
+                     ))}
                   </Body>
                </CardItem>
             </Card>
@@ -95,33 +92,3 @@ const CardComponentMeanings = (props) => {
 };
 
 export default CardComponentMeanings;
-
-const styles = StyleSheet.create({
-   prompt: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      textAlign: 'center',
-   },
-   notAnswered: {
-      backgroundColor: '#0000cc',
-      marginLeft: 2,
-      marginRight: 2,
-   },
-   correctAnswer: {
-      backgroundColor: '#006600',
-      marginLeft: 2,
-      marginRight: 2,
-   },
-   incorrectAnswer: {
-      backgroundColor: '#cc0000',
-      marginLeft: 2,
-      marginRight: 2,
-   },
-   cardMeaningBody: {
-      flexDirection: 'row', 
-      justifyContent: 'center' 
-   },
-   cardItem: { 
-      backgroundColor: '#e8e8e8' 
-   }
-});
