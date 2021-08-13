@@ -83,6 +83,10 @@ export const styles = (props) => StyleSheet.create({
    notMasteredText: {
       color: '#fff'
    },
+   textBodyStyleMastery: {
+      flex: 1,
+      alignContent: 'flex-end'
+   },
    // Styles for Meanings mode
    cardMeaningBody: {
       flexDirection: 'row', 
@@ -216,11 +220,37 @@ export const styles = (props) => StyleSheet.create({
    settingsListStyle: {
       marginBottom: 30
    },
+   // Styles for correct answer component
+   correctAnswerIOS: {
+      color: '#7E00C5',
+   },
+   correctAnswerAndroid: {
+      color: '#7E00C5',
+      paddingLeft: 8,
+   },
    // Common styles
-   overFlowVisible: {
-      overflow: 'visible'
+   accent: {
+      fontWeight: 'bold',
+      color: '#4E00C5'
    },
    flexOne: {
       flex: 1
+   },
+   headingStyle: {
+      color: '#7E00C5',
+      fontSize: 20,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      marginTop: 10,
+      marginBottom: 15,
+   },
+   overFlowVisible: {
+      overflow: 'visible'
+   },
+   subheadingStyle: {
+      color: '#4E00C5',
+      fontWeight: 'bold',
+      marginTop: 15,
+      marginBottom: 10,
    }
 })

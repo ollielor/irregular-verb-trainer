@@ -1,18 +1,9 @@
 import React from 'react';
 import { Text } from 'native-base';
+import { styles } from '../../styles/styles';
 
 const Subheading = (props) => {
-   return (
-      <Text
-         {...props}
-         style={{
-            color: '#4E00C5',
-            fontWeight: 'bold',
-            marginTop: 15,
-            marginBottom: 10,
-         }}
-      />
-   );
+   return <Text {...props} style={styles(props).subheadingStyle} />;
 };
 
 export default Subheading;

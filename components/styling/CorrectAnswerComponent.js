@@ -1,11 +1,17 @@
 import React from 'react';
-import { StyleSheet, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import { Text } from 'native-base';
+import { styles } from '../../styles/styles';
 
 const CorrectAnswerComponent = (props) => {
-
    return (
-      <Text style={Platform.OS === 'ios' ? styles.textIOS : styles.textAndroid}>
+      <Text
+         style={
+            Platform.OS === 'ios'
+               ? styles(props).correctAnswerIOS
+               : styles(props).correctAnswerAndroid
+         }
+      >
          {Array.isArray(props.form)
             ? props.form.map((alternative, index) =>
                  index < props.form.length - 1
@@ -18,13 +24,3 @@ const CorrectAnswerComponent = (props) => {
 };
 
 export default CorrectAnswerComponent;
-
-const styles = StyleSheet.create({
-   textIOS: {
-      color: '#7E00C5',
-   },
-   textAndroid: {
-      color: '#7E00C5',
-      paddingLeft: 8,
-   },
-});

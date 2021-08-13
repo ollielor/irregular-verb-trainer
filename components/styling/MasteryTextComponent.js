@@ -1,11 +1,12 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Text } from 'native-base';
+import { styles } from '../../styles/styles';
 
 const MasteryTextComponent = (props) => {
    return (
-      <Text style={styles.textBodyStyle}>
-         <Text style={styles.accent}>{props.infinitive}</Text>
+      <Text style={styles(props).textBodyStyleMastery}>
+         <Text style={styles(props).accent}>{props.infinitive}</Text>
          {' '}
          <Text>{props.meaning}</Text>
          {props.wrongAnswer && 
@@ -19,14 +20,3 @@ const MasteryTextComponent = (props) => {
 }
 
 export default MasteryTextComponent;
-
-const styles = StyleSheet.create({
-   textBodyStyle: {
-      flex: 1,
-      alignContent: 'flex-end'
-   },
-   accent: {
-      fontWeight: 'bold',
-      color: '#4E00C5'
-   }
-})

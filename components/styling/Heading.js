@@ -1,20 +1,9 @@
 import React from 'react';
 import { Text } from 'native-base';
+import { styles } from '../../styles/styles';
 
 const Heading = (props) => {
-   return (
-      <Text
-         {...props}
-         style={{
-            color: '#7E00C5',
-            fontSize: 20,
-            fontWeight: 'bold',
-            textAlign: 'center',
-            marginTop: 10,
-            marginBottom: 15,
-         }}
-      />
-   );
+   return <Text {...props} style={styles(props).headingStyle} />;
 };
 
 export default Heading;
