@@ -1,10 +1,11 @@
 import React from 'react';
 import { Button, Text } from 'native-base';
+import { styles } from '../../styles/styles';
 
 const ButtonComponent = (props) => {
    return (
-      <Button style={{ backgroundColor: '#0047c5' }} onPress={props.function}>
-         <Text uppercase={false} style={{ color: '#D2D2D2' }}>
+      <Button style={styles(props).footerButton} onPress={props.function}>
+         <Text uppercase={false} style={styles(props).buttonTextStyle}>
             {props.title}
          </Text>
       </Button>

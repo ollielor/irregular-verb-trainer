@@ -4,12 +4,13 @@ import { Footer, FooterTab } from 'native-base';
 import FooterButtonComponent from './FooterButtonComponent';
 
 import { useNavigation } from '@react-navigation/native';
+import { styles } from '../../styles/styles';
 
 const FooterComponent = (props) => {
    const navigation = useNavigation();
 
    return (
-      <Footer style={{ backgroundColor: '#0047c5', display: 'absolute', bottom: 0 }}>
+      <Footer style={styles(props).footerStyle}>
          <FooterTab>
             <FooterButtonComponent
                title="Asetukset"

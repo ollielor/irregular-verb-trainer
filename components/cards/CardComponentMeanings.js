@@ -6,6 +6,8 @@ import SpinnerComponent from '../styling/SpinnerComponent';
 import { rndIntGeneratorZero } from '../../helpers/helpers';
 import ButtonMeanings from '../buttons/ButtonMeanings';
 
+import { styles } from '../../styles/styles';
+
 const CardComponentMeanings = (props) => {
    const [rndAlternativesLoaded, setRndAlternativesLoaded] = useState(false);
    const [correctMeaning, setCorrectMeaning] = useState('');

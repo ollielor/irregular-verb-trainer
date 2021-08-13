@@ -29,7 +29,7 @@ export const styles = (props) => StyleSheet.create({
       marginRight: 2,
    },
    buttonTextStyle: {
-      color: '#D2D2D2',
+      color: '#d2d2d2',
    },
    buttonWithMargin: {
       marginBottom: Platform.OS === 'android' ? 25 : 7,
@@ -37,6 +37,9 @@ export const styles = (props) => StyleSheet.create({
    buttonWithMarginBottomAndTop: {
       marginBottom: 20,
       marginTop: 20,
+   },
+   footerButton: { 
+      backgroundColor: '#0047c5' 
    },
    meaningsButtonStyle: {
       marginBottom: 5,
@@ -53,12 +56,6 @@ export const styles = (props) => StyleSheet.create({
       backgroundColor: '#e8e8e8'
    },
    // Styles for Forms mode
-   promptForms: {
-      color: '#7E00C5',
-      fontWeight: 'bold',
-      fontSize: 16,
-      marginTop: 22,
-   },
    formInput: {
       fontSize: 16,
       marginTop: 45,
@@ -93,6 +90,12 @@ export const styles = (props) => StyleSheet.create({
       color: 'white',
       width: '100%',
    },
+   promptForms: {
+      color: '#7E00C5',
+      fontWeight: 'bold',
+      fontSize: 16,
+      marginTop: 22,
+   },
    // Styles for Instructions screen
    instructionsHeaderStyle: {
       color: '#7E00C5', 
@@ -106,25 +109,19 @@ export const styles = (props) => StyleSheet.create({
    mastered: {
       backgroundColor: '#66dd33',
    },
-   notMastered: {
-      backgroundColor: '#ff0033',
-   },
    masteredText: {
       color: '#4E00C5'
+   },
+   notMastered: {
+      backgroundColor: '#ff0033',
    },
    notMasteredText: {
       color: '#fff'
    },
    // Styles for Meanings mode
-   promptMeanings: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      textAlign: 'center',
-   },
-   notAnsweredMeanings: {
-      backgroundColor: '#0000cc',
-      marginLeft: 2,
-      marginRight: 2,
+   cardMeaningBody: {
+      flexDirection: 'row', 
+      justifyContent: 'center' 
    },
    correctAnswerMeanings: {
       backgroundColor: '#006600',
@@ -136,9 +133,21 @@ export const styles = (props) => StyleSheet.create({
       marginLeft: 2,
       marginRight: 2,
    },
-   cardMeaningBody: {
-      flexDirection: 'row', 
-      justifyContent: 'center' 
+   notAnsweredMeanings: {
+      backgroundColor: '#0000cc',
+      marginLeft: 2,
+      marginRight: 2,
+   },
+   promptMeanings: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      textAlign: 'center',
+   },
+   // Footer styles
+   footerStyle: { 
+      backgroundColor: '#0047c5', 
+      display: 'flex', 
+      bottom: 0 
    },
    // Common styles
    overFlowVisible: {
