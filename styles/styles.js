@@ -158,6 +158,12 @@ export const styles = (props) => StyleSheet.create({
       fontSize: 16,
       marginTop: 22,
    },
+   // Styles for progress bar
+   progressBar: {
+      color: "#7E00C5",
+      padding: 10,
+      textAlign: 'center',
+   },
    // Common styles
    overFlowVisible: {
       overflow: 'visible'
