@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native';
 import SpinnerComponent from '../styling/SpinnerComponent';
 
 import { rndIntGenerator, rndIntGeneratorZero } from '../../helpers/helpers';
-import MeaningsButton from '../buttons/MeaningsButton';
+import ButtonMeanings from '../buttons/ButtonMeanings';
 
 const CardComponentMeanings = (props) => {
    const [rndAlternativesLoaded, setRndAlternativesLoaded] = useState(false);
@@ -74,7 +74,7 @@ const CardComponentMeanings = (props) => {
                <CardItem style={styles.cardItem}>
                   <Body>
                      {randomizedAlternatives.map((alternative, index) => (
-                        <MeaningsButton
+                        <ButtonMeanings
                            key={index} 
                            alternative={alternative} 
                            evaluateAnswers={evaluateAnswers}

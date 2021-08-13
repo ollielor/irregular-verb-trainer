@@ -1,14 +1,17 @@
 import React from 'react';
 import { Button, Text } from 'native-base';
 
+import { styles } from '../../styles/styles';
+import { useLinkProps } from '@react-navigation/native';
+
 const ButtonComponentNarrow = (props) => {
    return (
       <Button
-         style={{
-            backgroundColor: props.disabled ? '#7E00C5' : '#4E00C5',
-            marginLeft: 2,
-            marginRight: 2,
-         }}
+         style={
+            props.disabled
+               ? styles(props).buttonNarrowDisabledStyle
+               : styles(useLinkProps).buttonNarrowEnabledStyle
+         }
          onPress={props.function}
          disabled={props.disabled}
       >
