@@ -23,8 +23,7 @@ At the moment, the app is fully functioning on iOS. On Android, it crashes on st
 * Moment
 
 ## Screenshots
-![Start Screen](https://www.ollieloranta.fi/screenshots/start_screen.PNG)
-Start Screen
+*![Start Screen](https://www.ollieloranta.fi/screenshots/start_screen.PNG) Start Screen
 ![Browse and Learn](https://www.ollieloranta.fi/screenshots/browse_verbs_screen.PNG)
 Browse and Learn
 ![Practise Meanings](https://www.ollieloranta.fi/screenshots/meanings_mode.PNG)
