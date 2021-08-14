@@ -8,7 +8,7 @@ At the moment, the app is fully functioning on iOS. On Android, it crashes on st
 
 1. Browse and Learn: The user can see a list of irregular verbs, grouped by level (easy/intermediate/difficult).
 2. Practise Meanings: The user chooses the correct meaning of three alternatives. There are between 5 and 10 questions depending on the level.
-3. Practise Forms: The user writes the correct forms of an irregular verb. The user can select the tenses (infinitive / present / past / past perfect) to be practised in the settings.
+3. Practise Forms: The user writes the correct forms of an irregular verb. The user can select the tenses (infinitive / present / past / present perfect) to be practised in the settings.
 
 ## Other features
 
