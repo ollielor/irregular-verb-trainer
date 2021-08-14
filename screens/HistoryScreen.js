@@ -86,7 +86,6 @@ const HistoryScreen = (props) => {
                   <Subheading>Taso 2</Subheading>
                   <>
                      <ProgressComponent historyLevel={2} type={1} />
-                     {/* <ProgressComponent data={historyMeanings} historyLevel={2} type={1} /> */}
                      <ResultHistoryView historyLevel={2} type={1} hideButton />
                   </>
                   <Subheading>Taso 3</Subheading>

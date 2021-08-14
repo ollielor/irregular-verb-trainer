@@ -210,7 +210,6 @@ const StartScreen = (props) => {
                [],
                (tx, results) => {
                   if (results) {
-                     //setSettingsLength(results.rows._array.length);
                      if (results.rows._array.length > 0) {
                         props.dispatch(
                            updateLanguage(results.rows._array[0].language)
