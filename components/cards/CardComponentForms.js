@@ -19,7 +19,6 @@ import { calcPoints } from '../../helpers/points';
 import { styles } from '../../styles/styles';
 
 const CardComponentForms = forwardRef((props, ref) => {
-   console.log('props from CardComponentForms: ', props);
 
    const [correctInfinitive, setCorrectInfinitive] = useState(false);
    const [correctPresent, setCorrectPresent] = useState(false);
@@ -119,8 +118,6 @@ const CardComponentForms = forwardRef((props, ref) => {
    };
 
    const checkAnswer = (answer, tense) => {
-      console.log('Answer from checkAnswer: ', answer);
-      console.log('Tense from checkAnswer: ', tense);
       if (tense === 'infinitive' && answer.length > 0) {
          setUnansweredInfinitive(false);
       }

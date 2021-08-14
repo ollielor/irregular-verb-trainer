@@ -17,8 +17,6 @@ const ShareResultsScreen = (props) => {
    const [name, setName] = useState('');
    const [email, setEmail] = useState('');
 
-   console.log('Props from ShareResultsScreen: ', props);
-
    const navigation = useNavigation();
 
    const getResultsForSharing = (type, level, language) => {
@@ -77,7 +75,6 @@ const ShareResultsScreen = (props) => {
             resultText += `|<br>|Taso ${i}:|<br>|- Ei suorituskertoja`;
          }
       }
-      console.log('resultText: ', resultText);
       return resultText;
    };
 
@@ -104,7 +101,6 @@ const ShareResultsScreen = (props) => {
             textReplaced = textArray[i].replace('<br>', '%0a');
             textParsed += textReplaced;
          }
-         console.log(textParsed);
          textFinal = textParsed;
       } else {
          textArray = text.split('|');
@@ -112,7 +108,6 @@ const ShareResultsScreen = (props) => {
          for (let i = 0; i < textArray.length; i++) {
             textParsed += textArray[i];
          }
-         console.log(textParsed);
          textFinal = textParsed;
       }
       if (type === 'whatsapp') {

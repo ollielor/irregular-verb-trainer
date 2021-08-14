@@ -9,7 +9,6 @@ export const prepareAnswerGerman = (answer) => {
       .toUpperCase()
       .toLowerCase()
       .split(' ');
-   console.log('stringArray: ', stringArray);
    let withoutPronounsArray = stringArray.filter(
       (word) =>
          word !== 'er' &&
@@ -18,12 +17,10 @@ export const prepareAnswerGerman = (answer) => {
          word !== 'er/sie' &&
          word !== 'er/sie/es'
    );
-   console.log('WithoutPronounsArray: ', withoutPronounsArray);
    // Replace string '1' with German sharp S
    for (let i = 0; i < withoutPronounsArray.length; i++) {
       preparedAnswer += ' ' + withoutPronounsArray[i].replace('1', '\u00df');
    }
-   console.log('PreparedAnswer: ', preparedAnswer);
    return preparedAnswer.trim();
 };
 
@@ -33,7 +30,6 @@ export const prepareAnswerSwedish = (answer) => {
    let stringArray = answer.trim().toUpperCase().toLowerCase().split(' ');
    for (let i = 0; i < stringArray.length; i++) {
       preparedAnswer += ' ' + stringArray[i];
-      console.log('preparedAnswer from prepareAnswerSwedish: ', preparedAnswer);
    }
    return preparedAnswer.trim();
 };
@@ -73,12 +69,7 @@ export const evaluate = (answer, correct, correctAlt, language) => {
       correctModified = correct;
       correctAltModified = correctAlt && correctAlt;
    }
-   console.log('CorrectModified: ', correctModified);
    // CheckAnswerStrings function is called and points are given if it returns true
-   console.log(
-      'checkAnswerStrings: ',
-      checkAnswerStrings(preparedAnswer, correctModified, correctAltModified)
-   );
    if (
       checkAnswerStrings(preparedAnswer, correctModified, correctAltModified)
    ) {

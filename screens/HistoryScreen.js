@@ -28,8 +28,6 @@ const HistoryScreen = (props) => {
 
    const navigation = useNavigation();
 
-   console.log('HistoryScreen props: ', props);
-
    useEffect(() => {
       return () => {};
    }, []);

@@ -57,7 +57,6 @@ const StartScreen = (props) => {
          const directory = await FileSystem.getInfoAsync(
             `${FileSystem.documentDirectory}SQLite`
          );
-         console.log(directory);
          if (!directory.exists) {
             FileSystem.makeDirectoryAsync(
                `${FileSystem.documentDirectory}SQLite`,
@@ -67,7 +66,6 @@ const StartScreen = (props) => {
          const file = await FileSystem.getInfoAsync(
             `${FileSystem.documentDirectory}SQLite/verbs_german.db`
          );
-         console.log('File: ', file);
          if (!file.exists) {
             await FileSystem.downloadAsync(
                Asset.fromModule(require('../assets/verbs_german.db')).uri,
@@ -84,7 +82,6 @@ const StartScreen = (props) => {
          const directory = await FileSystem.getInfoAsync(
             `${FileSystem.documentDirectory}SQLite`
          );
-         console.log(directory);
          if (!directory.exists) {
             FileSystem.makeDirectoryAsync(
                `${FileSystem.documentDirectory}SQLite`,
@@ -94,7 +91,6 @@ const StartScreen = (props) => {
          const file = await FileSystem.getInfoAsync(
             `${FileSystem.documentDirectory}SQLite/verbs_swedish.db`
          );
-         console.log('File: ', file);
          if (!file.exists) {
             await FileSystem.downloadAsync(
                Asset.fromModule(require('../assets/verbs_swedish.db')).uri,

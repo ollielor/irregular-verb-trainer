@@ -129,13 +129,11 @@ const FormsScreen = (props) => {
          verbsByLanguage = props.verbsSwedish.filter(
             (verb) => verb.infinitive.length > 1
          );
-         console.log('verbsByLanguage: ', verbsByLanguage);
       } else {
          verbsByLanguage = props.verbsGerman;
       }
       const filteredVerbs = filterVerbsByLevel(verbsByLanguage, props.level);
       setVerbs(filteredVerbs);
-      console.log('filteredVerbs length: ', filteredVerbs.length);
       setVerbsFiltered(true);
    }, [props.level, props.verbsSwedish, props.verbsGerman, props.language]);
 

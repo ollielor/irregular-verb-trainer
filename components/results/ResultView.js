@@ -12,8 +12,6 @@ import { styles } from '../../styles/styles';
 const ResultView = (props) => {
    const [feedback, setFeedback] = useState('');
 
-   console.log(feedbackTexts);
-
    useEffect(() => {
       if (props.resultsData.totalPercentage >= 87.5) {
          setFeedback(

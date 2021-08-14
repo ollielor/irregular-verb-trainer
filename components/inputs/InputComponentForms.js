@@ -7,7 +7,6 @@ import { styles } from '../../styles/styles';
 import CorrectAnswerComponent from '../styling/CorrectAnswerComponent';
 
 const InputComponentForms = forwardRef((props, ref) => {
-   console.log('Props from InputComponentForms: ', props);
 
    return (
       <>
