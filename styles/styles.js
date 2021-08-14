@@ -33,10 +33,12 @@ export const styles = (props) => StyleSheet.create({
    },
    buttonWithMargin: {
       marginBottom: Platform.OS === 'android' ? 25 : 7,
+      backgroundColor: props.color
    },
    buttonWithMarginBottomAndTop: {
       marginBottom: 20,
       marginTop: 20,
+      backgroundColor: props.color
    },
    footerButton: { 
       backgroundColor: '#0047c5' 
