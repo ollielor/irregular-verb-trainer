@@ -80,7 +80,7 @@ const FormsScreen = (props) => {
    }, [props.infinitive, props.present, props.past, props.presperf]);
 
    useEffect(() => {
-      // Set forms to be exercised in Forms mode
+      // Set forms to be practised in Forms mode
       if (props.tenses) {
          const amountSelectedForms = Object.values(props.tenses).filter(
             (tense) => tense === true
