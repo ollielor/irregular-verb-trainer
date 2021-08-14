@@ -23,14 +23,24 @@ At the moment, the app is fully functioning on iOS. On Android, it crashes on st
 * Moment
 
 ## Screenshots
-![Start Screen](https://drive.google.com/file/d/1S173Z2N1yKguOiNLQ5lRBAXmBdPRUT-6/view?usp=sharing)
+![Start Screen](https://www.ollieloranta.fi/screenshots/start_screen.PNG)
 Start Screen
-![Browse and Learn](https://drive.google.com/file/d/1w-etdto_KHVjho23M_kW8f7ouQZ0JFyv/view?usp=sharing)
+![Browse and Learn](https://www.ollieloranta.fi/screenshots/browse_verbs_screen.PNG)
 Browse and Learn
-![Practise Meanings](https://drive.google.com/file/d/18t884ZsaSJ0y-oI_9M2bUAw7a1lo8bjM/view?usp=sharing)
+![Practise Meanings](https://www.ollieloranta.fi/screenshots/meanings_mode.PNG)
 Practise Meanings
-![Start Screen](https://drive.google.com/file/d/1S173Z2N1yKguOiNLQ5lRBAXmBdPRUT-6/view?usp=sharing)
-
+![Practise Forms](https://www.ollieloranta.fi/screenshots/forms_mode.PNG)
+Practise Forms
+![Feedback on Exercises](https://www.ollieloranta.fi/screenshots/feedback.PNG)
+Feedback on exercises
+![Results View](https://www.ollieloranta.fi/screenshots/results_view.PNG)
+Results view
+![Share Results Screen](https://www.ollieloranta.fi/screenshots/share_results_screen.PNG)
+Share Results Screen
+![Settings Screen](https://www.ollieloranta.fi/screenshots/settings_screen.PNG)
+Settings Screen
+![Instructions Screen](https://www.ollieloranta.fi/screenshots/instructions.PNG)
+Instructions Screen
 
 ## Running the project
 To run the project, use `npm install` and `expo start`.
