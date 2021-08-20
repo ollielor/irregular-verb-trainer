@@ -29,10 +29,12 @@ const App = () => {
                initialRouteName='Koti'
                screenOptions={{
                   headerShown: false,
-                  animationEnabled: false,
                }}
             >
-               <Stack.Screen name="Koti" component={StartScreen} />
+               <Stack.Screen 
+                  name="Koti" 
+                  component={StartScreen} 
+               />
                <Stack.Screen
                   name="Selaa ja opettele"
                   component={BrowseScreen}
