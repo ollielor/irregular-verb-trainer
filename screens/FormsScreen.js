@@ -278,7 +278,7 @@ const FormsScreen = (props) => {
                      <LatestResults count={3} showTypes />
                   </>
                )}
-               {!formsSelected && (
+               {!formsSelected &&
                   <>
                      <Text
                         style={{
@@ -298,7 +298,7 @@ const FormsScreen = (props) => {
                         function={() => navigation.navigate('Koti')}
                      />
                   </>
-               )}
+               }
                {randomizedVerbs ? (
                   randomizedVerbs.map((verbFormArray, index) =>
                      verbFormArray.length === 1 ? (
@@ -354,7 +354,9 @@ const FormsScreen = (props) => {
                )}
             </ScrollView>
          </KeyboardAvoidingView>
-         <FooterComponent />
+         {Platform.OS === 'ios' &&
+            <FooterComponent />
+         }
       </Container>
    );
 };

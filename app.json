@@ -1,7 +1,9 @@
 {
+  "name": "Verbivalmentaja",
+  "displayName": "verbivalmentaja",
   "expo": {
-    "name": "irregular-verb-trainer",
-    "slug": "irregular-verb-trainer",
+    "name": "Verbivalmentaja",
+    "slug": "Verbivalmentaja",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
