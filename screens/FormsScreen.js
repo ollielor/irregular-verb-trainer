@@ -75,7 +75,6 @@ const FormsScreen = (props) => {
    useEffect(() => {
       if (props.infinitive || props.present || props.past || props.presperf) {
          setFormsSelected(true);
-         //setFormsSelectedArray([...formsSelectedArray, 10]);
       }
    }, [props.infinitive, props.present, props.past, props.presperf]);
 
@@ -332,7 +331,6 @@ const FormsScreen = (props) => {
                            tenseNames={tenseNames}
                            answeredIndex={answeredIndex}
                            started={started}
-                           correctAns={correctAns}
                            setPoints={setPoints}
                            points={points}
                            currentComponentIndex={currentComponentIndex}
