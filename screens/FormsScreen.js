@@ -354,7 +354,7 @@ const FormsScreen = (props) => {
                )}
             </ScrollView>
          </KeyboardAvoidingView>
-         {Platform.OS === 'ios' &&
+         {Platform.OS === 'ios' || finished &&
             <FooterComponent />
          }
       </Container>

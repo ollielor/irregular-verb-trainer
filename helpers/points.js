@@ -12,10 +12,14 @@ export const calcTotalPointsForms = (
 ) => {
    if (counterState <= estimatedAccomplishTime && points === maxPoints) {
       return points + counterState * 0.05;
+   } else if ((counterState / estimatedAccomplishTime) <= (points / maxPoints) && points > 0) {
+      return points + counterState * 0.02;
+   } else if ((counterState / estimatedAccomplishTime) >= (points / maxPoints) && points > 0) {
+      return (points - counterState * 0.05)
    } else if (points === 0) {
-      return points * 1.0;
+      return 0;
    } else {
-      return (points - counterState * 0.05) * 1.0;
+      return points * 1.0;
    }
 };
 
