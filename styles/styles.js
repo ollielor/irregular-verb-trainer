@@ -268,5 +268,10 @@ export const styles = (props) => StyleSheet.create({
       fontWeight: 'bold',
       marginTop: 15,
       marginBottom: 10,
+   },
+   // InfoContent style
+   infoContentStyle: {
+      backgroundColor: '#f0e2cf',
+      flex: 1
    }
 })

@@ -4,6 +4,7 @@ import { Container, Content, Text } from 'native-base';
 import ButtonComponent from '../components/buttons/ButtonComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
 import FooterComponent from '../components/footer/FooterComponent';
+import InfoContent from '../components/styling/InfoContent';
 
 import * as Linking from 'expo-linking';
 
@@ -91,31 +92,33 @@ const ShareResultsScreen = (props) => {
       text += '|<br>|<br>|Verbien muodot';
       // Number 2 stands for Forms mode
       text += getResultText(2);
-      let textFinal;
-      let textArray;
-      if (Platform.OS === 'android') {
-         textArray = text.split('|');
-         let textReplaced;
-         let textParsed = '';
-         for (let i = 0; i < textArray.length; i++) {
-            textReplaced = textArray[i].replace('<br>', '%0a');
-            textParsed += textReplaced;
-         }
-         textFinal = textParsed;
-      } else {
+      let textParsed = '';
+      if (Platform.OS === 'ios') {
+         textParsed += '<html>'
+      }
+      let textArray = text.split('|');
+      let textReplaced;
+      for (let i = 0; i < textArray.length; i++) {
+         textReplaced = textArray[i].replace('<br>', '%0D%0A');
+         textParsed += textReplaced;
+      }
+      if (Platform.OS === 'ios') {
+         textParsed += '</html>'
+      }
+      /* } else {
          textArray = text.split('|');
          let textParsed = '';
          for (let i = 0; i < textArray.length; i++) {
             textParsed += textArray[i];
          }
          textFinal = textParsed;
-      }
+      } */
       if (type === 'whatsapp') {
-         Linking.openURL(`whatsapp://send?text=${textFinal}`);
+         Linking.openURL(`whatsapp://send?text=${textParsed}`);
       }
       if (type === 'email') {
          Linking.openURL(
-            `mailto:${email}?subject=Käyttäjän ${name} tulokset Verbivalmentajasta&body=${textFinal}`
+            `mailto:${email}?subject=Käyttäjän ${name} tulokset Verbivalmentajasta&body=${textParsed}`
          );
       }
    };
@@ -127,7 +130,7 @@ const ShareResultsScreen = (props) => {
             style={styles(props).flexOne}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
          >
-            <Content style={styles(props).contentContainer}>
+            <Content style={styles(props).flexOne}>
                <Text style={styles(props).labelForms}>
                   Nimesi (näkyy vain viestin vastaanottajalle)
                </Text>
@@ -155,6 +158,11 @@ const ShareResultsScreen = (props) => {
                   color="#7E00C5"
                   function={() => sendMessage('whatsapp')}
                />
+               {Platform.OS === 'ios' &&
+                  <InfoContent>
+                     iOS:n oletussähköpostiohjelmalla lähetettäessä teksti ei välttämättä näy oikeanlaisena. Voit käyttää sen sijaan WhatsAppia tai toista sähköpostiohjelmaa. 
+                  </InfoContent>
+               }
             </Content>
          </KeyboardAvoidingView>
          <FooterComponent />
