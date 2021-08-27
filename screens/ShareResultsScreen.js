@@ -70,7 +70,7 @@ const ShareResultsScreen = (props) => {
                props.language
             )
                .percentagesAverage.toFixed(2)
-               .replace('.', ',')} prosenttia`;
+               .replace('.', ',')} prosenttia (sisältää aikabonukset)`;
          } else {
             resultText += `|<br>|Taso ${i}:|<br>|- Ei suorituskertoja`;
          }
