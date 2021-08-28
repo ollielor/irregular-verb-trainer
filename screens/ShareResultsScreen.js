@@ -93,26 +93,12 @@ const ShareResultsScreen = (props) => {
       // Number 2 stands for Forms mode
       text += getResultText(2);
       let textParsed = '';
-      if (Platform.OS === 'ios') {
-         textParsed += '<html>'
-      }
       let textArray = text.split('|');
       let textReplaced;
       for (let i = 0; i < textArray.length; i++) {
          textReplaced = textArray[i].replace('<br>', '%0D%0A');
          textParsed += textReplaced;
       }
-      if (Platform.OS === 'ios') {
-         textParsed += '</html>'
-      }
-      /* } else {
-         textArray = text.split('|');
-         let textParsed = '';
-         for (let i = 0; i < textArray.length; i++) {
-            textParsed += textArray[i];
-         }
-         textFinal = textParsed;
-      } */
       if (type === 'whatsapp') {
          Linking.openURL(`whatsapp://send?text=${textParsed}`);
       }
