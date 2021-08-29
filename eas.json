@@ -9,6 +9,15 @@
       "ios": {
         "buildConfiguration": "Debug"
       }
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "preview-enterprise" : {
+      "distribution": "internal",
+      "ios": {
+        "enterpriseProvisioning": "universal"
+      }
     }
   }
 }
