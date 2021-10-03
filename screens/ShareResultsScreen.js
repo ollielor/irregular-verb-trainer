@@ -96,7 +96,7 @@ const ShareResultsScreen = (props) => {
       let textArray = text.split('|');
       let textReplaced;
       for (let i = 0; i < textArray.length; i++) {
-         textReplaced = textArray[i].replace('<br>', '%0D%0A');
+         textReplaced = textArray[i].replace('<br>', '%0A');
          textParsed += textReplaced;
       }
       if (type === 'whatsapp') {
