@@ -1,6 +1,9 @@
 {
   "name": "Verbivalmentaja",
   "displayName": "verbivalmentaja",
+  "packagerOpts": {
+    "sourceExts": [ "js", "json", "ts", "tsx", "jsx", "vue"]
+  },
   "expo": {
     "name": "Verbivalmentaja",
     "slug": "Verbivalmentaja",
