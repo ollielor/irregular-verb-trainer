@@ -3,9 +3,8 @@ import React from 'react';
 import {
    Button,
    Body,
-   Left,
-   Right,
-   Header,
+   HStack,
+   VStack,
    Text,
    Title,
    Icon,
@@ -19,12 +18,12 @@ const HeaderComponent = (props) => {
    const navigation = useNavigation();
 
    return (
-      <Header
+      <VStack
          iosBarStyle="light-content"
          androidStatusBarColor="#0047c5"
          style={styles(props).headerStyle}
       >
-         <Left style={styles(props).flexOne}>
+         <HStack style={styles(props).flexOne}>
             {!props.noArrow ? (
                <Button transparent onPress={() => navigation.goBack()}>
                   <Icon
@@ -33,11 +32,13 @@ const HeaderComponent = (props) => {
                   />
                </Button>
             ) : null}
-         </Left>
-         <Body style={styles(props).headerBodyStyle}>
-            <Title style={styles(props).buttonTextStyle}>{props.title}</Title>
-         </Body>
-         <Right style={styles(props).flexOne}>
+         </HStack>
+         <HStack>
+            <Body style={styles(props).headerBodyStyle}>
+               <Title style={styles(props).buttonTextStyle}>{props.title}</Title>
+            </Body>
+         </HStack>
+         <HStack style={styles(props).flexOne}>
             <Text
                style={styles(props).buttonTextStyle}
                onPress={() => navigation.navigate('Omat asetukseni')}
@@ -46,8 +47,8 @@ const HeaderComponent = (props) => {
                {props.language === 2 && 'DE, taso '}
                {props.level}
             </Text>
-         </Right>
-      </Header>
+         </HStack>
+      </VStack>
    );
 };
 

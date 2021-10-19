@@ -1,9 +1,9 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { Root } from 'native-base';
+import { NativeBaseProvider } from 'native-base';
 
-import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import StartScreen from './screens/StartScreen';
 import BrowseScreen from './screens/BrowseScreen';
@@ -17,56 +17,56 @@ import InstructionsScreen from './screens/InstructionsScreen';
 import { Provider } from 'react-redux';
 import store from './store/store';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 const App = () => {
 
    return (
-      <Root>
-      <Provider store={store}>
-         <NavigationContainer>
-            <Stack.Navigator
-               initialRouteName='Koti'
-               screenOptions={{
-                  headerShown: false,
-               }}
-            >
-               <Stack.Screen 
-                  name="Koti" 
-                  component={StartScreen} 
-               />
-               <Stack.Screen
-                  name="Selaa ja opettele"
-                  component={BrowseScreen}
-               />
-               <Stack.Screen
-                  name="Harjoittele merkityksiä"
-                  component={MeaningsScreen}
-               />
-               <Stack.Screen
-                  name="Harjoittele muotoja"
-                  component={FormsScreen}
-               />
-               <Stack.Screen
-                  name="Omat tulokseni"
-                  component={HistoryScreen}
-               />
-               <Stack.Screen
-                  name="Omat asetukseni"
-                  component={SettingsScreen}
-               />
-               <Stack.Screen
-                  name="Jaa tulokset"
-                  component={ShareResultsScreen}
-               />
-               <Stack.Screen
-                  name="Ohjeet"
-                  component={InstructionsScreen}
-               />
-            </Stack.Navigator>
-         </NavigationContainer>
-      </Provider>
-      </Root>
+      <NativeBaseProvider>
+         <Provider store={store}>
+            <NavigationContainer>
+               <Stack.Navigator
+                  initialRouteName='Koti'
+                  screenOptions={{
+                     headerShown: false,
+                  }}
+               >
+                  <Stack.Screen 
+                     name="Koti" 
+                     component={StartScreen} 
+                  />
+                  <Stack.Screen
+                     name="Selaa ja opettele"
+                     component={BrowseScreen}
+                  />
+                  <Stack.Screen
+                     name="Harjoittele merkityksiä"
+                     component={MeaningsScreen}
+                  />
+                  <Stack.Screen
+                     name="Harjoittele muotoja"
+                     component={FormsScreen}
+                  />
+                  <Stack.Screen
+                     name="Omat tulokseni"
+                     component={HistoryScreen}
+                  />
+                  <Stack.Screen
+                     name="Omat asetukseni"
+                     component={SettingsScreen}
+                  />
+                  <Stack.Screen
+                     name="Jaa tulokset"
+                     component={ShareResultsScreen}
+                  />
+                  <Stack.Screen
+                     name="Ohjeet"
+                     component={InstructionsScreen}
+                  />
+               </Stack.Navigator>
+            </NavigationContainer>
+         </Provider>
+      </NativeBaseProvider>
    );
 };
 

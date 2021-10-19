@@ -5,6 +5,8 @@ import { Container, Content } from 'native-base';
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 
+import { useFonts, Roboto_400Regular } from '@expo-google-fonts/roboto';
+
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
 
@@ -41,12 +43,17 @@ import LatestResults from '../components/results/LatestResults';
 import { styles } from '../styles/styles';
 
 const StartScreen = (props) => {
-   const [fontsLoaded, setFontsLoaded] = useState(false);
+   //const [fontsLoaded, setFontsLoaded] = useState(false);
    const [settingsLoaded, setSettingsLoaded] = useState(false);
    const [germanLoaded, setGermanLoaded] = useState(false);
    const [swedishLoaded, setSwedishLoaded] = useState(false);
 
    const navigation = useNavigation();
+
+   let [fontsLoaded] = useFonts({
+      Roboto_400Regular,
+    });
+  
 
    useEffect(() => {
       createResultsDb();
@@ -171,7 +178,7 @@ const StartScreen = (props) => {
    }, []);
 
    useEffect(() => {
-      const loadFonts = async () => {
+/*       const loadFonts = async () => {
          try {
             await Font.loadAsync({
                Roboto: require('native-base/Fonts/Roboto.ttf'),
@@ -183,7 +190,7 @@ const StartScreen = (props) => {
             console.log(error);
          }
       };
-      loadFonts();
+      loadFonts(); */
    }, []);
 
    useEffect(() => {
@@ -277,8 +284,8 @@ const StartScreen = (props) => {
          {!settingsLoaded && <SpinnerComponent text="Ladataan asetuksia..." />}
          {fontsLoaded && settingsLoaded && (
             <Container style={styles(props).containerGrey}>
-               <HeaderComponent title="Verbivalmentaja" noArrow />
-               <>
+               {/* <HeaderComponent title="Verbivalmentaja" noArrow /> */}
+               {/* <>
                   <Content style={styles(props).contentContainer}>
                      <ButtonComponent
                         color="#7E00C5"
@@ -318,7 +325,7 @@ const StartScreen = (props) => {
                      />
                      <LatestResults count={5} showTypes />
                   </Content>
-               </>
+               </> */}
                <FooterComponent />
             </Container>
          )}
