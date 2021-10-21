@@ -2,12 +2,11 @@ import React from 'react';
 
 import {
    Button,
-   Body,
+   Box,
    HStack,
    VStack,
    Text,
-   Title,
-   Icon,
+   ArrowBackIcon,
 } from 'native-base';
 
 import { connect } from 'react-redux';
@@ -18,27 +17,29 @@ const HeaderComponent = (props) => {
    const navigation = useNavigation();
 
    return (
-      <VStack
-         iosBarStyle="light-content"
-         androidStatusBarColor="#0047c5"
+      <Box safeAreaTop>
+      <HStack
+         //iosBarStyle="light-content"
+         //androidStatusBarColor="#0047c5"
          style={styles(props).headerStyle}
       >
-         <HStack style={styles(props).flexOne}>
+         <VStack style={styles(props).flexOne}>
             {!props.noArrow ? (
                <Button transparent onPress={() => navigation.goBack()}>
-                  <Icon
-                     name="arrow-back"
+                  <ArrowBackIcon
                      style={styles(props).buttonTextStyle}
                   />
                </Button>
             ) : null}
-         </HStack>
-         <HStack>
-            <Body style={styles(props).headerBodyStyle}>
-               <Title style={styles(props).buttonTextStyle}>{props.title}</Title>
-            </Body>
-         </HStack>
-         <HStack style={styles(props).flexOne}>
+         </VStack>
+         <VStack>
+            <Box style={styles(props).headerBodyStyle}>
+               <Text style={styles(props).buttonTextStyle}>
+                  {props.title}
+               </Text>
+            </Box>
+         </VStack>
+         <VStack style={styles(props).flexOne}>
             <Text
                style={styles(props).buttonTextStyle}
                onPress={() => navigation.navigate('Omat asetukseni')}
@@ -47,8 +48,9 @@ const HeaderComponent = (props) => {
                {props.language === 2 && 'DE, taso '}
                {props.level}
             </Text>
-         </HStack>
-      </VStack>
+         </VStack>
+      </HStack>
+      </Box>
    );
 };
 

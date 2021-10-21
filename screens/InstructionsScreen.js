@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Content } from 'native-base';
+import { Box, Content } from 'native-base';
 import CardComponentInstructions from '../components/cards/CardComponentInstructions';
 import HeaderComponent from '../components/header/HeaderComponent';
 import FooterComponent from '../components/footer/FooterComponent';
@@ -16,7 +16,7 @@ const InstructionsScreen = (props) => {
    const navigation = useNavigation();
 
    return (
-      <Container style={styles(props).container}>
+      <Box style={styles(props).container}>
          <HeaderComponent title="Ohjeet" goBack={navigation.goBack} />
          <Content>
             {instructionTexts[props.language].map((instruction, index) => (
@@ -29,7 +29,7 @@ const InstructionsScreen = (props) => {
             ))}
          </Content>
          <FooterComponent />
-      </Container>
+      </Box>
    );
 };
 

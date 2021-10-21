@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, Content, Text } from 'native-base';
+import { Button, Box, Text } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -14,7 +14,7 @@ const LatestResults = (props) => {
    const navigation = useNavigation();
 
    return (
-      <Content>
+      <Box>
          <Heading>
             {props.count} viimeisintä tulosta{' '}
             {props.language === 1 ? '(ruotsi)' : '(saksa)'}
@@ -48,7 +48,7 @@ const LatestResults = (props) => {
                )}
             </Button>
          )}
-      </Content>
+      </Box>
    );
 };
 

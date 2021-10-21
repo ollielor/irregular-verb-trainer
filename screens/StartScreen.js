@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
-import { Container, Content } from 'native-base';
+import { Container, Box, Stack, VStack } from 'native-base';
 
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -177,8 +177,8 @@ const StartScreen = (props) => {
       return () => {};
    }, []);
 
-   useEffect(() => {
-/*       const loadFonts = async () => {
+   /* useEffect(() => {
+       const loadFonts = async () => {
          try {
             await Font.loadAsync({
                Roboto: require('native-base/Fonts/Roboto.ttf'),
@@ -190,8 +190,8 @@ const StartScreen = (props) => {
             console.log(error);
          }
       };
-      loadFonts(); */
-   }, []);
+      loadFonts();
+   }, []); */
 
    useEffect(() => {
       DatabaseSettings.transaction(
@@ -279,14 +279,16 @@ const StartScreen = (props) => {
    };
 
    return (
-      <Container style={styles(props).containerGrey}>
+      <Stack flex={1} style={styles(props).containerGrey}>
          {!fontsLoaded && <SpinnerComponent text="Ladataan fontteja..." />}
          {!settingsLoaded && <SpinnerComponent text="Ladataan asetuksia..." />}
          {fontsLoaded && settingsLoaded && (
-            <Container style={styles(props).containerGrey}>
-               {/* <HeaderComponent title="Verbivalmentaja" noArrow /> */}
-               {/* <>
-                  <Content style={styles(props).contentContainer}>
+            // <Container style={styles(props).containerGrey}>
+            <>
+            <VStack>
+              <HeaderComponent title="Verbivalmentaja" noArrow />
+              </VStack>
+              <VStack>
                      <ButtonComponent
                         color="#7E00C5"
                         title="Selaa ja opettele verbejä"
@@ -294,6 +296,8 @@ const StartScreen = (props) => {
                            navigation.navigate('Selaa ja opettele')
                         }
                      />
+                     </VStack>
+                     <VStack>
                      <ButtonComponent
                         color="#7E00C5"
                         title="Harjoittele verbien merkityksiä"
@@ -301,6 +305,8 @@ const StartScreen = (props) => {
                            navigation.navigate('Harjoittele merkityksiä')
                         }
                      />
+                     </VStack>
+                     <VStack>
                      <ButtonComponent
                         color="#7E00C5"
                         title="Harjoittele verbien muotoja"
@@ -308,28 +314,37 @@ const StartScreen = (props) => {
                            navigation.navigate('Harjoittele muotoja')
                         }
                      />
+                     </VStack>
+                     <VStack>
                      <ButtonComponent
                         color="#4E00C5"
                         title="Omat tulokseni"
                         function={() => navigation.navigate('Omat tulokseni')}
                      />
+                     </VStack>
+                     <VStack>
                      <ButtonComponent
                         color="#4E00C5"
                         title="Omat asetukseni"
                         function={() => navigation.navigate('Omat asetukseni')}
                      />
+                     </VStack>
+                     <VStack>
                      <ButtonComponent
                         color="#4E00C5"
                         title="Ohjeet"
                         function={() => navigation.navigate('Ohjeet')}
                      />
+                     </VStack>
+                     <VStack>
                      <LatestResults count={5} showTypes />
-                  </Content>
-               </> */}
+                     </VStack>
+                     <VStack>
                <FooterComponent />
-            </Container>
+               </VStack>
+               </>
          )}
-      </Container>
+      </Stack>
    );
 };
 

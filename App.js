@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { NativeBaseProvider } from 'native-base';
+import { NativeBaseProvider, extendTheme } from 'native-base';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -19,10 +19,26 @@ import store from './store/store';
 
 const Stack = createNativeStackNavigator();
 
+const theme = extendTheme({
+     components: {
+       Text: {
+         baseStyle: {
+         },
+         defaultProps: { size: 'lg' },
+         sizes: {
+           xl: { fontSize: '32px' },
+           lg: { fontSize: '18px' },
+           md: { fontSize: '10px' },
+           sm: { fontSize: '6px' },
+         },
+       },
+     },
+   });
+
 const App = () => {
 
    return (
-      <NativeBaseProvider>
+      <NativeBaseProvider theme={theme}>
          <Provider store={store}>
             <NavigationContainer>
                <Stack.Navigator

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Footer, FooterTab } from 'native-base';
+import { HStack, Center } from 'native-base';
 
 import FooterButtonComponent from './FooterButtonComponent';
 
@@ -10,26 +10,22 @@ const FooterComponent = (props) => {
    const navigation = useNavigation();
 
    return (
-      <Footer style={styles(props).footerStyle}>
-         <FooterTab>
-            <FooterButtonComponent
-               title="Asetukset"
-               function={() => navigation.navigate('Omat asetukseni')}
-            />
-         </FooterTab>
-         <FooterTab>
-            <FooterButtonComponent
-               title="Tulokset"
-               function={() => navigation.navigate('Omat tulokseni')}
-            />
-         </FooterTab>
-         <FooterTab>
-            <FooterButtonComponent
-               title="Ohjeet"
-               function={() => navigation.navigate('Ohjeet')}
-            />
-         </FooterTab>
-      </Footer>
+      <Center>
+         <HStack style={styles(props).footerStyle}>
+               <FooterButtonComponent
+                  title="Asetukset"
+                  function={() => navigation.navigate('Omat asetukseni')}
+               />
+               <FooterButtonComponent
+                  title="Tulokset"
+                  function={() => navigation.navigate('Omat tulokseni')}
+               />
+               <FooterButtonComponent
+                  title="Ohjeet"
+                  function={() => navigation.navigate('Ohjeet')}
+               />
+         </HStack>
+      </Center>
    );
 };
 

@@ -1,13 +1,13 @@
 import React from 'react';
-import { Body, Card, CardItem, Text } from 'native-base';
+import { Box, VStack, Text } from 'native-base';
 
 import moment from 'moment';
 
 const CardComponentResults = (props) => {
    return (
-      <Card key={props.historyItem.id}>
-         <CardItem header>
-            <Body>
+      <Box key={props.historyItem.id}>
+         <VStack>
+            <Box>
                <Text style={{ color: '#7E00C5', fontWeight: 'bold' }}>
                   {moment(props.historyItem.datetime).format(
                      'DD.MM.YYYY HH:mm:ss'
@@ -40,9 +40,9 @@ const CardComponentResults = (props) => {
                   Oikeita vastauksia: {props.historyItem.accuracy} /{' '}
                   {props.historyItem.q_total}
                </Text>
-            </Body>
-         </CardItem>
-      </Card>
+            </Box>
+         </VStack>
+      </Box>
    );
 };
 
