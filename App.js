@@ -24,12 +24,12 @@ const theme = extendTheme({
        Text: {
          baseStyle: {
          },
-         defaultProps: { size: 'lg' },
+         defaultProps: { size: 'md' },
          sizes: {
            xl: { fontSize: '32px' },
            lg: { fontSize: '18px' },
-           md: { fontSize: '10px' },
-           sm: { fontSize: '6px' },
+           md: { fontSize: '15px' },
+           sm: { fontSize: '10px' },
          },
        },
      },
