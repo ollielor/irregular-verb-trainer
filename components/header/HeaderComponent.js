@@ -1,10 +1,11 @@
 import React from 'react';
 
 import {
-   Button,
+   Center,
+   StatusBar,
    Box,
    HStack,
-   VStack,
+   Stack,
    Text,
    ArrowBackIcon,
 } from 'native-base';
@@ -17,13 +18,28 @@ const HeaderComponent = (props) => {
    const navigation = useNavigation();
 
    return (
-      <Box safeAreaTop>
-      <HStack
+      <>
+      <StatusBar
          //iosBarStyle="light-content"
          //androidStatusBarColor="#0047c5"
-         style={styles(props).headerStyle}
-      >
-         <VStack style={styles(props).flexOne}>
+         barStyle='light-content'
+
+      />
+      <Box safeAreaTop bg="#0047c5" />
+      <Stack bg="#0047c5" justifyContent='space-between' alignItems='center' direction='row'>
+      <HStack alignItems='center'>
+         <Text>
+            Vasen
+         </Text>
+      </HStack>
+      <HStack>
+         <Text>
+            Oikea
+         </Text>
+      </HStack>
+      </Stack>
+     {/*  <VStack justifyContent='space-between' alignItems='center'> */}
+{/*          <HStack alignItems='center'>
             {!props.noArrow ? (
                <Button transparent onPress={() => navigation.goBack()}>
                   <ArrowBackIcon
@@ -31,15 +47,15 @@ const HeaderComponent = (props) => {
                   />
                </Button>
             ) : null}
-         </VStack>
-         <VStack>
+         </HStack>
+         <HStack alignItems='center'>
             <Box style={styles(props).headerBodyStyle}>
                <Text style={styles(props).buttonTextStyle}>
                   {props.title}
                </Text>
             </Box>
-         </VStack>
-         <VStack style={styles(props).flexOne}>
+         </HStack>
+         <HStack alignItems='center'>
             <Text
                style={styles(props).buttonTextStyle}
                onPress={() => navigation.navigate('Omat asetukseni')}
@@ -48,9 +64,10 @@ const HeaderComponent = (props) => {
                {props.language === 2 && 'DE, taso '}
                {props.level}
             </Text>
-         </VStack>
-      </HStack>
-      </Box>
+         </HStack> */}
+
+{/*       </VStack> */}
+      </>
    );
 };
 

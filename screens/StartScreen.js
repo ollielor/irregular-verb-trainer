@@ -285,9 +285,7 @@ const StartScreen = (props) => {
          {fontsLoaded && settingsLoaded && (
             // <Container style={styles(props).containerGrey}>
             <>
-            <VStack>
               <HeaderComponent title="Verbivalmentaja" noArrow />
-              </VStack>
               <VStack>
                      <ButtonComponent
                         color="#7E00C5"
