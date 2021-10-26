@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Body, Card, CardItem, Content, Text } from 'native-base';
+import { HStack, Box, Text } from 'native-base';
 import { styles } from '../../styles/styles';
 
 const CardComponentBrowse = (props) => {
@@ -14,10 +14,8 @@ const CardComponentBrowse = (props) => {
    }, []);
 
    return (
-      <Content>
-         <Card>
-            <CardItem style={styles(props).cardComponentGrey}>
-               <Body>
+            <HStack style={styles(props).cardComponentGrey}>
+               <Box>
                   <Text style={{ color: '#7E00C5', fontWeight: 'bold' }}>
                      {props.verb.infinitive},&nbsp;
                      {props.verb.present},&nbsp;
@@ -34,10 +32,8 @@ const CardComponentBrowse = (props) => {
                         ` / ${props.verb.presperf_alt}`}
                   </Text>
                   <Text>{props.verb.meaning}</Text>
-               </Body>
-            </CardItem>
-         </Card>
-      </Content>
+               </Box>
+         </HStack>
    );
 };
 

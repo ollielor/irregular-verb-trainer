@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Container, Content } from 'native-base';
+import { Box, ScrollView } from 'native-base';
 
 import { connect } from 'react-redux';
 
@@ -27,12 +26,12 @@ const BrowseScreen = (props) => {
    }, []);
 
    return (
-      <Container style={styles(props).containerGrey}>
+      <Box style={styles(props).containerGrey}>
          <HeaderComponent
             title="Selaa ja opettele"
             goBack={navigation.goBack}
          />
-         <Content style={styles(props).contentContainer}>
+         <ScrollView style={styles(props).contentContainer}>
             <Heading>Taso 1</Heading>
             {verbs
                .filter((verb) => verb.level === 1)
@@ -78,9 +77,9 @@ const BrowseScreen = (props) => {
                .map((verb, index) => (
                   <CardComponentBrowse key={index} verb={verb} />
                ))}
-         </Content>
+         </ScrollView>
          <FooterComponent />
-      </Container>
+      </Box>
    );
 };
 

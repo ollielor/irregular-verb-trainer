@@ -61,7 +61,9 @@ export const styles = (props) => StyleSheet.create({
    },
    // Card styles
    cardComponentGrey: {
-      backgroundColor: '#e8e8e8'
+      backgroundColor: '#e8e8e8',
+      marginBottom: 10,
+      shadowColor: '#eeeeee'
    },
    // Styles for Instructions screen
    instructionsHeaderStyle: {
