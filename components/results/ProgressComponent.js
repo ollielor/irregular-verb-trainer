@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Body, Card, CardItem, Content, Text } from 'native-base';
+import { Box, VStack, Text } from 'native-base';
 
 import { connect } from 'react-redux';
 
@@ -38,16 +38,17 @@ const ProgressComponent = (props) => {
    }, [props.results]);
 
    return (
-      <Content>
-         <Card>
-            <CardItem
+      <Box>
+         <VStack>
+            <Box
+               p='2'
+               mb='3'
                style={
                   totalPercentage >= 77.5
                      ? styles(props).progressCardStyleGood
                      : styles(props).progressCardStyleNeutral
                }
             >
-               <Body style={styles(props).progressBodyStyle}>
                   <Text style={styles(props).progressStyle}>
                      Oikeita vastauksia: {totalCorrectAnswers} /{' '}
                      {totalQuestions}
@@ -61,10 +62,9 @@ const ProgressComponent = (props) => {
                   <Text style={styles(props).progressStyle}>
                      (sisältää aikabonukset)
                   </Text>
-               </Body>
-            </CardItem>
-         </Card>
-      </Content>
+            </Box>
+         </VStack>
+      </Box>
    );
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Content, Text } from 'native-base';
+import { Button, Box, Text } from 'native-base';
 
 import { connect } from 'react-redux';
 
@@ -14,7 +14,7 @@ const ResultHistoryView = (props) => {
    const navigation = useNavigation();
 
    return (
-      <Content>
+      <Box>
          {!props.hideButton && <Heading>3 viimeisintä tulosta</Heading>}
          {props.results &&
             props.results
@@ -42,7 +42,7 @@ const ResultHistoryView = (props) => {
                <Text uppercase={false}>Näytä koko historia</Text>
             </Button>
          )}
-      </Content>
+      </Box>
    );
 };
 

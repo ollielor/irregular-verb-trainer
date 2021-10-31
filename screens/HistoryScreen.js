@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Modal } from 'react-native';
-import { Container, Content } from 'native-base';
+import { Modal } from 'react-native';
+import { Box, ScrollView, VStack } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -64,11 +64,12 @@ const HistoryScreen = (props) => {
    };
 
    return (
-      <Container style={styles(props).containerGrey}>
+      <>
+      <ScrollView style={styles(props).containerGrey}>
          <HeaderComponent title="Omat tulokseni" goBack={navigation.goBack} />
          <>
             {props.results ? (
-               <Content style={styles(props).contentContainer}>
+               <VStack style={styles(props).contentContainer}>
                   <ButtonComponent
                      title="Jaa tulokset"
                      color="#7E00C5"
@@ -118,20 +119,21 @@ const HistoryScreen = (props) => {
                      function={() => setShowModal(true)}
                      withMarginBottomAndTop
                   />
-               </Content>
+               </VStack>
             ) : (
-               <Content>
+               <VStack>
                   <SpinnerComponent text="Tuloksia ladataan..." />
-               </Content>
+               </VStack>
             )}
          </>
+         </ScrollView>
          <FooterComponent />
          <Modal
             animationType="slide"
             visible={showModal}
             onRequestClose={() => setShowModal(false)}
          >
-            <Content
+            <Box
                contentContainerStyle={{ justifyContent: 'center', flex: 1 }}
             >
                <Heading>
@@ -149,9 +151,9 @@ const HistoryScreen = (props) => {
                   color="#7E00C5"
                   function={() => setShowModal(false)}
                />
-            </Content>
+            </Box>
          </Modal>
-      </Container>
+      </>
    );
 };
 
