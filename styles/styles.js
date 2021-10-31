@@ -63,7 +63,7 @@ export const styles = (props) => StyleSheet.create({
    },
    textAlternative: {
       color: '#eee',
-      fontSize: 18
+      fontSize: 17
    },
    // Card styles
    cardComponentGrey: {
@@ -159,6 +159,10 @@ export const styles = (props) => StyleSheet.create({
       padding: 5
    },
    // Styles for Forms mode
+   scrollViewForms: {
+      padding: 14,
+      backgroundColor: '#d2d2d2'
+   },
    formInput: {
       fontSize: 16,
       padding: 10,
@@ -200,7 +204,7 @@ export const styles = (props) => StyleSheet.create({
    },
    // Styles for progress bar
    progressBar: {
-      color: "#7E00C5",
+      color: "#eee",
       padding: 10,
       textAlign: 'center',
    },
@@ -236,7 +240,7 @@ export const styles = (props) => StyleSheet.create({
       fontWeight: 'bold',
       fontSize: 24,
       color: '#4E00C5',
-      marginTop: 20,
+      paddingTop: 20,
    },
    feedbackPoints: {
       textAlign: 'center',
@@ -273,6 +277,10 @@ export const styles = (props) => StyleSheet.create({
    },
    containerGrey: {
       backgroundColor: '#d2d2d2',
+   },
+   containerSilver: {
+      backgroundColor: '#e8e8e8',
+      padding: 10
    },
    contentContainer: {
       padding: 10,

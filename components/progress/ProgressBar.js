@@ -6,7 +6,7 @@ import { styles } from '../../styles/styles';
 
 const ProgressBar = (props) => {
    return (
-      <Text style={styles(props).progressBar}>
+      <Text style={styles(props).progressBar} bg='#7E00C5' color='#7E00C5'>
          {props.language === 1 ? 'Du har redan fått ' : 'Du hast schon '}
          {props.points}
          {props.language === 1 ? ' av ' : ' von '}

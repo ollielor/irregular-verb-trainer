@@ -34,8 +34,10 @@ const ResultView = (props) => {
    }, []);
 
    return (
-      <Box style={styles(props).containerGrey}>
-         <Text style={styles(props).feedback}>{feedback}</Text>
+      <Box style={styles(props).containerSilver}>
+         <Text style={styles(props).feedback}>
+            {feedback}
+         </Text>
          <Text style={styles(props).feedbackPoints}>
             Sait{' '}
             {props.resultsData.totalPoints &&

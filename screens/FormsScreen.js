@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-   ScrollView,
    KeyboardAvoidingView,
    Platform,
 } from 'react-native';
-import { Container, Text } from 'native-base';
+import { ScrollView, Text } from 'native-base';
 
 import { connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -249,7 +248,7 @@ const FormsScreen = (props) => {
    const scrollViewRef = useRef();
 
    return (
-      <Container style={styles(props).containerGrey}>
+      <>
          <HeaderComponent title="Verbien muodot" goBack={navigation.goBack} />
          {started && points > 0 && (
             <ProgressBar
@@ -264,7 +263,7 @@ const FormsScreen = (props) => {
          >
             <ScrollView
                keyboardShouldPersistTaps="always"
-               style={styles(props).flexOne}
+               style={styles(props).scrollViewForms}
                ref={scrollViewRef}
             >
                {finished && resultsReady && resultsData && resultsSaved && (
@@ -355,7 +354,7 @@ const FormsScreen = (props) => {
          {Platform.OS === 'ios' || finished &&
             <FooterComponent />
          }
-      </Container>
+      </>
    );
 };
 

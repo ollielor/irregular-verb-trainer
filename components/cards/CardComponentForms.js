@@ -5,8 +5,7 @@ import React, {
    createRef,
    forwardRef,
 } from 'react';
-import { StyleSheet } from 'react-native';
-import { Body, Card, CardItem, Spinner, Text } from 'native-base';
+import { Box, Stack, HStack, Spinner, Text } from 'native-base';
 import { connect } from 'react-redux';
 import InputComponentForms from '../inputs/InputComponentForms';
 
@@ -214,9 +213,7 @@ const CardComponentForms = forwardRef((props, ref) => {
    return (
       <>
          {props.verbForm ? (
-            <Card>
-               <CardItem style={styles(props).cardComponentGrey}>
-                  <Body>
+               <>
                      <Text style={styles(props).promptForms}>
                         {props.synonyms
                            ? props.verbForm[0].meaning
@@ -265,9 +262,7 @@ const CardComponentForms = forwardRef((props, ref) => {
                            verbForm={props.verbForm}
                         />
                      ))}
-                  </Body>
-               </CardItem>
-            </Card>
+              </>
          ) : (
             <Spinner />
          )}

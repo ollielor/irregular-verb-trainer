@@ -1,5 +1,6 @@
 import React, { forwardRef } from 'react';
-import { Text, TextInput, StyleSheet, Platform } from 'react-native';
+import { TextInput, Platform } from 'react-native';
+import { Text } from 'native-base';
 
 import { connect } from 'react-redux';
 import { styles } from '../../styles/styles';
