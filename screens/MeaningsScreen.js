@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
-import { Container, Content, Text } from 'native-base';
+import { ScrollView } from 'react-native';
+import { Box, Content, Text } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -215,7 +215,7 @@ const MeaningsScreen = (props) => {
    }, [finished]);
 
    return (
-      <Container style={styles(props).containerGrey}>
+      <>
             <HeaderComponent
             title="Verbien merkitykset"
             goBack={navigation.goBack}
@@ -225,7 +225,7 @@ const MeaningsScreen = (props) => {
             style={styles(props).flexOne}
             ref={scrollViewRef}
          >
-            <Content>
+            <Box>
                {!randomizedVerbs && <Text>Arvotaan verbejä...</Text>}
                {finished && resultsSaved && results && (
                   <>
@@ -253,10 +253,10 @@ const MeaningsScreen = (props) => {
                         evaluate={evaluate}
                      />
                   ))}
-            </Content>
+            </Box>
          </ScrollView>
          <FooterComponent />
-      </Container>
+      </>
    );
 };
 

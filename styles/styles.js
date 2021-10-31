@@ -49,15 +49,22 @@ export const styles = (props) => StyleSheet.create({
       marginTop: 20,
       marginBottom: 20,
    },
-   meaningsButtonStyle: {
-      marginBottom: 5,
+    meaningsButtonDefault: {
       backgroundColor: '#0000cc',
+      padding: 20,
+      marginBottom: 5,
    },
    meaningsCorrectAnswer: {
+      ...styles.meaningsButtonDefault,
       backgroundColor: '#006600',
    },
    meaningsIncorrectAnswer: {
+      ...styles.meaningsButtonDefault,
       backgroundColor: '#cc0000',
+   },
+   textAlternative: {
+      color: '#eee',
+      fontSize: 18
    },
    // Card styles
    cardComponentGrey: {

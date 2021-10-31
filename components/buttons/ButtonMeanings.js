@@ -18,7 +18,8 @@ const ButtonMeanings = (props) => {
 
    return (
       <Button
-         full
+         w='100%'
+         p='5'
          onPress={() =>
             props.evaluateAnswers(
                props.alternative.meaning,
@@ -31,18 +32,18 @@ const ButtonMeanings = (props) => {
             (props.locked && correct) ||
             (props.locked && props.alternative.meaning === props.correctMeaning)
                ? [
-                    styles(props).meaningsButtonStyle,
+                    styles(props).meaningsButtonDefault,
                     styles(props).meaningsCorrectAnswer,
                  ]
                : props.locked && incorrect
                ? [
-                    styles(props).meaningsButtonStyle,
+                    styles(props).meaningsButtonDefault,
                     styles(props).meaningsIncorrectAnswer,
                  ]
-               : styles(props).meaningsButtonStyle
+               : styles(props).meaningsButtonDefault
          }
       >
-         <Text uppercase={false}>{props.alternative.infinitive}</Text>
+         <Text style={styles(props).textAlternative} uppercase={false}>{props.alternative.infinitive}</Text>
       </Button>
    );
 };

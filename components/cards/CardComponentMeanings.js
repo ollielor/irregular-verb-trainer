@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Body, Card, CardItem, Content, Text } from 'native-base';
+import { Box, VStack, Stack, Text } from 'native-base';
 
 import SpinnerComponent from '../styling/SpinnerComponent';
 
@@ -58,22 +58,20 @@ const CardComponentMeanings = (props) => {
    };
 
    return (
-      <Content style={styles(props).overFlowVisible}>
+      <Box style={styles(props).overFlowVisible}>
          {!rndAlternativesLoaded && (
             <SpinnerComponent text="Ladataan vaihtoehtoja" />
          )}
          {rndAlternativesLoaded && (
-            <Card>
-               <CardItem header style={styles(props).cardComponentGrey}>
-                  <Body style={styles(props).cardMeaningBody}>
+               <Stack direction='column'>
+               <VStack style={styles(props).cardMeaningBody}>
                      <Text style={styles(props).promptMeanings}>
                         {correctMeaning}
                      </Text>
-                  </Body>
-               </CardItem>
-               <CardItem style={styles(props).cardComponentGrey}>
-                  <Body>
+               </VStack>
+               <VStack style={styles(props).cardComponentGrey}>
                      {randomizedAlternatives.map((alternative, index) => (
+                        <VStack>
                         <ButtonMeanings
                            key={index}
                            alternative={alternative}
@@ -84,12 +82,12 @@ const CardComponentMeanings = (props) => {
                            correctIndex={correctIndex}
                            incorrectIndex={incorrectIndex}
                         />
+                        </VStack>
                      ))}
-                  </Body>
-               </CardItem>
-            </Card>
+               </VStack>
+            </Stack>
          )}
-      </Content>
+      </Box>
    );
 };
 
