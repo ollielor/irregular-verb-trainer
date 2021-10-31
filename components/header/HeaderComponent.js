@@ -34,11 +34,15 @@ const HeaderComponent = (props) => {
                      size='6'
                   />
             ) : null}
-      </HStack>
-      <HStack>
-         <Text style={styles(props).headerTitleStyle}> 
-            {props.title}
-         </Text>
+         {props.noArrow ? 
+            <Text style={styles(props).headerTitleStyle}>
+               {props.title}
+            </Text>
+         :
+            <Text style={styles(props).headerTitleStyle} pl='8'>
+               {props.title}
+            </Text>
+         }
       </HStack>
       <HStack>
       <Text

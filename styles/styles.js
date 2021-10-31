@@ -54,11 +54,13 @@ export const styles = (props) => StyleSheet.create({
       marginBottom: 5,
    },
    meaningsCorrectAnswer: {
-      ...styles.meaningsButtonDefault,
+      backgroundColor: '#0000cc',
+      marginBottom: 5,
       backgroundColor: '#006600',
    },
    meaningsIncorrectAnswer: {
-      ...styles.meaningsButtonDefault,
+      backgroundColor: '#0000cc',
+      marginBottom: 5,
       backgroundColor: '#cc0000',
    },
    textAlternative: {
@@ -148,7 +150,9 @@ export const styles = (props) => StyleSheet.create({
    headerTitleStyle: {
       color: '#d2d2d2',
       fontWeight: 'bold',
-      textAlign: 'center'
+   },
+   headerTitlePaddingLeft: {
+      paddingLeft: 10
    },
    // Styles for Browse mode
    browseContainer: {
