@@ -44,7 +44,7 @@ const LatestResults = (props) => {
                style={styles(props).historyButtonResults}
             >
                {props.results.length > 0 && (
-                  <Text uppercase={false}>Näytä koko historia</Text>
+                  <Text color='#eee' uppercase={false}>Näytä koko historia</Text>
                )}
             </Button>
          )}

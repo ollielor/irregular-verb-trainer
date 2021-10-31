@@ -1,13 +1,15 @@
 import React from 'react';
 import { Box, VStack, Text } from 'native-base';
 
+import { styles } from '../../styles/styles';
+
 import moment from 'moment';
 
 const CardComponentResults = (props) => {
    return (
       <Box key={props.historyItem.id}>
          <VStack>
-            <Box>
+            <Box style={styles(props).containerSilver} shadow='5' mb='4'>
                <Text style={{ color: '#7E00C5', fontWeight: 'bold' }}>
                   {moment(props.historyItem.datetime).format(
                      'DD.MM.YYYY HH:mm:ss'

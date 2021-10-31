@@ -293,7 +293,7 @@ const StartScreen = (props) => {
       
          {fontsLoaded && settingsLoaded && (
             <>
-            <ScrollView>
+            <ScrollView bg='#eee'>
             <Stack flex={1} style={styles(props).containerGrey}>
               <HeaderComponent title="Verbivalmentaja" noArrow />
               <VStack>

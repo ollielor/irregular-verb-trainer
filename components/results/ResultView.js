@@ -34,7 +34,7 @@ const ResultView = (props) => {
    }, []);
 
    return (
-      <Box style={styles(props).containerSilver}>
+      <Box style={styles(props).containerSilver} shadow='5'>
          <Text style={styles(props).feedback}>
             {feedback}
          </Text>
