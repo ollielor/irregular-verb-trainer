@@ -222,10 +222,10 @@ const MeaningsScreen = (props) => {
          />
          <ScrollView
             keyboardShouldPersistTaps="always"
-            style={styles(props).flexOne}
+            style={styles(props).flexOne, {backgroundColor: '#eee'}}
             ref={scrollViewRef}
          >
-            <Box pt='6'>
+            <Box>
                {!randomizedVerbs && <Text>Arvotaan verbejä...</Text>}
                {finished && resultsSaved && results && (
                   <>

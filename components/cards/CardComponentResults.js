@@ -9,7 +9,7 @@ const CardComponentResults = (props) => {
    return (
       <Box key={props.historyItem.id}>
          <VStack>
-            <Box style={styles(props).containerSilver} shadow='5' mb='4'>
+            <Box style={styles(props).containerDarkGrey} shadow='5' mb='4' p='4'>
                <Text style={{ color: '#7E00C5', fontWeight: 'bold' }}>
                   {moment(props.historyItem.datetime).format(
                      'DD.MM.YYYY HH:mm:ss'

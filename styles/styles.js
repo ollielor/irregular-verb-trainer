@@ -285,6 +285,9 @@ export const styles = (props) => StyleSheet.create({
       backgroundColor: '#e8e8e8',
       padding: 10
    },
+   containerDarkGrey: {
+      backgroundColor: '#dbdbdb'
+   },
    contentContainer: {
       padding: 10,
    },

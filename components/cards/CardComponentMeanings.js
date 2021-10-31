@@ -71,7 +71,7 @@ const CardComponentMeanings = (props) => {
                </VStack>
                <VStack style={styles(props).cardComponentGrey}>
                      {randomizedAlternatives.map((alternative, index) => (
-                        <VStack>
+                        <VStack key={index}>
                         <ButtonMeanings
                            key={index}
                            alternative={alternative}
