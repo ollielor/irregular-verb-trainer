@@ -1,11 +1,9 @@
 import React from 'react';
 
 import {
-   Button,
-   Center,
    StatusBar,
    Box,
-   VStack,
+   HStack,
    Stack,
    Text,
    ArrowBackIcon,
@@ -27,22 +25,22 @@ const HeaderComponent = (props) => {
          backgroundColor='#0047c5'
       />
       <Box safeAreaTop bg="#0047c5" style={styles(props).headerBoxStyle}>
-      <Stack bg="#0047c5" justifyContent='space-between' alignItems='center' direction='row'>
-      <VStack w='20'>
+      <Stack bg="#0047c5" justifyContent='space-between' direction='row'>
+      <HStack>
          {!props.noArrow ? (
                   <ArrowBackIcon
-                     onPress={() => navigation.goBack()}
+                     onPress={navigation.goBack}
                      style={styles(props).buttonTextStyle}
                      size='6'
                   />
             ) : null}
-      </VStack>
-      <VStack alignItems='center' w="40">
-         <Text style={styles(props).headerTitleStyle}>
+      </HStack>
+      <HStack>
+         <Text style={styles(props).headerTitleStyle}> 
             {props.title}
          </Text>
-      </VStack>
-      <VStack w="20">
+      </HStack>
+      <HStack>
       <Text
                style={styles(props).buttonTextStyle}
                onPress={() => navigation.navigate('Omat asetukseni')}
@@ -51,11 +49,11 @@ const HeaderComponent = (props) => {
                {props.language === 2 && 'DE, taso '}
                {props.level}
             </Text>
-      </VStack>
+      </HStack>
       </Stack>
       </Box>
-     {/*  <VStack justifyContent='space-between' alignItems='center'> */}
-{/*          <VStack alignItems='center'>
+     {/*  <HStack justifyContent='space-between' alignItems='center'> */}
+{/*          <HStack alignItems='center'>
             {!props.noArrow ? (
                <Button transparent onPress={() => navigation.goBack()}>
                   <ArrowBackIcon
@@ -63,17 +61,17 @@ const HeaderComponent = (props) => {
                   />
                </Button>
             ) : null}
-         </VStack>
-         <VStack alignItems='center'>
+         </HStack>
+         <HStack alignItems='center'>
             <Box style={styles(props).headerBodyStyle}>
 
             </Box>
-         </VStack>
-         <VStack alignItems='center'>
+         </HStack>
+         <HStack alignItems='center'>
 
-         </VStack> */}
+         </HStack> */}
 
-{/*       </VStack> */}
+{/*       </HStack> */}
       </>
    );
 };

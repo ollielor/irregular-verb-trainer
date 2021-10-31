@@ -63,7 +63,8 @@ export const styles = (props) => StyleSheet.create({
    cardComponentGrey: {
       backgroundColor: '#e8e8e8',
       marginBottom: 10,
-      shadowColor: '#eeeeee'
+      //shadowColor: '#eeeeee',
+      padding: 10
    },
    // Styles for Instructions screen
    instructionsHeaderStyle: {
@@ -122,6 +123,10 @@ export const styles = (props) => StyleSheet.create({
       display: 'flex', 
       bottom: 0 
    },
+   footerBox: {
+      bottom: 0,
+      padding: 0
+   },
    // Header styles
    headerBodyStyle: {
       flex: 2, 
@@ -137,7 +142,15 @@ export const styles = (props) => StyleSheet.create({
    },
    headerTitleStyle: {
       color: '#d2d2d2',
-      fontWeight: 'bold'
+      fontWeight: 'bold',
+      textAlign: 'center'
+   },
+   // Styles for Browse mode
+   browseContainer: {
+      padding: 10,
+   },
+   browseBoxStyle: {
+      padding: 5
    },
    // Styles for Forms mode
    formInput: {

@@ -15,7 +15,7 @@ const CardComponentBrowse = (props) => {
 
    return (
             <HStack style={styles(props).cardComponentGrey}>
-               <Box>
+               <Box shadow='2' style={styles(props).browseBoxStyle}>
                   <Text style={{ color: '#7E00C5', fontWeight: 'bold' }}>
                      {props.verb.infinitive},&nbsp;
                      {props.verb.present},&nbsp;

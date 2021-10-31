@@ -1,5 +1,5 @@
 import React from 'react';
-import { HStack, Center } from 'native-base';
+import { Box, HStack, Center, Stack } from 'native-base';
 
 import FooterButtonComponent from './FooterButtonComponent';
 
@@ -10,22 +10,28 @@ const FooterComponent = (props) => {
    const navigation = useNavigation();
 
    return (
-      <Center>
-         <HStack style={styles(props).footerStyle}>
+      <Box safeAreaTop bg='#0047c5' style={styles(props).footerBox}>
+         <Stack safeAreaBottom justifyContent='space-evenly' direction='row'>
+         <HStack>
                <FooterButtonComponent
                   title="Asetukset"
                   function={() => navigation.navigate('Omat asetukseni')}
                />
+         </HStack>
+         <HStack>
                <FooterButtonComponent
                   title="Tulokset"
                   function={() => navigation.navigate('Omat tulokseni')}
                />
+         </HStack>
+         <HStack>
                <FooterButtonComponent
                   title="Ohjeet"
                   function={() => navigation.navigate('Ohjeet')}
                />
          </HStack>
-      </Center>
+         </Stack>
+      </Box>
    );
 };
 

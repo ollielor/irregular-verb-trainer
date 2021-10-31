@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
-import { Container, Box, Stack, VStack } from 'native-base';
+import { Container, Box, Stack, VStack, ScrollView } from 'native-base';
 
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
@@ -279,12 +279,22 @@ const StartScreen = (props) => {
    };
 
    return (
-      <Stack flex={1} style={styles(props).containerGrey}>
-         {!fontsLoaded && <SpinnerComponent text="Ladataan fontteja..." />}
-         {!settingsLoaded && <SpinnerComponent text="Ladataan asetuksia..." />}
+      <>
+      {!fontsLoaded || !settingsLoaded && (
+         <Stack flex={1} style={styles(props).containerGrey} safeAreaTop>
+            <VStack>
+               {!fontsLoaded && <SpinnerComponent text="Ladataan fontteja..." />}
+            </VStack>
+            <VStack>
+               {!settingsLoaded && <SpinnerComponent text="Ladataan asetuksia..." />}
+            </VStack>
+         </Stack>
+      )}
+      
          {fontsLoaded && settingsLoaded && (
-            // <Container style={styles(props).containerGrey}>
             <>
+            <ScrollView>
+            <Stack flex={1} style={styles(props).containerGrey}>
               <HeaderComponent title="Verbivalmentaja" noArrow />
               <VStack>
                      <ButtonComponent
@@ -338,11 +348,13 @@ const StartScreen = (props) => {
                      <LatestResults count={5} showTypes />
                      </VStack>
                      <VStack>
-               <FooterComponent />
                </VStack>
-               </>
+               </Stack>
+            </ScrollView>
+            <FooterComponent />
+            </>
          )}
-      </Stack>
+      </>
    );
 };
 

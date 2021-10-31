@@ -26,12 +26,12 @@ const BrowseScreen = (props) => {
    }, []);
 
    return (
-      <Box style={styles(props).containerGrey}>
+      <>
          <HeaderComponent
             title="Selaa ja opettele"
             goBack={navigation.goBack}
          />
-         <ScrollView style={styles(props).contentContainer}>
+         <ScrollView style={styles(props).browseContainer}>
             <Heading>Taso 1</Heading>
             {verbs
                .filter((verb) => verb.level === 1)
@@ -79,7 +79,7 @@ const BrowseScreen = (props) => {
                ))}
          </ScrollView>
          <FooterComponent />
-      </Box>
+      </>
    );
 };
 
