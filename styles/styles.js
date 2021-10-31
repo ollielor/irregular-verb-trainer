@@ -132,6 +132,13 @@ export const styles = (props) => StyleSheet.create({
       paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0, 
       paddingBottom: 10
    },
+   headerBoxStyle: {
+      padding: 10
+   },
+   headerTitleStyle: {
+      color: '#d2d2d2',
+      fontWeight: 'bold'
+   },
    // Styles for Forms mode
    formInput: {
       fontSize: 16,
