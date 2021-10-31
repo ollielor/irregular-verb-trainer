@@ -273,6 +273,10 @@ export const styles = (props) => StyleSheet.create({
       borderWidth: 1,
       width: '100%',
    },
+   shareResultsStyle: {
+      flex: 1,
+      backgroundColor: '#eee'
+   },
    // Common styles
    accent: {
       fontWeight: 'bold',

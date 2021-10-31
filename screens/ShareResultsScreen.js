@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextInput, KeyboardAvoidingView, Platform } from 'react-native';
-import { Container, Content, Text } from 'native-base';
+import { Box, Text } from 'native-base';
 import ButtonComponent from '../components/buttons/ButtonComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
 import FooterComponent from '../components/footer/FooterComponent';
@@ -110,13 +110,13 @@ const ShareResultsScreen = (props) => {
    };
 
    return (
-      <Container style={styles(props).containerGrey}>
+      <>
          <HeaderComponent title="Jaa tulokset" goBack={navigation.goBack} />
          <KeyboardAvoidingView
             style={styles(props).flexOne}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
          >
-            <Content style={styles(props).flexOne}>
+            <Box style={styles(props).shareResultsStyle} p='5'>
                <Text style={styles(props).labelForms}>
                   Nimesi (näkyy vain viestin vastaanottajalle)
                </Text>
@@ -149,10 +149,10 @@ const ShareResultsScreen = (props) => {
                      iOS:n oletussähköpostiohjelmalla lähetettäessä teksti ei välttämättä näy oikeanlaisena. Voit käyttää sen sijaan WhatsAppia tai toista sähköpostiohjelmaa. 
                   </InfoContent>
                }
-            </Content>
+            </Box>
          </KeyboardAvoidingView>
          <FooterComponent />
-      </Container>
+      </>
    );
 };
 
