@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Content, Toast } from 'native-base';
+import { HStack, ScrollView, Stack, Toast } from 'native-base';
 
 import { connect } from 'react-redux';
 import {
@@ -25,7 +25,7 @@ import SaveSettingsComponent from '../components/settings/SaveSettingsComponent'
 
 import { styles } from '../styles/styles';
 
-const StartScreen = (props) => {
+const SettingsScreen = (props) => {
    const [settingsLength, setSettingsLength] = useState(0);
    const [settingsLoaded, setSettingsLoaded] = useState(false);
    const [settingsSaved, setSettingsSaved] = useState(false);
@@ -170,12 +170,13 @@ const StartScreen = (props) => {
    };
 
    return (
-      <Container style={styles(props).containerGrey}>
+      <>
+      <ScrollView style={styles(props).containerGrey}>
          <HeaderComponent title="Omat asetukseni" noArrow />
          {!settingsLoaded && <SpinnerComponent text="Ladataan asetuksia..." />}
          {settingsLoaded && (
-            <Container>
-               <Content>
+            <Stack>
+               <HStack>
                   <SettingsComponent
                      setLanguage={setLanguage}
                      setLevel={setLevel}
@@ -196,11 +197,12 @@ const StartScreen = (props) => {
                      saveSettings={saveSettings}
                      settingsSaved={settingsSaved}
                   />
-               </Content>
-               <FooterComponent />
-            </Container>
+               </HStack>
+            </Stack>
          )}
-      </Container>
+      </ScrollView>
+      <FooterComponent />
+   </>
    );
 };
 
@@ -213,4 +215,4 @@ const mapStateToProps = (state) => ({
    presperf: state.settings.tenses.presperf,
 });
 
-export default connect(mapStateToProps)(StartScreen);
+export default connect(mapStateToProps)(SettingsScreen);

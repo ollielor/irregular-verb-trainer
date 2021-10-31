@@ -1,13 +1,6 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import {
-   Body,
-   Content,
-   List,
-   ListItem,
-   Right,
-   Switch,
-   Text,
+   Box, HStack, Stack, Text, Switch
 } from 'native-base';
 
 import { styles } from '../../styles/styles';
@@ -16,59 +9,59 @@ import Subheading from '../styling/Subheading';
 
 const FormsSelector = (props) => {
    return (
-      <Content>
-         <Body style={styles(props).settingsBodyStyle}>
+      <Box>
+         <HStack style={styles(props).settingsListStyle}>
             <Subheading>Harjoiteltavat muodot</Subheading>
-         </Body>
-         <List style={styles(props).settingsListStyle}>
-            <ListItem>
-               <Body>
-                  <Text>Perusmuoto</Text>
-               </Body>
-               <Right>
+         </HStack>
+         <HStack style={styles(props).settingsListStyle}>
+            <Stack>
+               <HStack>
+               <Text>Perusmuoto</Text>
+               </HStack>
+               <HStack>
                   <Switch
                      value={props.infinitive}
                      onValueChange={(value) => props.setInfinitive(value)}
                   />
-               </Right>
-            </ListItem>
-            <ListItem>
-               <Body>
+               </HStack>
+            </Stack>
+            <Stack>
+               <HStack>
                   <Text>Preesens</Text>
-               </Body>
-               <Right>
+               </HStack>
+               <HStack>
                   <Switch
                      value={props.present}
                      onValueChange={(value) => props.setPresent(value)}
                   />
-               </Right>
-            </ListItem>
-            <ListItem>
-               <Body>
+               </HStack>
+            </Stack>
+            <Stack>
+               <HStack>
                   <Text>Imperfekti</Text>
-               </Body>
-               <Right>
+               </HStack>
+               <HStack>
                   <Switch
                      value={props.past}
                      onValueChange={(value) => props.setPast(value)}
                   />
-               </Right>
-            </ListItem>
-            <ListItem>
-               <Body>
+               </HStack>
+            </Stack>
+            <Stack>
+               <HStack>
                   <Text>
                      {props.language === 1 ? 'Supiini (4. muoto)' : 'Perfekti'}
                   </Text>
-               </Body>
-               <Right>
+               </HStack>
+               <HStack>
                   <Switch
                      value={props.presPerf}
                      onValueChange={(value) => props.setPresPerf(value)}
                   />
-               </Right>
-            </ListItem>
-         </List>
-      </Content>
+               </HStack>
+            </Stack>
+         </HStack>
+      </Box>
    );
 };
 

@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Body, Content } from 'native-base';
+import { Box, HStack } from 'native-base';
 
 import ButtonComponentNarrow from '../buttons/ButtonComponentNarrow';
 import Subheading from '../styling/Subheading';
@@ -9,11 +8,11 @@ import { styles } from '../../styles/styles';
 
 const SettingsComponent = (props) => {
    return (
-      <Content>
-         <Body style={styles(props).settingsBodyStyle}>
+      <Box>
+         <HStack style={styles(props).settingsBodyStyle}>
             <Subheading>Kielen valinta</Subheading>
-         </Body>
-         <Body style={styles(props).settingsBodyStyle}>
+         </HStack>
+         <HStack style={styles(props).settingsBodyStyle}>
             <ButtonComponentNarrow
                title="Ruotsi"
                function={() => props.setLanguage(1)}
@@ -26,11 +25,11 @@ const SettingsComponent = (props) => {
                disabled={props.language === 2}
                withMargin
             />
-         </Body>
-         <Body style={styles(props).settingsBodyStyle}>
+         </HStack>
+         <HStack style={styles(props).settingsBodyStyle}>
             <Subheading>Vaikeustason valinta</Subheading>
-         </Body>
-         <Body style={styles(props).settingsBodyStyle}>
+         </HStack>
+         <HStack style={styles(props).settingsBodyStyle}>
             <ButtonComponentNarrow
                title="Taso 1"
                function={() => props.setLevel(1)}
@@ -49,8 +48,8 @@ const SettingsComponent = (props) => {
                disabled={props.level === 3}
                withMargin
             />
-         </Body>
-      </Content>
+         </HStack>
+      </Box>
    );
 };
 
