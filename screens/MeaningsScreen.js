@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ScrollView } from 'react-native';
-import { Box, Content, Text } from 'native-base';
+import { Box, Text } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -225,7 +225,7 @@ const MeaningsScreen = (props) => {
             style={styles(props).flexOne}
             ref={scrollViewRef}
          >
-            <Box>
+            <Box pt='6'>
                {!randomizedVerbs && <Text>Arvotaan verbejä...</Text>}
                {finished && resultsSaved && results && (
                   <>

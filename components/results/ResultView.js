@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
-import { Button, Content, Text } from 'native-base';
+import { Button, Box, Text } from 'native-base';
 import feedbackTexts from '../../feedback/feedback.json';
 
 import { connect } from 'react-redux';
@@ -35,7 +34,7 @@ const ResultView = (props) => {
    }, []);
 
    return (
-      <Content>
+      <Box style={styles(props).containerGrey}>
          <Text style={styles(props).feedback}>{feedback}</Text>
          <Text style={styles(props).feedbackPoints}>
             Sait{' '}
@@ -83,9 +82,9 @@ const ResultView = (props) => {
             style={styles(props).historyButtonResults}
             onPress={props.startAgain}
          >
-            <Text uppercase={false}>Aloita uudestaan</Text>
+            <Text color='#eee' uppercase={false}>Aloita uudestaan</Text>
          </Button>
-      </Content>
+      </Box>
    );
 };
 

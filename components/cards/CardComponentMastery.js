@@ -1,15 +1,15 @@
 import React from 'react';
-import { Body, Card, CardItem, Text } from 'native-base';
-import { StyleSheet } from 'react-native';
+import { Box, Stack, VStack, Text } from 'native-base';
 import MasteryTextComponent from '../styling/MasteryTextComponent';
 
 import { styles } from '../../styles/styles';
 
 const CardComponentMastery = (props) => {
    return (
-      <Card>
-         <CardItem
-            header
+      <Stack style={styles(props).containerGrey} p='3'>
+      <VStack>
+         <Box
+            p='2'
             style={
                props.mastered
                   ? styles(props).mastered
@@ -26,9 +26,10 @@ const CardComponentMastery = (props) => {
                {props.mastered && 'Nämä osaat jo:'}
                {props.notMastered && 'Kertaa vielä näitä:'}
             </Text>
-         </CardItem>
-         <CardItem>
-            <Body>
+         </Box>
+         </VStack>
+         <VStack>
+            <Box p='2'>
                {props.mastered &&
                   props.mastered.map((item, index) => (
                      <MasteryTextComponent
@@ -46,9 +47,9 @@ const CardComponentMastery = (props) => {
                         wrongAnswer={item.wrongAnswer}
                      />
                   ))}
-            </Body>
-         </CardItem>
-      </Card>
+            </Box>
+      </VStack>
+      </Stack>
    );
 };
 

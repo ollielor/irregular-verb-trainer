@@ -51,7 +51,6 @@ export const styles = (props) => StyleSheet.create({
    },
     meaningsButtonDefault: {
       backgroundColor: '#0000cc',
-      padding: 20,
       marginBottom: 5,
    },
    meaningsCorrectAnswer: {
