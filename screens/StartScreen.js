@@ -199,7 +199,7 @@ const StartScreen = (props) => {
                [],
                (tx, results) => {
                      if (results.rows._array.length > 0) {
-                        dispatchValues(results.rows._array);
+                        dispatchValues(results.rows._array[0]);
                         setSettingsLoaded(true);
                      } else {
                         insertValues(tx);
@@ -218,35 +218,35 @@ const StartScreen = (props) => {
       );
    };
    
-   const dispatchValues = (results) => {
+   const dispatchValues = (settingsResults) => {
       props.dispatch(
-         updateLanguage(results.language)
+         updateLanguage(settingsResults.language)
       );
       props.dispatch(
-         updateLevel(results.level)
+         updateLevel(settingsResults.level)
       );
       props.dispatch(
          updateInfinitive(
-            results.infinitive === 1
+            settingsResults.infinitive === 1
                ? true
                : false
          )
       );
       props.dispatch(
          updatePresent(
-            results.present === 1
+            settingsResults.present === 1
                ? true
                : false
          )
       );
       props.dispatch(
          updatePast(
-            results.past === 1 ? true : false
+            settingsResults.past === 1 ? true : false
          )
       );
       props.dispatch(
          updatePresperf(
-            results.presperf === 1
+            settingsResults.presperf === 1
                ? true
                : false
          )
@@ -257,14 +257,22 @@ const StartScreen = (props) => {
    const insertValues = (tx) => {
       tx.executeSql(
          'insert into settings (language, level, infinitive, present, past, presperf) values (?, ?, ?, ?, ?, ?);',
-         [
+            [
+               1,
+               1,
+               1,
+               1,
+               1,
+               1
+            ]
+/*          [
             props.language,
             props.level,
             props.infinitive ? 1 : 0,
             props.present ? 1 : 0,
             props.past ? 1 : 0,
             props.presperf ? 1 : 0,
-         ]
+         ] */
       );
       
       fetchSettings();  
