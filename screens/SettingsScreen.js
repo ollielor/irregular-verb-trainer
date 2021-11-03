@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { VStack, ScrollView, Stack, Toast, HStack } from 'native-base';
+import { VStack, ScrollView, Stack, useToast, Box } from 'native-base';
 
 import { connect } from 'react-redux';
 import {
@@ -37,6 +37,8 @@ const SettingsScreen = (props) => {
    const [presPerf, setPresPerf] = useState(true);
 
    const navigation = useNavigation();
+
+   const toast = useToast();
 
    // useEffect cleanup
    useEffect(() => {
@@ -160,11 +162,18 @@ const SettingsScreen = (props) => {
          null
       );
       fetchSettings();
-      Toast.show({
-         text: 'Asetukset tallennettu!',
+      toast.show({
+         render: () => {
+            return (
+               <Box backgroundColor='#66dd33' p='3'>
+                  Asetukset tallennettu!
+               </Box>
+            )
+         },
          placement: 'bottom',
-         type: 'success',
+         status: 'success',
          duration: 3000,
+         isClosable: false
       });
       navigation.navigate('Koti');
    };
