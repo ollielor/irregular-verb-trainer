@@ -21,6 +21,7 @@ const FormsSelector = (props) => {
                   <Switch
                      onTrackColor='#4E00C5'
                      offTrackColor='#b9b9b9'
+                     onThumbColor='#ffffff'
                      isChecked={props.infinitive}
                      onToggle={(value) => props.setInfinitive(value)}
                   />
@@ -34,6 +35,7 @@ const FormsSelector = (props) => {
                   <Switch
                      onTrackColor='#4E00C5'
                      offTrackColor='#b9b9b9'
+                     onThumbColor='#ffffff'
                      isChecked={props.present}
                      onToggle={(value) => props.setPresent(value)}
                   />
@@ -47,6 +49,7 @@ const FormsSelector = (props) => {
                   <Switch
                      onTrackColor='#4E00C5'
                      offTrackColor='#b9b9b9'
+                     onThumbColor='#ffffff'
                      isChecked={props.past}
                      onToggle={(value) => props.setPast(value)}
                   />
@@ -62,6 +65,7 @@ const FormsSelector = (props) => {
                   <Switch
                      onTrackColor='#4E00C5'
                      offTrackColor='#b9b9b9'
+                     onThumbColor='#ffffff'
                      isChecked={props.presPerf}
                      onToggle={(value) => props.setPresPerf(value)}
                   />
