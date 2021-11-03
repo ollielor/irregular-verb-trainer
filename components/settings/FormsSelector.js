@@ -21,8 +21,8 @@ const FormsSelector = (props) => {
                   <Switch
                      onTrackColor='#4E00C5'
                      offTrackColor='#b9b9b9'
-                     value={props.infinitive}
-                     onValueChange={(value) => props.setInfinitive(value)}
+                     isChecked={props.infinitive}
+                     onToggle={(value) => props.setInfinitive(value)}
                   />
                </HStack>
             </Stack>
@@ -34,8 +34,8 @@ const FormsSelector = (props) => {
                   <Switch
                      onTrackColor='#4E00C5'
                      offTrackColor='#b9b9b9'
-                     value={props.present}
-                     onValueChange={(value) => props.setPresent(value)}
+                     isChecked={props.present}
+                     onToggle={(value) => props.setPresent(value)}
                   />
                </HStack>
             </Stack>
@@ -47,8 +47,8 @@ const FormsSelector = (props) => {
                   <Switch
                      onTrackColor='#4E00C5'
                      offTrackColor='#b9b9b9'
-                     value={props.past}
-                     onValueChange={(value) => props.setPast(value)}
+                     isChecked={props.past}
+                     onToggle={(value) => props.setPast(value)}
                   />
                </HStack>
             </Stack>
@@ -62,8 +62,8 @@ const FormsSelector = (props) => {
                   <Switch
                      onTrackColor='#4E00C5'
                      offTrackColor='#b9b9b9'
-                     value={props.presPerf}
-                     onValueChange={(value) => props.setPresPerf(value)}
+                     isChecked={props.presPerf}
+                     onToggle={(value) => props.setPresPerf(value)}
                   />
                </HStack>
             </Stack>
