@@ -11,9 +11,12 @@ const ButtonComponent = (props) => {
                ? styles(props).buttonWithMargin
                : props.withMarginBottomAndTop
                ? styles(props).buttonWithMarginBottomAndTop
+               : props.disabled
+               ? styles(props).buttonDisabledStyle
                : styles(props).buttonDefaultStyle,
          ]}
          onPress={props.function}
+         disabled={props.disabled}
       >
          <Text uppercase={false} style={styles(props).buttonTextStyle}>
             {props.title}

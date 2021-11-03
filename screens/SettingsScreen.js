@@ -201,6 +201,10 @@ const SettingsScreen = (props) => {
                   <SaveSettingsComponent
                      saveSettings={saveSettings}
                      settingsSaved={settingsSaved}
+                     infinitive={infinitive}
+                     present={present}
+                     past={past}
+                     presPerf={presPerf}
                   />
                </VStack>
             </Stack>

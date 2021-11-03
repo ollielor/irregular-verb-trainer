@@ -6,6 +6,9 @@ export const styles = (props) => StyleSheet.create({
       margin: 3,
       backgroundColor: props.color
    },
+   buttonDisabledStyle: {
+      backgroundColor: '#e8e8e8'
+   },
    buttonInstructionsStyle: {
       marginBottom: 10,
       backgroundColor: '#4E00C5'
@@ -15,11 +18,9 @@ export const styles = (props) => StyleSheet.create({
       marginRight: 2,
    },
    buttonNarrowDisabledStyle: {
-      ...styles.buttonNarrowStyle,
       backgroundColor: '#7E00C5'
    },
    buttonNarrowEnabledStyle: {
-      ...styles.buttonNarrowStyle,
       backgroundColor: '#4E00C5'
    },
    buttonStyle: {
