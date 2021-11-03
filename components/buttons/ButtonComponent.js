@@ -6,7 +6,6 @@ import { styles } from '../../styles/styles';
 const ButtonComponent = (props) => {
    return (
       <Button
-         full
          style={[
             props.withMargin
                ? styles(props).buttonWithMargin

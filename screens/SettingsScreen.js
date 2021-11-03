@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HStack, ScrollView, Stack, Toast } from 'native-base';
+import { VStack, ScrollView, Stack, Toast, HStack } from 'native-base';
 
 import { connect } from 'react-redux';
 import {
@@ -162,7 +162,7 @@ const SettingsScreen = (props) => {
       fetchSettings();
       Toast.show({
          text: 'Asetukset tallennettu!',
-         position: 'bottom',
+         placement: 'bottom',
          type: 'success',
          duration: 3000,
       });
@@ -171,18 +171,21 @@ const SettingsScreen = (props) => {
 
    return (
       <>
+      <HeaderComponent title="Omat asetukseni" noArrow />
       <ScrollView style={styles(props).containerGrey}>
-         <HeaderComponent title="Omat asetukseni" noArrow />
          {!settingsLoaded && <SpinnerComponent text="Ladataan asetuksia..." />}
          {settingsLoaded && (
-            <Stack>
-               <HStack>
+            <>
+            <Stack direction='column' alignItems='center'>
+               <VStack>
                   <SettingsComponent
                      setLanguage={setLanguage}
                      setLevel={setLevel}
                      language={language}
                      level={level}
                   />
+               </VStack>
+               <VStack>
                   <FormsSelector
                      setInfinitive={setInfinitive}
                      setPresent={setPresent}
@@ -193,12 +196,15 @@ const SettingsScreen = (props) => {
                      past={past}
                      presPerf={presPerf}
                   />
+               </VStack>
+               <VStack>
                   <SaveSettingsComponent
                      saveSettings={saveSettings}
                      settingsSaved={settingsSaved}
                   />
-               </HStack>
+               </VStack>
             </Stack>
+            </>
          )}
       </ScrollView>
       <FooterComponent />

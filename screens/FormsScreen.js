@@ -293,7 +293,7 @@ const FormsScreen = (props) => {
                      <ButtonComponent
                         color="#7E00C5"
                         title="Muuta asetuksia"
-                        function={() => navigation.navigate('Koti')}
+                        function={() => navigation.navigate('Asetukset')}
                      />
                   </>
                }
