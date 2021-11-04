@@ -38,14 +38,12 @@ const LatestResults = (props) => {
                      showTypes={props.showTypes}
                   />
                ))}
-         {!props.hideButton && (
+         {!props.hideButton && props.results.length > 0 && (
             <Button
                onPress={() => navigation.navigate('Omat tulokseni')}
                style={styles(props).historyButtonResults}
             >
-               {props.results.length > 0 && (
-                  <Text color='#eee' uppercase={false}>Näytä koko historia</Text>
-               )}
+               <Text color='#eee' uppercase={false}>Näytä koko historia</Text>
             </Button>
          )}
       </Box>

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Stack, VStack, ScrollView, Text } from 'native-base';
+import React, { useState, useEffect, Fragment } from 'react';
+import { Stack, VStack, ScrollView, Text, Box } from 'native-base';
 
 import { useFonts, Roboto_400Regular } from '@expo-google-fonts/roboto';
 
@@ -279,13 +279,34 @@ const StartScreen = (props) => {
    }
 
    return (
-     
       <>
+          {!fontsLoaded || !settingsLoaded && (
+            <Stack flex={1} style={styles(props).containerGrey} safeAreaTop>
+               <VStack>
+                  {!fontsLoaded && <SpinnerComponent text="Ladataan fontteja..." />}
+               </VStack>
+               <VStack>
+                  {!settingsLoaded && 
+                  <>
+                  <SpinnerComponent text="Ladataan asetuksia..." />
+                  <Text textAlign='center'>
+                     {dbError}
+                  </Text>
+                  <ButtonComponent
+                        color="#4E00C5"
+                        title="Lataa uudelleen"
+                        function={fetchSettings}
+                     />
+                  </>
+                  }
+               </VStack>
+            </Stack>
+         )}
          {fontsLoaded && settingsLoaded && (
             <>
-            <ScrollView bg='#eee'>
-            <Stack flex={1} style={styles(props).containerGrey}>
-              <HeaderComponent title="Verbivalmentaja" noArrow />
+            <HeaderComponent title="Verbivalmentaja" noArrow />
+            <ScrollView style={styles(props).containerGrey}>
+            <Stack style={styles(props).containerGrey}>              
               <VStack>
                      <ButtonComponent
                         color="#7E00C5"
@@ -337,35 +358,10 @@ const StartScreen = (props) => {
                      <VStack>
                      <LatestResults count={5} showTypes />
                      </VStack>
-                     <VStack>
-               </VStack>
                </Stack>
             </ScrollView>
             <FooterComponent />
             </>
-         )}
-
-         {!fontsLoaded || !settingsLoaded && (
-            <Stack flex={1} style={styles(props).containerGrey} safeAreaTop>
-               <VStack>
-                  {!fontsLoaded && <SpinnerComponent text="Ladataan fontteja..." />}
-               </VStack>
-               <VStack>
-                  {!settingsLoaded && 
-                  <>
-                  <SpinnerComponent text="Ladataan asetuksia..." />
-                  <Text textAlign='center'>
-                     {dbError}
-                  </Text>
-                  <ButtonComponent
-                        color="#4E00C5"
-                        title="Lataa uudelleen"
-                        function={fetchSettings}
-                     />
-                  </>
-                  }
-               </VStack>
-            </Stack>
          )}
       </>
    );

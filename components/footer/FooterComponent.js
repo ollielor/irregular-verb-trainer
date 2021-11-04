@@ -10,8 +10,8 @@ const FooterComponent = (props) => {
    const navigation = useNavigation();
 
    return (
-      <Box safeAreaTop bg='#0047c5' style={styles(props).footerBox}>
-         <Stack safeAreaBottom justifyContent='space-evenly' direction='row'>
+      // <Box safeAreaTop bg='#0047c5' style={styles(props).footerBox}>
+         <Stack safeAreaBottom bg='#0047c5' justifyContent='space-evenly' direction='row' p='2'>
          <HStack>
                <FooterButtonComponent
                   title="Asetukset"
@@ -31,7 +31,7 @@ const FooterComponent = (props) => {
                />
          </HStack>
          </Stack>
-      </Box>
+      // </Box>
    );
 };
 
