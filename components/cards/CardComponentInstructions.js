@@ -1,16 +1,12 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Body, Card, CardItem, Content, Text } from 'native-base';
+import { VStack, Text } from 'native-base';
 import ButtonInstructions from '../buttons/ButtonInstructions';
 
 import { styles } from '../../styles/styles';
 
 const CardComponentInstructions = (props) => {
    return (
-      <Content>
-         <Card>
-            <CardItem style={styles(props).cardComponentGrey}>
-               <Body>
+            <VStack style={styles(props).cardComponentGrey}>
                   <Text style={styles(props).instructionsHeaderStyle}>
                      {props.header}
                   </Text>
@@ -25,10 +21,7 @@ const CardComponentInstructions = (props) => {
                            buttonAction={button.buttonAction}
                         />
                      ))}
-               </Body>
-            </CardItem>
-         </Card>
-      </Content>
+            </VStack>
    );
 };
 

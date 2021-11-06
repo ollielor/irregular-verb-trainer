@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Content } from 'native-base';
+import { Box, Stack, ScrollView } from 'native-base';
 import CardComponentInstructions from '../components/cards/CardComponentInstructions';
 import HeaderComponent from '../components/header/HeaderComponent';
 import FooterComponent from '../components/footer/FooterComponent';
@@ -13,12 +13,14 @@ import { useNavigation } from '@react-navigation/native';
 import { styles } from '../styles/styles';
 
 const InstructionsScreen = (props) => {
+
    const navigation = useNavigation();
 
    return (
-      <Box style={styles(props).container}>
+      <Box style={styles(props).container} pb='20'>
          <HeaderComponent title="Ohjeet" goBack={navigation.goBack} />
-         <Content>
+         <ScrollView>
+         <Stack>
             {instructionTexts[props.language].map((instruction, index) => (
                <CardComponentInstructions
                   key={index}
@@ -27,7 +29,8 @@ const InstructionsScreen = (props) => {
                   buttons={instruction.buttons && instruction.buttons}
                />
             ))}
-         </Content>
+         </Stack>
+         </ScrollView>
          <FooterComponent />
       </Box>
    );
