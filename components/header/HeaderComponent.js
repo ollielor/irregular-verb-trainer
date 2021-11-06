@@ -18,12 +18,6 @@ const HeaderComponent = (props) => {
 
    return (
       <>
-      <StatusBar
-         //iosBarStyle="light-content"
-         //androidStatusBarColor="#0047c5"
-         barStyle='light-content'
-         backgroundColor='#0047c5'
-      />
       <Box safeAreaTop bg="#0047c5" style={styles(props).headerBoxStyle}>
       <Stack bg="#0047c5" justifyContent='space-between' direction='row'>
       <HStack>

@@ -42,7 +42,7 @@ export const styles = (props) => StyleSheet.create({
       backgroundColor: props.color
    },
    footerButton: { 
-      backgroundColor: '#0047c5' 
+      backgroundColor: props.disabled ? '#7E00C5' : '#0047c5', 
    },
    historyButtonResults: {
       backgroundColor: '#4E00C5',

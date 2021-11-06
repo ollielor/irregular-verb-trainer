@@ -48,6 +48,7 @@ const SettingsScreen = (props) => {
       if (confirmed) {
       setAlertOpen(false);
       navigation.navigate(destination);
+      setConfirmed(false);
       return () => { isMounted = false };
       }
   }, [confirmed]);
