@@ -21,12 +21,12 @@ const SettingsAlertComponent = (props) => {
             <Button.Group space={2}>
                 <Button
                 variant="unstyled"
-                colorScheme="coolGray"
+                colorScheme=""
                 onPress={() => props.setAlertOpen(false)}
                 >
                 Ei
                 </Button>
-                <Button bg='#4E00C5' onPress={props.confirm}>
+                <Button bg='#4E00C5' onPress={props.confirm} colorScheme=''>
                 Kyllä
                 </Button>
             </Button.Group>
