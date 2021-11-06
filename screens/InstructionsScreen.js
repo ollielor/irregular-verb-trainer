@@ -17,7 +17,7 @@ const InstructionsScreen = (props) => {
    const navigation = useNavigation();
 
    return (
-      <Box style={styles(props).container} pb='20'>
+      <>
          <HeaderComponent title="Ohjeet" goBack={navigation.goBack} />
          <ScrollView>
          <Stack>
@@ -32,7 +32,7 @@ const InstructionsScreen = (props) => {
          </Stack>
          </ScrollView>
          <FooterComponent />
-      </Box>
+      </>
    );
 };
 

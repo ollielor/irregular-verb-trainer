@@ -44,7 +44,7 @@ const FooterComponent = (props) => {
                         <HStack key={index}>
                         <Button 
                            colorScheme=''
-                           onPress={props.settingsChanged ? () =>  navigateTo(routeName.screenName) : () => navigation.navigate(routeName.screenName)}
+                           onPress={props.settingsChanged ? () => navigateTo(routeName.screenName) : () => navigation.navigate(routeName.screenName)}
                            bg={routeName.screenName === route.name ? '#7E00C5' : 'transparent'}
                         >
                         <Center>
