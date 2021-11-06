@@ -1,12 +1,14 @@
 import React from 'react';
 
 import {
-   StatusBar,
+   Center,
    Box,
    HStack,
    Stack,
    Text,
    ArrowBackIcon,
+   VStack,
+   StatusBar,
 } from 'native-base';
 
 import { connect } from 'react-redux';
@@ -18,8 +20,10 @@ const HeaderComponent = (props) => {
 
    return (
       <>
-      <Box safeAreaTop bg="#0047c5" style={styles(props).headerBoxStyle}>
-      <Stack bg="#0047c5" justifyContent='space-between' direction='row'>
+      <StatusBar color='#fff' backgroundColor='#0047c5' barStyle='light-content' />
+      <Box safeAreaTop bg="#0047c5" style={styles(props).headerBoxStyle} h='8%'>
+      <Center h='100%'>
+      <Stack bg="#0047c5" justifyContent='space-between' direction='row' w='100%'>
       <HStack>
          {!props.noArrow ? (
                   <ArrowBackIcon
@@ -38,7 +42,7 @@ const HeaderComponent = (props) => {
             </Text>
          }
       </HStack>
-      <HStack>
+       <HStack>
       <Text
                style={styles(props).buttonTextStyle}
                onPress={() => navigation.navigate('Omat asetukseni')}
@@ -49,6 +53,7 @@ const HeaderComponent = (props) => {
             </Text>
       </HStack>
       </Stack>
+      </Center>
       </Box>
      {/*  <HStack justifyContent='space-between' alignItems='center'> */}
 {/*          <HStack alignItems='center'>
