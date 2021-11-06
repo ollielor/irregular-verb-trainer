@@ -1,20 +1,16 @@
 import React from 'react';
-import { Body, Card, CardItem, Content, Text } from 'native-base';
+import { Stack, HStack, Text } from 'native-base';
 import { styles } from '../../styles/styles';
 
 const InfoContent = (props) => {
     return (
-        <Content style={styles(props).contentContainer}>
-            <Card>
-                <CardItem style={styles(props).infoContentStyle}>
-                    <Body>
+            <Stack style={styles(props).contentContainer} direction='row'>
+                <HStack style={styles(props).infoContentStyle} p='2'>
                         <Text>
                             {props.children}
                         </Text>
-                    </Body>
-                </CardItem>
-            </Card>
-        </Content>
+                    </HStack>
+            </Stack>
     );
 };
 
