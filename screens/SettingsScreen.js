@@ -35,6 +35,10 @@ const SettingsScreen = (props) => {
    const [present, setPresent] = useState(true);
    const [past, setPast] = useState(true);
    const [presPerf, setPresPerf] = useState(true);
+   const [infinitiveChanged, setInfinitiveChanged] = useState(false);
+   const [presentChanged, setPresentChanged] = useState(false);
+   const [pastChanged, setPastChanged] = useState(false);
+   const [presPerfChanged, setPresPerfChanged] = useState(false);
    const [confirmed, setConfirmed] = useState(false);
    const [destination, setDestination] = useState('');
    const [alertOpen, setAlertOpen] = useState(false);
@@ -59,8 +63,24 @@ const SettingsScreen = (props) => {
   }, []);
   
   const confirm = () => {
+      checkFormChanges();
       setSettingsChanged(false);
       setConfirmed(true);
+  }
+
+  const checkFormChanges = () => {
+     if (infinitiveChanged) {
+        setInfinitive(!infinitive);
+     }
+     if (presentChanged) {
+      setPresent(!present);
+     }
+     if (pastChanged) {
+      setPast(!past);
+      }
+      if (presPerfChanged) {
+         setPresPerf(!presPerf);
+      }
   }
 
    useEffect(() => {
@@ -225,6 +245,10 @@ const SettingsScreen = (props) => {
                      setPresent={setPresent}
                      setPast={setPast}
                      setPresPerf={setPresPerf}
+                     setInfinitiveChanged={setInfinitiveChanged}
+                     setPresentChanged={setPresentChanged}
+                     setPastChanged={setPastChanged}
+                     setPresPerfChanged={setPresPerfChanged}
                      setSettingsChanged={setSettingsChanged}
                      infinitive={infinitive}
                      present={present}

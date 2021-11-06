@@ -14,15 +14,19 @@ const FormsSelector = (props) => {
       switch (verbForm) {
          case 'infinitive':
             props.setInfinitive(value);
+            props.setInfinitiveChanged(true);
             break;
          case 'present':
             props.setPresent(value);
+            props.setPresentChanged(true);
             break;
          case 'past':
             props.setPast(value);
+            props.setPastChanged(true);
             break;
          case 'presperf':
             props.setPresPerf(value);
+            props.setPresPerfChanged(true);
             break;
       }
    }
