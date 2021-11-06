@@ -84,6 +84,7 @@ const SettingsScreen = (props) => {
   }
 
    useEffect(() => {
+      let isMounted = false;
       DatabaseSettings.transaction(
          (tx) => {
             tx.executeSql(
@@ -97,6 +98,7 @@ const SettingsScreen = (props) => {
          }
       );
       fetchSettings();
+      return () => { isMounted = false };
    }, []);
 
    const fetchSettings = () => {
