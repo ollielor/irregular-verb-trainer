@@ -3,7 +3,7 @@ import { Box, VStack, Text } from 'native-base';
 
 import { styles } from '../../styles/styles';
 
-import moment from 'moment';
+import { format } from 'date-fns';
 
 const CardComponentResults = (props) => {
    return (
@@ -11,9 +11,8 @@ const CardComponentResults = (props) => {
          <VStack>
             <Box style={styles(props).containerDarkGrey} shadow='5' mb='4' p='4'>
                <Text style={{ color: '#7E00C5', fontWeight: 'bold' }}>
-                  {moment(props.historyItem.datetime).format(
-                     'DD.MM.YYYY HH:mm:ss'
-                  )}
+                  {/* {format(props.historyItem.datetime, 'DD.MM.YYYY HH:mm:ss')} */}
+                  {format(new Date(props.historyItem.datetime), 'dd.MM.yyyy HH:mm:ss')}
                </Text>
                {props.showTypes && props.historyItem.type === 1 && (
                   <Text>Verbien merkitykset</Text>

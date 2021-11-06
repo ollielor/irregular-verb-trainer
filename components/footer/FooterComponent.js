@@ -40,7 +40,6 @@ const FooterComponent = (props) => {
    return (
       <>
          <Stack safeAreaBottom bg='#0047c5' justifyContent='space-evenly' direction='row' pl='2' pr='2' h='6%'>
-            {console.log(props)}
             {routeNames.map((routeName, index) => routeName.screenName === 'Ohjeet' ? (
                         <HStack key={index}>
                         <Button 

@@ -23,7 +23,7 @@ At the moment, the app is fully functioning on iOS. On Android, it crashes on st
 * Native Base UI library
 * React Navigation
 * Redux, React Redux and Redux Thunk
-* Moment
+* Date-fns
 
 ## Screenshots
 
