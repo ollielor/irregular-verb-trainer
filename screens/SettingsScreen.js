@@ -203,6 +203,7 @@ const SettingsScreen = (props) => {
       setSettingsChanged(false);
       setSettingsSaved(true);
       fetchSettings();
+      navigation.navigate('Aloitus');
       toast.show({
          render: () => {
             return (
@@ -216,7 +217,6 @@ const SettingsScreen = (props) => {
          duration: 3000,
          isClosable: false
       });
-      navigation.navigate('Aloitus');
    };
 
    return (
