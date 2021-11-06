@@ -1,37 +1,60 @@
 import React from 'react';
-import { Box, HStack, Center, Stack } from 'native-base';
+import { HStack, QuestionOutlineIcon, Center, Stack, Text } from 'native-base';
 
 import FooterButtonComponent from './FooterButtonComponent';
 
 import { useNavigation } from '@react-navigation/native';
-import { styles } from '../../styles/styles';
 
 const FooterComponent = (props) => {
+
    const navigation = useNavigation();
 
+   const routeNames = [
+      {
+         name: 'Aloitus',
+         screenName: 'Aloitus'
+      },
+      {
+         name: 'Asetukset',
+         screenName: 'Omat asetukseni'
+      },
+      {
+         name: 'Tulokset',
+         screenName: 'Omat tulokseni'
+      },
+      {
+         name: 'Ohjeet',
+         screenName: 'Ohjeet'
+      }
+   ];
+
+   const navigateTo = (dest) => {
+      props.setDestination(dest);
+      props.setAlertOpen(true);
+   }
+
    return (
-      // <Box safeAreaTop bg='#0047c5' style={styles(props).footerBox}>
+      <>
          <Stack safeAreaBottom bg='#0047c5' justifyContent='space-evenly' direction='row' p='2'>
-         <HStack>
+            {console.log(props)}
+            {routeNames.map((routeName, index) => routeName.screenName === 'Ohjeet' ? (
+                        <HStack key={index}>
+                        <Center>
+                           <QuestionOutlineIcon size='6' color='#d2d2d2' onPress={() => navigateTo(routeName.screenName)} />
+                        </Center>
+                     </HStack>
+                     ) : (
+               <HStack key={index}>
                <FooterButtonComponent
-                  title="Asetukset"
-                  function={() => navigation.navigate('Omat asetukseni')}
+                  title={routeName.name}
+                  function={props.settingsChanged ? () =>  navigateTo(routeName.screenName) : () => navigation.navigate(routeName.screenName)}
+                  //disabled={routeName.screenName === route.name ? true : false}
                />
-         </HStack>
-         <HStack>
-               <FooterButtonComponent
-                  title="Tulokset"
-                  function={() => navigation.navigate('Omat tulokseni')}
-               />
-         </HStack>
-         <HStack>
-               <FooterButtonComponent
-                  title="Ohjeet"
-                  function={() => navigation.navigate('Ohjeet')}
-               />
-         </HStack>
+               <Text>{props.destination}</Text>
+               </HStack>
+            ))}         
          </Stack>
-      // </Box>
+      </>
    );
 };
 

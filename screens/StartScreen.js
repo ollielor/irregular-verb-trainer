@@ -169,6 +169,7 @@ const StartScreen = (props) => {
       }
    }, [swedishLoaded]);
 
+   // useEffect cleanup
    useEffect(() => {
       return () => {};
    }, []);

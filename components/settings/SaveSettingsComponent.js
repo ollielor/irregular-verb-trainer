@@ -11,7 +11,7 @@ const SaveSettingsComponent = (props) => {
             <ButtonComponent
                title="Tallenna asetukset"
                color="#7E00C5"
-               disabled={!props.infinitive && !props.present && !props.past && !props.presPerf}
+               disabled={!props.settingsChanged || (!props.infinitive && !props.present && !props.past && !props.presPerf)}
                function={props.saveSettings}
             />
          </HStack>

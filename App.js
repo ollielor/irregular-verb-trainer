@@ -42,13 +42,13 @@ const App = () => {
          <Provider store={store}>
             <NavigationContainer>
                <Stack.Navigator
-                  initialRouteName='Koti'
+                  initialRouteName='Aloitus'
                   screenOptions={{
                      headerShown: false,
                   }}
                >
                   <Stack.Screen 
-                     name="Koti" 
+                     name="Aloitus" 
                      component={StartScreen} 
                   />
                   <Stack.Screen

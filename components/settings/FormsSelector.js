@@ -8,6 +8,25 @@ import { styles } from '../../styles/styles';
 import Subheading from '../styling/Subheading';
 
 const FormsSelector = (props) => {
+
+   const changeForm = (verbForm, value) => {
+      props.setSettingsChanged(true);
+      switch (verbForm) {
+         case 'infinitive':
+            props.setInfinitive(value);
+            break;
+         case 'present':
+            props.setPresent(value);
+            break;
+         case 'past':
+            props.setPast(value);
+            break;
+         case 'presperf':
+            props.setPresPerf(value);
+            break;
+      }
+   }
+
    return (
       <Stack>
          <VStack style={styles(props).settingsListStyle}>
@@ -26,7 +45,7 @@ const FormsSelector = (props) => {
                      offTrackColor='#b9b9b9'
                      onThumbColor='#ffffff'
                      isChecked={props.infinitive}
-                     onToggle={(value) => props.setInfinitive(value)}
+                     onToggle={(value) => changeForm('infinitive', value)}
                   />
                   </Center>
                </HStack>
@@ -44,7 +63,7 @@ const FormsSelector = (props) => {
                      offTrackColor='#b9b9b9'
                      onThumbColor='#ffffff'
                      isChecked={props.present}
-                     onToggle={(value) => props.setPresent(value)}
+                     onToggle={(value) => changeForm('present', value)}
                   />
                </Center>
                </HStack>
@@ -62,7 +81,7 @@ const FormsSelector = (props) => {
                      offTrackColor='#b9b9b9'
                      onThumbColor='#ffffff'
                      isChecked={props.past}
-                     onToggle={(value) => props.setPast(value)}
+                     onToggle={(value) => changeForm('past', value)}
                   />
                   </Center>
                </HStack>
@@ -81,7 +100,7 @@ const FormsSelector = (props) => {
                      offTrackColor='#b9b9b9'
                      onThumbColor='#ffffff'
                      isChecked={props.presPerf}
-                     onToggle={(value) => props.setPresPerf(value)}
+                     onToggle={(value) => changeForm('presperf', value)}
                   />
                </HStack>
             </Stack>

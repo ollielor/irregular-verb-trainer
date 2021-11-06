@@ -7,6 +7,17 @@ import Subheading from '../styling/Subheading';
 import { styles } from '../../styles/styles';
 
 const SettingsComponent = (props) => {
+
+   const changeLanguage = (languageCode) => {
+      props.setLanguage(languageCode);
+      props.setSettingsChanged(true);
+   }
+
+   const changeLevel = (levelCode) => {
+      props.setLevel(levelCode);
+      props.setSettingsChanged(true);
+   }
+
    return (
       <Box>
          <HStack style={styles(props).settingsBodyStyle}>
@@ -15,13 +26,13 @@ const SettingsComponent = (props) => {
          <HStack style={styles(props).settingsBodyStyle}>
             <ButtonComponentNarrow
                title="Ruotsi"
-               function={() => props.setLanguage(1)}
+               function={() => changeLanguage(1)}
                disabled={props.language === 1}
                withMargin
             />
             <ButtonComponentNarrow
                title="Saksa"
-               function={() => props.setLanguage(2)}
+               function={() => changeLanguage(2)}
                disabled={props.language === 2}
                withMargin
             />
@@ -32,19 +43,19 @@ const SettingsComponent = (props) => {
          <HStack style={styles(props).settingsBodyStyle}>
             <ButtonComponentNarrow
                title="Taso 1"
-               function={() => props.setLevel(1)}
+               function={() => changeLevel(1)}
                disabled={props.level === 1}
                withMargin
             />
             <ButtonComponentNarrow
                title="Taso 2"
-               function={() => props.setLevel(2)}
+               function={() => changeLevel(2)}
                disabled={props.level === 2}
                withMargin
             />
             <ButtonComponentNarrow
                title="Taso 3"
-               function={() => props.setLevel(3)}
+               function={() => changeLevel(3)}
                disabled={props.level === 3}
                withMargin
             />

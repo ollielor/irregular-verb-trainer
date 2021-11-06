@@ -17,11 +17,10 @@ import FooterComponent from '../components/footer/FooterComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
 import FormsSelector from '../components/settings/FormsSelector';
 import SpinnerComponent from '../components/styling/SpinnerComponent';
-
 import DatabaseSettings from '../modules/DatabaseSettings';
 import SettingsComponent from '../components/settings/SettingsComponent';
-
 import SaveSettingsComponent from '../components/settings/SaveSettingsComponent';
+import SettingsAlertComponent from '../components/alerts/SettingsAlertComponent';
 
 import { styles } from '../styles/styles';
 
@@ -29,21 +28,39 @@ const SettingsScreen = (props) => {
    const [settingsLength, setSettingsLength] = useState(0);
    const [settingsLoaded, setSettingsLoaded] = useState(false);
    const [settingsSaved, setSettingsSaved] = useState(false);
+   const [settingsChanged, setSettingsChanged] = useState(false);
    const [language, setLanguage] = useState(1);
    const [level, setLevel] = useState(1);
    const [infinitive, setInfinitive] = useState(true);
    const [present, setPresent] = useState(true);
    const [past, setPast] = useState(true);
    const [presPerf, setPresPerf] = useState(true);
+   const [confirmed, setConfirmed] = useState(false);
+   const [destination, setDestination] = useState('');
+   const [alertOpen, setAlertOpen] = useState(false);
 
    const navigation = useNavigation();
 
    const toast = useToast();
 
-   // useEffect cleanup
    useEffect(() => {
+      let isMounted = true;
+      if (confirmed) {
+      setAlertOpen(false);
+      navigation.navigate(destination);
+      return () => { isMounted = false };
+      }
+  }, [confirmed]);
+
+  // useEffect cleanup
+  useEffect(() => {
       return () => {};
-   }, []);
+  }, []);
+  
+  const confirm = () => {
+      setSettingsChanged(false);
+      setConfirmed(true);
+  }
 
    useEffect(() => {
       DatabaseSettings.transaction(
@@ -135,7 +152,6 @@ const SettingsScreen = (props) => {
    };
 
    const saveSettings = () => {
-      setSettingsSaved(false);
       let query;
       if (settingsLength === 0 && settingsLoaded) {
          query =
@@ -161,6 +177,8 @@ const SettingsScreen = (props) => {
          null,
          null
       );
+      setSettingsChanged(false);
+      setSettingsSaved(true);
       fetchSettings();
       toast.show({
          render: () => {
@@ -175,11 +193,16 @@ const SettingsScreen = (props) => {
          duration: 3000,
          isClosable: false
       });
-      navigation.navigate('Koti');
+      navigation.navigate('Aloitus');
    };
 
    return (
       <>
+      <SettingsAlertComponent 
+         alertOpen={alertOpen}
+         setAlertOpen={setAlertOpen}
+         confirm={confirm} 
+      />
       <HeaderComponent title="Omat asetukseni" noArrow />
       <ScrollView style={styles(props).containerGrey}>
          {!settingsLoaded && <SpinnerComponent text="Ladataan asetuksia..." />}
@@ -190,6 +213,7 @@ const SettingsScreen = (props) => {
                   <SettingsComponent
                      setLanguage={setLanguage}
                      setLevel={setLevel}
+                     setSettingsChanged={setSettingsChanged}
                      language={language}
                      level={level}
                   />
@@ -200,6 +224,7 @@ const SettingsScreen = (props) => {
                      setPresent={setPresent}
                      setPast={setPast}
                      setPresPerf={setPresPerf}
+                     setSettingsChanged={setSettingsChanged}
                      infinitive={infinitive}
                      present={present}
                      past={past}
@@ -209,6 +234,7 @@ const SettingsScreen = (props) => {
                <VStack>
                   <SaveSettingsComponent
                      saveSettings={saveSettings}
+                     settingsChanged={settingsChanged}
                      settingsSaved={settingsSaved}
                      infinitive={infinitive}
                      present={present}
@@ -220,7 +246,13 @@ const SettingsScreen = (props) => {
             </>
          )}
       </ScrollView>
-      <FooterComponent />
+      <FooterComponent
+         settingsChanged={settingsChanged}
+         setSettingsChanged={setSettingsChanged}
+         settingsSaved={settingsSaved}
+         setDestination={setDestination}
+         setAlertOpen={setAlertOpen} 
+      />
    </>
    );
 };
