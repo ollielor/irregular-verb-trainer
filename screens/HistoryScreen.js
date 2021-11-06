@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { Modal } from 'react-native';
 import { Box, ScrollView, VStack } from 'native-base';
 
@@ -82,22 +82,22 @@ const HistoryScreen = (props) => {
                      {props.language === 1 ? '(ruotsi)' : '(saksa)'}
                   </Heading>
                   {levels.map((level, index) => (
-                     <>
-                        <Subheading key={index}>Taso {level}</Subheading>
+                     <Fragment key={index}>
+                        <Subheading>Taso {level}</Subheading>
                         <ProgressComponent resultsDropped={dropped} historyLevel={level} type={1} />
                         <ResultHistoryView historyLevel={level} type={1} hideButton />
-                     </>
+                     </Fragment>
                   ))}
                   <Heading>
                      Verbien muodot{' '}
                      {props.language === 1 ? '(ruotsi)' : '(saksa)'}
                   </Heading>
                   {levels.map((level, index) => (
-                     <>
-                        <Subheading key={index}>Taso {level}</Subheading>
+                     <Fragment key={index}>
+                        <Subheading>Taso {level}</Subheading>
                         <ProgressComponent resultsDropped={dropped} historyLevel={level} type={2} />
                         <ResultHistoryView historyLevel={level} type={2} hideButton />
-                     </>
+                     </Fragment>
                   ))}
                   <ButtonComponent
                      color="red"
