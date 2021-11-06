@@ -11,6 +11,11 @@ const ProgressComponent = (props) => {
    const [totalPercentage, setTotalPercentage] = useState(0);
 
    useEffect(() => {
+      if (props.resultsDropped) {
+         setTotalCorrectAnswers(0);
+         setTotalQuestions(0);
+         setTotalPercentage(0);
+      } 
       if (props.results.length > 0) {
          const resultsFilteredByLevel = props.results.filter(
             (result) => result.level === props.historyLevel
@@ -35,7 +40,7 @@ const ProgressComponent = (props) => {
             setTotalPercentage(percentagesAverage);
          }
       }
-   }, [props.results]);
+   }, [props.results, props.resultsDropped]);
 
    return (
       <Box>

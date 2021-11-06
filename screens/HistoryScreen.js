@@ -28,6 +28,8 @@ const HistoryScreen = (props) => {
 
    const navigation = useNavigation();
 
+   const levels = [1, 2, 3];
+
    useEffect(() => {
       return () => {};
    }, []);
@@ -65,8 +67,8 @@ const HistoryScreen = (props) => {
 
    return (
       <>
+      <HeaderComponent title="Omat tulokseni" goBack={navigation.goBack} />
       <ScrollView style={styles(props).containerGrey}>
-         <HeaderComponent title="Omat tulokseni" goBack={navigation.goBack} />
          <>
             {props.results ? (
                <VStack style={styles(props).contentContainer}>
@@ -79,40 +81,24 @@ const HistoryScreen = (props) => {
                      Verbien merkitykset{' '}
                      {props.language === 1 ? '(ruotsi)' : '(saksa)'}
                   </Heading>
-                  <Subheading>Taso 1</Subheading>
-                  <>
-                     <ProgressComponent historyLevel={1} type={1} />
-                     <ResultHistoryView historyLevel={1} type={1} hideButton />
-                  </>
-                  <Subheading>Taso 2</Subheading>
-                  <>
-                     <ProgressComponent historyLevel={2} type={1} />
-                     <ResultHistoryView historyLevel={2} type={1} hideButton />
-                  </>
-                  <Subheading>Taso 3</Subheading>
-                  <>
-                     <ProgressComponent historyLevel={3} type={1} />
-                     <ResultHistoryView historyLevel={3} type={1} hideButton />
-                  </>
+                  {levels.map((level, index) => (
+                     <>
+                        <Subheading key={index}>Taso {level}</Subheading>
+                        <ProgressComponent resultsDropped={dropped} historyLevel={level} type={1} />
+                        <ResultHistoryView historyLevel={level} type={1} hideButton />
+                     </>
+                  ))}
                   <Heading>
                      Verbien muodot{' '}
                      {props.language === 1 ? '(ruotsi)' : '(saksa)'}
                   </Heading>
-                  <Subheading>Taso 1</Subheading>
-                  <>
-                     <ProgressComponent historyLevel={1} type={2} />
-                     <ResultHistoryView historyLevel={1} type={2} hideButton />
-                  </>
-                  <Subheading>Taso 2</Subheading>
-                  <>
-                     <ProgressComponent historyLevel={2} type={2} />
-                     <ResultHistoryView historyLevel={2} type={2} hideButton />
-                  </>
-                  <Subheading>Taso 3</Subheading>
-                  <>
-                     <ProgressComponent historyLevel={3} type={2} />
-                     <ResultHistoryView historyLevel={3} type={2} hideButton />
-                  </>
+                  {levels.map((level, index) => (
+                     <>
+                        <Subheading key={index}>Taso {level}</Subheading>
+                        <ProgressComponent resultsDropped={dropped} historyLevel={level} type={2} />
+                        <ResultHistoryView historyLevel={level} type={2} hideButton />
+                     </>
+                  ))}
                   <ButtonComponent
                      color="red"
                      title="Tyhjennä tuloshistoria"
