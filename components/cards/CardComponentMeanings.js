@@ -58,7 +58,7 @@ const CardComponentMeanings = (props) => {
    };
 
    return (
-      <Box style={styles(props).overFlowVisible}>
+      <Box style={styles(props).overFlowVisible} pt='4'>
          {!rndAlternativesLoaded && (
             <SpinnerComponent text="Ladataan vaihtoehtoja" />
          )}
