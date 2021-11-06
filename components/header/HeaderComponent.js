@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Platform } from 'react-native';
+
 import {
    Center,
    Box,
@@ -21,9 +23,8 @@ const HeaderComponent = (props) => {
    return (
       <>
       <StatusBar color='#fff' backgroundColor='#0047c5' barStyle='light-content' />
-      <Box safeAreaTop bg="#0047c5" style={styles(props).headerBoxStyle} h='8%'>
-      <Center h='100%'>
-      <Stack bg="#0047c5" justifyContent='space-between' direction='row' w='100%'>
+      <Box safeAreaTop bg="#0047c5" h={ Platform.OS === 'ios' ? '9%' : '5%' }>
+      <Stack bg="#0047c5" alignItems='flex-end' justifyContent='space-between' direction='row' w='100%' flex={1} p='2'>
       <HStack>
          {!props.noArrow ? (
                   <ArrowBackIcon
@@ -53,28 +54,7 @@ const HeaderComponent = (props) => {
             </Text>
       </HStack>
       </Stack>
-      </Center>
       </Box>
-     {/*  <HStack justifyContent='space-between' alignItems='center'> */}
-{/*          <HStack alignItems='center'>
-            {!props.noArrow ? (
-               <Button transparent onPress={() => navigation.goBack()}>
-                  <ArrowBackIcon
-                     style={styles(props).buttonTextStyle}
-                  />
-               </Button>
-            ) : null}
-         </HStack>
-         <HStack alignItems='center'>
-            <Box style={styles(props).headerBodyStyle}>
-
-            </Box>
-         </HStack>
-         <HStack alignItems='center'>
-
-         </HStack> */}
-
-{/*       </HStack> */}
       </>
    );
 };
