@@ -1,9 +1,11 @@
 import React from 'react';
-import { HStack, QuestionOutlineIcon, Center, Stack, Text } from 'native-base';
+import { HStack, QuestionOutlineIcon, Center, Stack, Text, Button } from 'native-base';
 
 import FooterButtonComponent from './FooterButtonComponent';
 
 import { useNavigation, useRoute } from '@react-navigation/native';
+
+import { styles } from '../../styles/styles'; 
 
 const FooterComponent = (props) => {
 
@@ -41,9 +43,18 @@ const FooterComponent = (props) => {
             {console.log(props)}
             {routeNames.map((routeName, index) => routeName.screenName === 'Ohjeet' ? (
                         <HStack key={index}>
+                        <Button 
+                           colorScheme=''
+                           onPress={props.settingsChanged ? () =>  navigateTo(routeName.screenName) : () => navigation.navigate(routeName.screenName)}
+                           bg={routeName.screenName === route.name ? '#7E00C5' : 'transparent'}
+                        >
                         <Center>
-                           <QuestionOutlineIcon size='6' color='#d2d2d2' onPress={props.settingsChanged ? () =>  navigateTo(routeName.screenName) : () => navigation.navigate(routeName.screenName)} />
+                           <QuestionOutlineIcon 
+                              size='6'
+                              color='#d2d2d2'
+                           />
                         </Center>
+                        </Button>
                      </HStack>
                      ) : (
                <HStack key={index}>
