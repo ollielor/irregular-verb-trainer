@@ -208,7 +208,7 @@ const SettingsScreen = (props) => {
 
    useEffect(() => {
       setMounted(true);
-      if (!settingsChanged && settingsSaved) {
+      if (settingsSaved) {
          navigation.navigate('Aloitus');
          toast.show({
             render: () => {
@@ -225,7 +225,7 @@ const SettingsScreen = (props) => {
          });
       }
       return () => { setMounted(false) };
-   }, [settingsChanged, settingsSaved]);
+   }, [settingsSaved]);
 
    return (
       <>
