@@ -5,7 +5,7 @@ import React, {
    createRef,
    forwardRef,
 } from 'react';
-import { Box, Stack, HStack, Spinner, Text } from 'native-base';
+import { Stack, HStack, Spinner, Text } from 'native-base';
 import { connect } from 'react-redux';
 import InputComponentForms from '../inputs/InputComponentForms';
 
@@ -211,7 +211,7 @@ const CardComponentForms = forwardRef((props, ref) => {
    };
 
    return (
-      <>
+      <Stack pb='30'>
          {props.verbForm ? (
                <>
                      <Text style={styles(props).promptForms}>
@@ -266,7 +266,7 @@ const CardComponentForms = forwardRef((props, ref) => {
          ) : (
             <Spinner />
          )}
-      </>
+      </Stack>
    );
 });
 

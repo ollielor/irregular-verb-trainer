@@ -264,6 +264,7 @@ const FormsScreen = (props) => {
                keyboardShouldPersistTaps="always"
                style={styles(props).scrollViewForms}
                ref={scrollViewRef}
+               pb='30'
             >
                {finished && resultsReady && resultsData && resultsSaved && (
                   <>
@@ -350,7 +351,7 @@ const FormsScreen = (props) => {
                )}
             </ScrollView>
          </KeyboardAvoidingView>
-         {Platform.OS === 'ios' || finished &&
+         {finished &&
             <FooterComponent />
          }
       </>
