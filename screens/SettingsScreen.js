@@ -42,18 +42,19 @@ const SettingsScreen = (props) => {
    const [confirmed, setConfirmed] = useState(false);
    const [destination, setDestination] = useState('');
    const [alertOpen, setAlertOpen] = useState(false);
+   const [mounted, setMounted] = useState(false);
 
    const navigation = useNavigation();
 
    const toast = useToast();
 
    useEffect(() => {
-      let isMounted = true;
+      setMounted(true);
       if (confirmed) {
       setAlertOpen(false);
       navigation.navigate(destination);
       setConfirmed(false);
-      return () => { isMounted = false };
+      return () => { setMounted(false) };
       }
   }, [confirmed]);
 
@@ -84,7 +85,7 @@ const SettingsScreen = (props) => {
   }
 
    useEffect(() => {
-      let isMounted = false;
+      setMounted(true);
       DatabaseSettings.transaction(
          (tx) => {
             tx.executeSql(
@@ -98,7 +99,7 @@ const SettingsScreen = (props) => {
          }
       );
       fetchSettings();
-      return () => { isMounted = false };
+      return () => { setMounted(false) };
    }, []);
 
    const fetchSettings = () => {
@@ -203,21 +204,28 @@ const SettingsScreen = (props) => {
       setSettingsChanged(false);
       setSettingsSaved(true);
       fetchSettings();
-      navigation.navigate('Aloitus');
-      toast.show({
-         render: () => {
-            return (
-               <Box backgroundColor='#66dd33' p='3'>
-                  Asetukset tallennettu!
-               </Box>
-            )
-         },
-         placement: 'bottom',
-         status: 'success',
-         duration: 3000,
-         isClosable: false
-      });
    };
+
+   useEffect(() => {
+      setMounted(true);
+      if (!settingsChanged && settingsSaved) {
+         navigation.navigate('Aloitus');
+         toast.show({
+            render: () => {
+               return (
+                  <Box backgroundColor='#66dd33' p='3'>
+                     Asetukset tallennettu!
+                  </Box>
+               )
+            },
+            placement: 'bottom',
+            status: 'success',
+            duration: 3000,
+            isClosable: false
+         });
+      }
+      return () => { setMounted(false) };
+   }, [settingsChanged, settingsSaved]);
 
    return (
       <>
