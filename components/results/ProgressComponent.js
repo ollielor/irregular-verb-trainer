@@ -65,7 +65,7 @@ const ProgressComponent = (props) => {
                      %
                   </Text>
                   <Text style={styles(props).progressStyle}>
-                     (sisältää aikabonukset)
+                     (sisältää aikabonukset ja -vähennykset)
                   </Text>
             </Box>
          </VStack>
