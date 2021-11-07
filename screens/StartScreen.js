@@ -1,5 +1,5 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import { Stack, VStack, ScrollView, Text, Box } from 'native-base';
+import React, { useState, useEffect } from 'react';
+import { Stack, VStack, ScrollView, Text } from 'native-base';
 
 import { useFonts, Roboto_400Regular } from '@expo-google-fonts/roboto';
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextInput, KeyboardAvoidingView, Platform } from 'react-native';
-import { Box, Text } from 'native-base';
+import { Stack, VStack, Text } from 'native-base';
 import ButtonComponent from '../components/buttons/ButtonComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
 import FooterComponent from '../components/footer/FooterComponent';
@@ -17,7 +17,7 @@ import { styles } from '../styles/styles';
 const ShareResultsScreen = (props) => {
    const [name, setName] = useState('');
    const [email, setEmail] = useState('');
-
+ 
    const navigation = useNavigation();
 
    const getResultsForSharing = (type, level, language) => {
@@ -116,7 +116,8 @@ const ShareResultsScreen = (props) => {
             style={styles(props).flexOne}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
          >
-            <Box style={styles(props).shareResultsStyle} p='5'>
+            <Stack style={styles(props).shareResultsStyle} p='5'>
+               <VStack>
                <Text style={styles(props).labelForms}>
                   Nimesi (näkyy vain viestin vastaanottajalle)
                </Text>
@@ -124,6 +125,8 @@ const ShareResultsScreen = (props) => {
                   style={styles(props).formInputSharing}
                   onChangeText={(text) => setName(text)}
                />
+               </VStack>
+               <VStack>
                <Text style={styles(props).labelForms}>
                   Vastaanottajan sähköpostiosoite
                </Text>
@@ -134,6 +137,8 @@ const ShareResultsScreen = (props) => {
                   keyboardType="email-address"
                   autoCapitalize="none"
                />
+               </VStack>
+               <VStack>
                <ButtonComponent
                   title="Jaa tulokset sähköpostilla"
                   color="#7E00C5"
@@ -149,7 +154,8 @@ const ShareResultsScreen = (props) => {
                      iOS:n oletussähköpostiohjelmalla lähetettäessä teksti ei välttämättä näy oikeanlaisena. Voit käyttää sen sijaan WhatsAppia tai toista sähköpostiohjelmaa. 
                   </InfoContent>
                }
-            </Box>
+               </VStack>
+            </Stack>
          </KeyboardAvoidingView>
          <FooterComponent />
       </>
