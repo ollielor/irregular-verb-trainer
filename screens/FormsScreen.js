@@ -67,7 +67,7 @@ const FormsScreen = (props) => {
 
    // useEffect cleanup
    useEffect(() => {
-      return () => {};
+      return () => { };
    }, []);
 
    useEffect(() => {
@@ -105,10 +105,10 @@ const FormsScreen = (props) => {
                return tense === 1
                   ? 'infinitive'
                   : tense === 2
-                  ? 'present'
-                  : tense === 3
-                  ? 'past'
-                  : tense === 4 && 'presperf';
+                     ? 'present'
+                     : tense === 3
+                        ? 'past'
+                        : tense === 4 && 'presperf';
             })
       );
    }, [

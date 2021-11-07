@@ -51,38 +51,38 @@ const SettingsScreen = (props) => {
    useEffect(() => {
       setMounted(true);
       if (confirmed) {
-      setAlertOpen(false);
-      navigation.navigate(destination);
-      setConfirmed(false);
-      return () => { setMounted(false) };
+         setAlertOpen(false);
+         navigation.navigate(destination);
+         setConfirmed(false);
+         return () => { setMounted(false) };
       }
-  }, [confirmed]);
+   }, [confirmed]);
 
-  // useEffect cleanup
-  useEffect(() => {
-      return () => {};
-  }, []);
-  
-  const confirm = () => {
+   // useEffect cleanup
+   useEffect(() => {
+      return () => { };
+   }, []);
+
+   const confirm = () => {
       checkFormChanges();
       setSettingsChanged(false);
       setConfirmed(true);
-  }
+   }
 
-  const checkFormChanges = () => {
-     if (infinitiveChanged) {
-        setInfinitive(!infinitive);
-     }
-     if (presentChanged) {
-      setPresent(!present);
-     }
-     if (pastChanged) {
-      setPast(!past);
+   const checkFormChanges = () => {
+      if (infinitiveChanged) {
+         setInfinitive(!infinitive);
+      }
+      if (presentChanged) {
+         setPresent(!present);
+      }
+      if (pastChanged) {
+         setPast(!past);
       }
       if (presPerfChanged) {
          setPresPerf(!presPerf);
       }
-  }
+   }
 
    useEffect(() => {
       setMounted(true);
@@ -229,66 +229,66 @@ const SettingsScreen = (props) => {
 
    return (
       <>
-      <SettingsAlertComponent 
-         alertOpen={alertOpen}
-         setAlertOpen={setAlertOpen}
-         confirm={confirm} 
-      />
-      <HeaderComponent title="Omat asetukseni" noArrow />
-      <ScrollView style={styles(props).containerGrey}>
-         {!settingsLoaded && <SpinnerComponent text="Ladataan asetuksia..." />}
-         {settingsLoaded && (
-            <>
-            <Stack direction='column' alignItems='center'>
-               <VStack>
-                  <SettingsComponent
-                     setLanguage={setLanguage}
-                     setLevel={setLevel}
-                     setSettingsChanged={setSettingsChanged}
-                     language={language}
-                     level={level}
-                  />
-               </VStack>
-               <VStack>
-                  <FormsSelector
-                     setInfinitive={setInfinitive}
-                     setPresent={setPresent}
-                     setPast={setPast}
-                     setPresPerf={setPresPerf}
-                     setInfinitiveChanged={setInfinitiveChanged}
-                     setPresentChanged={setPresentChanged}
-                     setPastChanged={setPastChanged}
-                     setPresPerfChanged={setPresPerfChanged}
-                     setSettingsChanged={setSettingsChanged}
-                     infinitive={infinitive}
-                     present={present}
-                     past={past}
-                     presPerf={presPerf}
-                  />
-               </VStack>
-               <VStack>
-                  <SaveSettingsComponent
-                     saveSettings={saveSettings}
-                     settingsChanged={settingsChanged}
-                     settingsSaved={settingsSaved}
-                     infinitive={infinitive}
-                     present={present}
-                     past={past}
-                     presPerf={presPerf}
-                  />
-               </VStack>
-            </Stack>
-            </>
-         )}
-      </ScrollView>
-      <FooterComponent
-         settingsChanged={settingsChanged}
-         setSettingsChanged={setSettingsChanged}
-         settingsSaved={settingsSaved}
-         setDestination={setDestination}
-         setAlertOpen={setAlertOpen} 
-      />
-   </>
+         <SettingsAlertComponent
+            alertOpen={alertOpen}
+            setAlertOpen={setAlertOpen}
+            confirm={confirm}
+         />
+         <HeaderComponent title="Omat asetukseni" noArrow />
+         <ScrollView style={styles(props).containerGrey}>
+            {!settingsLoaded && <SpinnerComponent text="Ladataan asetuksia..." />}
+            {settingsLoaded && (
+               <>
+                  <Stack direction='column' alignItems='center'>
+                     <VStack>
+                        <SettingsComponent
+                           setLanguage={setLanguage}
+                           setLevel={setLevel}
+                           setSettingsChanged={setSettingsChanged}
+                           language={language}
+                           level={level}
+                        />
+                     </VStack>
+                     <VStack>
+                        <FormsSelector
+                           setInfinitive={setInfinitive}
+                           setPresent={setPresent}
+                           setPast={setPast}
+                           setPresPerf={setPresPerf}
+                           setInfinitiveChanged={setInfinitiveChanged}
+                           setPresentChanged={setPresentChanged}
+                           setPastChanged={setPastChanged}
+                           setPresPerfChanged={setPresPerfChanged}
+                           setSettingsChanged={setSettingsChanged}
+                           infinitive={infinitive}
+                           present={present}
+                           past={past}
+                           presPerf={presPerf}
+                        />
+                     </VStack>
+                     <VStack>
+                        <SaveSettingsComponent
+                           saveSettings={saveSettings}
+                           settingsChanged={settingsChanged}
+                           settingsSaved={settingsSaved}
+                           infinitive={infinitive}
+                           present={present}
+                           past={past}
+                           presPerf={presPerf}
+                        />
+                     </VStack>
+                  </Stack>
+               </>
+            )}
+         </ScrollView>
+         <FooterComponent
+            settingsChanged={settingsChanged}
+            setSettingsChanged={setSettingsChanged}
+            settingsSaved={settingsSaved}
+            setDestination={setDestination}
+            setAlertOpen={setAlertOpen}
+         />
+      </>
    );
 };
 

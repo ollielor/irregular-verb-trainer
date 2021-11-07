@@ -20,20 +20,20 @@ import store from './store/store';
 const Stack = createNativeStackNavigator();
 
 const theme = extendTheme({
-     components: {
-       Text: {
+   components: {
+      Text: {
          baseStyle: {
          },
          defaultProps: { size: 'md' },
          sizes: {
-           xl: { fontSize: '32px' },
-           lg: { fontSize: '18px' },
-           md: { fontSize: '15px' },
-           sm: { fontSize: '10px' },
+            xl: { fontSize: '32px' },
+            lg: { fontSize: '18px' },
+            md: { fontSize: '15px' },
+            sm: { fontSize: '10px' },
          },
-       },
-     },
-   });
+      },
+   },
+});
 
 const App = () => {
 
@@ -47,9 +47,9 @@ const App = () => {
                      headerShown: false,
                   }}
                >
-                  <Stack.Screen 
-                     name="Aloitus" 
-                     component={StartScreen} 
+                  <Stack.Screen
+                     name="Aloitus"
+                     component={StartScreen}
                   />
                   <Stack.Screen
                      name="Selaa ja opettele"

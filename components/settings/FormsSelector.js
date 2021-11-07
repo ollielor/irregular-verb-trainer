@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Center, HStack, Stack, VStack, Text, Switch
+   Center, HStack, Stack, VStack, Text, Switch
 } from 'native-base';
 
 import { styles } from '../../styles/styles';
@@ -37,13 +37,13 @@ const FormsSelector = (props) => {
             <Subheading>Harjoiteltavat muodot</Subheading>
          </VStack>
          <Stack style={styles(props).settingsListStyle} direction='row'>
-               <HStack flex={2}>
+            <HStack flex={2}>
                <Center height={50}>
-               <Text>Perusmuoto</Text>
+                  <Text>Perusmuoto</Text>
                </Center>
-               </HStack>
-               <HStack flex={1}>
-                  <Center height={50}>
+            </HStack>
+            <HStack flex={1}>
+               <Center height={50}>
                   <Switch
                      onTrackColor='#4E00C5'
                      offTrackColor='#b9b9b9'
@@ -51,16 +51,16 @@ const FormsSelector = (props) => {
                      isChecked={props.infinitive}
                      onToggle={(value) => changeForm('infinitive', value)}
                   />
-                  </Center>
-               </HStack>
-            </Stack>
-            <Stack style={styles(props).settingsListStyle} direction='row'>
-               <HStack flex={2}>
+               </Center>
+            </HStack>
+         </Stack>
+         <Stack style={styles(props).settingsListStyle} direction='row'>
+            <HStack flex={2}>
                <Center height={50}>
                   <Text>Preesens</Text>
-                  </Center>
-               </HStack>
-               <HStack flex={1}>
+               </Center>
+            </HStack>
+            <HStack flex={1}>
                <Center height={50}>
                   <Switch
                      onTrackColor='#4E00C5'
@@ -70,16 +70,16 @@ const FormsSelector = (props) => {
                      onToggle={(value) => changeForm('present', value)}
                   />
                </Center>
-               </HStack>
-            </Stack>
-            <Stack style={styles(props).settingsListStyle} direction='row'>
-               <HStack flex={2}>
+            </HStack>
+         </Stack>
+         <Stack style={styles(props).settingsListStyle} direction='row'>
+            <HStack flex={2}>
                <Center height={50}>
                   <Text>Imperfekti</Text>
                </Center>
-               </HStack>
-               <HStack flex={1} direction='column'>
-                  <Center>
+            </HStack>
+            <HStack flex={1} direction='column'>
+               <Center>
                   <Switch
                      onTrackColor='#4E00C5'
                      offTrackColor='#b9b9b9'
@@ -87,27 +87,27 @@ const FormsSelector = (props) => {
                      isChecked={props.past}
                      onToggle={(value) => changeForm('past', value)}
                   />
-                  </Center>
-               </HStack>
-            </Stack>
-            <Stack style={styles(props).settingsListStyle} direction='row'>
-               <HStack flex={2}>
+               </Center>
+            </HStack>
+         </Stack>
+         <Stack style={styles(props).settingsListStyle} direction='row'>
+            <HStack flex={2}>
                <Center height={50}>
                   <Text>
                      {props.language === 1 ? 'Supiini (4. muoto)' : 'Perfekti'}
                   </Text>
                </Center>
-               </HStack>
-               <HStack flex={1}>
-                  <Switch
-                     onTrackColor='#4E00C5'
-                     offTrackColor='#b9b9b9'
-                     onThumbColor='#ffffff'
-                     isChecked={props.presPerf}
-                     onToggle={(value) => changeForm('presperf', value)}
-                  />
-               </HStack>
-            </Stack>
+            </HStack>
+            <HStack flex={1}>
+               <Switch
+                  onTrackColor='#4E00C5'
+                  offTrackColor='#b9b9b9'
+                  onThumbColor='#ffffff'
+                  isChecked={props.presPerf}
+                  onToggle={(value) => changeForm('presperf', value)}
+               />
+            </HStack>
+         </Stack>
       </Stack>
    );
 };

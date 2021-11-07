@@ -17,7 +17,7 @@ import { styles } from '../styles/styles';
 const ShareResultsScreen = (props) => {
    const [name, setName] = useState('');
    const [email, setEmail] = useState('');
- 
+
    const navigation = useNavigation();
 
    const getResultsForSharing = (type, level, language) => {
@@ -56,15 +56,12 @@ const ShareResultsScreen = (props) => {
       let resultText = '';
       for (let i = 1; i <= 3; i++) {
          if (getResultsForSharing(type, i, props.language)) {
-            resultText += `|<br>Taso ${i}: |<br>- Suorituskertoja yhteensä: ${
-               getResultsForSharing(type, i, props.language).totalAttempts
-            }`;
-            resultText += `|<br>- Oikeita vastauksia: ${
-               getResultsForSharing(type, i, props.language).totalCorrectAnswers
-            }`;
-            resultText += ` / ${
-               getResultsForSharing(type, i, props.language).totalQuestions
-            }`;
+            resultText += `|<br>Taso ${i}: |<br>- Suorituskertoja yhteensä: ${getResultsForSharing(type, i, props.language).totalAttempts
+               }`;
+            resultText += `|<br>- Oikeita vastauksia: ${getResultsForSharing(type, i, props.language).totalCorrectAnswers
+               }`;
+            resultText += ` / ${getResultsForSharing(type, i, props.language).totalQuestions
+               }`;
             resultText += `|<br>- Keskimääräinen osaaminen ${getResultsForSharing(
                type,
                i,
@@ -118,42 +115,42 @@ const ShareResultsScreen = (props) => {
          >
             <Stack style={styles(props).shareResultsStyle} p='5'>
                <VStack>
-               <Text style={styles(props).labelForms}>
-                  Nimesi (näkyy vain viestin vastaanottajalle)
-               </Text>
-               <TextInput
-                  style={styles(props).formInputSharing}
-                  onChangeText={(text) => setName(text)}
-               />
+                  <Text style={styles(props).labelForms}>
+                     Nimesi (näkyy vain viestin vastaanottajalle)
+                  </Text>
+                  <TextInput
+                     style={styles(props).formInputSharing}
+                     onChangeText={(text) => setName(text)}
+                  />
                </VStack>
                <VStack>
-               <Text style={styles(props).labelForms}>
-                  Vastaanottajan sähköpostiosoite
-               </Text>
-               <TextInput
-                  style={[{ marginBottom: 20 }, styles(props).formInputSharing]}
-                  onChangeText={(text) => setEmail(text)}
-                  autoCompleteType="email"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-               />
+                  <Text style={styles(props).labelForms}>
+                     Vastaanottajan sähköpostiosoite
+                  </Text>
+                  <TextInput
+                     style={[{ marginBottom: 20 }, styles(props).formInputSharing]}
+                     onChangeText={(text) => setEmail(text)}
+                     autoCompleteType="email"
+                     keyboardType="email-address"
+                     autoCapitalize="none"
+                  />
                </VStack>
                <VStack>
-               <ButtonComponent
-                  title="Jaa tulokset sähköpostilla"
-                  color="#7E00C5"
-                  function={() => sendMessage('email')}
-               />
-               <ButtonComponent
-                  title="Jaa tulokset WhatsAppilla"
-                  color="#7E00C5"
-                  function={() => sendMessage('whatsapp')}
-               />
-               {Platform.OS === 'ios' &&
-                  <InfoContent>
-                     iOS:n oletussähköpostiohjelmalla lähetettäessä teksti ei välttämättä näy oikeanlaisena. Voit käyttää sen sijaan WhatsAppia tai toista sähköpostiohjelmaa. 
-                  </InfoContent>
-               }
+                  <ButtonComponent
+                     title="Jaa tulokset sähköpostilla"
+                     color="#7E00C5"
+                     function={() => sendMessage('email')}
+                  />
+                  <ButtonComponent
+                     title="Jaa tulokset WhatsAppilla"
+                     color="#7E00C5"
+                     function={() => sendMessage('whatsapp')}
+                  />
+                  {Platform.OS === 'ios' &&
+                     <InfoContent>
+                        iOS:n oletussähköpostiohjelmalla lähetettäessä teksti ei välttämättä näy oikeanlaisena. Voit käyttää sen sijaan WhatsAppia tai toista sähköpostiohjelmaa.
+                     </InfoContent>
+                  }
                </VStack>
             </Stack>
          </KeyboardAvoidingView>

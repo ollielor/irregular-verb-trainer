@@ -63,15 +63,15 @@ const CardComponentMeanings = (props) => {
             <SpinnerComponent text="Ladataan vaihtoehtoja" />
          )}
          {rndAlternativesLoaded && (
-               <Stack direction='column'>
+            <Stack direction='column'>
                <VStack style={styles(props).cardMeaningBody}>
-                     <Text style={styles(props).promptMeanings}>
-                        {correctMeaning}
-                     </Text>
+                  <Text style={styles(props).promptMeanings}>
+                     {correctMeaning}
+                  </Text>
                </VStack>
                <VStack style={styles(props).cardComponentGrey}>
-                     {randomizedAlternatives.map((alternative, index) => (
-                        <VStack key={index}>
+                  {randomizedAlternatives.map((alternative, index) => (
+                     <VStack key={index}>
                         <ButtonMeanings
                            key={index}
                            alternative={alternative}
@@ -82,8 +82,8 @@ const CardComponentMeanings = (props) => {
                            correctIndex={correctIndex}
                            incorrectIndex={incorrectIndex}
                         />
-                        </VStack>
-                     ))}
+                     </VStack>
+                  ))}
                </VStack>
             </Stack>
          )}

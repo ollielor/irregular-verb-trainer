@@ -9,7 +9,7 @@ const MasteryTextComponent = (props) => {
          <Text style={styles(props).accent}>{props.infinitive}</Text>
          {' '}
          <Text>{props.meaning}</Text>
-         {props.wrongAnswer && 
+         {props.wrongAnswer &&
             <Text>
                {' '}
                (vastasit: {props.wrongAnswer})

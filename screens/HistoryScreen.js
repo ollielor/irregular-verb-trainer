@@ -31,7 +31,7 @@ const HistoryScreen = (props) => {
    const levels = [1, 2, 3];
 
    useEffect(() => {
-      return () => {};
+      return () => { };
    }, []);
 
    const createResultsAsync = async () => {
@@ -67,51 +67,51 @@ const HistoryScreen = (props) => {
 
    return (
       <>
-      <HeaderComponent title="Omat tulokseni" goBack={navigation.goBack} />
-      <ScrollView style={styles(props).containerGrey}>
-         <>
-            {props.results ? (
-               <VStack style={styles(props).contentContainer}>
-                  <ButtonComponent
-                     title="Jaa tulokset"
-                     color="#7E00C5"
-                     function={() => navigation.navigate('Jaa tulokset')}
-                  />
-                  <Heading>
-                     Verbien merkitykset{' '}
-                     {props.language === 1 ? '(ruotsi)' : '(saksa)'}
-                  </Heading>
-                  {levels.map((level, index) => (
-                     <Fragment key={index}>
-                        <Subheading>Taso {level}</Subheading>
-                        <ProgressComponent resultsDropped={dropped} historyLevel={level} type={1} />
-                        <ResultHistoryView historyLevel={level} type={1} hideButton />
-                     </Fragment>
-                  ))}
-                  <Heading>
-                     Verbien muodot{' '}
-                     {props.language === 1 ? '(ruotsi)' : '(saksa)'}
-                  </Heading>
-                  {levels.map((level, index) => (
-                     <Fragment key={index}>
-                        <Subheading>Taso {level}</Subheading>
-                        <ProgressComponent resultsDropped={dropped} historyLevel={level} type={2} />
-                        <ResultHistoryView historyLevel={level} type={2} hideButton />
-                     </Fragment>
-                  ))}
-                  <ButtonComponent
-                     color="red"
-                     title="Tyhjennä tuloshistoria"
-                     function={() => setShowModal(true)}
-                     withMarginBottomAndTop
-                  />
-               </VStack>
-            ) : (
-               <VStack>
-                  <SpinnerComponent text="Tuloksia ladataan..." />
-               </VStack>
-            )}
-         </>
+         <HeaderComponent title="Omat tulokseni" goBack={navigation.goBack} />
+         <ScrollView style={styles(props).containerGrey}>
+            <>
+               {props.results ? (
+                  <VStack style={styles(props).contentContainer}>
+                     <ButtonComponent
+                        title="Jaa tulokset"
+                        color="#7E00C5"
+                        function={() => navigation.navigate('Jaa tulokset')}
+                     />
+                     <Heading>
+                        Verbien merkitykset{' '}
+                        {props.language === 1 ? '(ruotsi)' : '(saksa)'}
+                     </Heading>
+                     {levels.map((level, index) => (
+                        <Fragment key={index}>
+                           <Subheading>Taso {level}</Subheading>
+                           <ProgressComponent resultsDropped={dropped} historyLevel={level} type={1} />
+                           <ResultHistoryView historyLevel={level} type={1} hideButton />
+                        </Fragment>
+                     ))}
+                     <Heading>
+                        Verbien muodot{' '}
+                        {props.language === 1 ? '(ruotsi)' : '(saksa)'}
+                     </Heading>
+                     {levels.map((level, index) => (
+                        <Fragment key={index}>
+                           <Subheading>Taso {level}</Subheading>
+                           <ProgressComponent resultsDropped={dropped} historyLevel={level} type={2} />
+                           <ResultHistoryView historyLevel={level} type={2} hideButton />
+                        </Fragment>
+                     ))}
+                     <ButtonComponent
+                        color="red"
+                        title="Tyhjennä tuloshistoria"
+                        function={() => setShowModal(true)}
+                        withMarginBottomAndTop
+                     />
+                  </VStack>
+               ) : (
+                  <VStack>
+                     <SpinnerComponent text="Tuloksia ladataan..." />
+                  </VStack>
+               )}
+            </>
          </ScrollView>
          <FooterComponent />
          <Modal

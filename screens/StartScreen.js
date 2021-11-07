@@ -48,8 +48,8 @@ const StartScreen = (props) => {
 
    let [fontsLoaded] = useFonts({
       Roboto_400Regular,
-    });
-  
+   });
+
 
    useEffect(() => {
       createResultsDb();
@@ -171,7 +171,7 @@ const StartScreen = (props) => {
 
    // useEffect cleanup
    useEffect(() => {
-      return () => {};
+      return () => { };
    }, []);
 
    useEffect(() => {
@@ -199,11 +199,11 @@ const StartScreen = (props) => {
                'select * from settings where id=1;',
                [],
                (tx, results) => {
-                     if (results.rows._array.length > 0) {
-                        dispatchValues(results.rows._array[0]);
-                        setSettingsLoaded(true);
-                     } else {
-                        insertValues(tx);
+                  if (results.rows._array.length > 0) {
+                     dispatchValues(results.rows._array[0]);
+                     setSettingsLoaded(true);
+                  } else {
+                     insertValues(tx);
                   }
                },
                (tx, error) => {
@@ -218,7 +218,7 @@ const StartScreen = (props) => {
          }
       );
    };
-   
+
    const dispatchValues = (settingsResults) => {
       props.dispatch(
          updateLanguage(settingsResults.language)
@@ -258,110 +258,110 @@ const StartScreen = (props) => {
    const insertValues = (tx) => {
       tx.executeSql(
          'insert into settings (language, level, infinitive, present, past, presperf) values (?, ?, ?, ?, ?, ?);',
-            [
-               1,
-               1,
-               1,
-               1,
-               1,
-               1
-            ]
-/*          [
-            props.language,
-            props.level,
-            props.infinitive ? 1 : 0,
-            props.present ? 1 : 0,
-            props.past ? 1 : 0,
-            props.presperf ? 1 : 0,
-         ] */
+         [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+         ]
+         /*          [
+                     props.language,
+                     props.level,
+                     props.infinitive ? 1 : 0,
+                     props.present ? 1 : 0,
+                     props.past ? 1 : 0,
+                     props.presperf ? 1 : 0,
+                  ] */
       );
-      
-      fetchSettings();  
+
+      fetchSettings();
    }
 
    return (
       <>
-          {!fontsLoaded || !settingsLoaded && (
+         {!fontsLoaded || !settingsLoaded && (
             <Stack flex={1} style={styles(props).containerGrey} safeAreaTop>
                <VStack>
                   {!fontsLoaded && <SpinnerComponent text="Ladataan fontteja..." />}
                </VStack>
                <VStack>
-                  {!settingsLoaded && 
-                  <>
-                  <SpinnerComponent text="Ladataan asetuksia..." />
-                  <Text textAlign='center'>
-                     {dbError}
-                  </Text>
-                  <ButtonComponent
-                        color="#4E00C5"
-                        title="Lataa uudelleen"
-                        function={fetchSettings}
-                     />
-                  </>
+                  {!settingsLoaded &&
+                     <>
+                        <SpinnerComponent text="Ladataan asetuksia..." />
+                        <Text textAlign='center'>
+                           {dbError}
+                        </Text>
+                        <ButtonComponent
+                           color="#4E00C5"
+                           title="Lataa uudelleen"
+                           function={fetchSettings}
+                        />
+                     </>
                   }
                </VStack>
             </Stack>
          )}
          {fontsLoaded && settingsLoaded && (
             <>
-            <HeaderComponent title="Verbivalmentaja" noArrow />
-            <ScrollView style={styles(props).containerGrey}>
-            <Stack style={styles(props).containerGrey}>              
-              <VStack>
-                     <ButtonComponent
-                        color="#7E00C5"
-                        title="Selaa ja opettele verbejä"
-                        function={() =>
-                           navigation.navigate('Selaa ja opettele')
-                        }
-                     />
+               <HeaderComponent title="Verbivalmentaja" noArrow />
+               <ScrollView style={styles(props).containerGrey}>
+                  <Stack style={styles(props).containerGrey}>
+                     <VStack>
+                        <ButtonComponent
+                           color="#7E00C5"
+                           title="Selaa ja opettele verbejä"
+                           function={() =>
+                              navigation.navigate('Selaa ja opettele')
+                           }
+                        />
                      </VStack>
                      <VStack>
-                     <ButtonComponent
-                        color="#7E00C5"
-                        title="Harjoittele verbien merkityksiä"
-                        function={() =>
-                           navigation.navigate('Harjoittele merkityksiä')
-                        }
-                     />
+                        <ButtonComponent
+                           color="#7E00C5"
+                           title="Harjoittele verbien merkityksiä"
+                           function={() =>
+                              navigation.navigate('Harjoittele merkityksiä')
+                           }
+                        />
                      </VStack>
                      <VStack>
-                     <ButtonComponent
-                        color="#7E00C5"
-                        title="Harjoittele verbien muotoja"
-                        function={() =>
-                           navigation.navigate('Harjoittele muotoja')
-                        }
-                     />
+                        <ButtonComponent
+                           color="#7E00C5"
+                           title="Harjoittele verbien muotoja"
+                           function={() =>
+                              navigation.navigate('Harjoittele muotoja')
+                           }
+                        />
                      </VStack>
                      <VStack>
-                     <ButtonComponent
-                        color="#4E00C5"
-                        title="Omat tulokseni"
-                        function={() => navigation.navigate('Omat tulokseni')}
-                     />
+                        <ButtonComponent
+                           color="#4E00C5"
+                           title="Omat tulokseni"
+                           function={() => navigation.navigate('Omat tulokseni')}
+                        />
                      </VStack>
                      <VStack>
-                     <ButtonComponent
-                        color="#4E00C5"
-                        title="Omat asetukseni"
-                        function={() => navigation.navigate('Omat asetukseni')}
-                     />
+                        <ButtonComponent
+                           color="#4E00C5"
+                           title="Omat asetukseni"
+                           function={() => navigation.navigate('Omat asetukseni')}
+                        />
                      </VStack>
                      <VStack>
-                     <ButtonComponent
-                        color="#4E00C5"
-                        title="Ohjeet"
-                        function={() => navigation.navigate('Ohjeet')}
-                     />
+                        <ButtonComponent
+                           color="#4E00C5"
+                           title="Ohjeet"
+                           function={() => navigation.navigate('Ohjeet')}
+                        />
                      </VStack>
                      <VStack>
-                     <LatestResults count={5} showTypes />
+                        <LatestResults count={5} showTypes />
                      </VStack>
-               </Stack>
-            </ScrollView>
-            <FooterComponent />
+                  </Stack>
+               </ScrollView>
+               <FooterComponent />
             </>
          )}
       </>

@@ -16,11 +16,11 @@ const SaveSettingsComponent = (props) => {
             />
          </HStack>
          {!props.infinitive && !props.present && !props.past && !props.presPerf && (
-               <HStack mt='3'>
+            <HStack mt='3'>
                <Text>Valitse vähintään yksi harjoiteltava muoto!</Text>
-               </HStack>
-            )}
-         </Stack>
+            </HStack>
+         )}
+      </Stack>
    );
 };
 

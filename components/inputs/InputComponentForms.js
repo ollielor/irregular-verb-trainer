@@ -18,12 +18,12 @@ const InputComponentForms = forwardRef((props, ref) => {
                props.correct && Platform.OS === 'ios'
                   ? styles(props).formInputCorrectIOS
                   : !props.correct && !props.unanswered && Platform.OS === 'ios'
-                  ? styles(props).formInputIncorrectIOS
-                  : Platform.OS === 'ios' && props.finished && !props.correct
-                  ? styles(props).formInputIncorrectIOS
-                  : Platform.OS === 'ios' && props.unanswered
-                  ? styles(props).formInputIOS
-                  : styles(props).formInput
+                     ? styles(props).formInputIncorrectIOS
+                     : Platform.OS === 'ios' && props.finished && !props.correct
+                        ? styles(props).formInputIncorrectIOS
+                        : Platform.OS === 'ios' && props.unanswered
+                           ? styles(props).formInputIOS
+                           : styles(props).formInput
             }
             placeholder={props.placeholder}
             onChangeText={props.onChangeText}
@@ -38,10 +38,10 @@ const InputComponentForms = forwardRef((props, ref) => {
                props.correct
                   ? '#66dd33'
                   : !props.correct && !props.unanswered
-                  ? '#ff0033'
-                  : !props.correct && props.unanswered && props.finished
-                  ? '#ff0033'
-                  : '#7E00C5'
+                     ? '#ff0033'
+                     : !props.correct && props.unanswered && props.finished
+                        ? '#ff0033'
+                        : '#7E00C5'
             }
             onBlur={props.onBlur}
             blurOnSubmit={props.blurOnSubmit}

@@ -10,10 +10,10 @@ const ButtonComponent = (props) => {
             props.withMargin
                ? styles(props).buttonWithMargin
                : props.withMarginBottomAndTop
-               ? styles(props).buttonWithMarginBottomAndTop
-               : props.disabled
-               ? styles(props).buttonDisabledStyle
-               : styles(props).buttonDefaultStyle,
+                  ? styles(props).buttonWithMarginBottomAndTop
+                  : props.disabled
+                     ? styles(props).buttonDisabledStyle
+                     : styles(props).buttonDefaultStyle,
          ]}
          onPress={props.function}
          disabled={props.disabled}

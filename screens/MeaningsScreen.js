@@ -63,7 +63,7 @@ const MeaningsScreen = (props) => {
 
    // useEffect cleanup
    useEffect(() => {
-      return () => {};
+      return () => { };
    }, []);
 
    useEffect(() => {
@@ -89,19 +89,19 @@ const MeaningsScreen = (props) => {
       }
    }, [props.level, props.language, started]);
 
-      const updateResultsAsync = async () => {
-         props.dispatch(updateResults(await getResults()));
-      }
-    
-      useEffect(() => {
-         updateResultsAsync();
-      }, [resultsSaved]);
+   const updateResultsAsync = async () => {
+      props.dispatch(updateResults(await getResults()));
+   }
+
+   useEffect(() => {
+      updateResultsAsync();
+   }, [resultsSaved]);
 
    useEffect(() => {
       // Amount of verbs shown in Meanings Screen
       if (started) {
          switch (props.level) {
-            case 1: 
+            case 1:
                setAmount(5);
                break;
             case 2:
@@ -151,7 +151,7 @@ const MeaningsScreen = (props) => {
             results.maxPoints,
             results.totalPercentage,
             dateTime,
-         ) 
+         )
          setResultsSaved(true);
       } catch (error) {
          console.log(error);
@@ -216,13 +216,13 @@ const MeaningsScreen = (props) => {
 
    return (
       <>
-            <HeaderComponent
+         <HeaderComponent
             title="Verbien merkitykset"
             goBack={navigation.goBack}
          />
          <ScrollView
             keyboardShouldPersistTaps="always"
-            style={styles(props).flexOne, {backgroundColor: '#eee'}}
+            style={styles(props).flexOne, { backgroundColor: '#eee' }}
             ref={scrollViewRef}
          >
             <Box>
@@ -230,7 +230,7 @@ const MeaningsScreen = (props) => {
                {finished && resultsSaved && results && (
                   <>
                      <ResultView resultsData={results} startAgain={startAgain} />
-                     {mastered.length > 0 && 
+                     {mastered.length > 0 &&
                         <CardComponentMastery mastered={mastered} />
                      }
                      {notMastered.length > 0 &&

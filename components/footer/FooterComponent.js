@@ -5,8 +5,6 @@ import FooterButtonComponent from './FooterButtonComponent';
 
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-import { styles } from '../../styles/styles'; 
-
 const FooterComponent = (props) => {
 
    const navigation = useNavigation();
@@ -41,30 +39,30 @@ const FooterComponent = (props) => {
       <>
          <Stack safeAreaBottom bg='#0047c5' justifyContent='space-evenly' direction='row' pl='2' pr='2' h='6%'>
             {routeNames.map((routeName, index) => routeName.screenName === 'Ohjeet' ? (
-                        <HStack key={index}>
-                        <Button 
-                           colorScheme=''
-                           onPress={props.settingsChanged ? () => navigateTo(routeName.screenName) : () => navigation.navigate(routeName.screenName)}
-                           bg={routeName.screenName === route.name ? '#7E00C5' : 'transparent'}
-                        >
-                        <Center>
-                           <QuestionOutlineIcon 
-                              size='6'
-                              color='#d2d2d2'
-                           />
-                        </Center>
-                        </Button>
-                     </HStack>
-                     ) : (
                <HStack key={index}>
-               <FooterButtonComponent
-                  title={routeName.name}
-                  function={props.settingsChanged ? () =>  navigateTo(routeName.screenName) : () => navigation.navigate(routeName.screenName)}
-                  disabled={routeName.screenName === route.name ? true : false}
-               />
-               <Text>{props.destination}</Text>
+                  <Button
+                     colorScheme=''
+                     onPress={props.settingsChanged ? () => navigateTo(routeName.screenName) : () => navigation.navigate(routeName.screenName)}
+                     bg={routeName.screenName === route.name ? '#7E00C5' : 'transparent'}
+                  >
+                     <Center>
+                        <QuestionOutlineIcon
+                           size='6'
+                           color='#d2d2d2'
+                        />
+                     </Center>
+                  </Button>
                </HStack>
-            ))}         
+            ) : (
+               <HStack key={index}>
+                  <FooterButtonComponent
+                     title={routeName.name}
+                     function={props.settingsChanged ? () => navigateTo(routeName.screenName) : () => navigation.navigate(routeName.screenName)}
+                     disabled={routeName.screenName === route.name ? true : false}
+                  />
+                  <Text>{props.destination}</Text>
+               </HStack>
+            ))}
          </Stack>
       </>
    );

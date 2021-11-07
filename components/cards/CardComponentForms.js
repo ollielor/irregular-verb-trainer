@@ -45,7 +45,7 @@ const CardComponentForms = forwardRef((props, ref) => {
 
    // useEffect cleanup
    useEffect(() => {
-      return () => {};
+      return () => { };
    }, []);
 
    useEffect(() => {
@@ -213,56 +213,56 @@ const CardComponentForms = forwardRef((props, ref) => {
    return (
       <Stack pb='30'>
          {props.verbForm ? (
-               <>
-                     <Text style={styles(props).promptForms}>
-                        {props.synonyms
-                           ? props.verbForm[0].meaning
-                           : props.verbForm.meaning}
-                     </Text>
-                     {props.tenseNames.map((tense, index) => (
-                        <InputComponentForms
-                           tense={tense}
-                           key={index}
-                           label={labels[props.language][tense]}
-                           onChangeText={(answer) => checkAnswer(answer, tense)}
-                           correct={
-                              tense === 'infinitive'
-                                 ? correctInfinitive
-                                 : tense === 'present'
-                                 ? correctPresent
-                                 : tense === 'past'
+            <>
+               <Text style={styles(props).promptForms}>
+                  {props.synonyms
+                     ? props.verbForm[0].meaning
+                     : props.verbForm.meaning}
+               </Text>
+               {props.tenseNames.map((tense, index) => (
+                  <InputComponentForms
+                     tense={tense}
+                     key={index}
+                     label={labels[props.language][tense]}
+                     onChangeText={(answer) => checkAnswer(answer, tense)}
+                     correct={
+                        tense === 'infinitive'
+                           ? correctInfinitive
+                           : tense === 'present'
+                              ? correctPresent
+                              : tense === 'past'
                                  ? correctPast
                                  : tense === 'presperf' && correctPresPerf
-                           }
-                           unanswered={
-                              tense === 'infinitive'
-                                 ? unansweredInfinitive
-                                 : tense === 'present'
-                                 ? unansweredPresent
-                                 : tense === 'past'
+                     }
+                     unanswered={
+                        tense === 'infinitive'
+                           ? unansweredInfinitive
+                           : tense === 'present'
+                              ? unansweredPresent
+                              : tense === 'past'
                                  ? unansweredPast
                                  : tense === 'presperf' && unansweredPresPerf
-                           }
-                           forwardedRef={(r) => (refs.current[index] = r)}
-                           componentIndex={props.componentIndex}
-                           onBlur={() =>
-                              tense === 'infinitive' && !unansweredInfinitive
-                                 ? focusOnNextInput(index)
-                                 : tense === 'present' && !unansweredPresent
-                                 ? focusOnNextInput(index)
-                                 : tense === 'past' && !unansweredPast
+                     }
+                     forwardedRef={(r) => (refs.current[index] = r)}
+                     componentIndex={props.componentIndex}
+                     onBlur={() =>
+                        tense === 'infinitive' && !unansweredInfinitive
+                           ? focusOnNextInput(index)
+                           : tense === 'present' && !unansweredPresent
+                              ? focusOnNextInput(index)
+                              : tense === 'past' && !unansweredPast
                                  ? focusOnNextInput(index)
                                  : tense === 'presperf' &&
-                                   !unansweredPresPerf &&
-                                   focusOnNextInput(index)
-                           }
-                           blurOnSubmit={false}
-                           finished={props.finished}
-                           synonymousForms={synonymousForms}
-                           verbForm={props.verbForm}
-                        />
-                     ))}
-              </>
+                                 !unansweredPresPerf &&
+                                 focusOnNextInput(index)
+                     }
+                     blurOnSubmit={false}
+                     finished={props.finished}
+                     synonymousForms={synonymousForms}
+                     verbForm={props.verbForm}
+                  />
+               ))}
+            </>
          ) : (
             <Spinner />
          )}

@@ -8,32 +8,32 @@ const CardComponentBrowse = (props) => {
    useEffect(() => {
       setInfAndPresLength(
          props.verb.infinitive.length +
-            props.verb.present.length +
-            props.verb.present_alt.length
+         props.verb.present.length +
+         props.verb.present_alt.length
       );
    }, []);
 
    return (
-            <HStack style={styles(props).cardComponentGrey}>
-               <Box shadow='2' style={styles(props).browseBoxStyle}>
-                  <Text style={{ color: '#7E00C5', fontWeight: 'bold' }}>
-                     {props.verb.infinitive},&nbsp;
-                     {props.verb.present},&nbsp;
-                     {infAndPresLength > 15 && `\n`}
-                     {props.verb.present_alt && ` / ${props.verb.present_alt}`}
-                     {props.verb.past_alt &&
-                        props.verb.past_alt.length > 7 &&
-                        '\n'}
-                     {!props.verb.past_alt && `${props.verb.past}, `}
-                     {props.verb.past_alt.length > 1 &&
-                        `${props.verb.past} / ${props.verb.past_alt}`}
-                     {props.verb.presperf}
-                     {props.verb.presperf_alt &&
-                        ` / ${props.verb.presperf_alt}`}
-                  </Text>
-                  <Text>{props.verb.meaning}</Text>
-               </Box>
-         </HStack>
+      <HStack style={styles(props).cardComponentGrey}>
+         <Box shadow='2' style={styles(props).browseBoxStyle}>
+            <Text style={{ color: '#7E00C5', fontWeight: 'bold' }}>
+               {props.verb.infinitive},&nbsp;
+               {props.verb.present},&nbsp;
+               {infAndPresLength > 15 && `\n`}
+               {props.verb.present_alt && ` / ${props.verb.present_alt}`}
+               {props.verb.past_alt &&
+                  props.verb.past_alt.length > 7 &&
+                  '\n'}
+               {!props.verb.past_alt && `${props.verb.past}, `}
+               {props.verb.past_alt.length > 1 &&
+                  `${props.verb.past} / ${props.verb.past_alt}`}
+               {props.verb.presperf}
+               {props.verb.presperf_alt &&
+                  ` / ${props.verb.presperf_alt}`}
+            </Text>
+            <Text>{props.verb.meaning}</Text>
+         </Box>
+      </HStack>
    );
 };
 

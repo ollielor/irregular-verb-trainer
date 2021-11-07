@@ -30,17 +30,17 @@ const ButtonMeanings = (props) => {
          disabled={props.locked}
          style={
             (props.locked && correct) ||
-            (props.locked && props.alternative.meaning === props.correctMeaning)
+               (props.locked && props.alternative.meaning === props.correctMeaning)
                ? [
-                    styles(props).meaningsButtonDefault,
-                    styles(props).meaningsCorrectAnswer,
-                 ]
+                  styles(props).meaningsButtonDefault,
+                  styles(props).meaningsCorrectAnswer,
+               ]
                : props.locked && incorrect
-               ? [
-                    styles(props).meaningsButtonDefault,
-                    styles(props).meaningsIncorrectAnswer,
-                 ]
-               : styles(props).meaningsButtonDefault
+                  ? [
+                     styles(props).meaningsButtonDefault,
+                     styles(props).meaningsIncorrectAnswer,
+                  ]
+                  : styles(props).meaningsButtonDefault
          }
       >
          <Text style={styles(props).textAlternative} uppercase={false}>{props.alternative.infinitive}</Text>

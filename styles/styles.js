@@ -41,8 +41,8 @@ export const styles = (props) => StyleSheet.create({
       marginTop: 20,
       backgroundColor: props.color
    },
-   footerButton: { 
-      backgroundColor: props.disabled ? '#7E00C5' : '#0047c5', 
+   footerButton: {
+      backgroundColor: props.disabled ? '#7E00C5' : '#0047c5',
    },
    historyButtonResults: {
       backgroundColor: '#4E00C5',
@@ -50,7 +50,7 @@ export const styles = (props) => StyleSheet.create({
       marginTop: 20,
       marginBottom: 20,
    },
-    meaningsButtonDefault: {
+   meaningsButtonDefault: {
       backgroundColor: '#0000cc',
       marginBottom: 5,
    },
@@ -76,7 +76,7 @@ export const styles = (props) => StyleSheet.create({
    },
    // Styles for Instructions screen
    instructionsHeaderStyle: {
-      color: '#7E00C5', 
+      color: '#7E00C5',
       fontWeight: 'bold',
       marginBottom: 15
    },
@@ -102,8 +102,8 @@ export const styles = (props) => StyleSheet.create({
    },
    // Styles for Meanings mode
    cardMeaningBody: {
-      flexDirection: 'row', 
-      justifyContent: 'center' 
+      flexDirection: 'row',
+      justifyContent: 'center'
    },
    correctAnswerMeanings: {
       backgroundColor: '#006600',
@@ -126,10 +126,10 @@ export const styles = (props) => StyleSheet.create({
       textAlign: 'center',
    },
    // Footer styles
-   footerStyle: { 
-      backgroundColor: '#0047c5', 
-      display: 'flex', 
-      bottom: 0 
+   footerStyle: {
+      backgroundColor: '#0047c5',
+      display: 'flex',
+      bottom: 0
    },
    footerBox: {
       bottom: 0,
@@ -137,12 +137,12 @@ export const styles = (props) => StyleSheet.create({
    },
    // Header styles
    headerBodyStyle: {
-      flex: 2, 
+      flex: 2,
       alignItems: 'center'
    },
    headerStyle: {
-      backgroundColor: '#0047c5', 
-      paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0, 
+      backgroundColor: '#0047c5',
+      paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
       paddingBottom: 10
    },
    headerBoxStyle: {
@@ -251,9 +251,9 @@ export const styles = (props) => StyleSheet.create({
       paddingTop: 10,
    },
    // Styles for Settings screen
-   settingsBodyStyle: { 
-      flexDirection: 'row', 
-      justifyContent: 'center' 
+   settingsBodyStyle: {
+      flexDirection: 'row',
+      justifyContent: 'center'
    },
    settingsListStyle: {
       marginBottom: 30

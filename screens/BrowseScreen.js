@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, ScrollView } from 'native-base';
+import { ScrollView } from 'native-base';
 
 import { connect } from 'react-redux';
 
@@ -22,7 +22,7 @@ const BrowseScreen = (props) => {
    const navigation = useNavigation();
 
    useEffect(() => {
-      return () => {};
+      return () => { };
    }, []);
 
    return (
@@ -41,8 +41,8 @@ const BrowseScreen = (props) => {
                         ? 1
                         : -1
                      : a.infinitive > b.infinitive
-                     ? 1
-                     : -1
+                        ? 1
+                        : -1
                )
                .map((verb, index) => (
                   <CardComponentBrowse key={index} verb={verb} />
@@ -56,8 +56,8 @@ const BrowseScreen = (props) => {
                         ? 1
                         : -1
                      : a.infinitive > b.infinitive
-                     ? 1
-                     : -1
+                        ? 1
+                        : -1
                )
                .map((verb, index) => (
                   <CardComponentBrowse key={index} verb={verb} />
@@ -71,8 +71,8 @@ const BrowseScreen = (props) => {
                         ? 1
                         : -1
                      : a.infinitive > b.infinitive
-                     ? 1
-                     : -1
+                        ? 1
+                        : -1
                )
                .map((verb, index) => (
                   <CardComponentBrowse key={index} verb={verb} />

@@ -14,10 +14,10 @@ const CorrectAnswerComponent = (props) => {
       >
          {Array.isArray(props.form)
             ? props.form.map((alternative, index) =>
-                 index < props.form.length - 1
-                    ? alternative + ' / '
-                    : alternative
-              )
+               index < props.form.length - 1
+                  ? alternative + ' / '
+                  : alternative
+            )
             : props.form}
       </Text>
    );

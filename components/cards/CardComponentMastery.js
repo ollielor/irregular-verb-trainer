@@ -7,26 +7,26 @@ import { styles } from '../../styles/styles';
 const CardComponentMastery = (props) => {
    return (
       <Stack style={styles(props).containerGrey} p='3'>
-      <VStack>
-         <Box
-            p='2'
-            style={
-               props.mastered
-                  ? styles(props).mastered
-                  : styles(props).notMastered
-            }
-         >
-            <Text
+         <VStack>
+            <Box
+               p='2'
                style={
-                  props.notMastered
-                     ? styles(props).notMasteredText
-                     : styles(props).masteredText
+                  props.mastered
+                     ? styles(props).mastered
+                     : styles(props).notMastered
                }
             >
-               {props.mastered && 'Nämä osaat jo:'}
-               {props.notMastered && 'Kertaa vielä näitä:'}
-            </Text>
-         </Box>
+               <Text
+                  style={
+                     props.notMastered
+                        ? styles(props).notMasteredText
+                        : styles(props).masteredText
+                  }
+               >
+                  {props.mastered && 'Nämä osaat jo:'}
+                  {props.notMastered && 'Kertaa vielä näitä:'}
+               </Text>
+            </Box>
          </VStack>
          <VStack>
             <Box p='2'>
@@ -48,7 +48,7 @@ const CardComponentMastery = (props) => {
                      />
                   ))}
             </Box>
-      </VStack>
+         </VStack>
       </Stack>
    );
 };

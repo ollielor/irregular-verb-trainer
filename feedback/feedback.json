@@ -1,74 +1,66 @@
 {
-   "1":
+   "1": {
+      "low": [
          {
-            "low": 
-               [
-                  {
-                     "text":"Du måste öva lite till!"
-                  },
-                  {
-                     "text":"Kämpa på!"
-                  }
-               ],
-            "good":
-               [
-                  {
-                     "text":"Bra!"
-                  },
-                  {
-                     "text":"Bra jobbat!"
-                  }
-               ],
-            "high":
-               [
-                  {
-                     "text":"Jättebra!"
-                  },
-                  {
-                     "text":"Fint!"
-                  },
-                  {
-                     "text":"Utmärkt!"
-                  },
-                  {
-                     "text":"Toppen!"
-                  }
-            ]
+            "text": "Du måste öva lite till!"
          },
-   "2":
          {
-            "low": 
-               [
-                  {
-                     "text":"Du musst noch üben!"
-                  },
-                  {
-                     "text":"Du brauchst noch Übung!"
-                  }
-               ],
-            "good":
-               [
-                  {
-                     "text":"Gut!"
-                  },
-                  {
-                     "text":"Gut gemacht!"
-                  }
-               ],
-            "high":
-               [
-                  {
-                     "text":"Sehr gut!"
-                  },
-                  {
-                     "text":"Toll!"
-                  },
-                  {
-                     "text":"Prima!"
-                  },
-                  {
-                     "text":"Super!"
-                  }
-               ]
+            "text": "Kämpa på!"
          }
+      ],
+      "good": [
+         {
+            "text": "Bra!"
+         },
+         {
+            "text": "Bra jobbat!"
+         }
+      ],
+      "high": [
+         {
+            "text": "Jättebra!"
+         },
+         {
+            "text": "Fint!"
+         },
+         {
+            "text": "Utmärkt!"
+         },
+         {
+            "text": "Toppen!"
+         }
+      ]
+   },
+   "2": {
+      "low": [
+         {
+            "text": "Du musst noch üben!"
+         },
+         {
+            "text": "Du brauchst noch Übung!"
+         }
+      ],
+      "good": [
+         {
+            "text": "Gut!"
+         },
+         {
+            "text": "Gut gemacht!"
+         }
+      ],
+      "high": [
+         {
+            "text": "Sehr gut!"
+         },
+         {
+            "text": "Toll!"
+         },
+         {
+            "text": "Prima!"
+         },
+         {
+            "text": "Super!"
+         }
+      ]
+   }
 }

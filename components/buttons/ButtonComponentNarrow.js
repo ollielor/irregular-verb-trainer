@@ -7,9 +7,9 @@ const ButtonComponentNarrow = (props) => {
    return (
       <Button
          style={[props.withMargin && { margin: 2 },
-            props.disabled
-               ? styles(props).buttonNarrowDisabledStyle
-               : styles(props).buttonNarrowEnabledStyle
+         props.disabled
+            ? styles(props).buttonNarrowDisabledStyle
+            : styles(props).buttonNarrowEnabledStyle
          ]}
          onPress={props.function}
          disabled={props.disabled}

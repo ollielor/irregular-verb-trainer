@@ -15,7 +15,7 @@ const ProgressComponent = (props) => {
          setTotalCorrectAnswers(0);
          setTotalQuestions(0);
          setTotalPercentage(0);
-      } 
+      }
       if (props.results.length > 0) {
          const resultsFilteredByLevel = props.results.filter(
             (result) => result.level === props.historyLevel
@@ -54,19 +54,19 @@ const ProgressComponent = (props) => {
                      : styles(props).progressCardStyleNeutral
                }
             >
-                  <Text style={styles(props).progressStyle}>
-                     Oikeita vastauksia: {totalCorrectAnswers} /{' '}
-                     {totalQuestions}
-                  </Text>
-                  <Text style={styles(props).progressStyle}>
-                     Osaamisprosentti:{' '}
-                     {totalPercentage &&
-                        totalPercentage.toFixed(2).replace('.', ',')}{' '}
-                     %
-                  </Text>
-                  <Text style={styles(props).progressStyle}>
-                     (sisältää aikabonukset ja -vähennykset)
-                  </Text>
+               <Text style={styles(props).progressStyle}>
+                  Oikeita vastauksia: {totalCorrectAnswers} /{' '}
+                  {totalQuestions}
+               </Text>
+               <Text style={styles(props).progressStyle}>
+                  Osaamisprosentti:{' '}
+                  {totalPercentage &&
+                     totalPercentage.toFixed(2).replace('.', ',')}{' '}
+                  %
+               </Text>
+               <Text style={styles(props).progressStyle}>
+                  (sisältää aikabonukset ja -vähennykset)
+               </Text>
             </Box>
          </VStack>
       </Box>
