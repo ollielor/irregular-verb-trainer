@@ -14,7 +14,7 @@ const LatestResults = (props) => {
    const navigation = useNavigation();
 
    return (
-      <Box>
+      <Box mt='5'>
          <Heading>
             {props.count} viimeisintä tulosta{' '}
             {props.language === 1 ? '(ruotsi)' : '(saksa)'}
