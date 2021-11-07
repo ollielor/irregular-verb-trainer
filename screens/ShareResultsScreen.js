@@ -93,7 +93,7 @@ const ShareResultsScreen = (props) => {
       let textArray = text.split('|');
       let textReplaced;
       for (let i = 0; i < textArray.length; i++) {
-         textReplaced = textArray[i].replace('<br>', '%0A');
+         textReplaced = textArray[i].replace('<br>', '\r\n');
          textParsed += textReplaced;
       }
       if (type === 'whatsapp') {
@@ -146,11 +146,6 @@ const ShareResultsScreen = (props) => {
                      color="#7E00C5"
                      function={() => sendMessage('whatsapp')}
                   />
-                  {Platform.OS === 'ios' &&
-                     <InfoContent>
-                        iOS:n oletussähköpostiohjelmalla lähetettäessä teksti ei välttämättä näy oikeanlaisena. Voit käyttää sen sijaan WhatsAppia tai toista sähköpostiohjelmaa.
-                     </InfoContent>
-                  }
                </VStack>
             </Stack>
          </KeyboardAvoidingView>
