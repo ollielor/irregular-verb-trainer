@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-   KeyboardAvoidingView,
    Platform,
 } from 'react-native';
-import { ScrollView, Text, Box } from 'native-base';
+import { KeyboardAvoidingView, ScrollView, Text, Box } from 'native-base';
 
 import { connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
