@@ -1,15 +1,21 @@
 import React from 'react';
-import { Stack, HStack, Text } from 'native-base';
+import { Stack, VStack, Text } from 'native-base';
+import Subheading from '../styling/Subheading';
 import { styles } from '../../styles/styles';
 
 const InfoContent = (props) => {
     return (
         <Stack style={styles(props).contentContainer} direction='row'>
-            <HStack style={styles(props).infoContentStyle} p='2'>
-                <Text>
+            <VStack style={styles(props).infoContentStyle} p='2'>
+                {props.heading && 
+                    <Subheading>
+                        {props.heading}
+                    </Subheading>
+                }
+                <Text pb='17'>
                     {props.children}
                 </Text>
-            </HStack>
+            </VStack>
         </Stack>
     );
 };

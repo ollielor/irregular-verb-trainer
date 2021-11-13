@@ -26,6 +26,7 @@ import ButtonComponent from '../components/buttons/ButtonComponent';
 import FooterComponent from '../components/footer/FooterComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
 import SpinnerComponent from '../components/styling/SpinnerComponent';
+import InfoContent from '../components/styling/InfoContent';
 
 import DatabaseSettings from '../modules/DatabaseSettings';
 
@@ -266,14 +267,6 @@ const StartScreen = (props) => {
             1,
             1
          ]
-         /*          [
-                     props.language,
-                     props.level,
-                     props.infinitive ? 1 : 0,
-                     props.present ? 1 : 0,
-                     props.past ? 1 : 0,
-                     props.presperf ? 1 : 0,
-                  ] */
       );
 
       fetchSettings();
@@ -308,6 +301,25 @@ const StartScreen = (props) => {
                <HeaderComponent title="Verbivalmentaja" noArrow />
                <ScrollView style={styles(props).containerGrey}>
                   <Stack style={styles(props).containerGrey}>
+                     <VStack>
+                        <InfoContent heading='Varmt välkommen! Herzlich willkommen!'>
+                           <Text>
+                           <Text>
+                              Tervetuloa harjoittelemaan epäsäännöllisiä verbejä!
+                              Voit selata ja opetella verbejä, harjoitella niiden merkityksiä tai harjoitella niiden muotoja.{'\n'}
+                           </Text>
+                           <Text>
+                              Kielen ja muut asetukset voit muuttaa oikeasta yläkulmasta tai
+                           </Text>
+                           <Text style={{fontWeight: 'bold', color: '#7E00C5'}} onPress={() => navigation.navigate('Omat asetukseni')}>
+                              {' '}Asetukset
+                           </Text>
+                           <Text>
+                              -painikkeella.
+                           </Text>
+                           </Text>
+                        </InfoContent>
+                     </VStack>
                      <VStack>
                         <ButtonComponent
                            color="#7E00C5"

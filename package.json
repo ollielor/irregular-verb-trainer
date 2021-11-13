@@ -23,12 +23,13 @@
     "expo-linking": "~2.4.2",
     "expo-sqlite": "~10.0.3",
     "expo-status-bar": "~1.1.0",
+    "expo-updates": "~0.10.15",
     "metro": "^0.66.2",
     "native-base": "^3.2.1",
     "node-fetch": "^3.0.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "react-native": "0.64.2",
+    "react-native": "^0.64.3",
     "react-native-eject": "^0.1.2",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-reanimated": "~2.2.0",
@@ -42,8 +43,7 @@
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.3.1",
     "styled-system": "^5.1.5",
-    "uuid": "^7.0.3",
-    "expo-updates": "~0.10.15"
+    "uuid": "^7.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
