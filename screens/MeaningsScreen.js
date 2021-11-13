@@ -249,7 +249,8 @@ const MeaningsScreen = (props) => {
                {started && randomizedVerbs && !finished &&
                   <InfoContent centered>
                      <Text>
-                        Valitse oikea {props.language === 1 ? 'ruotsinkielinen' : 'saksankielinen'} vaihtoehto. Nopeudesta palkitaan!
+                        Valitse oikea {props.language === 1 ? 'ruotsinkielinen' : 'saksankielinen'} vaihtoehto.
+                        Näet tuloksesi, kun olet vastannut kaikkiin kohtiin. Nopeudesta palkitaan!
                      </Text>
                   </InfoContent>
                }
