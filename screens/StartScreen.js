@@ -306,7 +306,7 @@ const StartScreen = (props) => {
                            <Text>
                               <Text>
                                  Tervetuloa harjoittelemaan epäsäännöllisiä verbejä!
-                                 Voit selata ja opetella verbejä, harjoitella niiden merkityksiä tai harjoitella niiden muotoja.{'\n'}
+                                 Voit selata verbejä, harjoitella niiden merkityksiä ja harjoitella niiden muotoja.{'\n'}
                               </Text>
                               <Text>
                                  Kielen ja muut asetukset voit muuttaa oikeasta yläkulmasta tai
@@ -323,9 +323,9 @@ const StartScreen = (props) => {
                      <VStack>
                         <ButtonComponent
                            color="#7E00C5"
-                           title="Selaa ja opettele verbejä"
+                           title="Selaa verbejä"
                            function={() =>
-                              navigation.navigate('Selaa ja opettele')
+                              navigation.navigate('Selaa verbejä')
                            }
                         />
                      </VStack>

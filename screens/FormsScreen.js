@@ -33,6 +33,7 @@ import ButtonComponent from '../components/buttons/ButtonComponent';
 import LatestResults from '../components/results/LatestResults';
 import SpinnerComponent from '../components/styling/SpinnerComponent';
 import ProgressBar from '../components/progress/ProgressBar';
+import InfoContent from '../components/styling/InfoContent';
 
 import { styles } from '../styles/styles';
 
@@ -296,6 +297,24 @@ const FormsScreen = (props) => {
                         function={() => navigation.navigate('Asetukset')}
                      />
                   </>
+               }
+               {randomizedVerbs &&
+                  <InfoContent centered>
+                     <Text>
+                        <Text>
+                           Kirjoita epäsäännöllisten verbien muodot.{'\n'}
+                        </Text>
+                        <Text>
+                           Voit valita harjoiteltavat verbimuodot
+                        </Text>
+                        <Text style={{ fontWeight: 'bold', color: '#7E00C5' }} onPress={() => navigation.navigate('Omat asetukseni')}>
+                           {' '}Asetuksista
+                        </Text>
+                        <Text>
+                           . Nopeudesta palkitaan!
+                        </Text>
+                     </Text>
+                  </InfoContent>
                }
                {randomizedVerbs ? (
                   randomizedVerbs.map((verbFormArray, index) =>

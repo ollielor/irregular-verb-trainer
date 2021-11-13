@@ -2,11 +2,11 @@
    "1": [
       {
          "header": "Tehtävämuodot",
-         "text": "Voit harjoitella epäsäännöllisiä ja vahvoja verbejä kolmella tavalla: tutustumalla verbeihin Selaa ja opettele -toiminnolla, harjoittelemalla verbien merkityksiä monivalintatehtävällä tai verbien muotoja kirjoittamalla.",
+         "text": "Voit harjoitella epäsäännöllisiä ja vahvoja verbejä kolmella tavalla: tutustumalla verbeihin Selaa verbejä -näkymässä, harjoittelemalla verbien merkityksiä monivalintatehtävällä tai verbien muotoja kirjoittamalla.",
          "buttons": [
             {
-               "buttonText": "Selaa ja opettele",
-               "buttonAction": "Selaa ja opettele"
+               "buttonText": "Selaa verbejä",
+               "buttonAction": "Selaa verbejä"
             },
             {
                "buttonText": "Harjoittele verbien merkityksiä",
@@ -46,11 +46,11 @@
    "2": [
       {
          "header": "Tehtävämuodot",
-         "text": "Voit harjoitella epäsäännöllisiä ja vahvoja verbejä kolmella tavalla: tutustumalla verbeihin Selaa ja opettele -toiminnolla, harjoittelemalla verbien merkityksiä monivalintatehtävällä tai verbien muotoja kirjoittamalla. Eriävät yhdysverbit (esim. an/rufen) voit kirjoittaa kauttaviivalla tai ilman.",
+         "text": "Voit harjoitella epäsäännöllisiä ja vahvoja verbejä kolmella tavalla: tutustumalla verbeihin Selaa verbejä -näkymässä, harjoittelemalla verbien merkityksiä monivalintatehtävällä tai verbien muotoja kirjoittamalla. Eriävät yhdysverbit (esim. an/rufen) voit kirjoittaa kauttaviivalla tai ilman.",
          "buttons": [
             {
-               "buttonText": "Selaa ja opettele",
-               "buttonAction": "Selaa ja opettele"
+               "buttonText": "Selaa verbejä",
+               "buttonAction": "Selaa verbejä"
             },
             {
                "buttonText": "Harjoittele verbien merkityksiä",

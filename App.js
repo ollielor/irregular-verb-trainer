@@ -52,7 +52,7 @@ const App = () => {
                      component={StartScreen}
                   />
                   <Stack.Screen
-                     name="Selaa ja opettele"
+                     name="Selaa verbejä"
                      component={BrowseScreen}
                   />
                   <Stack.Screen

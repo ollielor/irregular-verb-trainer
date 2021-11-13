@@ -28,7 +28,7 @@ const BrowseScreen = (props) => {
    return (
       <>
          <HeaderComponent
-            title="Selaa ja opettele"
+            title="Selaa verbejä"
             goBack={navigation.goBack}
          />
          <ScrollView style={styles(props).browseContainer}>
