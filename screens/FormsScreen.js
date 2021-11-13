@@ -298,7 +298,7 @@ const FormsScreen = (props) => {
                      />
                   </>
                }
-               {randomizedVerbs &&
+               {randomizedVerbs && !finished &&
                   <InfoContent centered>
                      <Text>
                         <Text>
