@@ -304,19 +304,19 @@ const StartScreen = (props) => {
                      <VStack>
                         <InfoContent heading='Varmt välkommen! Herzlich willkommen!'>
                            <Text>
-                           <Text>
-                              Tervetuloa harjoittelemaan epäsäännöllisiä verbejä!
-                              Voit selata ja opetella verbejä, harjoitella niiden merkityksiä tai harjoitella niiden muotoja.{'\n'}
-                           </Text>
-                           <Text>
-                              Kielen ja muut asetukset voit muuttaa oikeasta yläkulmasta tai
-                           </Text>
-                           <Text style={{fontWeight: 'bold', color: '#7E00C5'}} onPress={() => navigation.navigate('Omat asetukseni')}>
-                              {' '}Asetukset
-                           </Text>
-                           <Text>
-                              -painikkeella.
-                           </Text>
+                              <Text>
+                                 Tervetuloa harjoittelemaan epäsäännöllisiä verbejä!
+                                 Voit selata ja opetella verbejä, harjoitella niiden merkityksiä tai harjoitella niiden muotoja.{'\n'}
+                              </Text>
+                              <Text>
+                                 Kielen ja muut asetukset voit muuttaa oikeasta yläkulmasta tai
+                              </Text>
+                              <Text style={{ fontWeight: 'bold', color: '#7E00C5' }} onPress={() => navigation.navigate('Omat asetukseni')}>
+                                 {' '}Asetukset
+                              </Text>
+                              <Text>
+                                 -painikkeella.
+                              </Text>
                            </Text>
                         </InfoContent>
                      </VStack>

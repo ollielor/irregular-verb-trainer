@@ -31,6 +31,7 @@ import CardComponentMastery from '../components/cards/CardComponentMastery';
 import { createResultsDb, getResults, saveResults } from '../helpers/results';
 
 import { styles } from '../styles/styles';
+import InfoContent from '../components/styling/InfoContent';
 
 const MeaningsScreen = (props) => {
    const [verbs, setVerbs] = useState([]);
@@ -225,7 +226,7 @@ const MeaningsScreen = (props) => {
             style={styles(props).flexOne, { backgroundColor: '#eee' }}
             ref={scrollViewRef}
          >
-            <Box>
+            <>
                {!randomizedVerbs && <Text>Arvotaan verbejä...</Text>}
                {finished && resultsSaved && results && (
                   <>
@@ -246,14 +247,20 @@ const MeaningsScreen = (props) => {
                   <SpinnerComponent text="Tuloksia ladataan..." />
                )}
                {started && randomizedVerbs && !finished &&
-                  randomizedVerbs.map((verbGroup, index) => (
-                     <CardComponentMeanings
-                        key={index}
-                        alternatives={verbGroup}
-                        evaluate={evaluate}
-                     />
-                  ))}
-            </Box>
+                  <InfoContent centered>
+                     <Text>
+                        Valitse oikea {props.language === 1 ? 'ruotsinkielinen' : 'saksankielinen'} vaihtoehto. Nopeudesta palkitaan!
+                     </Text>
+                  </InfoContent>
+               }
+               {started && randomizedVerbs && !finished && randomizedVerbs.map((verbGroup, index) => (
+                  <CardComponentMeanings
+                     key={index}
+                     alternatives={verbGroup}
+                     evaluate={evaluate}
+                  />
+               ))}
+            </>
          </ScrollView>
          <FooterComponent />
       </>
