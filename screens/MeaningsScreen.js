@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ScrollView } from 'react-native';
-import { Box, Text } from 'native-base';
+import { Text } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -14,7 +14,8 @@ import {
    calcTotalPercentage,
    calcAmountCorrectAnswersMeanings,
    calcAccuracyPercentage,
-   calcTotalPointsMeanings
+   calcTotalPointsMeanings,
+   calcTime
 } from '../helpers/points';
 
 import { updateResults } from '../store/actions/results';
@@ -42,7 +43,7 @@ const MeaningsScreen = (props) => {
    const [answered, setAnswered] = useState([]);
    const [finished, setFinished] = useState(false);
    const [results, setResults] = useState({});
-   const [counterState, setCounterState] = useState(null);
+   const [timeElapsed, setTimeElapsed] = useState(0);
    const [started, setStarted] = useState(true);
    const [resultsReady, setResultsReady] = useState(false);
    const [resultsSaved, setResultsSaved] = useState(false);
@@ -50,7 +51,9 @@ const MeaningsScreen = (props) => {
    const [tableCreated, setTableCreated] = useState(false);
    const [mastered, setMastered] = useState([]);
    const [notMastered, setNotMastered] = useState([]);
-   const [amount, setAmount] = useState(5)
+   const [amount, setAmount] = useState(5);
+   const [startTime, setStartTime] = useState('');
+   const [endTime, setEndTime] = useState('');
 
    const scrollViewRef = useRef();
 
@@ -87,6 +90,7 @@ const MeaningsScreen = (props) => {
          const filteredVerbs = filterVerbsByLevel(verbsByLanguage, props.level);
          setVerbs(filteredVerbs);
          setVerbsFiltered(true);
+         setStartTime(getCurrentDate());
       }
    }, [props.level, props.language, started]);
 
@@ -119,7 +123,7 @@ const MeaningsScreen = (props) => {
       }
    }, [verbsFiltered]);
 
-   // This function is responsible for evaluating the answers and setting the amount of points
+   // This function is responsible for evaluating the answers and setting the number of points
    const evaluate = (accuracy, meaning, correctInfinitive, answeredInfinitive) => {
       if (accuracy) {
          setPoints(points + 20);
@@ -185,33 +189,19 @@ const MeaningsScreen = (props) => {
    }, [answered]);
 
    useEffect(() => {
-      let counter = 0;
-      let intervalId = setInterval(() => {
-         counter++;
-         setCounterState(counter);
-      }, 1000);
       if (finished) {
-         clearInterval(intervalId);
-      }
-      return () => {
-         clearInterval(intervalId);
-      };
-   }, [started, finished]);
-
-   useEffect(() => {
-      if (finished) {
+         setEndTime(getCurrentDate());
+         setTimeElapsed(calcTime(startTime, endTime));
          let accuracyPercentage = calcAccuracyPercentage(points, maxPoints);
-         let totalPoints = calcTotalPointsMeanings(counterState, accuracyPercentage, points);
+         let totalPoints = calcTotalPointsMeanings(timeElapsed, accuracyPercentage, points);
          setResults({
             points: points,
-            totalPoints: calcTotalPointsMeanings(counterState, accuracyPercentage, points),
+            totalPoints: totalPoints,
             maxPoints: maxPoints,
             totalPercentage: calcTotalPercentage(totalPoints, maxPoints),
             amountCorrectAnswers: calcAmountCorrectAnswersMeanings(answered),
             totalAnswered: answered.length,
          });
-         setDateTime(getCurrentDate());
-         setResultsReady(true);
       }
    }, [finished]);
 
@@ -228,7 +218,7 @@ const MeaningsScreen = (props) => {
          >
             <>
                {!randomizedVerbs && <Text>Arvotaan verbejä...</Text>}
-               {finished && resultsSaved && results && (
+               {finished && results && (
                   <>
                      <ResultView resultsData={results} startAgain={startAgain} />
                      {mastered.length > 0 &&

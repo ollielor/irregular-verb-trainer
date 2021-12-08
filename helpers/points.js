@@ -46,16 +46,16 @@ export const calcAccuracyPercentage = (points, maxPoints) => {
 };
 
 export const calcTotalPointsMeanings = (
-   counterState,
+   timeElapsed,
    accuracyPercentage,
    points
 ) => {
    // If time elapsed is less than 15 seconds and accuracy is at least 80 %, extra points are given
-   if (counterState < 15 && accuracyPercentage >= 80) {
-      return (points + counterState * 0.1) * 1.0;
+   if (timeElapsed < 15 && accuracyPercentage >= 80) {
+      return (points + timeElapsed * 0.1) * 1.0;
       // If time elapsed is greater than 30, minus points are given
-   } else if (counterState >= 30) {
-      return (points - counterState * 0.1) * 1.0;
+   } else if (timeElapsed >= 30) {
+      return (points - timeElapsed * 0.1) * 1.0;
       // If time elapsed is average (not under 10 seconds or over 30 seconds), no bonus or minus points are given
    } else {
       return points * 1.0;
@@ -65,4 +65,9 @@ export const calcTotalPointsMeanings = (
 // This function is responsible for calculating the points in Forms mode
 export const calcPoints = (points, amount) => {
    return points + amount;
+};
+
+// This function is responsible for calculating the difference between start and end date
+export const calcTime = (startTime, endTime) => {
+   return endTime - startTime;
 };
