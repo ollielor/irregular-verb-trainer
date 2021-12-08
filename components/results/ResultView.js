@@ -74,7 +74,7 @@ const ResultView = (props) => {
             )
          )}
          <Text style={styles(props).feedbackPoints}>
-            Oikeita vastauksia: {props.resultsData.amountCorrectAnswers} /{' '}
+            Oikeita vastauksia: {props.resultsData.numberCorrectAnswers} /{' '}
             {props.resultsData.totalAnswered || props.resultsData.maxQuestions}
          </Text>
          <Text style={styles(props).feedbackPoints}>

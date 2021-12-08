@@ -44,11 +44,11 @@ export const filterVerbsByLevel = (verbs, level) => {
 };
 
 // This function is used for randomizing verbs for Meanings screen
-export const getRndVerbs = (verbs, amount) => {
+export const getRndVerbs = (verbs, numberVerbs) => {
    let rndVerb;
    let rndVerbs = [];
    let rndVerbsFinal = [];
-   while (rndVerbsFinal.length < amount * 3) {
+   while (rndVerbsFinal.length < numberVerbs * 3) {
       // The range of random numbers (0-300) is excessive
       // in order to involve all verbs of
       // a certain level in randomizing.
@@ -77,11 +77,11 @@ export const getRndVerbs = (verbs, amount) => {
 };
 
 // This function is used for randomizing verbs for Forms screen
-export const getRndVerbsForForms = (verbs, amount) => {
+export const getRndVerbsForForms = (verbs, numberVerbs) => {
    let rndVerbArray = [];
    let rndVerbs = [];
    let rndVerbsFinal = [];
-   while (rndVerbsFinal.length < amount) {
+   while (rndVerbsFinal.length < numberVerbs) {
       // The range of random numbers (0-300) is excessive
       // in order to involve all verbs of
       // a certain level in randomizing.

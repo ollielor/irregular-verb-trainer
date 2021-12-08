@@ -30,17 +30,17 @@ export const calcTotalPercentage = (totalPoints, maxPoints) => {
    return (totalPoints / maxPoints) * 100.0;
 };
 
-// This function calculates the amount of correct answers from the amount of points (without bonus points)
-export const calcAmountCorrectAnswersForms = (points) => {
+// This function calculates the number of correct answers from the number of points (without bonus points)
+export const calcNumberCorrectAnswersForms = (points) => {
    return points / 10;
 };
 
-// This function is used for getting the amount of correct answers
-export const calcAmountCorrectAnswersMeanings = (answered) => {
+// This function is used for getting the number of correct answers
+export const calcNumberCorrectAnswersMeanings = (answered) => {
    return answered.filter((answer) => answer.accuracy === 'correct').length;
 };
 
-// Accuracy percentage, i.e. points amount divided by max points
+// Accuracy percentage, i.e. number of points divided by max points
 export const calcAccuracyPercentage = (points, maxPoints) => {
    return (points / maxPoints) * 100.0;
 };

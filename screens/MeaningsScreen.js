@@ -12,7 +12,7 @@ import {
 
 import {
    calcTotalPercentage,
-   calcAmountCorrectAnswersMeanings,
+   calcNumberCorrectAnswersMeanings,
    calcAccuracyPercentage,
    calcTotalPointsMeanings,
    calcTime
@@ -51,7 +51,7 @@ const MeaningsScreen = (props) => {
    const [tableCreated, setTableCreated] = useState(false);
    const [mastered, setMastered] = useState([]);
    const [notMastered, setNotMastered] = useState([]);
-   const [amount, setAmount] = useState(5);
+   const [numberQuestions, setNumberQuestions] = useState(5);
    const [startTime, setStartTime] = useState('');
    const [endTime, setEndTime] = useState('');
 
@@ -103,21 +103,21 @@ const MeaningsScreen = (props) => {
    }, [resultsSaved]);
 
    useEffect(() => {
-      // Amount of verbs shown in Meanings Screen
+      // Number of verbs shown in Meanings Screen
       if (started) {
          switch (props.level) {
             case 1:
-               setAmount(5);
+               setNumberQuestions(5);
                break;
             case 2:
-               setAmount(8);
+               setNumberQuestions(8);
                break;
             case 3:
-               setAmount(10);
+               setNumberQuestions(10);
                break;
          }
          if (verbsFiltered) {
-            const verbObjectArray = getRndVerbs(verbs, amount);
+            const verbObjectArray = getRndVerbs(verbs, numberQuestions);
             setRandomizedVerbs(verbObjectArray);
          }
       }
@@ -138,11 +138,11 @@ const MeaningsScreen = (props) => {
    };
 
    useEffect(() => {
-      if (tableCreated && resultsReady && dateTime && !resultsSaved) {
+      if (tableCreated && resultsReady && endTime && !resultsSaved) {
          saveResultsAsync();
          setResultsSaved(true);
       }
-   }, [resultsReady, dateTime, tableCreated]);
+   }, [resultsReady, endTime, tableCreated]);
 
    const saveResultsAsync = async () => {
       try {
@@ -150,12 +150,12 @@ const MeaningsScreen = (props) => {
             1,
             props.language,
             props.level,
-            results.amountCorrectAnswers,
+            results.numberCorrectAnswers,
             results.totalAnswered,
             results.totalPoints,
             results.maxPoints,
             results.totalPercentage,
-            dateTime,
+            endTime,
          )
          setResultsSaved(true);
       } catch (error) {
@@ -183,7 +183,7 @@ const MeaningsScreen = (props) => {
    };
 
    useEffect(() => {
-      if (answered.length === amount) {
+      if (answered.length === numberQuestions) {
          setFinished(true);
       }
    }, [answered]);
@@ -199,9 +199,10 @@ const MeaningsScreen = (props) => {
             totalPoints: totalPoints,
             maxPoints: maxPoints,
             totalPercentage: calcTotalPercentage(totalPoints, maxPoints),
-            amountCorrectAnswers: calcAmountCorrectAnswersMeanings(answered),
+            numberCorrectAnswers: calcNumberCorrectAnswersMeanings(answered),
             totalAnswered: answered.length,
          });
+         setResultsReady(true);
       }
    }, [finished]);
 
