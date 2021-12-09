@@ -11,6 +11,8 @@ import { styles } from '../../styles/styles';
 const ResultView = (props) => {
    const [feedback, setFeedback] = useState('');
 
+   console.log('totalPercentage ', props.resultsData.totalPercentage);
+
    useEffect(() => {
       if (props.resultsData.totalPercentage >= 87.5) {
          setFeedback(
@@ -31,7 +33,7 @@ const ResultView = (props) => {
             ].text
          );
       }
-   }, []);
+   }, [props.resultsData]);
 
    return (
       <Box style={styles(props).containerSilver} shadow='5'>
