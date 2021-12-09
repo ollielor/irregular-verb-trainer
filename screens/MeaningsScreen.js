@@ -43,7 +43,6 @@ const MeaningsScreen = (props) => {
    const [answered, setAnswered] = useState([]);
    const [finished, setFinished] = useState(false);
    const [results, setResults] = useState({});
-   const [timeElapsed, setTimeElapsed] = useState(null);
    const [started, setStarted] = useState(true);
    const [resultsReady, setResultsReady] = useState(false);
    const [resultsSaved, setResultsSaved] = useState(false);
@@ -180,14 +179,12 @@ const MeaningsScreen = (props) => {
       setMastered([]);
       setNotMastered([]);
       setStartTime(getCurrentDate());
-      setTimeElapsed(null);
    };
 
    useEffect(() => {
       if (answered.length === numberQuestions) {
          setFinished(true);
          setEndTime(getCurrentDate());
-         setTimeElapsed(calcTime(startTime, endTime));
       }
    }, [answered]);
 
