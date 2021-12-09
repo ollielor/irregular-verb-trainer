@@ -15,7 +15,7 @@ export const getRandomVerb = (rndInt, verbs) => {
 };
 
 export const getCurrentDate = () => {
-   return new Date().toISOString();
+   return new Date();
 };
 
 // This function creates an array of verbs with same meaning

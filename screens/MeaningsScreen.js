@@ -43,17 +43,16 @@ const MeaningsScreen = (props) => {
    const [answered, setAnswered] = useState([]);
    const [finished, setFinished] = useState(false);
    const [results, setResults] = useState({});
-   const [timeElapsed, setTimeElapsed] = useState(0);
+   const [timeElapsed, setTimeElapsed] = useState(null);
    const [started, setStarted] = useState(true);
    const [resultsReady, setResultsReady] = useState(false);
    const [resultsSaved, setResultsSaved] = useState(false);
-   const [dateTime, setDateTime] = useState(null);
    const [tableCreated, setTableCreated] = useState(false);
    const [mastered, setMastered] = useState([]);
    const [notMastered, setNotMastered] = useState([]);
    const [numberQuestions, setNumberQuestions] = useState(5);
-   const [startTime, setStartTime] = useState('');
-   const [endTime, setEndTime] = useState('');
+   const [startTime, setStartTime] = useState(null);
+   const [endTime, setEndTime] = useState(null);
 
    const scrollViewRef = useRef();
 
@@ -155,7 +154,7 @@ const MeaningsScreen = (props) => {
             results.totalPoints,
             results.maxPoints,
             results.totalPercentage,
-            endTime,
+            endTime.toISOString(),
          )
          setResultsSaved(true);
       } catch (error) {
@@ -180,20 +179,22 @@ const MeaningsScreen = (props) => {
       setResultsSaved(false);
       setMastered([]);
       setNotMastered([]);
+      setStartTime(getCurrentDate());
+      setTimeElapsed(null);
    };
 
    useEffect(() => {
       if (answered.length === numberQuestions) {
          setFinished(true);
+         setEndTime(getCurrentDate());
+         setTimeElapsed(calcTime(startTime, endTime));
       }
    }, [answered]);
 
    useEffect(() => {
       if (finished) {
-         setEndTime(getCurrentDate());
-         setTimeElapsed(calcTime(startTime, endTime));
          let accuracyPercentage = calcAccuracyPercentage(points, maxPoints);
-         let totalPoints = calcTotalPointsMeanings(timeElapsed, accuracyPercentage, points);
+         let totalPoints = calcTotalPointsMeanings(startTime, endTime, accuracyPercentage, points, numberQuestions);
          setResults({
             points: points,
             totalPoints: totalPoints,

@@ -46,17 +46,18 @@ export const calcAccuracyPercentage = (points, maxPoints) => {
 };
 
 export const calcTotalPointsMeanings = (
-   timeElapsed,
+   startTime,
+   endTime,
    accuracyPercentage,
-   points
+   points,
+   numberQuestions
 ) => {
-   // If time elapsed is less than 15 seconds and accuracy is at least 80 %, extra points are given
-   if (timeElapsed < 15 && accuracyPercentage >= 80) {
-      return (points + timeElapsed * 0.1) * 1.0;
-      // If time elapsed is greater than 30, minus points are given
-   } else if (timeElapsed >= 30) {
-      return (points - timeElapsed * 0.1) * 1.0;
-      // If time elapsed is average (not under 10 seconds or over 30 seconds), no bonus or minus points are given
+   let timeElapsed = endTime - startTime;
+   // If the user has spent less than 3 seconds * number of questions, and accuracy is at least 80 %, extra points are given
+   if (timeElapsed < (numberQuestions * 2000) && accuracyPercentage >= 80) {
+      let extraPoints = ((timeElapsed * -1) + (numberQuestions * 2000)) / 100.00;
+      console.log('extraPoints ', extraPoints);
+      return points + extraPoints;
    } else {
       return points * 1.0;
    }
@@ -69,5 +70,6 @@ export const calcPoints = (points, amount) => {
 
 // This function is responsible for calculating the difference between start and end date
 export const calcTime = (startTime, endTime) => {
+   console.log('difference ', endTime - startTime);
    return endTime - startTime;
 };
