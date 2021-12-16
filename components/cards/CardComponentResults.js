@@ -1,18 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, VStack, Text } from 'native-base';
 
 import { styles } from '../../styles/styles';
 
 import { format } from 'date-fns';
+import isValid from 'date-fns/isValid';
+import formatISO from 'date-fns/formatISO'
 
 const CardComponentResults = (props) => {
+
+   console.log('datetime: ', props.historyItem.datetime)
+
    return (
       <Box key={props.historyItem.id}>
          <VStack>
             <Box style={styles(props).containerDarkGrey} shadow='5' mb='4' p='4'>
                <Text style={{ color: '#7E00C5', fontWeight: 'bold' }}>
-                  {/* {format(props.historyItem.datetime, 'DD.MM.YYYY HH:mm:ss')} */}
-                  {format(new Date(props.historyItem.datetime), 'dd.MM.yyyy HH:mm:ss')}
+                  {isValid(props.historyItem.datetime) ? format(props.historyItem.datetime, 'dd.MM.yyyy HH:mm') : props.historyItem.datetime}
                </Text>
                {props.showTypes && props.historyItem.type === 1 && (
                   <Text>Verbien merkitykset</Text>

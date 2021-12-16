@@ -14,10 +14,6 @@ export const getRandomVerb = (rndInt, verbs) => {
    return verbs[rndInt];
 };
 
-export const getCurrentDate = () => {
-   return new Date();
-};
-
 // This function creates an array of verbs with same meaning
 export const getRandomVerbArray = (rndInt, verbs) => {
    let verbsArray = [];

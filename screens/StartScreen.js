@@ -114,7 +114,7 @@ const StartScreen = (props) => {
       updateResultsAsync();
    }, []);
 
-   useEffect(() => {
+/*    useEffect(() => {
       DatabaseResults.transaction(
          (tx) => {
             tx.executeSql(
@@ -124,7 +124,7 @@ const StartScreen = (props) => {
          null,
          null
       );
-   }, []);
+   }, []); */
 
    useEffect(() => {
       if (germanLoaded) {

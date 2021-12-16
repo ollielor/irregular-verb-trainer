@@ -6,7 +6,6 @@ import { useNavigation } from '@react-navigation/native';
 
 import {
    getRndVerbs,
-   getCurrentDate,
    filterVerbsByLevel,
 } from '../helpers/helpers';
 
@@ -15,7 +14,6 @@ import {
    calcNumberCorrectAnswersMeanings,
    calcAccuracyPercentage,
    calcTotalPointsMeanings,
-   calcTime
 } from '../helpers/points';
 
 import { updateResults } from '../store/actions/results';
@@ -50,8 +48,8 @@ const MeaningsScreen = (props) => {
    const [mastered, setMastered] = useState([]);
    const [notMastered, setNotMastered] = useState([]);
    const [numberQuestions, setNumberQuestions] = useState(5);
-   const [startTime, setStartTime] = useState(null);
-   const [endTime, setEndTime] = useState(null);
+   const [startTime, setStartTime] = useState(0);
+   const [endTime, setEndTime] = useState(0);
 
    const scrollViewRef = useRef();
 
@@ -88,7 +86,6 @@ const MeaningsScreen = (props) => {
          const filteredVerbs = filterVerbsByLevel(verbsByLanguage, props.level);
          setVerbs(filteredVerbs);
          setVerbsFiltered(true);
-         setStartTime(getCurrentDate());
       }
    }, [props.level, props.language, started]);
 
@@ -136,11 +133,10 @@ const MeaningsScreen = (props) => {
    };
 
    useEffect(() => {
-      if (tableCreated && resultsReady && endTime && !resultsSaved) {
+      if (tableCreated && resultsReady && endTime > 0 && !resultsSaved) {
          saveResultsAsync();
-         setResultsSaved(true);
       }
-   }, [resultsReady, endTime, tableCreated]);
+   }, [resultsReady, endTime]);
 
    const saveResultsAsync = async () => {
       try {
@@ -153,18 +149,13 @@ const MeaningsScreen = (props) => {
             results.totalPoints,
             results.maxPoints,
             results.totalPercentage,
-            endTime.toISOString(),
+            endTime
          )
          setResultsSaved(true);
       } catch (error) {
          console.log(error);
       }
    }
-
-
-   useEffect(() => {
-      updateResultsAsync();
-   }, [resultsSaved]);
 
    // This function clears all values when the exercise is started again
    const startAgain = () => {
@@ -178,18 +169,19 @@ const MeaningsScreen = (props) => {
       setResultsSaved(false);
       setMastered([]);
       setNotMastered([]);
-      setStartTime(getCurrentDate());
+      setStartTime(Date.now());
+      setEndTime(0);
    };
 
    useEffect(() => {
       if (answered.length === numberQuestions) {
          setFinished(true);
-         setEndTime(getCurrentDate());
       }
    }, [answered]);
 
    useEffect(() => {
       if (finished) {
+         setEndTime(Date.now());
          let accuracyPercentage = calcAccuracyPercentage(points, maxPoints);
          let totalPoints = calcTotalPointsMeanings(startTime, endTime, accuracyPercentage, points, numberQuestions);
          setResults({
@@ -199,10 +191,10 @@ const MeaningsScreen = (props) => {
             totalPercentage: calcTotalPercentage(totalPoints, maxPoints),
             numberCorrectAnswers: calcNumberCorrectAnswersMeanings(answered),
             totalAnswered: answered.length,
-         });
+         })
          setResultsReady(true);
       }
-   }, [finished]);
+   }, [finished])
 
    return (
       <>

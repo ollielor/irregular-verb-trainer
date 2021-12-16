@@ -5,7 +5,7 @@ import React, {
    createRef,
    forwardRef,
 } from 'react';
-import { Stack, HStack, Spinner, Text } from 'native-base';
+import { Stack, Spinner, Text } from 'native-base';
 import { connect } from 'react-redux';
 import InputComponentForms from '../inputs/InputComponentForms';
 
@@ -221,6 +221,7 @@ const CardComponentForms = forwardRef((props, ref) => {
                </Text>
                {props.tenseNames.map((tense, index) => (
                   <InputComponentForms
+                     value={props.started && ''}
                      tense={tense}
                      key={index}
                      label={labels[props.language][tense]}

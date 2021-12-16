@@ -1,25 +1,21 @@
-// This function calculates the estimated time of accomplishment
+// This function calculates the estimated time of accomplishment, i.e. on average 5 seconds per question
 export const calcEstimatedAccomplishTime = (maxPoints) => {
-   return 1.2 * maxPoints;
+   return 5000 * (maxPoints / 10);
 };
 
 // This function calculates the total points (Forms mode), the potential bonus points included
 export const calcTotalPointsForms = (
-   counterState,
+   startTime,
+   endTime,
    estimatedAccomplishTime,
    points,
    maxPoints
 ) => {
-   if (counterState <= estimatedAccomplishTime && points === maxPoints) {
-      return points + counterState * 0.05;
-   } else if (counterState > estimatedAccomplishTime && points === maxPoints) {
-      return (points - counterState * 0.05);
-   } else if (counterState <= estimatedAccomplishTime && points > 0 && points < maxPoints) {
-      return points + counterState * 0.02;
-   } else if (counterState > estimatedAccomplishTime && points > 0 && points < maxPoints) {
-      return (points - counterState * 0.05)
-   } else if (points === 0) {
-      return 0;
+   let timeElapsed = new Date(endTime) - new Date(startTime);
+   console.log('timeElapsed ', timeElapsed);
+   console.log('estimated ', estimatedAccomplishTime);
+   if (timeElapsed <= estimatedAccomplishTime && points === maxPoints) {
+      return points + ((timeElapsed * -1 + estimatedAccomplishTime) / 1000.00);
    } else {
       return points * 1.0;
    }
@@ -52,10 +48,12 @@ export const calcTotalPointsMeanings = (
    points,
    numberQuestions
 ) => {
-   let timeElapsed = endTime - startTime;
-   // If the user has spent less than 3 seconds in total on given number of questions, and accuracy is at least 80 %, extra points are given
-   if (timeElapsed < (numberQuestions * 3000) && accuracyPercentage >= 80) {
-      let extraPoints = ((timeElapsed * -1) + (numberQuestions * 3000)) / 1000.00;
+   let timeElapsed = new Date(endTime) - new Date(startTime);
+   console.log('time elapsed ', timeElapsed);
+   let timePerQuestion = 3000;
+   // If the user has spent less than 3 seconds on average on given number of questions, and accuracy is at least 80 %, extra points are given
+   if (timeElapsed < (numberQuestions * timePerQuestion) && timeElapsed > 0 && accuracyPercentage >= 80) {
+      let extraPoints = ((timeElapsed * -1) + (numberQuestions * timePerQuestion)) / 1000.00;
       let extraPointsAccuracy = extraPoints * accuracyPercentage / 100.00;
       return points + extraPointsAccuracy;
    } else {

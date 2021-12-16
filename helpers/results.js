@@ -72,8 +72,7 @@ export const saveResults = (
             resolve(true);
          },
          (error) => {
-            console.log('Transaction error: ', error);
-            reject(false);
+            reject(new Error('Transaction error: ', error));
          },
          null,
          null

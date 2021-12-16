@@ -11,7 +11,7 @@
     "@expo-google-fonts/roboto": "^0.2.0",
     "@expo/ngrok": "^4.1.0",
     "@react-native-community/cli": "^5.0.1",
-    "@react-native-masked-view/masked-view": "^0.2.5",
+    "@react-native-masked-view/masked-view": "0.2.5",
     "@react-navigation/core": "^6.1.0",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.0.6",

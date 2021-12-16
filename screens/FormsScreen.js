@@ -11,7 +11,6 @@ import { updateResults } from '../store/actions/results';
 
 import {
    getRndVerbsForForms,
-   getCurrentDate,
    filterVerbsByLevel,
 } from '../helpers/helpers';
 
@@ -19,7 +18,7 @@ import {
    calcEstimatedAccomplishTime,
    calcTotalPointsForms,
    calcTotalPercentage,
-   calcAmountCorrectAnswersForms,
+   calcNumberCorrectAnswersForms,
    calcPoints,
 } from '../helpers/points';
 
@@ -42,26 +41,27 @@ const FormsScreen = (props) => {
    const [verbsFiltered, setVerbsFiltered] = useState(false);
    const [randomizedVerbs, setRandomizedVerbs] = useState([]);
    const [points, setPoints] = useState(0);
-   const [maxPoints, setMaxPoints] = useState(200);
+   const [maxPoints, setMaxPoints] = useState(0);
    const [maxQuestions, setMaxQuestions] = useState(0);
    const [finished, setFinished] = useState(false);
    const [resultsData, setResultsData] = useState({});
-   const [counterState, setCounterState] = useState(null);
    const [started, setStarted] = useState(true);
    const [tenseNames, setTenseNames] = useState([]);
-   const [dateTime, setDateTime] = useState(null);
    const [answeredIndex, setAnsweredIndex] = useState(0);
    const [resultsReady, setResultsReady] = useState(false);
    const [formsSelected, setFormsSelected] = useState(false);
    const [tableCreated, setTableCreated] = useState(false);
    const [resultsSaved, setResultsSaved] = useState(false);
-   const [correctAns, setCorrectAns] = useState({});
    const [currentComponentIndex, setCurrentComponentIndex] = useState(0);
+   const [startTime, setStartTime] = useState(0);
+   const [endTime, setEndTime] = useState(0);
 
    const navigation = useNavigation();
 
    // This useEffect creates the result database
    useEffect(() => {
+      setResultsReady(false);
+      setFinished(false);
       createResultsDb();
       setTableCreated(true);
    }, []);
@@ -121,40 +121,41 @@ const FormsScreen = (props) => {
    ]);
 
    useEffect(() => {
-      setVerbsFiltered(false);
-      let verbsByLanguage;
-      if (props.language === 1) {
-         verbsByLanguage = props.verbsSwedish.filter(
-            (verb) => verb.infinitive.length > 1
-         );
-      } else {
-         verbsByLanguage = props.verbsGerman;
+      if (started) {
+         setVerbsFiltered(false);
+         let verbsByLanguage;
+         if (props.language === 1) {
+            verbsByLanguage = props.verbsSwedish.filter(
+               (verb) => verb.infinitive.length > 1
+            );
+         } else {
+            verbsByLanguage = props.verbsGerman;
+         }
+         const filteredVerbs = filterVerbsByLevel(verbsByLanguage, props.level);
+         setVerbs(filteredVerbs);
+         setVerbsFiltered(true);
       }
-      const filteredVerbs = filterVerbsByLevel(verbsByLanguage, props.level);
-      setVerbs(filteredVerbs);
-      setVerbsFiltered(true);
-   }, [props.level, props.verbsSwedish, props.verbsGerman, props.language]);
+   }, [started]);
+
+    useEffect(() => {
+      if (points > 0 && points >= maxPoints) {
+         finish();
+      }
+   }, [points]);
 
    useEffect(() => {
-      if (points >= maxPoints) {
-         setFinished(true);
-      }
-   }, [points, maxPoints]);
-
-   useEffect(() => {
-      if (verbsFiltered && started) {
+      if (verbsFiltered) {
          // Get the forms of 5 different verbs
          const rndVerbsFinal = getRndVerbsForForms(verbs, 5);
          setRandomizedVerbs(rndVerbsFinal);
       }
-   }, [verbsFiltered, verbs, started, props.language]);
+   }, [verbsFiltered]);
 
    useEffect(() => {
-      if (tableCreated && resultsReady && dateTime && !resultsSaved) {
+      if (tableCreated && resultsReady) {
          saveResultsAsync();
-         setResultsSaved(true);
-      }
-   }, [resultsReady, dateTime, tableCreated]);
+       }
+   }, [resultsReady]);
 
    const saveResultsAsync = async () => {
       try {
@@ -162,12 +163,12 @@ const FormsScreen = (props) => {
             2,
             props.language,
             props.level,
-            resultsData.amountCorrectAnswers,
+            resultsData.numberCorrectAnswers,
             resultsData.maxQuestions,
             resultsData.totalPoints,
             resultsData.maxPoints,
             resultsData.totalPercentage,
-            dateTime
+            endTime
          );
          setResultsSaved(true);
       } catch (error) {
@@ -191,31 +192,17 @@ const FormsScreen = (props) => {
       setResultsReady(false);
       setResultsSaved(false);
       setCurrentComponentIndex(0);
+      setStartTime(Date.now());
+      setEndTime(0);
    };
-
-   useEffect(() => {
-      if (started) {
-         let counter = 0;
-         let intervalId = setInterval(() => {
-            if (finished) {
-               clearInterval(intervalId);
-               setStarted(false);
-            } else {
-               setCounterState(counter++);
-            }
-         }, 1000);
-         return () => {
-            clearInterval(intervalId);
-         };
-      }
-   }, [started, finished]);
 
    useEffect(() => {
       if (finished) {
          // The points calculation functions are located in /helpers/points.js
          const estimatedAccomplishTime = calcEstimatedAccomplishTime(maxPoints);
          const totalPoints = calcTotalPointsForms(
-            counterState,
+            startTime,
+            endTime,
             estimatedAccomplishTime,
             points,
             maxPoints
@@ -226,9 +213,8 @@ const FormsScreen = (props) => {
             maxPoints: maxPoints,
             maxQuestions: maxQuestions,
             totalPercentage: calcTotalPercentage(totalPoints, maxPoints),
-            amountCorrectAnswers: calcAmountCorrectAnswersForms(points),
+            numberCorrectAnswers: calcNumberCorrectAnswersForms(points),
          });
-         setDateTime(getCurrentDate());
          setResultsReady(true);
       }
    }, [finished]);
@@ -243,6 +229,7 @@ const FormsScreen = (props) => {
    const finish = () => {
       setStarted(false);
       setFinished(true);
+      setEndTime(Date.now());
    };
 
    const scrollViewRef = useRef();
@@ -329,7 +316,6 @@ const FormsScreen = (props) => {
                               tenseNames={tenseNames}
                               answeredIndex={answeredIndex}
                               started={started}
-                              correctAns={correctAns}
                               points={points}
                               setPoints={setPoints}
                               calcPoints={calcPoints}
@@ -349,8 +335,9 @@ const FormsScreen = (props) => {
                            tenseNames={tenseNames}
                            answeredIndex={answeredIndex}
                            started={started}
-                           setPoints={setPoints}
                            points={points}
+                           setPoints={setPoints}
+                           calcPoints={calcPoints}
                            currentComponentIndex={currentComponentIndex}
                            setCurrentComponentIndex={setCurrentComponentIndex}
                         />
