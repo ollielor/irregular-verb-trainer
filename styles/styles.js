@@ -1,70 +1,87 @@
 import { StyleSheet, Platform, StatusBar } from 'react-native';
+import { alignContent } from 'styled-system';
 
 export const styles = (props) => StyleSheet.create({
    // Button styles
    buttonDefaultStyle: {
+      fontFamily: 'Quicksand_SemiBold',
       margin: 3,
       backgroundColor: props.color
    },
    buttonDisabledStyle: {
+      fontFamily: 'Quicksand_SemiBold',
       backgroundColor: '#e8e8e8'
    },
    buttonInstructionsStyle: {
+      fontFamily: 'Quicksand_SemiBold',
       marginBottom: 10,
       backgroundColor: '#4E00C5'
    },
    buttonNarrowStyle: {
+      fontFamily: 'Quicksand_SemiBold',
       marginLeft: 2,
       marginRight: 2,
    },
    buttonNarrowDisabledStyle: {
+      fontFamily: 'Quicksand_SemiBold',
       backgroundColor: '#7E00C5'
    },
    buttonNarrowEnabledStyle: {
+      fontFamily: 'Quicksand_SemiBold',
       backgroundColor: '#4E00C5'
    },
    buttonStyle: {
+      fontFamily: 'Quicksand_SemiBold',
       backgroundColor: 'transparent',
       borderColor: '#eee',
       marginLeft: 2,
       marginRight: 2,
    },
    buttonTextStyle: {
+      fontFamily: 'Quicksand_SemiBold',
       color: '#d2d2d2',
    },
    buttonWithMargin: {
+      fontFamily: 'Quicksand_SemiBold',
       marginBottom: Platform.OS === 'android' ? 25 : 7,
       backgroundColor: props.color
    },
    buttonWithMarginBottomAndTop: {
+      fontFamily: 'Quicksand_SemiBold',
       marginBottom: 20,
       marginTop: 20,
       backgroundColor: props.color
    },
    footerButton: {
+      fontFamily: 'Quicksand_SemiBold',
       backgroundColor: props.disabled ? '#7E00C5' : '#0047c5',
    },
    historyButtonResults: {
+      fontFamily: 'Quicksand_SemiBold',
       backgroundColor: '#4E00C5',
       alignSelf: 'center',
       marginTop: 20,
       marginBottom: 20,
    },
    meaningsButtonDefault: {
+      fontFamily: 'Quicksand_SemiBold',
       backgroundColor: '#0000cc',
       marginBottom: 5,
    },
    meaningsCorrectAnswer: {
+      fontFamily: 'Quicksand_SemiBold',
       backgroundColor: '#0000cc',
       marginBottom: 5,
       backgroundColor: '#006600',
    },
    meaningsIncorrectAnswer: {
+      fontFamily: 'Quicksand_SemiBold',
       backgroundColor: '#0000cc',
       marginBottom: 5,
       backgroundColor: '#cc0000',
    },
    textAlternative: {
+      fontFamily: 'Quicksand_SemiBold',
       color: '#eee',
       fontSize: 17
    },
@@ -76,6 +93,7 @@ export const styles = (props) => StyleSheet.create({
    },
    // Styles for Instructions screen
    instructionsHeaderStyle: {
+      fontFamily: 'Quicksand_SemiBold',
       color: '#7E00C5',
       fontWeight: 'bold',
       marginBottom: 15
@@ -137,10 +155,12 @@ export const styles = (props) => StyleSheet.create({
    },
    // Header styles
    headerBodyStyle: {
+      fontFamily: 'Quicksand_SemiBold',
       flex: 2,
       alignItems: 'center'
    },
    headerStyle: {
+      fontFamily: 'Quicksand_SemiBold',
       backgroundColor: '#0047c5',
       paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
       paddingBottom: 10
@@ -149,6 +169,7 @@ export const styles = (props) => StyleSheet.create({
       padding: 10
    },
    headerTitleStyle: {
+      fontFamily: 'Quicksand_SemiBold',
       color: '#d2d2d2',
       fontWeight: 'bold',
    },
@@ -240,6 +261,7 @@ export const styles = (props) => StyleSheet.create({
    },
    // Styles for feedback
    feedback: {
+      fontFamily: 'Quicksand_Bold',
       textAlign: 'center',
       fontWeight: 'bold',
       fontSize: 24,
@@ -295,30 +317,34 @@ export const styles = (props) => StyleSheet.create({
    },
    contentContainer: {
       padding: 10,
+      alignSelf: 'center'
    },
    flexOne: {
       flex: 1
    },
    headingStyle: {
+      fontFamily: 'Quicksand_SemiBold',
       color: '#7E00C5',
       fontSize: 20,
       fontWeight: 'bold',
       textAlign: 'center',
       marginTop: 10,
-      marginBottom: 15,
+      marginBottom: props.smallMarginBottom ? 5 : 15,
+      flex: props.flexOne ? 1 : null
    },
    overFlowVisible: {
       overflow: 'visible'
    },
    subheadingStyle: {
+      fontFamily: 'Quicksand_Bold',
       color: '#4E00C5',
       fontWeight: 'bold',
       marginTop: 15,
       marginBottom: 10,
+      textAlign: props.centered ? 'center' : 'left'
    },
    // InfoContent style
    infoContentStyle: {
       backgroundColor: '#f0e2cf',
-      flex: 1
    }
 })

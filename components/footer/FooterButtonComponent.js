@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Text } from 'native-base';
 import { styles } from '../../styles/styles';
 
-const ButtonComponent = (props) => {
+const FooterButtonComponent = (props) => {
    return (
       <Button style={styles(props).footerButton} onPress={props.function} disabled={props.disabled}>
          <Text uppercase={false} style={styles(props).buttonTextStyle}>
@@ -12,4 +12,4 @@ const ButtonComponent = (props) => {
    );
 };
 
-export default ButtonComponent;
+export default FooterButtonComponent;

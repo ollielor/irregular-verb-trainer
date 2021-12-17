@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Stack, VStack, ScrollView, Text } from 'native-base';
 
-import { useFonts, Roboto_400Regular } from '@expo-google-fonts/roboto';
+import { useFonts } from 'expo-font';
 
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
@@ -27,6 +27,7 @@ import FooterComponent from '../components/footer/FooterComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
 import SpinnerComponent from '../components/styling/SpinnerComponent';
 import InfoContent from '../components/styling/InfoContent';
+import Heading from '../components/styling/Heading';
 
 import DatabaseSettings from '../modules/DatabaseSettings';
 
@@ -34,7 +35,6 @@ import { fetchVerbsGerman, fetchVerbsSwedish } from '../store/actions/verbs';
 
 import DatabaseVerbsGerman from '../modules/DatabaseVerbsGerman';
 import DatabaseVerbsSwedish from '../modules/DatabaseVerbsSwedish';
-import DatabaseResults from '../modules/DatabaseResults';
 import LatestResults from '../components/results/LatestResults';
 
 import { styles } from '../styles/styles';
@@ -48,7 +48,9 @@ const StartScreen = (props) => {
    const navigation = useNavigation();
 
    let [fontsLoaded] = useFonts({
-      Roboto_400Regular,
+       'Quicksand_Regular': require('../assets/Quicksand-Regular.ttf'),
+       'Quicksand_SemiBold': require('../assets/Quicksand-SemiBold.ttf'),
+       'Quicksand_Bold': require('../assets/Quicksand-Bold.ttf'),
    });
 
 
@@ -284,13 +286,15 @@ const StartScreen = (props) => {
                </VStack>
             </Stack>
          )}
-         {fontsLoaded && settingsLoaded && (
+         {fontsLoaded && settingsLoaded ? (
             <>
                <HeaderComponent title="Verbivalmentaja" noArrow />
                <ScrollView style={styles(props).containerGrey}>
                   <Stack style={styles(props).containerGrey}>
                      <VStack>
-                        <InfoContent heading='Varmt välkommen! Herzlich willkommen!'>
+                        <Heading flexOne smallMarginBottom>Varmt välkommen!</Heading>
+                        <Heading flexOne smallMarginBottom>Herzlich willkommen!</Heading>
+                        <InfoContent centered>
                            <Text>
                               <Text>
                                  Tervetuloa harjoittelemaan epäsäännöllisiä verbejä!
@@ -299,7 +303,12 @@ const StartScreen = (props) => {
                               <Text>
                                  Kielen ja muut asetukset voit muuttaa oikeasta yläkulmasta tai
                               </Text>
-                              <Text style={{ fontWeight: 'bold', color: '#7E00C5' }} onPress={() => navigation.navigate('Omat asetukseni')}>
+                              <Text style={{ 
+                                 fontWeight: 'bold', 
+                                 color: '#7E00C5', 
+                              }} 
+                                 onPress={() => navigation.navigate('Omat asetukseni')}
+                              >
                                  {' '}Asetukset
                               </Text>
                               <Text>
@@ -363,7 +372,9 @@ const StartScreen = (props) => {
                </ScrollView>
                <FooterComponent />
             </>
-         )}
+         ) : 
+         <SpinnerComponent text='Ladataan...' />
+         }
       </>
    );
 };

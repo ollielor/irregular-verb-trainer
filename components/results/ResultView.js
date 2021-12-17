@@ -7,6 +7,8 @@ import { connect } from 'react-redux';
 import { rndIntGeneratorZero } from '../../helpers/helpers';
 
 import { styles } from '../../styles/styles';
+import ButtonComponent from '../buttons/ButtonComponent';
+import ButtonComponentNarrow from '../buttons/ButtonComponentNarrow';
 
 const ResultView = (props) => {
    const [feedback, setFeedback] = useState('');
@@ -82,12 +84,11 @@ const ResultView = (props) => {
          <Text style={styles(props).feedbackPoints}>
             Katso oikeat vastaukset alta.
          </Text>
-         <Button
-            style={styles(props).historyButtonResults}
-            onPress={props.startAgain}
-         >
-            <Text color='#eee' uppercase={false}>Aloita uudestaan</Text>
-         </Button>
+         <ButtonComponentNarrow
+            mt='5'
+            function={props.startAgain}
+            title='Aloita uudelleen'
+         />
       </Box>
    );
 };

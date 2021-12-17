@@ -9,13 +9,11 @@ import formatISO from 'date-fns/formatISO'
 
 const CardComponentResults = (props) => {
 
-   console.log('datetime: ', props.historyItem.datetime)
-
    return (
       <Box key={props.historyItem.id}>
          <VStack>
             <Box style={styles(props).containerDarkGrey} shadow='5' mb='4' p='4'>
-               <Text style={{ color: '#7E00C5', fontWeight: 'bold' }}>
+               <Text style={{ color: '#7E00C5', fontWeight: 'bold', fontFamily: 'Quicksand_Bold' }}>
                   {isValid(props.historyItem.datetime) ? format(props.historyItem.datetime, 'dd.MM.yyyy HH:mm') : props.historyItem.datetime}
                </Text>
                {props.showTypes && props.historyItem.type === 1 && (

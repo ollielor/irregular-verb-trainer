@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, Box, Text } from 'native-base';
+import { Box, Button, Text } from 'native-base';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 
 import Heading from '../styling/Heading';
 import CardComponentResults from '../cards/CardComponentResults';
+import ButtonComponentNarrow from '../buttons/ButtonComponentNarrow';
 import { styles } from '../../styles/styles';
 
 const LatestResults = (props) => {
@@ -39,13 +40,11 @@ const LatestResults = (props) => {
                   />
                ))}
          {!props.hideButton && props.results.length > 0 && (
-            <Button
-               onPress={() => navigation.navigate('Omat tulokseni')}
-               style={styles(props).historyButtonResults}
-            >
-               <Text color='#eee' uppercase={false}>Näytä koko historia</Text>
-            </Button>
-         )}
+            <ButtonComponentNarrow
+               function={() => navigation.navigate('Omat tulokseni')}
+               title='Näytä koko historia'
+               withMargin
+            />)}
       </Box>
    );
 };
