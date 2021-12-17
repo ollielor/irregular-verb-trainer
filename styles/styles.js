@@ -95,7 +95,6 @@ export const styles = (props) => StyleSheet.create({
    instructionsHeaderStyle: {
       fontFamily: 'Quicksand_SemiBold',
       color: '#7E00C5',
-      fontWeight: 'bold',
       marginBottom: 15
    },
    instructionsPlainText: {
@@ -171,7 +170,6 @@ export const styles = (props) => StyleSheet.create({
    headerTitleStyle: {
       fontFamily: 'Quicksand_SemiBold',
       color: '#d2d2d2',
-      fontWeight: 'bold',
    },
    headerTitlePaddingLeft: {
       paddingLeft: 10
@@ -263,7 +261,6 @@ export const styles = (props) => StyleSheet.create({
    feedback: {
       fontFamily: 'Quicksand_Bold',
       textAlign: 'center',
-      fontWeight: 'bold',
       fontSize: 24,
       color: '#4E00C5',
       paddingTop: 20,
@@ -326,7 +323,6 @@ export const styles = (props) => StyleSheet.create({
       fontFamily: 'Quicksand_SemiBold',
       color: '#7E00C5',
       fontSize: 20,
-      fontWeight: 'bold',
       textAlign: 'center',
       marginTop: 10,
       marginBottom: props.smallMarginBottom ? 5 : 15,
@@ -338,7 +334,6 @@ export const styles = (props) => StyleSheet.create({
    subheadingStyle: {
       fontFamily: 'Quicksand_Bold',
       color: '#4E00C5',
-      fontWeight: 'bold',
       marginTop: 15,
       marginBottom: 10,
       textAlign: props.centered ? 'center' : 'left'
