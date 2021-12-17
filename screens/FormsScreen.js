@@ -198,7 +198,7 @@ const FormsScreen = (props) => {
    useEffect(() => {
       if (finished) {
          // The points calculation functions are located in /helpers/points.js
-         const estimatedAccomplishTime = calcEstimatedAccomplishTime(maxPoints);
+         const estimatedAccomplishTime = calcEstimatedAccomplishTime(maxPoints, props.level);
          const totalPoints = calcTotalPointsForms(
             startTime,
             endTime,

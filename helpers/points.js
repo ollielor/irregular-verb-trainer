@@ -1,6 +1,16 @@
-// This function calculates the estimated time of accomplishment, i.e. on average 4 seconds per question
-export const calcEstimatedAccomplishTime = (maxPoints) => {
-   return 4000 * (maxPoints / 10);
+// This function calculates the estimated time of accomplishment on each level (average of 4s / 5s / 6s on each question)
+export const calcEstimatedAccomplishTime = (maxPoints, level) => {
+   switch (level) {
+      case 1: 
+         return 4000 * (maxPoints / 10);
+         break;
+      case 2:
+         return 5000 * (maxPoints / 10);
+         break;
+      case 3:
+         return 6000 * (maxPoints / 10);
+         break;
+   }
 };
 
 // This function calculates the total points (Forms mode), the potential bonus points included
