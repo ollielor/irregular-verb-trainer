@@ -1,6 +1,6 @@
-// This function calculates the estimated time of accomplishment, i.e. on average 5 seconds per question
+// This function calculates the estimated time of accomplishment, i.e. on average 4 seconds per question
 export const calcEstimatedAccomplishTime = (maxPoints) => {
-   return 5000 * (maxPoints / 10);
+   return 4000 * (maxPoints / 10);
 };
 
 // This function calculates the total points (Forms mode), the potential bonus points included
@@ -12,9 +12,7 @@ export const calcTotalPointsForms = (
    maxPoints
 ) => {
    let timeElapsed = new Date(endTime) - new Date(startTime);
-   console.log('timeElapsed ', timeElapsed);
-   console.log('estimated ', estimatedAccomplishTime);
-   if (timeElapsed <= estimatedAccomplishTime && points === maxPoints) {
+   if (timeElapsed > 0 && timeElapsed <= estimatedAccomplishTime && points === maxPoints) {
       return points + ((timeElapsed * -1 + estimatedAccomplishTime) / 1000.00);
    } else {
       return points * 1.0;
@@ -49,7 +47,6 @@ export const calcTotalPointsMeanings = (
    numberQuestions
 ) => {
    let timeElapsed = new Date(endTime) - new Date(startTime);
-   console.log('time elapsed ', timeElapsed);
    let timePerQuestion = 3000;
    // If the user has spent less than 3 seconds on average on given number of questions, and accuracy is at least 80 %, extra points are given
    if (timeElapsed < (numberQuestions * timePerQuestion) && timeElapsed > 0 && accuracyPercentage >= 80) {

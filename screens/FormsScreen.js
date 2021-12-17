@@ -61,7 +61,6 @@ const FormsScreen = (props) => {
    // This useEffect creates the result database
    useEffect(() => {
       setResultsReady(false);
-      setFinished(false);
       createResultsDb();
       setTableCreated(true);
    }, []);
@@ -144,12 +143,12 @@ const FormsScreen = (props) => {
    }, [points]);
 
    useEffect(() => {
-      if (verbsFiltered) {
+      if (verbsFiltered && started) {
          // Get the forms of 5 different verbs
          const rndVerbsFinal = getRndVerbsForForms(verbs, 5);
          setRandomizedVerbs(rndVerbsFinal);
       }
-   }, [verbsFiltered]);
+   }, [verbsFiltered, verbs, started, props.language]);
 
    useEffect(() => {
       if (tableCreated && resultsReady) {
@@ -285,7 +284,7 @@ const FormsScreen = (props) => {
                      />
                   </>
                }
-               {randomizedVerbs && !finished &&
+               {randomizedVerbs && started &&
                   <InfoContent centered>
                      <Text>
                         <Text>

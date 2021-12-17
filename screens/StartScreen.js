@@ -114,18 +114,6 @@ const StartScreen = (props) => {
       updateResultsAsync();
    }, []);
 
-/*    useEffect(() => {
-      DatabaseResults.transaction(
-         (tx) => {
-            tx.executeSql(
-               'create table if not exists results (id integer primary key not null, type integer, language integer, level integer, accuracy integer, q_total integer, points real, maxpoints integer, percentage real, datetime real);'
-            );
-         },
-         null,
-         null
-      );
-   }, []); */
-
    useEffect(() => {
       if (germanLoaded) {
          DatabaseVerbsGerman.transaction(
