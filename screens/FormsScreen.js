@@ -352,6 +352,7 @@ const FormsScreen = (props) => {
                      color="#7E00C5"
                      title="Valmis"
                      function={finish}
+                     withMarginBottomAndTop
                   />
                )}
             </ScrollView>
