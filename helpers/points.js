@@ -24,7 +24,7 @@ export const calcTotalPointsForms = (
    points,
    maxPoints
 ) => {
-   let timeElapsed = new Date(endTime) - new Date(startTime);
+   let timeElapsed = endTime - startTime;
    if (timeElapsed > 0 && timeElapsed <= estimatedAccomplishTime && points === maxPoints) {
       return points + ((timeElapsed * -1 + estimatedAccomplishTime) / 1000.00);
    } else {
@@ -59,7 +59,7 @@ export const calcTotalPointsMeanings = (
    points,
    numberQuestions
 ) => {
-   let timeElapsed = new Date(endTime) - new Date(startTime);
+   let timeElapsed = endTime - startTime;
    let timePerQuestion = 3000;
    // If the user has spent less than 3 seconds on average on given number of questions, and accuracy is at least 80 %, extra points are given
    if (timeElapsed < (numberQuestions * timePerQuestion) && timeElapsed > 0 && accuracyPercentage >= 80) {
