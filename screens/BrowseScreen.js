@@ -49,57 +49,12 @@ const BrowseScreen = (props) => {
                         : a.infinitive > b.infinitive
                            ? 1
                            : -1
-                  ).map((verbs, idx) => verbs
                   ).map((verbForm, idx) => (
-                     <Fragment key={index}>
+                     <Fragment key={idx}>
                         {idx === 0 && <Heading>Taso {level}</Heading>}
                         <CardComponentBrowse key={level} verb={verbForm} />
                      </Fragment>
                   )))}
-{/*             {verbs.map((verb, index) => index < 3)
-               .filter((verb) => verb.level === index)
-               .sort((a, b) =>
-                  props.language === 1
-                     ? a.present > b.present
-                        ? 1
-                        : -1
-                     : a.infinitive > b.infinitive
-                        ? 1
-                        : -1
-               )
-               .map((verb, index) => (
-               <CardComponentBrowse key={index} verb={verb} />
-            ))} */}
-            <Heading>Taso 2</Heading>
-            {verbs
-               .filter((verb) => verb.level === 2)
-               .sort((a, b) =>
-                  props.language === 1
-                     ? a.present > b.present
-                        ? 1
-                        : -1
-                     : a.infinitive > b.infinitive
-                        ? 1
-                        : -1
-               )
-               .map((verb, index) => (
-                  <CardComponentBrowse key={index} verb={verb} />
-               ))}
-            <Heading>Taso 3</Heading>
-            {verbs
-               .filter((verb) => verb.level === 3)
-               .sort((a, b) =>
-                  props.language === 1
-                     ? a.present > b.present
-                        ? 1
-                        : -1
-                     : a.infinitive > b.infinitive
-                        ? 1
-                        : -1
-               )
-               .map((verb, index) => (
-                  <CardComponentBrowse key={index} verb={verb} />
-               ))}
          </ScrollView>
          <FooterComponent />
       </>

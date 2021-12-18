@@ -21,13 +21,13 @@ const CardComponentBrowse = (props) => {
       <HStack style={styles(props).cardComponentGrey} flexDirection='row'>
          <Box shadow='2' style={styles(props).browseBoxStyle} flex='2'>
             <Text style={{ color: '#7E00C5', fontWeight: 'bold' }}>
-               {props.verb.infinitive},&nbsp;
-               {props.verb.present},&nbsp;
-               {props.verb.present_alt && ` / ${props.verb.present_alt}`}
-               {!props.verb.past_alt && `${props.verb.past}, `}
+               {props.verb.infinitive},
+               {'\n'}{props.verb.present}
+               {props.verb.present_alt && ` / ${props.verb.present_alt}, `}
+               {'\n'}{!props.verb.past_alt && `${props.verb.past}, `}
                {props.verb.past_alt.length > 1 &&
-                  `${props.verb.past} / ${props.verb.past_alt}`}
-               {props.verb.presperf}
+                  `${props.verb.past} / ${props.verb.past_alt}, `}
+               {'\n'}{props.verb.presperf}
                {props.verb.presperf_alt &&
                   ` / ${props.verb.presperf_alt}`}
             </Text>
