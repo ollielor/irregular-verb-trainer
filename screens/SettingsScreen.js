@@ -89,7 +89,7 @@ const SettingsScreen = (props) => {
       DatabaseSettings.transaction(
          (tx) => {
             tx.executeSql(
-               'create table if not exists settings (id integer primary key not null, language integer, level integer, infinitive integer, present integer, past intteger, presperf integer);'
+               'create table if not exists settings (id integer primary key not null, language integer, level integer, infinitive integer, present integer, past integer, presperf integer);'
             );
          },
          null,
