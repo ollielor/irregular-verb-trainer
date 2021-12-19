@@ -5,7 +5,7 @@ import ButtonComponentNarrow from '../buttons/ButtonComponentNarrow';
 
 const CardComponentBrowse = (props) => {
 
-   const [addedToList, setAddedToList] = useState(true);
+   const [addedToList, setAddedToList] = useState(false);
 
    const addToList = () => {
       setOwnVerbList([...ownVerbList, props.verb.meaning_id]);
@@ -23,13 +23,11 @@ const CardComponentBrowse = (props) => {
             <Text style={{ color: '#7E00C5', fontWeight: 'bold' }}>
                {props.verb.infinitive},
                {'\n'}{props.verb.present}
-               {props.verb.present_alt && ` / ${props.verb.present_alt}, `}
-               {'\n'}{!props.verb.past_alt && `${props.verb.past}, `}
-               {props.verb.past_alt.length > 1 &&
-                  `${props.verb.past} / ${props.verb.past_alt}, `}
+               {props.verb.present_alt && ` / ${props.verb.present_alt}`},
+               {'\n'}{props.verb.past}
+               {props.verb.past_alt && ` / ${props.verb.past_alt}`},
                {'\n'}{props.verb.presperf}
-               {props.verb.presperf_alt &&
-                  ` / ${props.verb.presperf_alt}`}
+               {props.verb.presperf_alt && ` / ${props.verb.presperf_alt}`}
             </Text>
             <Text>{props.verb.meaning}</Text>
          </Box>

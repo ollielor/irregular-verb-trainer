@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { ScrollView } from 'native-base';
+import { ScrollView, HStack, VStack } from 'native-base';
 
 import { connect } from 'react-redux';
 
@@ -9,11 +9,12 @@ import FooterComponent from '../components/footer/FooterComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
 import CardComponentBrowse from '../components/cards/CardComponentBrowse';
 import Heading from '../components/styling/Heading';
+import ButtonComponentNarrow from '../components/buttons/ButtonComponentNarrow';
 import { styles } from '../styles/styles';
 
 const BrowseScreen = (props) => {
 
-   const [ownVerbList, setOwnVerbList] = useState([]);
+   const [orderAlphabetically, setOrderAlphabetically] = useState(false);
    
    const levels = [1, 2, 3];
 
@@ -38,6 +39,18 @@ const BrowseScreen = (props) => {
             title="Selaa verbejä"
             goBack={navigation.goBack}
          />
+         <VStack flexDirection='row' justifyContent='center'>
+            <ButtonComponentNarrow 
+               withMargin
+               title='Tasoittain' 
+               function={() => setOrderAlphabetically(false)} 
+            />
+            <ButtonComponentNarrow
+               withMargin
+               title='Aakkosittain' 
+               function={() => setOrderAlphabetically(true)} 
+            />
+         </VStack>
          <ScrollView style={styles(props).browseContainer}>
             {levels.map((level, index) => 
                verbs.filter((verb, idx) => verb.level === level)
