@@ -9,6 +9,8 @@ const ButtonComponentNarrowWhite = (props) => {
          style={styles(props).buttonStyle}
          onPress={props.function}
          bordered
+         borderColor={props.disabled ? '#eee' : props.borderColor}
+         disabled={props.disabled}
       >
          <Text uppercase={false} style={styles(props).textStyle}>
             {props.title}

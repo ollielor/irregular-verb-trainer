@@ -9,7 +9,7 @@ import FooterComponent from '../components/footer/FooterComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
 import CardComponentBrowse from '../components/cards/CardComponentBrowse';
 import Heading from '../components/styling/Heading';
-import ButtonComponentNarrow from '../components/buttons/ButtonComponentNarrow';
+import ButtonComponentNarrowWhite from '../components/buttons/ButtonComponentNarrowWhite';
 import { styles } from '../styles/styles';
 
 const BrowseScreen = (props) => {
@@ -40,34 +40,50 @@ const BrowseScreen = (props) => {
             goBack={navigation.goBack}
          />
          <VStack flexDirection='row' justifyContent='center'>
-            <ButtonComponentNarrow 
+            <ButtonComponentNarrowWhite
                withMargin
                title='Tasoittain' 
-               function={() => setOrderAlphabetically(false)} 
+               function={() => setOrderAlphabetically(false)}
+               borderColor='#4E00C5'
+               disabled={!orderAlphabetically} 
             />
-            <ButtonComponentNarrow
+            <ButtonComponentNarrowWhite
                withMargin
                title='Aakkosittain' 
-               function={() => setOrderAlphabetically(true)} 
+               function={() => setOrderAlphabetically(true)}
+               borderColor='#4E00C5'
+               disabled={orderAlphabetically} 
             />
          </VStack>
          <ScrollView style={styles(props).browseContainer}>
-            {levels.map((level, index) => 
-               verbs.filter((verb, idx) => verb.level === level)
-                  .sort((a, b) =>
-                     props.language === 1
-                        ? a.present > b.present
-                           ? 1
-                           : -1
-                        : a.infinitive > b.infinitive
-                           ? 1
-                           : -1
+            {!orderAlphabetically && levels
+               .map((level, index) => 
+                  verbs.filter((verb, idx) => verb.level === level)
+                     .sort((a, b) => 
+                     a.infinitive === '-' || b.infinitive === '-' ?
+                     (a.present > b.present
+                        ? 1 
+                        : -1)
+                     : (a.infinitive > b.infinitive ? 1 : -1)
+                     ).map((verbForm, idx) => (
+                        <Fragment key={idx}>
+                           {idx === 0 && <Heading>Taso {level}</Heading>}
+                           <CardComponentBrowse key={level} verb={verbForm} />
+                        </Fragment>
+                     )))
+            }
+            {orderAlphabetically && verbs
+                   .sort((a, b) => 
+                     a.infinitive === '-' || b.infinitive === '-' ?
+                     (a.present > b.present
+                        ? 1 
+                        : -1)
+                     : (a.infinitive > b.infinitive ? 1 : -1)
                   ).map((verbForm, idx) => (
                      <Fragment key={idx}>
-                        {idx === 0 && <Heading>Taso {level}</Heading>}
-                        <CardComponentBrowse key={level} verb={verbForm} />
+                        <CardComponentBrowse verb={verbForm} />
                      </Fragment>
-                  )))}
+                  ))}
          </ScrollView>
          <FooterComponent />
       </>
