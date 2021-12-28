@@ -9,7 +9,7 @@ import FooterComponent from '../components/footer/FooterComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
 import CardComponentBrowse from '../components/cards/CardComponentBrowse';
 import Heading from '../components/styling/Heading';
-import ButtonComponentNarrowWhite from '../components/buttons/ButtonComponentNarrowWhite';
+import ButtonComponentNarrow from '../components/buttons/ButtonComponentNarrow';
 import { styles } from '../styles/styles';
 import VerbListByLevel from '../components/verblists/VerbListByLevel';
 import SpinnerComponent from '../components/styling/SpinnerComponent';
@@ -47,15 +47,15 @@ const BrowseScreen = (props) => {
             <SpinnerComponent text='Ladataan verbejä...' />
          ) : (
          <>
-            <HStack>
-            <ButtonComponentNarrowWhite
+            <HStack alignSelf='center'>
+            <ButtonComponentNarrow
                withMargin
                title='Tasoittain' 
                function={() => setOrderAlphabetically(false)}
                borderColor='#4E00C5'
                disabled={!orderAlphabetically} 
             />
-            <ButtonComponentNarrowWhite
+            <ButtonComponentNarrow
                withMargin
                title='Aakkosittain'
                function={() => setOrderAlphabetically(true)}
