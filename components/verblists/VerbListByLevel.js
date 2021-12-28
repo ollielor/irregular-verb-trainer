@@ -16,7 +16,8 @@ const VerbListByLevel = (props) => {
 
    useEffect(() => {
       setVerbsLoaded(false);
-      let verbs = levels.map((level) => [verbs, ...sortVerbsByLevel(props.verbs, level)]);
+      let verbs = [];
+      verbs = levels.map((level) => [...verbs, ...sortVerbsByLevel(props.verbs, level)]);
       setVerbsByLevels(verbs);
       setVerbsLoaded(true);
    }, []);
