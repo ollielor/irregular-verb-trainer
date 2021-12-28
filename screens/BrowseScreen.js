@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { ScrollView, HStack, VStack } from 'native-base';
+import { HStack, ScrollView, Text, VStack } from 'native-base';
 
 import { connect } from 'react-redux';
 
@@ -11,21 +11,25 @@ import CardComponentBrowse from '../components/cards/CardComponentBrowse';
 import Heading from '../components/styling/Heading';
 import ButtonComponentNarrowWhite from '../components/buttons/ButtonComponentNarrowWhite';
 import { styles } from '../styles/styles';
+import VerbListByLevel from '../components/verblists/VerbListByLevel';
+import SpinnerComponent from '../components/styling/SpinnerComponent';
+import VerbListByAlphabet from '../components/verblists/VerbListByAlphabet';
 
 const BrowseScreen = (props) => {
 
    const [orderAlphabetically, setOrderAlphabetically] = useState(false);
-   
-   const levels = [1, 2, 3];
+   const [verbs, setVerbs] = useState(false);
+   const [verbsLoaded, setVerbsLoaded] = useState(false);
+   const [verbsOrdered, setVerbsOrdered] = useState([]);
 
-   const verbList = [];
-
-   let verbs;
-   if (props.language === 1) {
-      verbs = props.verbsSwedish;
-   } else {
-      verbs = props.verbsGerman;
-   }
+   useEffect(() => {
+      if (props.language === 1) {
+         setVerbs(props.verbsSwedish);
+      } else {
+         setVerbs(props.verbsGerman);
+      }
+      setVerbsLoaded(true);
+   }, [props.language]);
 
    const navigation = useNavigation();
 
@@ -39,7 +43,11 @@ const BrowseScreen = (props) => {
             title="Selaa verbejä"
             goBack={navigation.goBack}
          />
-         <VStack flexDirection='row' justifyContent='center'>
+         {!verbsLoaded ? (
+            <SpinnerComponent text='Ladataan verbejä...' />
+         ) : (
+         <>
+            <HStack>
             <ButtonComponentNarrowWhite
                withMargin
                title='Tasoittain' 
@@ -49,43 +57,23 @@ const BrowseScreen = (props) => {
             />
             <ButtonComponentNarrowWhite
                withMargin
-               title='Aakkosittain' 
+               title='Aakkosittain'
                function={() => setOrderAlphabetically(true)}
                borderColor='#4E00C5'
                disabled={orderAlphabetically} 
             />
-         </VStack>
+            </HStack>
          <ScrollView style={styles(props).browseContainer}>
-            {!orderAlphabetically && levels
-               .map((level, index) => 
-                  verbs.filter((verb, idx) => verb.level === level)
-                     .sort((a, b) => 
-                     a.infinitive === '-' || b.infinitive === '-' ?
-                     (a.present > b.present
-                        ? 1 
-                        : -1)
-                     : (a.infinitive > b.infinitive ? 1 : -1)
-                     ).map((verbForm, idx) => (
-                        <Fragment key={idx}>
-                           {idx === 0 && <Heading>Taso {level}</Heading>}
-                           <CardComponentBrowse key={level} verb={verbForm} />
-                        </Fragment>
-                     )))
-            }
-            {orderAlphabetically && verbs
-                   .sort((a, b) => 
-                     a.infinitive === '-' || b.infinitive === '-' ?
-                     (a.present > b.present
-                        ? 1 
-                        : -1)
-                     : (a.infinitive > b.infinitive ? 1 : -1)
-                  ).map((verbForm, idx) => (
-                     <Fragment key={idx}>
-                        <CardComponentBrowse verb={verbForm} />
-                     </Fragment>
-                  ))}
+            {orderAlphabetically ?
+            (
+               <VerbListByAlphabet verbs={verbs} />
+            ) : (
+               <VerbListByLevel verbs={verbs} />
+            )}
          </ScrollView>
          <FooterComponent />
+         </>
+         )}
       </>
    );
 };
