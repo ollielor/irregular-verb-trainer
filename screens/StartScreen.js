@@ -19,6 +19,7 @@ import {
 import { updateResults } from '../store/actions/results';
 
 import { getResults, createResultsDb } from '../helpers/results';
+import { createOwnVerbsDb } from '../helpers/ownVerbs';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -35,6 +36,8 @@ import { fetchVerbsGerman, fetchVerbsSwedish } from '../store/actions/verbs';
 
 import DatabaseVerbsGerman from '../modules/DatabaseVerbsGerman';
 import DatabaseVerbsSwedish from '../modules/DatabaseVerbsSwedish';
+import DatabaseOwnVerbsSwedish from '../modules/DatabaseVerbsSwedish';
+import DatabaseOwnVerbsGerman from '../modules/DatabaseVerbsSwedish';
 import LatestResults from '../components/results/LatestResults';
 
 import { styles } from '../styles/styles';
@@ -56,6 +59,10 @@ const StartScreen = (props) => {
 
    useEffect(() => {
       createResultsDb();
+      // Create own verbs database for Swedish verbs
+      createOwnVerbsDb(1);
+      // Create own verbs database for German verbs
+      createOwnVerbsDb(2);
    }, []);
 
    useEffect(() => {
@@ -160,6 +167,24 @@ const StartScreen = (props) => {
       }
    }, [swedishLoaded]);
 
+   useEffect(() => {
+      DatabaseSettings.transaction(
+         (tx) => {
+            tx.executeSql(
+               'create table if not exists settings (id integer primary key not null, language integer, level integer, infinitive integer, present integer, past integer, presperf integer);'
+            );
+            fetchSettings();
+         },
+         null,
+         null,
+         (tx, error) => {
+            setDbError(error);
+            console.log(error);
+         }
+      );
+
+   }, []);
+
    // useEffect cleanup
    useEffect(() => {
       return () => { };
@@ -258,7 +283,6 @@ const StartScreen = (props) => {
             1
          ]
       );
-
       fetchSettings();
    }
 

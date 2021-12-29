@@ -1,11 +1,17 @@
 import DatabaseOwnVerbs from '../modules/DatabaseOwnVerbs';
 
-export const getResults = () => {
+export const getOwnVerbsFromDb = (language) => {
+   let query;
+   if (language === 1) {
+      query = 'select * from own_verbs_sv;'
+   } else {
+      query = 'select * from own_verbs_de;'     
+   }
    return new Promise((resolve, reject) => {
       DatabaseOwnVerbs.transaction(
          (tx) => {
             tx.executeSql(
-               'select * from results;',
+               query,
                [],
                (tx, results) => {
                   resolve(results.rows._array);
@@ -22,16 +28,19 @@ export const getResults = () => {
    });
 };
 
-export const createOwnVerbs = () => {
+export const createOwnVerbsDb = (language) => {
+   let query;
+   if (language === 1) {
+      query = 'create table if not exists own_verbs_sv (id integer primary key not null, verb_id integer);'
+   } else {
+      query = 'create table if not exists own_verbs_de (id integer primary key not null, verb_id integer);'
+   }
    return new Promise((resolve, reject) => {
       DatabaseOwnVerbs.transaction(
          (tx) => {
             tx.executeSql(
-               'create table if not exists own_verbs_swedish (id integer primary key not null, meaning_id integer, active integer);'
+               query
             );
-            tx.executeSql(
-                'create table if not exists own_verbs_german (id integer primary key not null, meaning_id integer, active integer);'
-             );
             resolve(true);
          },
          null,
@@ -40,38 +49,6 @@ export const createOwnVerbs = () => {
             console.log('Transaction failed: ', error);
             reject(false);
          }
-      );
-   });
-};
-
-export const saveOwnVerbs = (
-    language,
-    meaning_id,
-    active
-) => {
-   return new Promise((resolve, reject) => {
-    let query;
-    if (language === 1) {
-        query = 'insert into own_verbs_swedish (meaning_id, active) values (?, ?);';
-    } else {
-        query = 'insert into own_verbs_german (meaning_id, active) values (?, ?);'
-    }
-    DatabaseOwnVerbs.transaction(
-         (tx) => {
-            tx.executeSql(
-               query,
-               [
-                  meaning_id,
-                  active
-               ]
-            );
-            resolve(true);
-         },
-         (error) => {
-            reject(new Error('Transaction error: ', error));
-         },
-         null,
-         null
       );
    });
 };
