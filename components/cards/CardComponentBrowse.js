@@ -30,7 +30,6 @@ const CardComponentBrowse = (props) => {
                   {props.verb.presperf_alt && ` / ${props.verb.presperf_alt}`}
                </Text>
                <Text>{props.verb.meaning}</Text>
-               <Text>{props.count}</Text>
             </Box>
             <Box flex='1'>
                <ButtonComponentNarrow title='Osaan' function={() => addToList(props.verb.verb_id)} />
