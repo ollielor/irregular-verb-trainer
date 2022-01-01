@@ -34,6 +34,11 @@ const BrowseScreen = (props) => {
       return () => { };
    }, []);
 
+   const showByLevel = (level) => {
+      setLevelToShow(level);
+      setVerbsLoaded(false);
+   }
+
    return (
       <>
          <HeaderComponent
@@ -63,7 +68,7 @@ const BrowseScreen = (props) => {
                      <ButtonComponentNarrow
                      withMargin
                      title={'Taso ' + level}
-                     function={() => setLevelToShow(level)}
+                     function={() => showByLevel(level)}
                      borderColor='#4E00C5'
                      disabled={levelToShow === level} 
                      key={index}
@@ -76,7 +81,6 @@ const BrowseScreen = (props) => {
                   verbs={verbs} 
                   ownVerbs={ownVerbs} 
                   setOwnVerbs={setOwnVerbs}
-                  orderAlphabetically={orderAlphabetically} 
                   levelToShow={levelToShow}
                   verbsLoaded={verbsLoaded}
                   setVerbsLoaded={setVerbsLoaded}
@@ -86,7 +90,6 @@ const BrowseScreen = (props) => {
                   verbs={verbs}
                   ownVerbs={ownVerbs} 
                   setOwnVerbs={setOwnVerbs}
-                  orderAlphabetically={orderAlphabetically} 
                />)}
          </ScrollView>
          <FooterComponent />

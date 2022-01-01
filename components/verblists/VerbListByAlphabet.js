@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import CardComponentBrowse from '../cards/CardComponentBrowse';
 
-import { sortVerbs } from '../../helpers/sorters';
+import { sortAndSliceVerbs } from '../../helpers/sorters';
 import SpinnerComponent from '../styling/SpinnerComponent';
 import ButtonComponent from '../buttons/ButtonComponent';
 
@@ -22,12 +22,10 @@ const VerbListByAlphabet = (props) => {
          let verbs = props.language === 1 ? props.verbsSwedish : props.verbsGerman;
          setVerbsLoaded(false);
          let verbsSliced = [];
-         verbsSliced = sortVerbs(
+         verbsSliced = sortAndSliceVerbs(
             verbs,
-            null,
             prevCount,
             verbCount,
-            false
          );
          setVerbsByAlphabet([...verbsByAlphabet, ...verbsSliced]);
          setPrevCount(() => prevCount + 50);

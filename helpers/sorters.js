@@ -1,13 +1,13 @@
-export const sortVerbs = (verbs, level, prevCount, verbCount, showLevels) => {
-    let verbsToSort = [];
-    if (showLevels) {
-        verbsToSort = verbs.filter((verb) => verb.level === level);
-    } else {
-        verbsToSort = verbs;
-    }
+export const sortAndSliceVerbs = (verbs, prevCount, verbCount) => {
     let verbsSortedAlphabetically = [];
-    verbsSortedAlphabetically = sortArrayAlphabetically(verbsToSort);
+    verbsSortedAlphabetically = sortArrayAlphabetically(verbs);
     return sliceArray(verbsSortedAlphabetically, prevCount, verbCount);
+}
+
+export const sortVerbsByLevel = (verbs, level) => {
+    let verbsByLevel = [];
+    verbsByLevel = verbs.filter((verb) => verb.level === level);
+    return sortArrayAlphabetically(verbsByLevel);
 }
 
 export const sortArrayAlphabetically = (verbs) => {
