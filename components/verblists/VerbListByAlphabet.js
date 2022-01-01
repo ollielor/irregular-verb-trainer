@@ -1,22 +1,51 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { connect } from 'react-redux';
 
 import CardComponentBrowse from '../cards/CardComponentBrowse';
 
-import { sortVerbsAlphabetically } from '../../helpers/sorters';
+import { sortVerbs } from '../../helpers/sorters';
 import SpinnerComponent from '../styling/SpinnerComponent';
+import ButtonComponent from '../buttons/ButtonComponent';
 
 const VerbListByAlphabet = (props) => {
 
     const [verbsByAlphabet, setVerbsByAlphabet] = useState([]);
     const [verbsLoaded, setVerbsLoaded] = useState(false);
+    const [verbCount, setVerbCount] = useState(50);
+    const [prevCount, setPrevCount] = useState(0);
+    const [buttonDisplayed, setButtonDisplayed] = useState(true);
+    const [loadingVerbs, setLoadingVerbs] = useState(true);
 
    useEffect(() => {
-      setVerbsLoaded(false);
-      setVerbsByAlphabet(sortVerbsAlphabetically(props.verbs));
+      if (loadingVerbs) {
+         let verbs = props.language === 1 ? props.verbsSwedish : props.verbsGerman;
+         setVerbsLoaded(false);
+         let verbsSliced = [];
+         verbsSliced = sortVerbs(
+            verbs,
+            null,
+            prevCount,
+            verbCount,
+            false
+         );
+         setVerbsByAlphabet([...verbsByAlphabet, ...verbsSliced]);
+         setPrevCount(() => prevCount + 50);
+         setVerbCount(() => verbCount + 50)
+         setVerbsLoaded(true);
+         if (verbCount >= verbs.length) {
+            setButtonDisplayed(false);
+         } else {
+            setButtonDisplayed(true);
+         }
+      }
+   }, [loadingVerbs]);
+
+   useEffect(() => {
+      setLoadingVerbs(false); 
       setVerbsLoaded(true);
-   }, []);
+   }, [verbsByAlphabet]);
+
 
    useEffect(() => {
       return () => { };
@@ -24,14 +53,21 @@ const VerbListByAlphabet = (props) => {
 
    return (
       <>
-         {!verbsLoaded ? (
-            <SpinnerComponent text='Ladataan verbejä...' />   
-         ) :
-            verbsByAlphabet.map((verb, idx) =>
+          {verbsLoaded && verbsByAlphabet.map((verb, idx) =>
             verb && (
                 <CardComponentBrowse verb={verb} verbLoaded={verbsLoaded} key={idx} level={verb.level} />
             )
-         )}
+         )
+         }
+         {loadingVerbs && <SpinnerComponent text='Ladataan verbejä...' />}
+         {!loadingVerbs && buttonDisplayed &&
+         <ButtonComponent 
+               function={() => setLoadingVerbs(true)}
+               color="#7E00C5"
+               title='Näytä lisää verbejä' 
+               mb='20' 
+         />
+         }
       </>
    );
 };

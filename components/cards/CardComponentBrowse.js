@@ -6,12 +6,9 @@ import SpinnerComponent from '../styling/SpinnerComponent';
 
 const CardComponentBrowse = (props) => {
 
-   const [addedToList, setAddedToList] = useState(false);
-   const [ownVerbList, setOwnVerbList] = useState([]);
-
    const addToList = () => {
-      setOwnVerbList([ownVerbList, ...props.verb.meaning_id]);
-      console.log('ownVerbList after add: ', ownVerbList);
+      props.setOwnVerbs([...props.ownVerbs, props.verb.verb_id]);
+      console.log('ownVerbList after add: ', props.ownVerbs);
    };
 
    const removeFromList = (meaningId) => {
@@ -21,10 +18,7 @@ const CardComponentBrowse = (props) => {
 
    return (
       <>
-      {!props.verbLoaded ? (
-         <SpinnerComponent text='Ladataan verbejä...' />
-      ) : (
-         <HStack style={styles(props).cardComponentGrey} flexDirection='row'>
+          <HStack style={styles(props).cardComponentGrey} flexDirection='row'>
             <Box shadow='2' style={styles(props).browseBoxStyle} flex='2'>
                <Text style={{ color: '#7E00C5', fontWeight: 'bold' }}>
                   {props.verb.infinitive},
@@ -36,14 +30,14 @@ const CardComponentBrowse = (props) => {
                   {props.verb.presperf_alt && ` / ${props.verb.presperf_alt}`}
                </Text>
                <Text>{props.verb.meaning}</Text>
+               <Text>{props.count}</Text>
             </Box>
             <Box flex='1'>
-               <ButtonComponentNarrow title='Osaan' function={addToList} />
+               <ButtonComponentNarrow title='Osaan' function={() => addToList(props.verb.verb_id)} />
                <Text style={{ color: '#7E00C5', fontWeight: 'bold' }} mt='1'>Taso {props.level}</Text>
             </Box>
          </HStack>
-      )
-      }
+         
       </>
    );
 };

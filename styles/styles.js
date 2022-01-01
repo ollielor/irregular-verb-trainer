@@ -1,5 +1,4 @@
 import { StyleSheet, Platform, StatusBar } from 'react-native';
-import { alignContent } from 'styled-system';
 
 export const styles = (props) => StyleSheet.create({
    // Button styles

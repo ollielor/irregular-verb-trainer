@@ -13,6 +13,7 @@ const ButtonComponentNarrow = (props) => {
          ]}
          onPress={props.function}
          disabled={props.disabled}
+         mb={props.mb}
          mt={props.mt}
       >
          <Text uppercase={false} style={styles(props).buttonTextStyle}>

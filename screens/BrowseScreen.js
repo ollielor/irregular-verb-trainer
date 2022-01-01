@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 
 import { useNavigation } from '@react-navigation/native';
 
+import { sortVerbsAlphabetically, sortVerbsByLevel } from '../helpers/sorters';
+
 import FooterComponent from '../components/footer/FooterComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
 import CardComponentBrowse from '../components/cards/CardComponentBrowse';
@@ -18,20 +20,15 @@ import VerbListByAlphabet from '../components/verblists/VerbListByAlphabet';
 const BrowseScreen = (props) => {
 
    const [orderAlphabetically, setOrderAlphabetically] = useState(false);
-   const [verbs, setVerbs] = useState(false);
+   const [verbs, setVerbs] = useState([]);
    const [verbsLoaded, setVerbsLoaded] = useState(false);
-   const [verbsOrdered, setVerbsOrdered] = useState([]);
+   const [ownVerbs, setOwnVerbs] = useState([]);
+   const [levelToShow, setLevelToShow] = useState(1);
 
-   useEffect(() => {
-      if (props.language === 1) {
-         setVerbs(props.verbsSwedish);
-      } else {
-         setVerbs(props.verbsGerman);
-      }
-      setVerbsLoaded(true);
-   }, [props.language]);
+   const levels = [1, 2, 3];
 
    const navigation = useNavigation();
+
 
    useEffect(() => {
       return () => { };
@@ -43,9 +40,6 @@ const BrowseScreen = (props) => {
             title="Selaa verbejä"
             goBack={navigation.goBack}
          />
-         {!verbsLoaded ? (
-            <SpinnerComponent text='Ladataan verbejä...' />
-         ) : (
          <>
             <HStack alignSelf='center'>
             <ButtonComponentNarrow
@@ -63,17 +57,40 @@ const BrowseScreen = (props) => {
                disabled={orderAlphabetically} 
             />
             </HStack>
+         {!orderAlphabetically && 
+                  <HStack alignSelf='center'>
+                  {levels.map((level, index) => (
+                     <ButtonComponentNarrow
+                     withMargin
+                     title={'Taso ' + level}
+                     function={() => setLevelToShow(level)}
+                     borderColor='#4E00C5'
+                     disabled={levelToShow === level} 
+                     key={index}
+                  />))}
+                  </HStack>
+         }
          <ScrollView style={styles(props).browseContainer}>
-            {orderAlphabetically ?
-            (
-               <VerbListByAlphabet verbs={verbs} />
-            ) : (
-               <VerbListByLevel verbs={verbs} />
-            )}
+               {!orderAlphabetically ? (
+               <VerbListByLevel 
+                  verbs={verbs} 
+                  ownVerbs={ownVerbs} 
+                  setOwnVerbs={setOwnVerbs}
+                  orderAlphabetically={orderAlphabetically} 
+                  levelToShow={levelToShow}
+                  verbsLoaded={verbsLoaded}
+                  setVerbsLoaded={setVerbsLoaded}
+               />
+               ) : (
+               <VerbListByAlphabet
+                  verbs={verbs}
+                  ownVerbs={ownVerbs} 
+                  setOwnVerbs={setOwnVerbs}
+                  orderAlphabetically={orderAlphabetically} 
+               />)}
          </ScrollView>
          <FooterComponent />
          </>
-         )}
       </>
    );
 };

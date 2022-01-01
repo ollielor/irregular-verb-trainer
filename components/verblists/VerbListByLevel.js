@@ -1,24 +1,32 @@
 import React, { useState, useEffect, Fragment } from 'react';
+import { Text } from 'native-base';
 
 import { connect } from 'react-redux';
 
 import CardComponentBrowse from '../cards/CardComponentBrowse';
 
-import { sortVerbsByLevel } from '../../helpers/sorters';
+import { sortVerbs } from '../../helpers/sorters';
 import SpinnerComponent from '../styling/SpinnerComponent';
+import ButtonComponentNarrow from '../buttons/ButtonComponentNarrow';
 
 const VerbListByLevel = (props) => {
 
-    const [verbsByLevels, setVerbsByLevels] = useState([]);
+    const [verbsByLevel, setVerbsByLevel] = useState([]);
     const [verbsLoaded, setVerbsLoaded] = useState(false);
-   
-   const levels = [1, 2, 3];
-
+    const [verbs, setVerbs] = useState([]);
+ 
+    const levels = [1, 2, 3];
+ 
    useEffect(() => {
       setVerbsLoaded(false);
-      let verbs = [];
-      verbs = levels.map((level) => [...verbs, ...sortVerbsByLevel(props.verbs, level)]);
-      setVerbsByLevels(verbs);
+      let verbListByLevel = [];
+      verbListByLevel = [...verbListByLevel, sortVerbs(
+         props.language === 1 ? props.verbsSwedish : props.verbsGerman, 
+         props.levelToShow,
+         10,
+         true
+      )];
+      setVerbsByLevel(verbListByLevel);
       setVerbsLoaded(true);
    }, []);
 
@@ -28,14 +36,19 @@ const VerbListByLevel = (props) => {
 
    return (
       <>
-        {!verbsLoaded ? (
+         <Text>
+            {props.levelToShow}
+            {String(verbsLoaded)}
+         </Text>
+        {!verbsLoaded
+        && (
            <SpinnerComponent text='Ladataan verbejä...' />
         )
-        : verbsByLevels.map((verbLevelGroup) =>
-            verbLevelGroup && verbLevelGroup.map((verb, idx) => verb && (
-                <CardComponentBrowse verb={verb} verbLoaded={verbsLoaded} key={idx} level={verb.level} />
-            ))
-        )}
+         }
+      {verbsLoaded && verbsByLevel.map((verbLevelGroup) =>
+            verbLevelGroup.map((verb, idx) => (
+                <CardComponentBrowse verb={verb} key={idx} level={verb.level} />
+         )))}
       </>
    );
 };
