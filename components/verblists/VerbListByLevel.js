@@ -10,37 +10,48 @@ import SpinnerComponent from '../styling/SpinnerComponent';
 import ButtonComponentNarrow from '../buttons/ButtonComponentNarrow';
 
 const VerbListByLevel = (props) => {
+   const [verbsByLevel, setVerbsByLevel] = useState([]);
+   const [verbsLoaded, setVerbsLoaded] = useState(false);
+   const [verbs, setVerbs] = useState([]);
 
-    const [verbsByLevel, setVerbsByLevel] = useState([]);
-    const [verbsLoaded, setVerbsLoaded] = useState(false);
-    const [verbs, setVerbs] = useState([]);
- 
-    const levels = [1, 2, 3];
- 
+   const levels = [1, 2, 3];
+
    useEffect(() => {
-      let verbListByLevel = []; 
-      verbListByLevel = [...verbListByLevel, sortVerbsByLevel(
-         props.language === 1 ? props.verbsSwedish : props.verbsGerman, 
-         props.levelToShow
-      )];
+      let verbListByLevel = [];
+      verbListByLevel = [
+         ...verbListByLevel,
+         sortVerbsByLevel(
+            props.language === 1 ? props.verbsSwedish : props.verbsGerman,
+            props.levelToShow
+         ),
+      ];
       setVerbsByLevel(verbListByLevel);
       props.setVerbsLoaded(true);
    }, [props.levelToShow]);
 
    useEffect(() => {
-      return () => { };
+      return () => {};
    }, []);
 
    return (
       <>
-        {!props.verbsLoaded && props.levelToShow
-        ? (
-           <SpinnerComponent text='Ladataan verbejä...' />
-        )
-         : verbsByLevel.map((verbLevelGroup) =>
-            verbLevelGroup.map((verb, idx) => (
-                <CardComponentBrowse verb={verb} key={idx} level={verb.level} />
-         )))}
+         {!props.verbsLoaded && props.levelToShow ? (
+            <SpinnerComponent text="Ladataan verbejä..." />
+         ) : (
+            verbsByLevel.map((verbLevelGroup) =>
+               verbLevelGroup.map((verb, idx) => (
+                  <CardComponentBrowse
+                     verb={verb}
+                     key={idx}
+                     level={verb.level}
+                     ownVerbsSwedish={props.ownVerbsSwedish}
+                     ownVerbsGerman={props.ownVerbsGerman}
+                     addToOwnVerbs={props.addToOwnVerbs}
+                     removeFromOwnVerbs={props.removeFromOwnVerbs}
+                  />
+               ))
+            )
+         )}
       </>
    );
 };

@@ -252,6 +252,8 @@ const MeaningsScreen = (props) => {
 const mapStateToProps = (state) => ({
    verbsGerman: state.verbs.verbsGerman,
    verbsSwedish: state.verbs.verbsSwedish,
+   verbsGermanOwn: state.verbs.verbsGermanOwn,
+   verbsSwedishOwn: state.verbs.verbsSwedishOwn,
    language: state.settings.language,
    level: state.settings.level,
    results: state.results.results,

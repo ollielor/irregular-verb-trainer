@@ -32,7 +32,7 @@ export const styles = (props) => StyleSheet.create({
    buttonStyle: {
       fontFamily: 'Quicksand_SemiBold',
       backgroundColor: 'transparent',
-      borderColor: '#eee',
+      borderColor: props.borderColor,
       marginLeft: 2,
       marginRight: 2,
    },

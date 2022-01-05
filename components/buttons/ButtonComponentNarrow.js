@@ -15,6 +15,7 @@ const ButtonComponentNarrow = (props) => {
          disabled={props.disabled}
          mb={props.mb}
          mt={props.mt}
+         color={props.color}
       >
          <Text uppercase={false} style={styles(props).buttonTextStyle}>
             {props.title}

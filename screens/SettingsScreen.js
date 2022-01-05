@@ -85,21 +85,7 @@ const SettingsScreen = (props) => {
    }
 
    useEffect(() => {
-      setMounted(true);
-      DatabaseSettings.transaction(
-         (tx) => {
-            tx.executeSql(
-               'create table if not exists settings (id integer primary key not null, language integer, level integer, infinitive integer, present integer, past integer, presperf integer);'
-            );
-         },
-         null,
-         null,
-         (tx, error) => {
-            console.log(error);
-         }
-      );
       fetchSettings();
-      return () => { setMounted(false) };
    }, []);
 
    const fetchSettings = () => {

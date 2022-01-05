@@ -59,10 +59,6 @@ const StartScreen = (props) => {
 
    useEffect(() => {
       createResultsDb();
-      // Create own verbs database for Swedish verbs
-      createOwnVerbsDb(1);
-      // Create own verbs database for German verbs
-      createOwnVerbsDb(2);
    }, []);
 
    useEffect(() => {
@@ -166,24 +162,6 @@ const StartScreen = (props) => {
          );
       }
    }, [swedishLoaded]);
-
-   useEffect(() => {
-      DatabaseSettings.transaction(
-         (tx) => {
-            tx.executeSql(
-               'create table if not exists settings (id integer primary key not null, language integer, level integer, infinitive integer, present integer, past integer, presperf integer);'
-            );
-            fetchSettings();
-         },
-         null,
-         null,
-         (tx, error) => {
-            setDbError(error);
-            console.log(error);
-         }
-      );
-
-   }, []);
 
    // useEffect cleanup
    useEffect(() => {

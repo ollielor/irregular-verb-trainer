@@ -3,18 +3,22 @@ import { HStack, Box, Text } from 'native-base';
 import { styles } from '../../styles/styles';
 import ButtonComponentNarrow from '../buttons/ButtonComponentNarrow';
 import SpinnerComponent from '../styling/SpinnerComponent';
+import ButtonComponentNarrowWhite from '../buttons/ButtonComponentNarrowWhite';
+import ButtonBordered from '../buttons/ButtonBordered';
+
+import { connect } from 'react-redux';
 
 const CardComponentBrowse = (props) => {
 
-   const addToList = () => {
-      props.setOwnVerbs([...props.ownVerbs, props.verb.verb_id]);
-      console.log('ownVerbList after add: ', props.ownVerbs);
-   };
+   const [added, setAdded] = useState(false);
 
-   const removeFromList = (meaningId) => {
-      setOwnVerbList(ownVerbList.filter((id) => meaningId !== id));
-      console.log('ownVerbList after remove: ', ownVerbList);
-   };
+   useEffect(() => {
+      if (props.language === 1) {
+         setAdded(props.ownVerbsSwedish.includes(props.verb.meaning_id));
+      } else {
+         setAdded(props.ownVerbsGerman.includes(props.verb.meaning_id));
+      }
+   })
 
    return (
       <>
@@ -32,13 +36,21 @@ const CardComponentBrowse = (props) => {
                <Text>{props.verb.meaning}</Text>
             </Box>
             <Box flex='1'>
-               <ButtonComponentNarrow title='Osaan' function={() => addToList(props.verb.verb_id)} />
+               {added &&
+                  <ButtonBordered title='En osaa' bg='#ff0033' textColor='#eee' function={() => props.removeFromOwnVerbs(props.verb.meaning_id)} />
+               }
+               {!added &&
+                  <ButtonBordered title='Osaan jo' bg='#4E00C5' textColor='#eee' function={() => props.addToOwnVerbs(props.verb.meaning_id)} />
+               }
                <Text style={{ color: '#7E00C5', fontWeight: 'bold' }} mt='1'>Taso {props.level}</Text>
             </Box>
-         </HStack>
-         
+         </HStack>       
       </>
    );
 };
 
-export default CardComponentBrowse;
+const mapStateToProps = (state) => ({
+   language: state.settings.language,
+});
+
+export default connect(mapStateToProps)(CardComponentBrowse);
