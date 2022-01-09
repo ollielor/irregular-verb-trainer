@@ -4,7 +4,6 @@ import { Stack, VStack, Text } from 'native-base';
 import ButtonComponent from '../components/buttons/ButtonComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
 import FooterComponent from '../components/footer/FooterComponent';
-import InfoContent from '../components/styling/InfoContent';
 
 import * as Linking from 'expo-linking';
 
@@ -14,67 +13,13 @@ import { useNavigation } from '@react-navigation/native';
 
 import { styles } from '../styles/styles';
 
+import { getResultText } from '../helpers/sharing';
+
 const ShareResultsScreen = (props) => {
    const [name, setName] = useState('');
    const [email, setEmail] = useState('');
 
    const navigation = useNavigation();
-
-   const getResultsForSharing = (type, level, language) => {
-      let history;
-      if (type === 1) {
-         history = props.results.filter((result) => result.type === 1);
-      } else {
-         history = props.results.filter((result) => result.type === 2);
-      }
-      const historyFiltered = history.filter(
-         (historyItem) =>
-            historyItem.level === level && historyItem.language === language
-      );
-      if (historyFiltered.length === 0) {
-         return;
-      } else {
-         const correctAnswers = historyFiltered.map(
-            (result) => result.accuracy
-         );
-         const totalCorrectAnswers = correctAnswers.reduce((a, b) => a + b);
-         const questions = historyFiltered.map((result) => result.q_total);
-         const totalQuestions = questions.reduce((a, b) => a + b);
-         const percentages = historyFiltered.map((result) => result.percentage);
-         const percentagesAverage =
-            percentages.reduce((a, b) => a + b) / percentages.length;
-         return {
-            totalAttempts: historyFiltered.length,
-            totalCorrectAnswers: totalCorrectAnswers,
-            totalQuestions: totalQuestions,
-            percentagesAverage: percentagesAverage,
-         };
-      }
-   };
-
-   const getResultText = (type) => {
-      let resultText = '';
-      for (let i = 1; i <= 3; i++) {
-         if (getResultsForSharing(type, i, props.language)) {
-            resultText += `|<br>Taso ${i}: |<br>- Suorituskertoja yhteensä: ${getResultsForSharing(type, i, props.language).totalAttempts
-               }`;
-            resultText += `|<br>- Oikeita vastauksia: ${getResultsForSharing(type, i, props.language).totalCorrectAnswers
-               }`;
-            resultText += ` / ${getResultsForSharing(type, i, props.language).totalQuestions
-               }`;
-            resultText += `|<br>- Keskimääräinen osaaminen ${getResultsForSharing(
-               type,
-               i,
-               props.language
-            )
-               .percentagesAverage.toFixed(2)
-               .replace('.', ',')} prosenttia (sisältää aikabonukset ja -vähennykset)`;
-         } else {
-            resultText += `|<br>|Taso ${i}:|<br>|- Ei suorituskertoja`;
-         }
-      }
-      return resultText;
-   };
 
    const sendMessage = (type) => {
       let text = `Verbivalmentaja - käyttäjän ${name} suoritustiedot kielestä`;
@@ -85,10 +30,10 @@ const ShareResultsScreen = (props) => {
       }
       text += '|<br>|<br>|Verbien merkitykset';
       // Number 1 stands for Meanings mode
-      text += getResultText(1);
+      text += getResultText(1, props.language, props.results);
       text += '|<br>|<br>|Verbien muodot';
       // Number 2 stands for Forms mode
-      text += getResultText(2);
+      text += getResultText(2, props.language, props.results);
       let textParsed = '';
       let textArray = text.split('|');
       let textReplaced;
