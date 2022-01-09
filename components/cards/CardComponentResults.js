@@ -27,7 +27,7 @@ const CardComponentResults = (props) => {
                      ? 'Kieli: ruotsi'
                      : 'Kieli: saksa'}
                </Text>
-               <Text>Taso: {props.historyItem.level}</Text>
+               <Text>Taso: {props.historyItem.level === 4 ? 'Omat verbit' : props.historyItem.level}</Text>
                <Text>
                   Pisteet:{' '}
                   {props.historyItem.points &&
