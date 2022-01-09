@@ -17,8 +17,7 @@ import VerbListByAlphabet from '../components/verblists/VerbListByAlphabet';
 import { fetchOwnVerbsSwedish, fetchOwnVerbsGerman } from '../store/actions/verbs';
 
 import DatabaseOwnVerbs from '../modules/DatabaseOwnVerbs';
-import { getOwnVerbsFromDb } from '../helpers/ownVerbs';
-import { createOwnVerbsDb } from '../helpers/ownVerbs';
+import { createOwnVerbsDb, insertMeaningId, deleteMeaningId, fetchMeaningIds, mapVerbsToMeaningIds, fetchOwnVerbs } from '../helpers/ownVerbs';
 
 const BrowseScreen = (props) => {
 
@@ -28,25 +27,24 @@ const BrowseScreen = (props) => {
    const [ownVerbsSwedish, setOwnVerbsSwedish] = useState([]);
    const [ownVerbsGerman, setOwnVerbsGerman] = useState([]);
    const [levelToShow, setLevelToShow] = useState(1);
-   const [meaningIds, setMeaningIds] = useState([]);
    const [verbAdded, setVerbAdded] = useState(null);
    const [verbRemoved, setVerbRemoved] = useState(null);
    const [ownVerbsDbCreated, setOwnVerbsDbCreated] = useState(false);
    const [meaningIdsSelectedSwe, setMeaningIdsSelectedSwe] = useState([]);
    const [meaningIdsSelectedGer, setMeaningIdsSelectedGer] = useState([]);
 
+   const meaningIds = [];
+
    const levels = [1, 2, 3];
 
    const navigation = useNavigation();
 
-   console.log('Props from BrowseScreen: ', props)
-
    useEffect(() => {
       // Create own verbs database for Swedish verbs
       createOwnVerbsDb(1);
-      // Create own verbs database for Swedish verbs
+      // Create own verbs database for German verbs
       createOwnVerbsDb(2);
-      fetchMeaningIds();
+      updateOwnVerbIds();
    }, []);
 
    useEffect(() => {
@@ -70,7 +68,8 @@ const BrowseScreen = (props) => {
       } else {
          setOwnVerbsGerman([...verbsFiltered, meaningId]);   
       }
-      insertMeaningId(meaningId);
+      insertMeaningId(meaningId, props.language);
+      updateOwnVerbIds();
    }
 
    const removeFromOwnVerbs = (meaningId) => {
@@ -82,26 +81,20 @@ const BrowseScreen = (props) => {
          ownVerbList = ownVerbsGerman.filter((ownVerb) => ownVerb !== meaningId);
          setOwnVerbsGerman(ownVerbList);
       }
-      deleteMeaningId(meaningId);
+      deleteMeaningId(meaningId, props.language);
+      updateOwnVerbIds();
    }
 
-   const insertMeaningId = (meaningId) => {
-      deleteMeaningId(meaningId);
-      let query = props.language === 1 ? 'insert into own_verbs_sv (meaning_id) values (?);' : 'insert into own_verbs_de (meaning_id) values (?);';
-      DatabaseOwnVerbs.transaction(
-         (tx) => {
-            tx.executeSql(query, [
-               meaningId
-            ]);
-         },
-         (error) => {
-            console.log('Transaction error: ', error);
-         },
-         null,
-         null
-      );
-      mapVerbsToMeaningIds();
-   };
+/*    const updateVerbs = () => {
+      if (props.language === 1) {
+         setMeaningIdsSelectedSwe(fetchMeaningIds(props.language));
+      } else {
+         setMeaningIdsSelectedGer(fetchMeaningIds(props.language));   
+      }
+   }
+ */
+
+   /* // Replace here onwards
 
    const deleteMeaningId = (meaningId) => {
       let query = props.language === 1 ? 'delete from own_verbs_sv where meaning_id = (?);' : 'delete from own_verbs_de where meaning_id = (?);'
@@ -143,10 +136,10 @@ const BrowseScreen = (props) => {
             console.log('Transaction error: ', error);
          }
       ); 
-   }
+   } */
 
-   const mapVerbsToMeaningIds = () => {
-      let verbsByLanguage = props.language === 1 ? props.verbsSwedish : props.verbsGerman;
+   const updateOwnVerbIds = async () => {
+/*       let verbsByLanguage = props.language === 1 ? props.verbsSwedish : props.verbsGerman;
       let verbsFetched = [];
       if (props.language === 1) {
          verbsFetched = meaningIdsSelectedSwe.map((meaningItem) => meaningItem.meaning_id)
@@ -155,12 +148,18 @@ const BrowseScreen = (props) => {
          verbsFetched = meaningIdsSelectedGer.map((meaningItem) => meaningItem.meaning_id)
          .map((meaningId) => verbsByLanguage.filter((verb) => verb.meaning_id === meaningId));
       }
-      let verbsOrdered = [];
-      verbsOrdered = verbsFetched.map((verbArray) => verbArray.length < 2 ? verbArray[0] : verbArray);
+      let verbsOrdered = []; */
+      //verbsOrdered = verbsFetched.map((verbArray) => verbArray.length < 2 ? verbArray[0] : verbArray);
       if (props.language === 1) {
-         props.dispatch(fetchOwnVerbsSwedish(verbsOrdered));
-      } else {
-         props.dispatch(fetchOwnVerbsGerman(verbsOrdered));      
+         let meaningIdsSwe = [];
+         meaningIdsSwe = await fetchMeaningIds(props.language);
+         let meaningIdsFilteredSwe = meaningIdsSwe.map((meaningItem) => meaningItem.meaning_id); 
+         setOwnVerbsSwedish(meaningIdsFilteredSwe);
+      } else if (props.language === 2) {
+         let meaningIdsGer = [];
+         meaningIdsGer = await fetchMeaningIds(props.language);
+         let meaningIdsFilteredGer = meaningIdsGer.map((meaningItem) => meaningItem.meaning_id); 
+         setOwnVerbsGerman(meaningIdsFilteredGer);
       }
    }
 
@@ -171,6 +170,10 @@ const BrowseScreen = (props) => {
             goBack={navigation.goBack}
          />
          <>
+            <Text>
+               ownVerbsSwedish {ownVerbsSwedish.length}
+               ownVerbsGerman {ownVerbsGerman.length}
+            </Text>
             <HStack alignSelf='center'>
             <ButtonComponentNarrow
                withMargin
@@ -211,7 +214,6 @@ const BrowseScreen = (props) => {
                   levelToShow={levelToShow}
                   verbsLoaded={verbsLoaded}
                   setVerbsLoaded={setVerbsLoaded}
-                  verbAdded={verbAdded}
                />
                ) : (
                <VerbListByAlphabet
@@ -220,8 +222,6 @@ const BrowseScreen = (props) => {
                   removeFromOwnVerbs={removeFromOwnVerbs}
                   ownVerbsSwedish={ownVerbsSwedish}
                   ownVerbsGerman={ownVerbsGerman} 
-                  setOwnVerbs={setOwnVerbs}
-                  verbAdded={verbAdded}
                />)}
          </ScrollView>
          <FooterComponent />

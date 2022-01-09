@@ -24,6 +24,10 @@ import {
 
 import { getResults, createResultsDb, saveResults } from '../helpers/results';
 
+import { filterOutWithoutInfinitive } from '../helpers/helpers';
+
+import { fetchOwnVerbs } from '../helpers/ownVerbs';
+
 import FooterComponent from '../components/footer/FooterComponent';
 import HeaderComponent from '../components/header/HeaderComponent';
 import ResultView from '../components/results/ResultView';
@@ -55,8 +59,11 @@ const FormsScreen = (props) => {
    const [currentComponentIndex, setCurrentComponentIndex] = useState(0);
    const [startTime, setStartTime] = useState(0);
    const [endTime, setEndTime] = useState(0);
+   const [ownVerbsLoaded, setOwnVerbsLoaded] = useState(false);
 
    const navigation = useNavigation();
+
+   console.log('props: ', props.verbsGermanOwn);
 
    // This useEffect creates the result database
    useEffect(() => {
@@ -123,14 +130,14 @@ const FormsScreen = (props) => {
       if (started) {
          setVerbsFiltered(false);
          let verbsByLanguage;
-         if (props.language === 1) {
-            verbsByLanguage = props.verbsSwedish.filter(
-               (verb) => verb.infinitive.length > 1
-            );
-         } else {
-            verbsByLanguage = props.verbsGerman;
+         let filteredVerbs;
+         if (props.level !== 4) {
+            verbsByLanguage = props.language === 1 ? filterOutWithoutInfinitive(props.verbsSwedish) : props.verbsGerman;
+            filteredVerbs = filterVerbsByLevel(verbsByLanguage, props.level);
+         } else if (props.level === 4) {
+            verbsByLanguage = props.language === 1 ? filterOutWithoutInfinitive(props.verbsSwedishOwn) : props.verbsGermanOwn;
+            filteredVerbs = verbsByLanguage;
          }
-         const filteredVerbs = filterVerbsByLevel(verbsByLanguage, props.level);
          setVerbs(filteredVerbs);
          setVerbsFiltered(true);
       }
@@ -145,10 +152,10 @@ const FormsScreen = (props) => {
    useEffect(() => {
       if (verbsFiltered && started) {
          // Get the forms of 5 different verbs
-         const rndVerbsFinal = getRndVerbsForForms(verbs, 5);
+         const rndVerbsFinal = getRndVerbsForForms(verbs, 5, props.level);
          setRandomizedVerbs(rndVerbsFinal);
       }
-   }, [verbsFiltered, verbs, started, props.language]);
+   }, [verbsFiltered, verbs, started]);
 
    useEffect(() => {
       if (tableCreated && resultsReady) {
@@ -284,6 +291,19 @@ const FormsScreen = (props) => {
                      />
                   </>
                }
+               <Text>
+                  randomizedVerbs.length: {randomizedVerbs.length}{'\n'}
+                  props.verbsSwedishOwn.length: {props.verbsSwedishOwn.length}{'\n'}
+                  props.verbsGermanOwn.length: {props.verbsGermanOwn.length}{'\n'}
+                  verbs.length: {verbs.length}
+               </Text>
+               {props.level === 4 && randomizedVerbs.length < 5 &&
+                 <InfoContent centered>
+                 <Text>
+                     Sinulla pitää olla vähintään 5 verbiä valittuna. Valitse {5 - randomizedVerbs.length} verbiä lisää! 
+                 </Text>
+              </InfoContent>
+               }              
                {randomizedVerbs && started &&
                   <InfoContent centered>
                      <Text>
@@ -367,6 +387,8 @@ const FormsScreen = (props) => {
 const mapStateToProps = (state) => ({
    verbsGerman: state.verbs.verbsGerman,
    verbsSwedish: state.verbs.verbsSwedish,
+   verbsSwedishOwn: state.verbs.verbsSwedishOwn,
+   verbsGermanOwn: state.verbs.verbsGermanOwn,
    level: state.settings.level,
    language: state.settings.language,
    infinitive: state.settings.tenses.infinitive,

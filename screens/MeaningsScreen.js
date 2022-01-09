@@ -29,6 +29,8 @@ import { connect } from 'react-redux';
 import CardComponentMastery from '../components/cards/CardComponentMastery';
 import { createResultsDb, getResults, saveResults } from '../helpers/results';
 
+import { filterOutWithoutInfinitive } from '../helpers/helpers';
+
 import { styles } from '../styles/styles';
 import InfoContent from '../components/styling/InfoContent';
 
@@ -50,6 +52,7 @@ const MeaningsScreen = (props) => {
    const [numberQuestions, setNumberQuestions] = useState(5);
    const [startTime, setStartTime] = useState(0);
    const [endTime, setEndTime] = useState(0);
+   const [infoShown, setInfoShown] = useState(false);
 
    const scrollViewRef = useRef();
 
@@ -60,6 +63,16 @@ const MeaningsScreen = (props) => {
          scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: false });
       }
    }, [finished]);
+
+   useEffect(() => {
+      if (props.language === 1 && props.verbsSwedishOwn.length < 20) {
+         setInfoShown(true);
+      } else if (props.language === 2 && props.verbsGermanOwn.length < 20) {
+         setInfoShown(true);
+      } else {
+         setInfoShown(false);
+      }
+   }, [props.language, props.verbsSwedishOwn, props.verbsGermanOwn])
 
    // useEffect cleanup
    useEffect(() => {
@@ -77,14 +90,19 @@ const MeaningsScreen = (props) => {
          let verbsByLanguage;
          if (props.language === 1) {
             // Exclude verbs without infinitive forms (Swedish)
-            verbsByLanguage = props.verbsSwedish.filter(
-               (verb) => verb.infinitive.length > 1
-            );
-         } else {
-            verbsByLanguage = props.verbsGerman;
+            verbsByLanguage = filterOutWithoutInfinitive(props.level === 4 ? props.verbsSwedishOwn : props.verbsSwedish);
+         } else if (props.language === 2 ) {
+            verbsByLanguage = props.level === 4 ? props.verbsGermanOwn : props.verbsGerman;
          }
-         const filteredVerbs = filterVerbsByLevel(verbsByLanguage, props.level);
-         setVerbs(filteredVerbs);
+         let filteredVerbs = [];
+         if (props.level !== 4) {
+            filteredVerbs = filterVerbsByLevel(verbsByLanguage, props.level);       
+         }
+         if (props.level !== 4) {
+            setVerbs(filteredVerbs);
+         } else {
+            setVerbs(verbsByLanguage);
+         }
          setVerbsFiltered(true);
       }
    }, [props.level, props.language, started]);
@@ -109,6 +127,9 @@ const MeaningsScreen = (props) => {
                break;
             case 3:
                setNumberQuestions(10);
+               break;
+            case 4:
+               setNumberQuestions(5);
                break;
          }
          if (verbsFiltered) {
@@ -202,6 +223,12 @@ const MeaningsScreen = (props) => {
             title="Verbien merkitykset"
             goBack={navigation.goBack}
          />
+         {infoShown &&
+         <InfoContent>
+            Olet valinnut {props.language === 1 ? props.verbsSwedishOwn.length : props.verbsGermanOwn.length} omaa verbiä. 
+            Valitse vielä vähintään {props.language === 1 ? (20 - props.verbsSwedishOwn.length) : (20 - props.verbsGermanOwn.length)} lisää.
+         </InfoContent>
+         }
          <ScrollView
             keyboardShouldPersistTaps="always"
             style={styles(props).flexOne, { backgroundColor: '#eee' }}

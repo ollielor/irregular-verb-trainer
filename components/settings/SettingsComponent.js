@@ -59,6 +59,12 @@ const SettingsComponent = (props) => {
                disabled={props.level === 3}
                withMargin
             />
+            <ButtonComponentNarrow
+               title="Omat verbit"
+               function={() => changeLevel(4)}
+               disabled={props.level === 4}
+               withMargin
+            />
          </HStack>
       </Box>
    );

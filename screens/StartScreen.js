@@ -16,10 +16,14 @@ import {
    updatePresperf,
 } from '../store/actions/settings';
 
+import { dispatchOwnVerbs } from '../helpers/ownVerbs';
+
 import { updateResults } from '../store/actions/results';
 
 import { getResults, createResultsDb } from '../helpers/results';
 import { createOwnVerbsDb } from '../helpers/ownVerbs';
+
+import { fetchOwnVerbs } from '../helpers/ownVerbs';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -32,7 +36,7 @@ import Heading from '../components/styling/Heading';
 
 import DatabaseSettings from '../modules/DatabaseSettings';
 
-import { fetchVerbsGerman, fetchVerbsSwedish } from '../store/actions/verbs';
+import { fetchVerbsGerman, fetchVerbsSwedish, fetchOwnVerbsSwedish, fetchOwnVerbsGerman } from '../store/actions/verbs';
 
 import DatabaseVerbsGerman from '../modules/DatabaseVerbsGerman';
 import DatabaseVerbsSwedish from '../modules/DatabaseVerbsSwedish';
@@ -47,6 +51,8 @@ const StartScreen = (props) => {
    const [germanLoaded, setGermanLoaded] = useState(false);
    const [swedishLoaded, setSwedishLoaded] = useState(false);
    const [dbError, setDbError] = useState('');
+   const [swedishDispatched, setSwedishDispatched] = useState(false);
+   const [germanDispatched, setGermanDispatched] = useState(false);
 
    const navigation = useNavigation();
 
@@ -55,7 +61,6 @@ const StartScreen = (props) => {
        'Quicksand_SemiBold': require('../assets/Quicksand-SemiBold.ttf'),
        'Quicksand_Bold': require('../assets/Quicksand-Bold.ttf'),
    });
-
 
    useEffect(() => {
       createResultsDb();
@@ -128,6 +133,7 @@ const StartScreen = (props) => {
                   [],
                   (tx, results) => {
                      props.dispatch(fetchVerbsGerman(results.rows._array));
+                     setGermanDispatched(true);
                   },
                   (tx, error) => {
                      console.log('Could not execute query: ', error);
@@ -150,6 +156,7 @@ const StartScreen = (props) => {
                   [],
                   (tx, results) => {
                      props.dispatch(fetchVerbsSwedish(results.rows._array));
+                     setSwedishDispatched(true);
                   },
                   (tx, error) => {
                      console.log('Could not execute query: ', error);
@@ -163,7 +170,7 @@ const StartScreen = (props) => {
       }
    }, [swedishLoaded]);
 
-   // useEffect cleanup
+    // useEffect cleanup
    useEffect(() => {
       return () => { };
    }, []);
@@ -264,6 +271,40 @@ const StartScreen = (props) => {
       fetchSettings();
    }
 
+   useEffect(() => {
+      if (swedishDispatched) {
+         dispatchOwnVerbsSwedish();
+      }
+      if (germanDispatched) {
+         dispatchOwnVerbsGerman();
+      }
+   }, [swedishDispatched, germanDispatched])
+
+   const dispatchOwnVerbsSwedish = async () => {
+      props.dispatch(await fetchOwnVerbs(props.verbsSwedish, 1));
+   }
+
+   const dispatchOwnVerbsGerman = async () => {
+      props.dispatch(await fetchOwnVerbs(props.verbsGerman, 2));
+   }
+
+
+/*    const dispatchOwnVerbs = async () => {
+      props.dispatch(await fetchOwnVerbs( 
+         props.language === 1 ? props.verbsSwedish : props.verbsGerman,
+         props.language
+      ))
+      console.log('verbsGermanOwn: ', props.verbsGermanOwn);
+   }
+ */
+/*    const dispatchSelected = async () => {
+         props.dispatch(dispatchOwnVerbs(
+         props.language, 
+         props.language === 1 ? props.verbsSwedish : props.verbsGerman
+      ));
+      console.log('line 277: ', props.verbsGermanOwn); 
+   } */
+
    return (
       <>
          {!fontsLoaded || !settingsLoaded && (
@@ -291,6 +332,15 @@ const StartScreen = (props) => {
          {fontsLoaded && settingsLoaded ? (
             <>
                <HeaderComponent title="Verbivalmentaja" noArrow />
+               <Text>
+                  props.verbsGermanOwn {props.verbsGermanOwn.length}
+               </Text>
+               <Text>
+                  props.verbsSwedishOwn {props.verbsSwedishOwn.length}
+               </Text>
+               <Text>
+                  props.verbsGerman {props.verbsGerman.length}
+               </Text>
                <ScrollView style={styles(props).containerGrey}>
                   <Stack style={styles(props).containerGrey}>
                      <VStack>
@@ -389,6 +439,10 @@ const mapStateToProps = (state) => ({
    past: state.settings.tenses.past,
    presperf: state.settings.tenses.presperf,
    results: state.results.results,
+   verbsSwedish: state.verbs.verbsSwedish,
+   verbsGerman: state.verbs.verbsGerman,
+   verbsSwedishOwn: state.verbs.verbsSwedishOwn,
+   verbsGermanOwn: state.verbs.verbsGermanOwn,
 });
 
 export default connect(mapStateToProps)(StartScreen);

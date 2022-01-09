@@ -9,7 +9,7 @@ const ButtonBordered = (props) => {
          bg={props.bg}
          onPress={props.function}
       >
-         <Text uppercase={false} style={{color: props.textColor}}>
+         <Text uppercase={false} style={{color: props.textColor, fontFamily: 'Quicksand_SemiBold'}}>
             {props.title}
          </Text>
       </Button>

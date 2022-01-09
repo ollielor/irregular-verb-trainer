@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HStack, Box, Text } from 'native-base';
+import { HStack, Box, Text, usePropsWithComponentTheme } from 'native-base';
 import { styles } from '../../styles/styles';
 import ButtonComponentNarrow from '../buttons/ButtonComponentNarrow';
 import SpinnerComponent from '../styling/SpinnerComponent';
@@ -15,10 +15,11 @@ const CardComponentBrowse = (props) => {
    useEffect(() => {
       if (props.language === 1) {
          setAdded(props.ownVerbsSwedish.includes(props.verb.meaning_id));
-      } else {
+      } else if (props.language === 2) {
          setAdded(props.ownVerbsGerman.includes(props.verb.meaning_id));
       }
-   })
+   }, [props.ownVerbsSwedish, props.ownVerbsGerman, props.language])
+ 
 
    return (
       <>
@@ -37,10 +38,10 @@ const CardComponentBrowse = (props) => {
             </Box>
             <Box flex='1'>
                {added &&
-                  <ButtonBordered title='En osaa' bg='#ff0033' textColor='#eee' function={() => props.removeFromOwnVerbs(props.verb.meaning_id)} />
+                  <ButtonBordered title='Harjoittelen' bg='#4E00C5' textColor='#eee' function={() => props.removeFromOwnVerbs(props.verb.meaning_id)} />
                }
                {!added &&
-                  <ButtonBordered title='Osaan jo' bg='#4E00C5' textColor='#eee' function={() => props.addToOwnVerbs(props.verb.meaning_id)} />
+                  <ButtonBordered title='Osaan jo' bg='#66dd33' textColor='#000' function={() => props.addToOwnVerbs(props.verb.meaning_id)} />
                }
                <Text style={{ color: '#7E00C5', fontWeight: 'bold' }} mt='1'>Taso {props.level}</Text>
             </Box>

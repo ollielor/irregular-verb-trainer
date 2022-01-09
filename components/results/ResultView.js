@@ -13,8 +13,6 @@ import ButtonComponentNarrow from '../buttons/ButtonComponentNarrow';
 const ResultView = (props) => {
    const [feedback, setFeedback] = useState('');
 
-   console.log('totalPercentage ', props.resultsData.totalPercentage);
-
    useEffect(() => {
       if (props.resultsData.totalPercentage >= 87.5) {
          setFeedback(

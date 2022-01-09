@@ -14,8 +14,7 @@ export const getRandomVerb = (rndInt, verbs) => {
    return verbs[rndInt];
 };
 
-// This function creates an array of verbs with same meaning
-export const getRandomVerbArray = (rndInt, verbs) => {
+/* export const getRandomVerbArray = (rndInt, verbs) => {
    let verbsArray = [];
    let matchingVerbs = verbs.filter((verb) => verb.meaning_id === rndInt);
    for (let i = 0; i < matchingVerbs.length; i++) {
@@ -24,7 +23,19 @@ export const getRandomVerbArray = (rndInt, verbs) => {
    if (verbsArray.length > 0) {
       return verbsArray;
    }
-};
+}; */
+
+// This function creates an array of verbs with same meaning
+export const getRandomVerbArray = (rndInt, verbs) => {
+   let verbsArray = [];
+   let matchingVerbs = [];
+   matchingVerbs = verbs.filter((verb) => verb.meaning_id === rndInt);
+   verbsArray = matchingVerbs.map((matchingVerb) => [...verbsArray, matchingVerb]);
+/*    if (verbsArray.length > 0) {
+      return verbsArray;
+   } */
+   return verbsArray;
+}
 
 export const filterVerbsByLevel = (verbs, level) => {
    switch (level) {
@@ -73,7 +84,7 @@ export const getRndVerbs = (verbs, numberVerbs) => {
 };
 
 // This function is used for randomizing verbs for Forms screen
-export const getRndVerbsForForms = (verbs, numberVerbs) => {
+export const getRndVerbsForForms = (verbs, numberVerbs, level) => {
    let rndVerbArray = [];
    let rndVerbs = [];
    let rndVerbsFinal = [];
@@ -85,9 +96,13 @@ export const getRndVerbsForForms = (verbs, numberVerbs) => {
       // If no match, the randomizing will be repeated
       const rndInt = rndIntGenerator(300);
       rndVerbArray = getRandomVerbArray(rndInt, verbs);
-      if (rndVerbArray) {
-         rndVerbs.push(rndVerbArray);
+      rndVerbs = [...rndVerbs, ...rndVerbArray];
+/*       if (level !== 4) {
+         rndVerbArray = getRandomVerbArray(rndInt, verbs);
       }
+      if (level !== 4 && rndVerbArray) {
+         rndVerbs = [...rndVerbs, rndVerbArray];
+      } */
       if (rndVerbs.length > 1) {
          // Check for duplicates with same meaning
          rndVerbsFinal = rndVerbs.filter(
@@ -101,3 +116,7 @@ export const getRndVerbsForForms = (verbs, numberVerbs) => {
    }
    return rndVerbsFinal;
 };
+
+export const filterOutWithoutInfinitive = (verbsInSwedish) => {
+   return verbsInSwedish.filter((verb) => verb.infinitive.length > 1);
+}

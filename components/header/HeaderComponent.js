@@ -44,9 +44,9 @@ const HeaderComponent = (props) => {
                      style={styles(props).buttonTextStyle}
                      onPress={() => navigation.navigate('Omat asetukseni')}
                   >
-                     {props.language === 1 && 'SV, taso '}
-                     {props.language === 2 && 'DE, taso '}
-                     {props.level}
+                     {props.language === 1 && 'SV, '}
+                     {props.language === 2 && 'DE, '}
+                     {props.level !== 4 ? ` taso ${props.level}` : 'omat verbit'} 
                   </Text>
                </HStack>
             </Stack>
