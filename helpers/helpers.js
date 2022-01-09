@@ -27,14 +27,19 @@ export const getRandomVerb = (rndInt, verbs) => {
 
 // This function creates an array of verbs with same meaning
 export const getRandomVerbArray = (rndInt, verbs) => {
-   let verbsArray = [];
+   let verbsArray= [];
    let matchingVerbs = [];
    matchingVerbs = verbs.filter((verb) => verb.meaning_id === rndInt);
-   verbsArray = matchingVerbs.map((matchingVerb) => [...verbsArray, matchingVerb]);
-/*    if (verbsArray.length > 0) {
+   verbsArray = matchingVerbs.map((matchingVerbArray) => matchingVerbArray);
+   console.log(typeof(verbsArray));
+   if (verbsArray.length > 0) {
+      return verbsArray;
+   }
+   //verbsArray = matchingVerbs.map((matchingVerbArray) => matchingVerbArray);
+/*    console.log('verbsArray: ', verbsArray);
+   if (verbsArray.length > 0) {
       return verbsArray;
    } */
-   return verbsArray;
 }
 
 export const filterVerbsByLevel = (verbs, level) => {
@@ -96,7 +101,10 @@ export const getRndVerbsForForms = (verbs, numberVerbs, level) => {
       // If no match, the randomizing will be repeated
       const rndInt = rndIntGenerator(300);
       rndVerbArray = getRandomVerbArray(rndInt, verbs);
-      rndVerbs = [...rndVerbs, ...rndVerbArray];
+      if (rndVerbArray) {
+         rndVerbs.push(rndVerbArray);
+      }
+      console.log('rndVerbs: ', rndVerbs)
 /*       if (level !== 4) {
          rndVerbArray = getRandomVerbArray(rndInt, verbs);
       }

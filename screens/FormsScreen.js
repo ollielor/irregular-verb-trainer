@@ -322,6 +322,7 @@ const FormsScreen = (props) => {
                      </Text>
                   </InfoContent>
                }
+               {console.log('Verbs from FormsScreen: ', verbs)}
                {randomizedVerbs ? (
                   randomizedVerbs.map((verbFormArray, index) =>
                      verbFormArray.length === 1 ? (

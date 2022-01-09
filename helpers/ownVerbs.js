@@ -79,6 +79,39 @@ export const deleteMeaningId = (meaningId, language) => {
    ); 
 } */
 
+/* export const fetchOwnVerbs = async (verbsByLanguage, language) => {
+   let meaningIds = {};
+   meaningIds = {[language]: await fetchMeaningIds(language)};
+   let verbsFetched = [];
+   verbsFetched = meaningIds[language].map((meaningItem) => meaningItem.meaning_id)
+      .map((meaningId) => verbsByLanguage.filter((verb) => verb.meaning_id === meaningId));
+   //let verbsFlatten = verbsFetched.flatMap((verbArray) => verbArray);
+   let verbsOrdered = [];
+   verbsOrdered = verbsFetched.map((verbArray) => verbArray.length < 2 ? verbArray[0] : verbArray);
+   if (language === 1) {
+      return fetchOwnVerbsSwedish(verbsOrdered);
+   } else if (language === 2) {
+      return fetchOwnVerbsGerman(verbsOrdered);
+   }
+} */
+
+/* export const fetchOwnVerbs = async (verbsByLanguage, language) => {
+   let meaningIds = {};
+   meaningIds = {[language]: await fetchMeaningIds(language)};
+   let verbsFetched = [];
+   verbsFetched = meaningIds[language].map((meaningItem) => meaningItem.meaning_id)
+      .map((meaningId) => verbsByLanguage.filter((verb) => verb.meaning_id === meaningId));
+   let verbsOrdered = [];
+   verbsOrdered = verbsFetched.map((verbArray) => verbArray);
+   if (language === 1) {
+      console.log('verbsFetched Swedish: ', verbsOrdered)
+      return fetchOwnVerbsSwedish(verbsOrdered);
+   } else if (language === 2) {
+      console.log('verbsFetched German: ', verbsOrdered)
+      return fetchOwnVerbsGerman(verbsOrdered);
+   }
+};
+ */
 export const fetchOwnVerbs = async (verbsByLanguage, language) => {
    let meaningIds = {};
    meaningIds = {[language]: await fetchMeaningIds(language)};

@@ -155,11 +155,14 @@ const BrowseScreen = (props) => {
          meaningIdsSwe = await fetchMeaningIds(props.language);
          let meaningIdsFilteredSwe = meaningIdsSwe.map((meaningItem) => meaningItem.meaning_id); 
          setOwnVerbsSwedish(meaningIdsFilteredSwe);
+         await fetchOwnVerbs(props.verbsSwedish, props.language);
       } else if (props.language === 2) {
          let meaningIdsGer = [];
          meaningIdsGer = await fetchMeaningIds(props.language);
+         console.log('meaningIdsGer: ', meaningIdsGer);
          let meaningIdsFilteredGer = meaningIdsGer.map((meaningItem) => meaningItem.meaning_id); 
          setOwnVerbsGerman(meaningIdsFilteredGer);
+         await fetchOwnVerbs(props.verbsGerman, props.language);
       }
    }
 
