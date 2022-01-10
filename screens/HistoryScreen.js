@@ -28,7 +28,7 @@ const HistoryScreen = (props) => {
 
    const navigation = useNavigation();
 
-   const levels = [1, 2, 3];
+   const levels = [1, 2, 3, 4];
 
    useEffect(() => {
       return () => { };
@@ -83,7 +83,7 @@ const HistoryScreen = (props) => {
                      </Heading>
                      {levels.map((level, index) => (
                         <Fragment key={index}>
-                           <Subheading>Taso {level}</Subheading>
+                           <Subheading>{level === 4 ? 'Omat verbit' : `Taso ${level}`}</Subheading>
                            <ProgressComponent resultsDropped={dropped} historyLevel={level} type={1} />
                            <ResultHistoryView historyLevel={level} type={1} hideButton />
                         </Fragment>
@@ -94,7 +94,7 @@ const HistoryScreen = (props) => {
                      </Heading>
                      {levels.map((level, index) => (
                         <Fragment key={index}>
-                           <Subheading>Taso {level}</Subheading>
+                           <Subheading>{level === 4 ? 'Omat verbit' : `Taso ${level}`}</Subheading>
                            <ProgressComponent resultsDropped={dropped} historyLevel={level} type={2} />
                            <ResultHistoryView historyLevel={level} type={2} hideButton />
                         </Fragment>

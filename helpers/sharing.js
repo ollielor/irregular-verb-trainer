@@ -43,7 +43,8 @@ export const getResultsForSharing = (type, level, language, results) => {
           resultText += `|<br>- Keskimääräinen osaaminen ${getResultsForSharing(
              type,
              i,
-             language
+             language,
+             results
           )
              .percentagesAverage.toFixed(2)
              .replace('.', ',')} prosenttia (sisältää aikabonukset ja -vähennykset)`;
