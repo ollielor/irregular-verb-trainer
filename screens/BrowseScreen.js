@@ -18,6 +18,7 @@ import { fetchOwnVerbsSwedish, fetchOwnVerbsGerman } from '../store/actions/verb
 
 import DatabaseOwnVerbs from '../modules/DatabaseOwnVerbs';
 import { createOwnVerbsDb, insertMeaningId, deleteMeaningId, fetchMeaningIds, mapVerbsToMeaningIds, fetchOwnVerbs } from '../helpers/ownVerbs';
+import SelectionBar from '../components/settings/SelectionBar';
 
 const BrowseScreen = (props) => {
 
@@ -32,8 +33,6 @@ const BrowseScreen = (props) => {
    const [ownVerbsDbCreated, setOwnVerbsDbCreated] = useState(false);
    const [meaningIdsSelectedSwe, setMeaningIdsSelectedSwe] = useState([]);
    const [meaningIdsSelectedGer, setMeaningIdsSelectedGer] = useState([]);
-
-   const meaningIds = [];
 
    const levels = [1, 2, 3];
 
@@ -155,14 +154,14 @@ const BrowseScreen = (props) => {
          meaningIdsSwe = await fetchMeaningIds(props.language);
          let meaningIdsFilteredSwe = meaningIdsSwe.map((meaningItem) => meaningItem.meaning_id); 
          setOwnVerbsSwedish(meaningIdsFilteredSwe);
-         await fetchOwnVerbs(props.verbsSwedish, props.language);
+         props.dispatch(await fetchOwnVerbs(props.verbsSwedish, props.language));
       } else if (props.language === 2) {
          let meaningIdsGer = [];
          meaningIdsGer = await fetchMeaningIds(props.language);
          console.log('meaningIdsGer: ', meaningIdsGer);
          let meaningIdsFilteredGer = meaningIdsGer.map((meaningItem) => meaningItem.meaning_id); 
          setOwnVerbsGerman(meaningIdsFilteredGer);
-         await fetchOwnVerbs(props.verbsGerman, props.language);
+         props.dispatch(await fetchOwnVerbs(props.verbsGerman, props.language));
       }
    }
 
@@ -173,10 +172,6 @@ const BrowseScreen = (props) => {
             goBack={navigation.goBack}
          />
          <>
-            <Text>
-               ownVerbsSwedish {ownVerbsSwedish.length}
-               ownVerbsGerman {ownVerbsGerman.length}
-            </Text>
             <HStack alignSelf='center'>
             <ButtonComponentNarrow
                withMargin
@@ -205,6 +200,12 @@ const BrowseScreen = (props) => {
                      key={index}
                   />))}
                   </HStack>
+         }
+         {(props.language === 1 && ownVerbsSwedish.length > 0) || (props.language === 2 && ownVerbsGerman.length > 0) &&
+            <SelectionBar 
+               ownVerbsSwedish={ownVerbsSwedish}
+               ownVerbsGerman={ownVerbsGerman}
+            />
          }
          <ScrollView style={styles(props).browseContainer}>
                {!orderAlphabetically ? (
@@ -236,6 +237,8 @@ const BrowseScreen = (props) => {
 const mapStateToProps = (state) => ({
    verbsGerman: state.verbs.verbsGerman,
    verbsSwedish: state.verbs.verbsSwedish,
+   verbsGermanOwn: state.verbs.verbsGermanOwn,
+   verbsSwedishOwn: state.verbs.verbsSwedishOwn,
    language: state.settings.language,
 });
 

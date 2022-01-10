@@ -296,6 +296,13 @@ export const styles = (props) => StyleSheet.create({
       flex: 1,
       backgroundColor: '#eee'
    },
+   // Styles for selection bar (BrowseScreen)
+   selectionBar: {
+      marginTop: 10,
+      color: "#7E00C5",
+      padding: 10,
+      textAlign: 'center',
+   },
    // Common styles
    accent: {
       fontWeight: 'bold',
