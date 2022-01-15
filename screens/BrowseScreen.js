@@ -14,20 +14,34 @@ import { styles } from '../styles/styles';
 import VerbListByLevel from '../components/verblists/VerbListByLevel';
 import SpinnerComponent from '../components/styling/SpinnerComponent';
 import VerbListByAlphabet from '../components/verblists/VerbListByAlphabet';
-import { fetchOwnVerbsSwedish, fetchOwnVerbsGerman } from '../store/actions/verbs';
+import {
+   fetchOwnVerbsSwedish,
+   fetchOwnVerbsGerman,
+} from '../store/actions/verbs';
 
 import DatabaseOwnVerbs from '../modules/DatabaseOwnVerbs';
-import { createOwnVerbsDb, insertMeaningId, deleteMeaningId, fetchMeaningIds, mapVerbsToMeaningIds, fetchOwnVerbs } from '../helpers/ownVerbs';
+import {
+   createOwnVerbsDbSwedish,
+   createOwnVerbsDbGerman,
+   convertStringsToNumbers,
+   deleteMeaningId,
+   fetchMeaningIds,
+   deleteAllMeaningIds,
+   fetchOwnVerbs,
+   insertMeaningIds,
+   getMeaningIdsArray,
+} from '../helpers/ownVerbs';
 import SelectionBar from '../components/settings/SelectionBar';
 
 const BrowseScreen = (props) => {
-
    const [orderAlphabetically, setOrderAlphabetically] = useState(false);
    const [verbs, setVerbs] = useState([]);
    const [verbsLoaded, setVerbsLoaded] = useState(false);
    const [ownVerbsSwedish, setOwnVerbsSwedish] = useState([]);
    const [ownVerbsGerman, setOwnVerbsGerman] = useState([]);
    const [levelToShow, setLevelToShow] = useState(1);
+   const [ownVerbsAdded, setOwnVerbsAdded] = useState(true);
+   const [ownVerbCount, setOwnVerbCount] = useState(0);
    const [verbAdded, setVerbAdded] = useState(null);
    const [verbRemoved, setVerbRemoved] = useState(null);
    const [ownVerbsDbCreated, setOwnVerbsDbCreated] = useState(false);
@@ -38,197 +52,167 @@ const BrowseScreen = (props) => {
 
    const navigation = useNavigation();
 
+   console.log('ownVerbsGerman: ', ownVerbsGerman);
+
    useEffect(() => {
       // Create own verbs database for Swedish verbs
-      createOwnVerbsDb(1);
+      createOwnVerbsDbSwedish();
       // Create own verbs database for German verbs
-      createOwnVerbsDb(2);
-      updateOwnVerbIds();
+      createOwnVerbsDbGerman();
+      updateOwnVerbs();
    }, []);
 
    useEffect(() => {
-      return () => { };
+      return () => {};
    }, []);
+
+   useEffect(() => {
+      updateOwnVerbs(props.language);
+   });
 
    const showByLevel = (level) => {
       setLevelToShow(level);
       setVerbsLoaded(false);
-   }
+   };
 
    const addToOwnVerbs = (meaningId) => {
       let verbsFiltered = [];
       if (props.language === 1) {
-         verbsFiltered = ownVerbsSwedish.filter((ownVerb) => ownVerb !== meaningId);
+         verbsFiltered = ownVerbsSwedish.filter(
+            (ownVerb) => ownVerb !== meaningId
+         );
       } else {
-         verbsFiltered = ownVerbsGerman.filter((ownVerb) => ownVerb !== meaningId);
+         verbsFiltered = ownVerbsGerman.filter(
+            (ownVerb) => ownVerb !== meaningId
+         );
       }
       if (props.language === 1) {
          setOwnVerbsSwedish([...verbsFiltered, meaningId]);
-      } else {
-         setOwnVerbsGerman([...verbsFiltered, meaningId]);   
+      } else if (props.language === 2) {
+         setOwnVerbsGerman([...verbsFiltered, meaningId]);
       }
-      insertMeaningId(meaningId, props.language);
-      updateOwnVerbIds();
-   }
+      insertMeaningIds(meaningId, props.language);
+   };
 
    const removeFromOwnVerbs = (meaningId) => {
       let ownVerbList = [];
       if (props.language === 1) {
-         ownVerbList = ownVerbsSwedish.filter((ownVerb) => ownVerb !== meaningId);
+         ownVerbList = ownVerbsSwedish.filter(
+            (ownVerb) => ownVerb !== meaningId
+         );
          setOwnVerbsSwedish(ownVerbList);
       } else {
-         ownVerbList = ownVerbsGerman.filter((ownVerb) => ownVerb !== meaningId);
+         ownVerbList = ownVerbsGerman.filter(
+            (ownVerb) => ownVerb !== meaningId
+         );
          setOwnVerbsGerman(ownVerbList);
       }
       deleteMeaningId(meaningId, props.language);
-      updateOwnVerbIds();
-   }
+      updateOwnVerbs();
+   };
 
-/*    const updateVerbs = () => {
-      if (props.language === 1) {
-         setMeaningIdsSelectedSwe(fetchMeaningIds(props.language));
-      } else {
-         setMeaningIdsSelectedGer(fetchMeaningIds(props.language));   
+   const selectAll = (language) => {
+      let ownVerbList = [];
+      deleteAllMeaningIds(language);
+      if (language === 1) {
+         ownVerbList = props.verbsSwedish.map((verb) => verb.meaning_id);
+         console.log('ownVerbList: ', ownVerbList);
+         setOwnVerbsSwedish(ownVerbList);
+         insertMeaningIds(ownVerbList, props.language);
+         updateOwnVerbs(language);
+      } else if (language === 2) {
+         ownVerbList = props.verbsGerman.map((verb) => verb.meaning_id);
+         setOwnVerbsGerman(ownVerbList);
+         insertMeaningIds(ownVerbList, props.language);
+         updateOwnVerbs(language);
       }
-   }
- */
+   };
 
-   /* // Replace here onwards
+   const deselectAll = (language) => {
+      deleteAllMeaningIds(language);
+      if (language === 1) {
+         setOwnVerbsSwedish([]);
+      } else if (language === 2) {
+         setOwnVerbsGerman([]);
+      }
+      updateOwnVerbs(language);
+   };
 
-   const deleteMeaningId = (meaningId) => {
-      let query = props.language === 1 ? 'delete from own_verbs_sv where meaning_id = (?);' : 'delete from own_verbs_de where meaning_id = (?);'
-      DatabaseOwnVerbs.transaction(
-         (tx) => {
-            tx.executeSql(query, [
-               meaningId
-            ]);
-         },
-         (error) => {
-            console.log('Transaction error: ', error);
-         },
-         null,
-         null
-      );
-   }
-
-   const fetchMeaningIds = () => {
-      let query = props.language === 1 ? 'select * from own_verbs_sv;' : 'select * from own_verbs_de;'
-      return DatabaseOwnVerbs.transaction(
-         (tx) => {
-            tx.executeSql(
-               query,
-               [],
-               (tx, results) => {
-                  console.log('From fetchMeaningIds: ', results.rows._array)
-                  if (props.language === 1) {
-                     setMeaningIdsSelectedSwe(results.rows._array);
-                  } else {
-                     setMeaningIdsSelectedGer(results.rows._array);
-                  }
-               },
-               (tx, error) => {
-                  console.log('Could not execute query: ', error);
-               }
-            );
-         },
-         (error) => {
-            console.log('Transaction error: ', error);
+   const updateOwnVerbs = async (language) => {
+      try {
+         if (language === 1) {
+            props.dispatch(await fetchOwnVerbs(props.verbsSwedish, language));
+         } else if (language === 2) {
+            props.dispatch(await fetchOwnVerbs(props.verbsGerman, language));
          }
-      ); 
-   } */
-
-   const updateOwnVerbIds = async () => {
-/*       let verbsByLanguage = props.language === 1 ? props.verbsSwedish : props.verbsGerman;
-      let verbsFetched = [];
-      if (props.language === 1) {
-         verbsFetched = meaningIdsSelectedSwe.map((meaningItem) => meaningItem.meaning_id)
-         .map((meaningId) => verbsByLanguage.filter((verb) => verb.meaning_id === meaningId));
-      } else {
-         verbsFetched = meaningIdsSelectedGer.map((meaningItem) => meaningItem.meaning_id)
-         .map((meaningId) => verbsByLanguage.filter((verb) => verb.meaning_id === meaningId));
+      } catch (error) {
+         console.log(error);
       }
-      let verbsOrdered = []; */
-      //verbsOrdered = verbsFetched.map((verbArray) => verbArray.length < 2 ? verbArray[0] : verbArray);
-      if (props.language === 1) {
-         let meaningIdsSwe = [];
-         meaningIdsSwe = await fetchMeaningIds(props.language);
-         let meaningIdsFilteredSwe = meaningIdsSwe.map((meaningItem) => meaningItem.meaning_id); 
-         setOwnVerbsSwedish(meaningIdsFilteredSwe);
-         props.dispatch(await fetchOwnVerbs(props.verbsSwedish, props.language));
-      } else if (props.language === 2) {
-         let meaningIdsGer = [];
-         meaningIdsGer = await fetchMeaningIds(props.language);
-         console.log('meaningIdsGer: ', meaningIdsGer);
-         let meaningIdsFilteredGer = meaningIdsGer.map((meaningItem) => meaningItem.meaning_id); 
-         setOwnVerbsGerman(meaningIdsFilteredGer);
-         props.dispatch(await fetchOwnVerbs(props.verbsGerman, props.language));
-      }
-   }
+   };
 
    return (
       <>
-         <HeaderComponent
-            title="Selaa verbejä"
-            goBack={navigation.goBack}
-         />
+         <HeaderComponent title="Selaa verbejä" goBack={navigation.goBack} />
          <>
-            <HStack alignSelf='center'>
-            <ButtonComponentNarrow
-               withMargin
-               title='Tasoittain' 
-               function={() => setOrderAlphabetically(false)}
-               borderColor='#4E00C5'
-               disabled={!orderAlphabetically} 
-            />
-            <ButtonComponentNarrow
-               withMargin
-               title='Aakkosittain'
-               function={() => setOrderAlphabetically(true)}
-               borderColor='#4E00C5'
-               disabled={orderAlphabetically} 
-            />
+            <HStack alignSelf="center">
+               <ButtonComponentNarrow
+                  withMargin
+                  title="Tasoittain"
+                  function={() => setOrderAlphabetically(false)}
+                  borderColor="#4E00C5"
+                  disabled={!orderAlphabetically}
+               />
+               <ButtonComponentNarrow
+                  withMargin
+                  title="Aakkosittain"
+                  function={() => setOrderAlphabetically(true)}
+                  borderColor="#4E00C5"
+                  disabled={orderAlphabetically}
+               />
             </HStack>
-         {!orderAlphabetically && 
-                  <HStack alignSelf='center'>
+            {!orderAlphabetically && (
+               <HStack alignSelf="center">
                   {levels.map((level, index) => (
                      <ButtonComponentNarrow
-                     withMargin
-                     title={'Taso ' + level}
-                     function={() => showByLevel(level)}
-                     borderColor='#4E00C5'
-                     disabled={levelToShow === level} 
-                     key={index}
-                  />))}
-                  </HStack>
-         }
-         {(props.language === 1 && ownVerbsSwedish.length > 0) || (props.language === 2 && ownVerbsGerman.length > 0) &&
-            <SelectionBar 
+                        withMargin
+                        title={'Taso ' + level}
+                        function={() => showByLevel(level)}
+                        borderColor="#4E00C5"
+                        disabled={levelToShow === level}
+                        key={index}
+                     />
+                  ))}
+               </HStack>
+            )}
+            <SelectionBar
                ownVerbsSwedish={ownVerbsSwedish}
                ownVerbsGerman={ownVerbsGerman}
+               selectAll={() => selectAll(props.language)}
+               deselectAll={() => deselectAll(props.language)}
             />
-         }
-         <ScrollView style={styles(props).browseContainer}>
+            <ScrollView style={styles(props).browseContainer}>
                {!orderAlphabetically ? (
-               <VerbListByLevel 
-                  verbs={verbs} 
-                  ownVerbsSwedish={ownVerbsSwedish} 
-                  ownVerbsGerman={ownVerbsGerman}
-                  addToOwnVerbs={addToOwnVerbs}
-                  removeFromOwnVerbs={removeFromOwnVerbs}
-                  levelToShow={levelToShow}
-                  verbsLoaded={verbsLoaded}
-                  setVerbsLoaded={setVerbsLoaded}
-               />
+                  <VerbListByLevel
+                     verbs={verbs}
+                     ownVerbsSwedish={ownVerbsSwedish}
+                     ownVerbsGerman={ownVerbsGerman}
+                     addToOwnVerbs={addToOwnVerbs}
+                     removeFromOwnVerbs={removeFromOwnVerbs}
+                     levelToShow={levelToShow}
+                     verbsLoaded={verbsLoaded}
+                     setVerbsLoaded={setVerbsLoaded}
+                  />
                ) : (
-               <VerbListByAlphabet
-                  verbs={verbs}
-                  addToOwnVerbs={addToOwnVerbs}
-                  removeFromOwnVerbs={removeFromOwnVerbs}
-                  ownVerbsSwedish={ownVerbsSwedish}
-                  ownVerbsGerman={ownVerbsGerman} 
-               />)}
-         </ScrollView>
-         <FooterComponent />
+                  <VerbListByAlphabet
+                     verbs={verbs}
+                     addToOwnVerbs={addToOwnVerbs}
+                     removeFromOwnVerbs={removeFromOwnVerbs}
+                     ownVerbsSwedish={ownVerbsSwedish}
+                     ownVerbsGerman={ownVerbsGerman}
+                  />
+               )}
+            </ScrollView>
+            <FooterComponent />
          </>
       </>
    );

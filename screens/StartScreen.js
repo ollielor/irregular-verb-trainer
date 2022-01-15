@@ -21,7 +21,7 @@ import { dispatchOwnVerbs } from '../helpers/ownVerbs';
 import { updateResults } from '../store/actions/results';
 
 import { getResults, createResultsDb } from '../helpers/results';
-import { createOwnVerbsDb } from '../helpers/ownVerbs';
+import { createOwnVerbsDbSwedish, createOwnVerbsDbGerman } from '../helpers/ownVerbs';
 
 import { fetchOwnVerbs } from '../helpers/ownVerbs';
 
@@ -53,6 +53,8 @@ const StartScreen = (props) => {
    const [dbError, setDbError] = useState('');
    const [swedishDispatched, setSwedishDispatched] = useState(false);
    const [germanDispatched, setGermanDispatched] = useState(false);
+   const [ownVerbsSwedishCreated, setOwnVerbsSwedishCreated] = useState(false);
+   const [ownVerbsGermanCreated, setOwnVerbsGermanCreated] = useState(false);
 
    const navigation = useNavigation();
 
@@ -170,6 +172,15 @@ const StartScreen = (props) => {
       }
    }, [swedishLoaded]);
 
+   useEffect(() => {
+      if (createOwnVerbsDbSwedish()) {
+         setOwnVerbsSwedishCreated(true);
+      }
+      if (createOwnVerbsDbGerman()) {
+         setOwnVerbsGermanCreated(true);
+      }
+   }, [])
+
     // useEffect cleanup
    useEffect(() => {
       return () => { };
@@ -272,13 +283,13 @@ const StartScreen = (props) => {
    }
 
    useEffect(() => {
-      if (swedishDispatched) {
+      if (swedishDispatched && ownVerbsSwedishCreated) {
          dispatchOwnVerbsSwedish();
       }
-      if (germanDispatched) {
+      if (germanDispatched && ownVerbsGermanCreated) {
          dispatchOwnVerbsGerman();
       }
-   }, [swedishDispatched, germanDispatched])
+   }, [swedishDispatched, germanDispatched, ownVerbsGermanCreated, ownVerbsSwedishCreated])
 
    const dispatchOwnVerbsSwedish = async () => {
       props.dispatch(await fetchOwnVerbs(props.verbsSwedish, 1));
@@ -287,23 +298,6 @@ const StartScreen = (props) => {
    const dispatchOwnVerbsGerman = async () => {
       props.dispatch(await fetchOwnVerbs(props.verbsGerman, 2));
    }
-
-
-/*    const dispatchOwnVerbs = async () => {
-      props.dispatch(await fetchOwnVerbs( 
-         props.language === 1 ? props.verbsSwedish : props.verbsGerman,
-         props.language
-      ))
-      console.log('verbsGermanOwn: ', props.verbsGermanOwn);
-   }
- */
-/*    const dispatchSelected = async () => {
-         props.dispatch(dispatchOwnVerbs(
-         props.language, 
-         props.language === 1 ? props.verbsSwedish : props.verbsGerman
-      ));
-      console.log('line 277: ', props.verbsGermanOwn); 
-   } */
 
    return (
       <>
