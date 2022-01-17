@@ -173,12 +173,10 @@ const StartScreen = (props) => {
    }, [swedishLoaded]);
 
    useEffect(() => {
-      if (createOwnVerbsDbSwedish()) {
-         setOwnVerbsSwedishCreated(true);
-      }
-      if (createOwnVerbsDbGerman()) {
-         setOwnVerbsGermanCreated(true);
-      }
+      createOwnVerbsDbSwedish();
+      setOwnVerbsSwedishCreated(true);
+      createOwnVerbsDbGerman();
+      setOwnVerbsGermanCreated(true);
    }, [])
 
     // useEffect cleanup

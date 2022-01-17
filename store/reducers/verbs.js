@@ -2,6 +2,8 @@ import { FETCH_VERBS_GERMAN } from '../actions/verbs';
 import { FETCH_VERBS_SWEDISH } from '../actions/verbs';
 import { FETCH_OWN_VERBS_GERMAN } from '../actions/verbs';
 import { FETCH_OWN_VERBS_SWEDISH } from '../actions/verbs';
+import { CLEAR_OWN_VERBS_GERMAN } from '../actions/verbs';
+import { CLEAR_OWN_VERBS_SWEDISH } from '../actions/verbs';
 
 const initialState = {
    verbsGerman: [],
@@ -31,6 +33,14 @@ const verbsReducer = (state = initialState, action) => {
          return {
             ...state,
             verbsSwedishOwn: action.payload,
+         };
+      case CLEAR_OWN_VERBS_GERMAN:
+         return {
+            state,
+         };
+      case CLEAR_OWN_VERBS_SWEDISH:
+         return {
+            state,
          };
       default:
          return state;

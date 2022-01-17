@@ -17,6 +17,8 @@ import VerbListByAlphabet from '../components/verblists/VerbListByAlphabet';
 import {
    fetchOwnVerbsSwedish,
    fetchOwnVerbsGerman,
+   clearOwnVerbsGerman,
+   clearOwnVerbsSwedish
 } from '../store/actions/verbs';
 
 import DatabaseOwnVerbs from '../modules/DatabaseOwnVerbs';
@@ -28,8 +30,10 @@ import {
    fetchMeaningIds,
    deleteAllMeaningIds,
    fetchOwnVerbs,
+   insertMeaningId,
    insertMeaningIds,
    getMeaningIdsArray,
+   verbArrayOperations,
 } from '../helpers/ownVerbs';
 import SelectionBar from '../components/settings/SelectionBar';
 
@@ -47,6 +51,7 @@ const BrowseScreen = (props) => {
    const [ownVerbsDbCreated, setOwnVerbsDbCreated] = useState(false);
    const [meaningIdsSelectedSwe, setMeaningIdsSelectedSwe] = useState([]);
    const [meaningIdsSelectedGer, setMeaningIdsSelectedGer] = useState([]);
+   const [loadingOwnVerbs, setLoadingOwnVerbs] = useState(false);
 
    const levels = [1, 2, 3];
 
@@ -59,16 +64,37 @@ const BrowseScreen = (props) => {
       createOwnVerbsDbSwedish();
       // Create own verbs database for German verbs
       createOwnVerbsDbGerman();
-      updateOwnVerbs();
-   }, []);
+      updateOwnVerbs(props.language);
+      fetchVerbIds();
+    }, []);
 
    useEffect(() => {
       return () => {};
    }, []);
 
-   useEffect(() => {
+   const fetchVerbIds = async () => {
+      let ownVerbs = [];
+      ownVerbs = await fetchMeaningIds(props.language); 
+      let ownVerbsMapped = ownVerbs.map((ownVerb) => ownVerb.meaning_id);
+      if (props.language === 1) {
+         setOwnVerbsSwedish(ownVerbsMapped);
+      } else if (props.language === 2) {
+         setOwnVerbsGerman(ownVerbsMapped);
+      }
+   }
+/*    useEffect(() => {
       updateOwnVerbs(props.language);
-   });
+   }); */
+
+/*    useEffect(() => {
+      let arrayFlatten = [];
+      if (props.language === 1) {
+         arrayFlatten = ownVerbsSwedish.flatMap((item) => item);
+      } else if (props.language === 2) {
+         arrayFlatten = ownVerbsGerman.flatMap((item) => item);
+      }
+      setOwnVerbCount(arrayFlatten.length);
+   }, [ownVerbsGerman, ownVerbsGerman, props.language]); */
 
    const showByLevel = (level) => {
       setLevelToShow(level);
@@ -76,22 +102,15 @@ const BrowseScreen = (props) => {
    };
 
    const addToOwnVerbs = (meaningId) => {
+      deleteMeaningId(meaningId, props.language);
       let verbsFiltered = [];
-      if (props.language === 1) {
-         verbsFiltered = ownVerbsSwedish.filter(
-            (ownVerb) => ownVerb !== meaningId
-         );
-      } else {
-         verbsFiltered = ownVerbsGerman.filter(
-            (ownVerb) => ownVerb !== meaningId
-         );
-      }
       if (props.language === 1) {
          setOwnVerbsSwedish([...verbsFiltered, meaningId]);
       } else if (props.language === 2) {
-         setOwnVerbsGerman([...verbsFiltered, meaningId]);
-      }
-      insertMeaningIds(meaningId, props.language);
+         setOwnVerbsGerman([...ownVerbsGerman, meaningId]);
+      } 
+      insertMeaningId(meaningId, props.language);
+      updateOwnVerbs(props.language);
    };
 
    const removeFromOwnVerbs = (meaningId) => {
@@ -101,17 +120,32 @@ const BrowseScreen = (props) => {
             (ownVerb) => ownVerb !== meaningId
          );
          setOwnVerbsSwedish(ownVerbList);
-      } else {
+      } else if (props.language === 2) {
          ownVerbList = ownVerbsGerman.filter(
             (ownVerb) => ownVerb !== meaningId
          );
          setOwnVerbsGerman(ownVerbList);
       }
       deleteMeaningId(meaningId, props.language);
-      updateOwnVerbs();
+      updateOwnVerbs(props.language);
    };
 
    const selectAll = (language) => {
+      let ownVerbList = [];
+      deleteAllMeaningIds(language);
+      if (language === 1) {
+         ownVerbList = props.verbsSwedish.map((verb) => verb.meaning_id);
+         setOwnVerbsSwedish(ownVerbList);
+         insertMeaningIds(ownVerbList, language);
+      } else if (language === 2) {
+         ownVerbList = props.verbsGerman.map((verb) => verb.meaning_id);
+         setOwnVerbsGerman(ownVerbList);
+         insertMeaningIds(ownVerbList, language);
+      }
+      updateOwnVerbs(language);
+   };
+
+/*    const selectAll = (language) => {
       let ownVerbList = [];
       deleteAllMeaningIds(language);
       if (language === 1) {
@@ -126,7 +160,7 @@ const BrowseScreen = (props) => {
          insertMeaningIds(ownVerbList, props.language);
          updateOwnVerbs(language);
       }
-   };
+   }; */
 
    const deselectAll = (language) => {
       deleteAllMeaningIds(language);
@@ -135,7 +169,7 @@ const BrowseScreen = (props) => {
       } else if (language === 2) {
          setOwnVerbsGerman([]);
       }
-      updateOwnVerbs(language);
+     updateOwnVerbs(language);
    };
 
    const updateOwnVerbs = async (language) => {
@@ -187,8 +221,10 @@ const BrowseScreen = (props) => {
             <SelectionBar
                ownVerbsSwedish={ownVerbsSwedish}
                ownVerbsGerman={ownVerbsGerman}
+               ownVerbCount={ownVerbCount}
                selectAll={() => selectAll(props.language)}
                deselectAll={() => deselectAll(props.language)}
+               loadingOwnVerbs={loadingOwnVerbs}
             />
             <ScrollView style={styles(props).browseContainer}>
                {!orderAlphabetically ? (
