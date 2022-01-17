@@ -39,6 +39,7 @@ import ProgressBar from '../components/progress/ProgressBar';
 import InfoContent from '../components/styling/InfoContent';
 
 import { styles } from '../styles/styles';
+import InfoEnoughVerbs from '../components/styling/InfoEnoughVerbs';
 
 const FormsScreen = (props) => {
    const [verbs, setVerbs] = useState([]);
@@ -49,7 +50,7 @@ const FormsScreen = (props) => {
    const [maxQuestions, setMaxQuestions] = useState(0);
    const [finished, setFinished] = useState(false);
    const [resultsData, setResultsData] = useState({});
-   const [started, setStarted] = useState(true);
+   const [started, setStarted] = useState(false);
    const [tenseNames, setTenseNames] = useState([]);
    const [answeredIndex, setAnsweredIndex] = useState(0);
    const [resultsReady, setResultsReady] = useState(false);
@@ -59,6 +60,7 @@ const FormsScreen = (props) => {
    const [currentComponentIndex, setCurrentComponentIndex] = useState(0);
    const [startTime, setStartTime] = useState(0);
    const [endTime, setEndTime] = useState(0);
+   const [enoughVerbs, setEnoughVerbs] = useState(true);
    const [ownVerbsLoaded, setOwnVerbsLoaded] = useState(false);
 
    const navigation = useNavigation();
@@ -76,6 +78,21 @@ const FormsScreen = (props) => {
    useEffect(() => {
       return () => { };
    }, []);
+
+   useEffect(() => {
+      if (props.level === 4 && props.language === 1 && props.verbsSwedishOwn.length >= 10) {
+         setStarted(true);
+      } else if (props.level === 4 && props.language === 2 && props.verbsGermanOwn.length >= 10) {
+         setStarted(true);
+      } else if (props.level !== 4) {
+         setStarted(true);
+      }
+      if (props.level === 4 && props.language === 1 && props.verbsSwedishOwn.length < 10) {
+         setEnoughVerbs(false);
+      } else if (props.level === 4 && props.language === 2 && props.verbsGermanOwn.length < 10) {
+         setEnoughVerbs(false);
+      }
+   }, [props.level])
 
    useEffect(() => {
       if (props.infinitive || props.present || props.past || props.presperf) {
@@ -297,14 +314,16 @@ const FormsScreen = (props) => {
                   props.verbsGermanOwn.length: {props.verbsGermanOwn.length}{'\n'}
                   verbs.length: {verbs.length}
                </Text>
-               {props.level === 4 && randomizedVerbs.length < 5 &&
-                 <InfoContent centered>
-                 <Text>
-                     Sinulla pitää olla vähintään 5 verbiä valittuna. Valitse {5 - randomizedVerbs.length} verbiä lisää! 
-                 </Text>
-              </InfoContent>
+               {!enoughVerbs &&
+                  <InfoEnoughVerbs 
+                     count={10} 
+                     language={props.language} 
+                     verbsSwedishOwnLength={props.verbsSwedishOwn.length} 
+                     verbsGermanOwnLength={props.verbsGermanOwn.length} 
+                     centered
+                  />
                }              
-               {randomizedVerbs && started &&
+               {randomizedVerbs && started && enoughVerbs &&
                   <InfoContent centered>
                      <Text>
                         <Text>
@@ -322,7 +341,6 @@ const FormsScreen = (props) => {
                      </Text>
                   </InfoContent>
                }
-               {console.log('Verbs from FormsScreen: ', verbs)}
                {randomizedVerbs ? (
                   randomizedVerbs.map((verbFormArray, index) =>
                      verbFormArray.length === 1 ? (
@@ -368,7 +386,7 @@ const FormsScreen = (props) => {
                      <SpinnerComponent text="Ladataan verbejä..." />
                   </Box>
                )}
-               {formsSelected && randomizedVerbs && !finished && (
+               {formsSelected && randomizedVerbs && !finished && enoughVerbs && (
                   <ButtonComponent
                      color="#7E00C5"
                      title="Valmis"
