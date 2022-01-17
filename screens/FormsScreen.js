@@ -12,6 +12,8 @@ import { updateResults } from '../store/actions/results';
 import {
    getRndVerbsForForms,
    filterVerbsByLevel,
+   getEnoughVerbsState,
+   getStartedState,
 } from '../helpers/helpers';
 
 import {
@@ -80,18 +82,8 @@ const FormsScreen = (props) => {
    }, []);
 
    useEffect(() => {
-      if (props.level === 4 && props.language === 1 && props.verbsSwedishOwn.length >= 10) {
-         setStarted(true);
-      } else if (props.level === 4 && props.language === 2 && props.verbsGermanOwn.length >= 10) {
-         setStarted(true);
-      } else if (props.level !== 4) {
-         setStarted(true);
-      }
-      if (props.level === 4 && props.language === 1 && props.verbsSwedishOwn.length < 10) {
-         setEnoughVerbs(false);
-      } else if (props.level === 4 && props.language === 2 && props.verbsGermanOwn.length < 10) {
-         setEnoughVerbs(false);
-      }
+      setStarted(getStartedState(props.level, props.language, props.language === 1 ? props.verbsSwedishOwn : props.verbsGermanOwn));
+      setEnoughVerbs(getEnoughVerbsState(props.level, props.language, props.language === 1 ? props.verbsSwedishOwn : props.verbsGermanOwn));
    }, [props.level])
 
    useEffect(() => {

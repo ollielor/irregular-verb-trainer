@@ -128,3 +128,23 @@ export const getRndVerbsForForms = (verbs, numberVerbs, level) => {
 export const filterOutWithoutInfinitive = (verbsInSwedish) => {
    return verbsInSwedish.filter((verb) => verb.infinitive.length > 1);
 }
+
+export const getStartedState = (level, language, ownVerbArray) => {
+   if (level === 4 && language === 1 && ownVerbArray.length >= 10) {
+      return true;
+   } else if (level === 4 && language === 2 && ownVerbArray.length >= 10) {
+      return true;
+   } else if (level !== 4) {
+      return true;
+   }
+}
+
+export const getEnoughVerbsState = (level, language, ownVerbArray) => {
+   if (level === 4 && language === 1 && ownVerbArray.length < 10) {
+      return false;
+   } else if (level === 4 && language === 2 && ownVerbArray.length < 10) {
+      return false;
+   } else {
+      return true;
+   }  
+}
