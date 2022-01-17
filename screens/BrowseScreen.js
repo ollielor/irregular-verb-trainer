@@ -103,9 +103,8 @@ const BrowseScreen = (props) => {
 
    const addToOwnVerbs = (meaningId) => {
       deleteMeaningId(meaningId, props.language);
-      let verbsFiltered = [];
       if (props.language === 1) {
-         setOwnVerbsSwedish([...verbsFiltered, meaningId]);
+         setOwnVerbsSwedish([...ownVerbsSwedish, meaningId]);
       } else if (props.language === 2) {
          setOwnVerbsGerman([...ownVerbsGerman, meaningId]);
       } 
