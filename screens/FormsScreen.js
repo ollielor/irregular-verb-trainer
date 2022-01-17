@@ -62,7 +62,7 @@ const FormsScreen = (props) => {
    const [currentComponentIndex, setCurrentComponentIndex] = useState(0);
    const [startTime, setStartTime] = useState(0);
    const [endTime, setEndTime] = useState(0);
-   const [enoughVerbs, setEnoughVerbs] = useState(true);
+   const [enoughVerbs, setEnoughVerbs] = useState(false);
    const [ownVerbsLoaded, setOwnVerbsLoaded] = useState(false);
 
    const navigation = useNavigation();
@@ -82,8 +82,8 @@ const FormsScreen = (props) => {
    }, []);
 
    useEffect(() => {
-      setStarted(getStartedState(props.level, props.language, props.language === 1 ? props.verbsSwedishOwn : props.verbsGermanOwn));
-      setEnoughVerbs(getEnoughVerbsState(props.level, props.language, props.language === 1 ? props.verbsSwedishOwn : props.verbsGermanOwn));
+      setStarted(getStartedState(10, props.level, props.language, props.language === 1 ? props.verbsSwedishOwn : props.verbsGermanOwn));
+      setEnoughVerbs(getEnoughVerbsState(10, props.level, props.language, props.language === 1 ? props.verbsSwedishOwn : props.verbsGermanOwn));
    }, [props.level])
 
    useEffect(() => {

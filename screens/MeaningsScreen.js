@@ -7,6 +7,8 @@ import { useNavigation } from '@react-navigation/native';
 import {
    getRndVerbs,
    filterVerbsByLevel,
+   getStartedState,
+   getEnoughVerbsState
 } from '../helpers/helpers';
 
 import {
@@ -24,6 +26,7 @@ import CardComponentMeanings from '../components/cards/CardComponentMeanings';
 import ResultView from '../components/results/ResultView';
 import LatestResults from '../components/results/LatestResults';
 import SpinnerComponent from '../components/styling/SpinnerComponent';
+import InfoEnoughVerbs from '../components/styling/InfoEnoughVerbs';
 
 import { connect } from 'react-redux';
 import CardComponentMastery from '../components/cards/CardComponentMastery';
@@ -43,7 +46,7 @@ const MeaningsScreen = (props) => {
    const [answered, setAnswered] = useState([]);
    const [finished, setFinished] = useState(false);
    const [results, setResults] = useState({});
-   const [started, setStarted] = useState(true);
+   const [started, setStarted] = useState(false);
    const [resultsReady, setResultsReady] = useState(false);
    const [resultsSaved, setResultsSaved] = useState(false);
    const [tableCreated, setTableCreated] = useState(false);
@@ -52,7 +55,7 @@ const MeaningsScreen = (props) => {
    const [numberQuestions, setNumberQuestions] = useState(5);
    const [startTime, setStartTime] = useState(0);
    const [endTime, setEndTime] = useState(0);
-   const [infoShown, setInfoShown] = useState(false);
+   const [enoughVerbs, setEnoughVerbs] = useState(false);
 
    const scrollViewRef = useRef();
 
@@ -65,14 +68,9 @@ const MeaningsScreen = (props) => {
    }, [finished]);
 
    useEffect(() => {
-      if (props.language === 1 && props.verbsSwedishOwn.length < 20) {
-         setInfoShown(true);
-      } else if (props.language === 2 && props.verbsGermanOwn.length < 20) {
-         setInfoShown(true);
-      } else {
-         setInfoShown(false);
-      }
-   }, [props.language, props.verbsSwedishOwn, props.verbsGermanOwn])
+      setStarted(getStartedState(40, props.level, props.language, props.language === 1 ? props.verbsSwedishOwn : props.verbsGermanOwn));
+      setEnoughVerbs(getEnoughVerbsState(40, props.level, props.language, props.language === 1 ? props.verbsSwedishOwn : props.verbsGermanOwn));
+   }, [props.level])
 
    // useEffect cleanup
    useEffect(() => {
@@ -223,11 +221,14 @@ const MeaningsScreen = (props) => {
             title="Verbien merkitykset"
             goBack={navigation.goBack}
          />
-         {infoShown &&
-         <InfoContent>
-            Olet valinnut {props.language === 1 ? props.verbsSwedishOwn.length : props.verbsGermanOwn.length} omaa verbiä. 
-            Valitse vielä vähintään {props.language === 1 ? (20 - props.verbsSwedishOwn.length) : (20 - props.verbsGermanOwn.length)} lisää.
-         </InfoContent>
+         {!enoughVerbs &&
+                  <InfoEnoughVerbs 
+                  count={40} 
+                  language={props.language} 
+                  verbsSwedishOwnLength={props.verbsSwedishOwn.length} 
+                  verbsGermanOwnLength={props.verbsGermanOwn.length} 
+                  centered
+               />
          }
          <ScrollView
             keyboardShouldPersistTaps="always"
