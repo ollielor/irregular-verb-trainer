@@ -7,12 +7,29 @@ import SpinnerComponent from '../styling/SpinnerComponent';
 
 const SelectionBar = (props) => {
 
+   const textGenerator = () => {
+      if (props.language === 1 && props.verbsSwedishOwn.length > 1) {
+         return `Olet valinnut ${props.verbsSwedishOwn.length} omaa verbiä.`
+      } else if (props.language === 1 && props.verbsSwedishOwn.length === 1) {
+         return `Olet valinnut yhden oman verbin.`
+      } else if (props.language === 1 && props.verbsSwedishOwn.length === 0) {
+         return `Et ole valinnut yhtään omaa verbiä.`
+      }
+      if (props.language === 2 && props.verbsGermanOwn.length > 1) {
+         return `Olet valinnut ${props.verbsGermanOwn.length} omaa verbiä.`
+      } else if (props.language === 2 && props.verbsGermanOwn.length === 1) {
+         return `Olet valinnut yhden oman verbin.`
+      } else if (props.language === 2 && props.verbsGermanOwn.length === 0) {
+         return `Et ole valinnut yhtään omaa verbiä.`
+      }
+   };
+
    return (
       <>
          <VStack>
          {props.language === 1 && props.verbsSwedishOwn || props.language === 2 && props.verbsGermanOwn &&
          <Text style={styles(props).selectionBar} bg='#e8e8e8' color='#7E00C5'>
-            Olet valinnut {props.language === 1 ? props.verbsSwedishOwn.length : props.verbsGermanOwn.length} omaa verbiä.
+            {`${textGenerator()}`}
          </Text>
          }
          <Text onPress={props.selectAll}>
