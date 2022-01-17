@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Text, VStack } from 'native-base';
+import { HStack, Text, VStack } from 'native-base';
 
 import { connect } from 'react-redux';
 import { styles } from '../../styles/styles';
 import SpinnerComponent from '../styling/SpinnerComponent';
+import ButtonBordered from '../buttons/ButtonBordered';
 
 const SelectionBar = (props) => {
 
@@ -32,12 +33,10 @@ const SelectionBar = (props) => {
             {`${textGenerator()}`}
          </Text>
          }
-         <Text onPress={props.selectAll}>
-            Valitse kaikki verbit
-         </Text>
-         <Text onPress={props.deselectAll}>
-            Poista kaikki valinnat
-         </Text>
+         <HStack direction='row' alignSelf='center'>
+            <ButtonBordered bg='#eee' textColor='#000' function={props.selectAll} title='Valitse kaikki' />
+            <ButtonBordered bg='#eee' textColor='#000' function={props.deselectAll} title='Poista kaikki valinnat' />
+         </HStack>
          </VStack>
    </>
    );
