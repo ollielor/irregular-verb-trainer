@@ -57,8 +57,6 @@ const BrowseScreen = (props) => {
 
    const navigation = useNavigation();
 
-   console.log('ownVerbsGerman: ', ownVerbsGerman);
-
    useEffect(() => {
       // Create own verbs database for Swedish verbs
       createOwnVerbsDbSwedish();

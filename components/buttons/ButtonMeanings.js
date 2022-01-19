@@ -7,6 +7,8 @@ const ButtonMeanings = (props) => {
    const [correct, setCorrect] = useState(false);
    const [incorrect, setIncorrect] = useState(false);
 
+   console.log('props.alternative: ', props.alternative)
+
    useEffect(() => {
       if (props.correctIndex === props.index) {
          setCorrect(true);

@@ -16,6 +16,8 @@ import {
    updatePresperf,
 } from '../store/actions/settings';
 
+import { getArrayOfRandomInts, getRandomizedAlternatives, getRndVerbsForMeanings } from '../helpers/helpers';
+
 import { dispatchOwnVerbs } from '../helpers/ownVerbs';
 
 import { updateResults } from '../store/actions/results';
@@ -63,6 +65,8 @@ const StartScreen = (props) => {
        'Quicksand_SemiBold': require('../assets/Quicksand-SemiBold.ttf'),
        'Quicksand_Bold': require('../assets/Quicksand-Bold.ttf'),
    });
+
+   console.log('rnd Alternatives: ', getRandomizedAlternatives());
 
    useEffect(() => {
       createResultsDb();

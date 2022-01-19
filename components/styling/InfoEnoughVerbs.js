@@ -8,8 +8,7 @@ const InfoEnoughVerbs = (props) => {
     return (
         <InfoContent centered={props.centered}>
         <Text>
-        Sinulla pitää olla vähintään {props.count} omaa verbiä valittuna. Valitse {''}
-        {props.language === 1 ? props.count - props.verbsSwedishOwnLength : props.count - props.verbsGermanOwnLength} lisää 
+        Sinulla pitää olla vähintään {props.count} omaa verbiä valittuna tähän tehtävätyyppiin. Voit lisätä omia verbejä
                  <Text style={{ 
                     fontWeight: 'bold', 
                     color: '#7E00C5', 

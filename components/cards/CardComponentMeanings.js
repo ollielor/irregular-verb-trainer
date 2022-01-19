@@ -3,7 +3,7 @@ import { Box, VStack, Stack, Text } from 'native-base';
 
 import SpinnerComponent from '../styling/SpinnerComponent';
 
-import { rndIntGeneratorZero } from '../../helpers/helpers';
+import { getRandomizedAlternatives } from '../../helpers/helpers';
 import ButtonMeanings from '../buttons/ButtonMeanings';
 
 import { styles } from '../../styles/styles';
@@ -18,30 +18,21 @@ const CardComponentMeanings = (props) => {
    const [locked, setLocked] = useState(false);
 
    useEffect(() => {
+      setRndAlternativesLoaded(false);
       // Get one meaning of the three verbs set in MeaningsScreen
-      const rndInt = rndIntGeneratorZero(3);
-      setCorrectMeaning(props.alternatives[rndInt].meaning);
-      setCorrectInfinitive(props.alternatives[rndInt].infinitive);
-      let randomOrder = [];
-      let randomOrderFinal = [];
-      // Randomize alternatives
-      while (randomOrderFinal.length < 3) {
-         const rndIntAlternatives = rndIntGeneratorZero(3);
-         randomOrder.push(rndIntAlternatives);
-         // Check that same number doesn't occur twice or more
-         if (randomOrder.length > 1) {
-            randomOrderFinal = randomOrder.filter(
-               (number, index, self) =>
-                  index === self.findIndex((n) => n === number)
-            );
-         }
-      }
-      let newOrderArray = [];
+      // const rndInt = getRandomInt(0);
+      setCorrectMeaning(props.alternatives[0].meaning);
+      setCorrectInfinitive(props.alternatives[0].infinitive);
+/*       let newOrderArray = [];
       // Push the alternatives into a new array which is set to a state
       for (let i = 0; i < randomOrderFinal.length; i++) {
-         newOrderArray.push(props.alternatives[randomOrderFinal[i]]);
-      }
-      setRandomizedAlternatives(newOrderArray);
+         newOrderArray = [...]
+      } */
+      let randomizedIntsArray = [];
+      let randomizedVerbs = [];
+      randomizedIntsArray = getRandomizedAlternatives();
+      randomizedVerbs = randomizedIntsArray.map((rndInt) => props.alternatives[rndInt]);
+      setRandomizedAlternatives(randomizedVerbs);
       setRndAlternativesLoaded(true);
    }, [props.started]);
 
@@ -59,10 +50,7 @@ const CardComponentMeanings = (props) => {
 
    return (
       <Box style={styles(props).overFlowVisible} pt='4'>
-         {!rndAlternativesLoaded && (
-            <SpinnerComponent text="Ladataan vaihtoehtoja" />
-         )}
-         {rndAlternativesLoaded && (
+         {rndAlternativesLoaded ? (
             <Stack direction='column'>
                <VStack style={styles(props).cardMeaningBody}>
                   <Text style={styles(props).promptMeanings}>
@@ -86,7 +74,11 @@ const CardComponentMeanings = (props) => {
                   ))}
                </VStack>
             </Stack>
-         )}
+         ) :
+         (
+            <SpinnerComponent text="Ladataan vaihtoehtoja..." />
+         )
+         }
       </Box>
    );
 };

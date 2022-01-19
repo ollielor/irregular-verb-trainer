@@ -5,10 +5,11 @@ import { Text } from 'native-base';
 import { useNavigation } from '@react-navigation/native';
 
 import {
-   getRndVerbs,
+   getRndInt,
    filterVerbsByLevel,
    getStartedState,
-   getEnoughVerbsState
+   getEnoughVerbsState,
+   getRndVerbsForMeanings
 } from '../helpers/helpers';
 
 import {
@@ -36,6 +37,7 @@ import { filterOutWithoutInfinitive } from '../helpers/helpers';
 
 import { styles } from '../styles/styles';
 import InfoContent from '../components/styling/InfoContent';
+import ButtonComponentNarrow from '../components/buttons/ButtonComponentNarrow';
 
 const MeaningsScreen = (props) => {
    const [verbs, setVerbs] = useState([]);
@@ -60,6 +62,10 @@ const MeaningsScreen = (props) => {
    const scrollViewRef = useRef();
 
    const navigation = useNavigation();
+
+   const reloadVerbs = () => {
+      setRandomizedVerbs(getRndVerbsForMeanings(numberQuestions, verbs));
+   }
 
    useEffect(() => {
       if (finished) {
@@ -95,8 +101,6 @@ const MeaningsScreen = (props) => {
          let filteredVerbs = [];
          if (props.level !== 4) {
             filteredVerbs = filterVerbsByLevel(verbsByLanguage, props.level);       
-         }
-         if (props.level !== 4) {
             setVerbs(filteredVerbs);
          } else {
             setVerbs(verbsByLanguage);
@@ -114,28 +118,10 @@ const MeaningsScreen = (props) => {
    }, [resultsSaved]);
 
    useEffect(() => {
-      // Number of verbs shown in Meanings Screen
-      if (started) {
-         switch (props.level) {
-            case 1:
-               setNumberQuestions(5);
-               break;
-            case 2:
-               setNumberQuestions(8);
-               break;
-            case 3:
-               setNumberQuestions(10);
-               break;
-            case 4:
-               setNumberQuestions(5);
-               break;
-         }
-         if (verbsFiltered) {
-            const verbObjectArray = getRndVerbs(verbs, numberQuestions);
-            setRandomizedVerbs(verbObjectArray);
-         }
+      if (started && verbsFiltered) {
+         setRandomizedVerbs(getRndVerbsForMeanings(numberQuestions, verbs));
       }
-   }, [verbsFiltered]);
+   }, [started, verbsFiltered]);
 
    // This function is responsible for evaluating the answers and setting the number of points
    const evaluate = (accuracy, meaning, correctInfinitive, answeredInfinitive) => {
@@ -190,7 +176,7 @@ const MeaningsScreen = (props) => {
       setNotMastered([]);
       setStartTime(Date.now());
       setEndTime(0);
-   };
+    };
 
    useEffect(() => {
       if (answered.length === numberQuestions) {
@@ -263,13 +249,23 @@ const MeaningsScreen = (props) => {
                      </Text>
                   </InfoContent>
                }
+               <Text>randomizedVerbs.length {randomizedVerbs.length}</Text>
+               <Text>numberQuestions: {numberQuestions}</Text>
                {started && randomizedVerbs && !finished && randomizedVerbs.map((verbGroup, index) => (
                   <CardComponentMeanings
                      key={index}
                      alternatives={verbGroup}
                      evaluate={evaluate}
                   />
-               ))}
+               )) 
+               }
+               {started && !randomizedVerbs &&
+               (
+                  <SpinnerComponent text='Verbejä ladataan...' />
+               )}
+               {!finished && (
+                  <ButtonComponentNarrow title='Arvo uudet verbit' function={() => startAgain()} withMargin />
+               )}
             </>
          </ScrollView>
          <FooterComponent />

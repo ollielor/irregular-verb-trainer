@@ -120,7 +120,6 @@ export const fetchMeaningIds = (language) => {
             query,
             [],
             (tx, results) => {
-               console.log('array: ', results.rows._array)
                 resolve(results.rows._array);
             },
             (tx, error) => {
@@ -155,7 +154,6 @@ export const verbArrayOperations = async (verbsByLanguage, language) => {
       //index === self.findIndex((m) => m.meaning_id === meaningObject.meaning_id));
       //console.log('withoutDuplicates: ', verbsWithoutDuplicateMeaningIds)
    }
-   console.log('withoutDuplicates: ', verbsWithoutDuplicates)
    return verbsWithoutDuplicates;
 }
 
