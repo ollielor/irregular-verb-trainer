@@ -159,8 +159,9 @@ const FormsScreen = (props) => {
    useEffect(() => {
       if (verbsFiltered && started) {
          // Get the forms of 5 different verbs
-         const rndVerbsFinal = getRndVerbsForForms(verbs, 5, props.level);
-         setRandomizedVerbs(rndVerbsFinal);
+         if (randomizedVerbs.length === 0) {
+            setRandomizedVerbs(getRndVerbsForForms(verbs, 5, props.level));
+         }
       }
    }, [verbsFiltered, verbs, started]);
 
@@ -198,6 +199,7 @@ const FormsScreen = (props) => {
    }, [resultsSaved]);
 
    const startAgain = () => {
+      setRandomizedVerbs([]);
       setStarted(true);
       setFinished(false);
       setPoints(0);
@@ -377,12 +379,20 @@ const FormsScreen = (props) => {
                   </Box>
                )}
                {formsSelected && randomizedVerbs && !finished && enoughVerbs && (
-                  <ButtonComponent
+                 <>
+                 <ButtonComponent
                      color="#7E00C5"
                      title="Valmis"
                      function={finish}
                      withMarginBottomAndTop
                   />
+                  <ButtonComponent
+                  color="#7E00C5"
+                  title="Arvo uudet verbit"
+                  function={startAgain}
+                  withMarginBottom
+                  />
+               </>
                )}
             </ScrollView>
          </KeyboardAvoidingView>

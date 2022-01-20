@@ -11,6 +11,8 @@ const ButtonComponent = (props) => {
                ? styles(props).buttonWithMargin
                : props.withMarginBottomAndTop
                   ? styles(props).buttonWithMarginBottomAndTop
+                  : props.withMarginBottom ?
+                  styles(props).buttonWithMarginBottom
                   : props.disabled
                      ? styles(props).buttonDisabledStyle
                      : styles(props).buttonDefaultStyle,

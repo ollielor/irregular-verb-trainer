@@ -139,20 +139,43 @@ export const getRndIntsForMeanings = (count, lowest, highest) => {
    let arrayOfRandomInts = getArrayOfRandomInts(count, lowest, highest);
    let rndIntsThree = [];
    let arrayOfRandomThree = [];
-   let excludedInts = [];
-
-   while (arrayOfRandomThree.length < 3) {
+   while (arrayOfRandomThree.length < 5) {
       for (let rndInt of arrayOfRandomInts) {
          rndIntsThree = [];
          rndIntsThree = [...rndIntsThree, rndInt];
-         excludedInts = [...excludedInts, rndInt];
-         console.log('randomIntsThree: ', rndIntsThree);
-         rndIntsThree = [...rndIntsThree, ...getArrayOfRandomInts(2, lowest, highest)];
+         let randomInts = getArrayOfRandomInts(2, lowest, highest);
+         console.log('typeof: ', typeof(randomInts));
+         if (!rndIntsThree.includes(randomInts[0]) && !rndIntsThree.includes(randomInts[1])) {
+            rndIntsThree = [...rndIntsThree, ...randomInts];
+         }
+         //rndIntsThree = [...rndIntsThree, ...getArrayOfRandomInts(1, lowest, highest)];
          arrayOfRandomThree = [...arrayOfRandomThree, rndIntsThree];
+         console.log('arrayOfRandomThree: ', arrayOfRandomThree)
       }
    }
    return arrayOfRandomThree;
 }
+
+/* export const getRndIntsForMeanings = (count, lowest, highest) => {
+   let arrayOfRandomInts = getArrayOfRandomInts(count, lowest, highest);
+   let rndIntsThree = [];
+   let arrayOfRandomThree = [];
+   while (arrayOfRandomThree.length < 5) {
+      for (let rndInt of arrayOfRandomInts) {
+         rndIntsThree = [];
+         rndIntsThree = [...rndIntsThree, rndInt];
+         let randomInt = getArrayOfRandomInts(1, lowest, highest);
+         console.log('typeof: ', typeof(randomInt));
+         if (!rndIntsThree.includes(randomInt)) {
+            rndIntsThree = [...rndIntsThree, ...randomInt];
+         }
+         //rndIntsThree = [...rndIntsThree, ...getArrayOfRandomInts(1, lowest, highest)];
+         arrayOfRandomThree = [...arrayOfRandomThree, rndIntsThree];
+         console.log('arrayOfRandomThree: ', arrayOfRandomThree)
+      }
+   }
+   return arrayOfRandomThree;
+} */
 
 export const getRndVerbsForMeanings = (count, verbs) => {
    let rndArraysThree = [];
@@ -249,11 +272,12 @@ export const getRndVerbsForForms = (verbs, numberVerbs) => {
    for (let verb of verbArray) {
       if (!excludedMeaningIds.includes(verb.meaning_id)) {
          verbArraySynonyms = verbs.filter((verbItem) => verbItem.meaning_id === verb.meaning_id);
-         excludedMeaningIds = verbArraySynonyms.map((verbArray) => verbArray.meaning_id);
+         console.log('verbArraySynonyms: ', verbArraySynonyms)
+         excludedMeaningIds = [...excludedMeaningIds, ...verbArraySynonyms.map((verbArray) => verbArray.meaning_id)];
          rndVerbsArray = [...rndVerbsArray, verbArraySynonyms];
       }
    }
-   console.log('rndVerbsArray: ', rndVerbsArray)
+   console.log('excludedMeaningIds: ', excludedMeaningIds)
    //let rndVerbsArray = arrayOfRandomInts.map((rndInt) => [...rndVerbsArray, verbs.filter((verb) => verb[rndInt].meaning_id === verb.meaning_id ? verbs verbs[rndInt]);
    //console.log('rndVerbsArray: ', rndVerbsArray)
    return rndVerbsArray;

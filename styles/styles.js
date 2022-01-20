@@ -51,6 +51,11 @@ export const styles = (props) => StyleSheet.create({
       marginTop: 20,
       backgroundColor: props.color
    },
+   buttonWithMarginBottom: {
+      fontFamily: 'Quicksand_SemiBold',
+      marginBottom: 20,
+      backgroundColor: props.color
+   },
    footerButton: {
       fontFamily: 'Quicksand_SemiBold',
       backgroundColor: props.disabled ? '#7E00C5' : '#0047c5',
