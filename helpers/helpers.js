@@ -240,13 +240,33 @@ export const getRndVerbs = (verbs, numberVerbs) => {
 } */
 
 export const getRndVerbsForForms = (verbs, numberVerbs) => {
+   let verbArraySynonyms = [];
+   let verbArray = [];
+   let rndVerbsArray = [];
+   let excludedMeaningIds = [];
+   let arrayOfRandomInts = getArrayOfRandomInts(numberVerbs, 0, verbs.length - 1);
+   verbArray = arrayOfRandomInts.map((rndInt) => verbs[rndInt]);
+   for (let verb of verbArray) {
+      if (!excludedMeaningIds.includes(verb.meaning_id)) {
+         verbArraySynonyms = verbs.filter((verbItem) => verbItem.meaning_id === verb.meaning_id);
+         excludedMeaningIds = verbArraySynonyms.map((verbArray) => verbArray.meaning_id);
+         rndVerbsArray = [...rndVerbsArray, verbArraySynonyms];
+      }
+   }
+   console.log('rndVerbsArray: ', rndVerbsArray)
+   //let rndVerbsArray = arrayOfRandomInts.map((rndInt) => [...rndVerbsArray, verbs.filter((verb) => verb[rndInt].meaning_id === verb.meaning_id ? verbs verbs[rndInt]);
+   //console.log('rndVerbsArray: ', rndVerbsArray)
+   return rndVerbsArray;
+}
+
+/* export const getRndVerbsForForms = (verbs, numberVerbs) => {
    let verbArray = [];
    let arrayOfRandomInts = getArrayOfRandomInts(numberVerbs, 0, verbs.length - 1);
    let rndVerbsArray = arrayOfRandomInts.map((rndInt) => [...verbArray, verbs[rndInt]]);
    console.log('rndVerbsArray: ', rndVerbsArray)
    return rndVerbsArray;
 }
-
+ */
 /* // This function is used for randomizing verbs for Forms screen
 export const getRndVerbsForForms = (verbs, numberVerbs, level) => {
    let rndVerbArray = [];

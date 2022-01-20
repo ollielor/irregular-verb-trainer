@@ -67,8 +67,6 @@ const FormsScreen = (props) => {
 
    const navigation = useNavigation();
 
-   console.log('props: ', props.verbsGermanOwn);
-
    // This useEffect creates the result database
    useEffect(() => {
       setResultsReady(false);
