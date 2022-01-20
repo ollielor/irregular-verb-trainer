@@ -119,9 +119,11 @@ const MeaningsScreen = (props) => {
 
    useEffect(() => {
       if (started && verbsFiltered) {
-         setRandomizedVerbs(getRndVerbsForMeanings(numberQuestions, verbs));
+         if (randomizedVerbs.length === 0) {
+            setRandomizedVerbs(getRndVerbsForMeanings(numberQuestions, verbs)); 
+         }
       }
-   }, [started, verbsFiltered]);
+   }, [started, verbsFiltered, randomizedVerbs]);
 
    // This function is responsible for evaluating the answers and setting the number of points
    const evaluate = (accuracy, meaning, correctInfinitive, answeredInfinitive) => {
@@ -164,6 +166,7 @@ const MeaningsScreen = (props) => {
 
    // This function clears all values when the exercise is started again
    const startAgain = () => {
+      setRandomizedVerbs([]);
       setStarted(true);
       setFinished(false);
       setPoints(0);
@@ -225,7 +228,7 @@ const MeaningsScreen = (props) => {
                {!randomizedVerbs && <Text>Arvotaan verbejä...</Text>}
                {finished && results && (
                   <>
-                     <ResultView resultsData={results} startAgain={startAgain} />
+                     <ResultView resultsData={results} startAgain={() => startAgain()} />
                      {mastered.length > 0 &&
                         <CardComponentMastery mastered={mastered} />
                      }
@@ -249,8 +252,6 @@ const MeaningsScreen = (props) => {
                      </Text>
                   </InfoContent>
                }
-               <Text>randomizedVerbs.length {randomizedVerbs.length}</Text>
-               <Text>numberQuestions: {numberQuestions}</Text>
                {started && randomizedVerbs && !finished && randomizedVerbs.map((verbGroup, index) => (
                   <CardComponentMeanings
                      key={index}

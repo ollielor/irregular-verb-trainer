@@ -112,6 +112,20 @@ export const filterVerbsByLevel = (verbs, level) => {
 
 export const getArrayOfRandomInts = (count, lowest, highest, excludedInt) => {
    let arrayOfRandomInts = [];
+   let excludedInts = [];
+   while (arrayOfRandomInts.length < count) {
+         let rndInt = getRndInt(lowest, highest);
+         excludedInts = [...excludedInts, rndInt];
+         if (!arrayOfRandomInts.includes(rndInt) && !excludedInts.includes(excludedInt)) {
+            arrayOfRandomInts = [...arrayOfRandomInts, rndInt];
+         }
+      }
+   return arrayOfRandomInts;
+}
+
+
+/* export const getArrayOfRandomInts = (count, lowest, highest, excludedInt) => {
+   let arrayOfRandomInts = [];
    while (arrayOfRandomInts.length < count) {
       let rndInt = getRndInt(lowest, highest);
       if (!arrayOfRandomInts.includes(rndInt) && !arrayOfRandomInts.includes(excludedInt)) {
@@ -120,17 +134,20 @@ export const getArrayOfRandomInts = (count, lowest, highest, excludedInt) => {
    }
    return arrayOfRandomInts;
 }
-
+ */
 export const getRndIntsForMeanings = (count, lowest, highest) => {
    let arrayOfRandomInts = getArrayOfRandomInts(count, lowest, highest);
    let rndIntsThree = [];
    let arrayOfRandomThree = [];
+   let excludedInts = [];
+
    while (arrayOfRandomThree.length < 3) {
-      for (rndInt of arrayOfRandomInts) {
+      for (let rndInt of arrayOfRandomInts) {
          rndIntsThree = [];
          rndIntsThree = [...rndIntsThree, rndInt];
-         console.log('randomIntsThree: ', rndIntsThree); 
-         rndIntsThree = [...rndIntsThree, ...getArrayOfRandomInts(2, lowest, highest, rndInt)];
+         excludedInts = [...excludedInts, rndInt];
+         console.log('randomIntsThree: ', rndIntsThree);
+         rndIntsThree = [...rndIntsThree, ...getArrayOfRandomInts(2, lowest, highest)];
          arrayOfRandomThree = [...arrayOfRandomThree, rndIntsThree];
       }
    }
