@@ -208,7 +208,7 @@ const checkRndInt = (a, nums) => {
 } */
 
 
-// This function is used for randomizing verbs for Meanings screen
+/* // This function is used for randomizing verbs for Meanings screen
 export const getRndVerbs = (verbs, numberVerbs) => {
    let rndVerb;
    let rndVerbs = [];
@@ -237,9 +237,17 @@ export const getRndVerbs = (verbs, numberVerbs) => {
       }
    }
    return verbObjectArray;
+} */
+
+export const getRndVerbsForForms = (verbs, numberVerbs) => {
+   let verbArray = [];
+   let arrayOfRandomInts = getArrayOfRandomInts(numberVerbs, 0, verbs.length - 1);
+   let rndVerbsArray = arrayOfRandomInts.map((rndInt) => [...verbArray, verbs[rndInt]]);
+   console.log('rndVerbsArray: ', rndVerbsArray)
+   return rndVerbsArray;
 }
 
-// This function is used for randomizing verbs for Forms screen
+/* // This function is used for randomizing verbs for Forms screen
 export const getRndVerbsForForms = (verbs, numberVerbs, level) => {
    let rndVerbArray = [];
    let rndVerbs = [];
@@ -261,7 +269,7 @@ export const getRndVerbsForForms = (verbs, numberVerbs, level) => {
       }
       if (level !== 4 && rndVerbArray) {
          rndVerbs = [...rndVerbs, rndVerbArray];
-      } */
+      } 
       if (rndVerbs.length > 1) {
          // Check for duplicates with same meaning
          rndVerbsFinal = rndVerbs.filter(
@@ -274,7 +282,7 @@ export const getRndVerbsForForms = (verbs, numberVerbs, level) => {
       }
    }
    return rndVerbsFinal;
-};
+}; */
 
 export const filterOutWithoutInfinitive = (verbsInSwedish) => {
    return verbsInSwedish.filter((verb) => verb.infinitive.length > 1);
