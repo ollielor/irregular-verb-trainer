@@ -9,7 +9,8 @@ import {
    filterVerbsByLevel,
    getStartedState,
    getEnoughVerbsState,
-   getRndVerbsForMeanings
+   getRndVerbsForMeanings,
+   testMeanings
 } from '../helpers/helpers';
 
 import {
@@ -60,12 +61,8 @@ const MeaningsScreen = (props) => {
    const [enoughVerbs, setEnoughVerbs] = useState(false);
 
    const scrollViewRef = useRef();
-
+ 
    const navigation = useNavigation();
-
-   const reloadVerbs = () => {
-      setRandomizedVerbs(getRndVerbsForMeanings(numberQuestions, verbs));
-   }
 
    useEffect(() => {
       if (finished) {

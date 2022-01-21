@@ -123,7 +123,6 @@ export const getArrayOfRandomInts = (count, lowest, highest, excludedInt) => {
    return arrayOfRandomInts;
 }
 
-
 /* export const getArrayOfRandomInts = (count, lowest, highest, excludedInt) => {
    let arrayOfRandomInts = [];
    while (arrayOfRandomInts.length < count) {
@@ -135,26 +134,80 @@ export const getArrayOfRandomInts = (count, lowest, highest, excludedInt) => {
    return arrayOfRandomInts;
 }
  */
+
 export const getRndIntsForMeanings = (count, lowest, highest) => {
    let arrayOfRandomInts = getArrayOfRandomInts(count, lowest, highest);
    let rndIntsThree = [];
-   let arrayOfRandomThree = [];
-   while (arrayOfRandomThree.length < 5) {
+   let arrayOfRandomThree = []; 
+   for (let rndInt of arrayOfRandomInts) {
+      rndIntsThree = [...rndIntsThree, rndInt];
+      while (rndIntsThree.length < 3) {
+         let randomInt = getRndInt(lowest, highest);
+         if (!rndIntsThree.includes(randomInt)) {
+            rndIntsThree = [...rndIntsThree, randomInt];
+            console.log('rndIntsThree: ', rndIntsThree)
+         } else {
+            continue;
+         }
+      }
+      arrayOfRandomThree = [...arrayOfRandomThree, rndIntsThree];
+      rndIntsThree = [];
+   }      
+   return arrayOfRandomThree;
+}
+
+export const testMeanings = (count, lowest, highest) => {
+   let arrayOfThree = [];
+   for (let i = 0; i < 100; i++) {
+      arrayOfThree = [...arrayOfThree, getRndIntsForMeanings(count, lowest, highest)];
+   }
+   for (let i = 0; i < arrayOfThree.length; i++) {
+
+      arrayOfThree[i].sort();
+
+      arrayOfThree[i].forEach(function (value, index, arr){
+  
+          let first_index = arr.indexOf(value);
+          let last_index = arr.lastIndexOf(value);
+  
+           if(first_index !== last_index){
+  
+           console.log('Duplicate item in array ' + value);
+  
+           }else{
+  
+           console.log('unique items in array ' + value);
+  
+           }
+  
+      });
+   }
+}
+
+/* const checkIfUsable = (rndInt, arrayOfInts, excluded) => {
+   for (let randomInt of arrayOfInts) {
+      if (excludedInt) {
+          return true;
+      } else {
+         return false;
+      }
+   }
+} */
+/*    while (arrayOfRandomThree.length < 5) {
       for (let rndInt of arrayOfRandomInts) {
          rndIntsThree = [];
          rndIntsThree = [...rndIntsThree, rndInt];
          let randomInts = getArrayOfRandomInts(2, lowest, highest);
-         console.log('typeof: ', typeof(randomInts));
          if (!rndIntsThree.includes(randomInts[0]) && !rndIntsThree.includes(randomInts[1])) {
             rndIntsThree = [...rndIntsThree, ...randomInts];
          }
          //rndIntsThree = [...rndIntsThree, ...getArrayOfRandomInts(1, lowest, highest)];
          arrayOfRandomThree = [...arrayOfRandomThree, rndIntsThree];
          console.log('arrayOfRandomThree: ', arrayOfRandomThree)
-      }
-   }
+      } */
+/*    }
    return arrayOfRandomThree;
-}
+} */
 
 /* export const getRndIntsForMeanings = (count, lowest, highest) => {
    let arrayOfRandomInts = getArrayOfRandomInts(count, lowest, highest);
