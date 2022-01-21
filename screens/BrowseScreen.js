@@ -52,10 +52,25 @@ const BrowseScreen = (props) => {
    const [meaningIdsSelectedSwe, setMeaningIdsSelectedSwe] = useState([]);
    const [meaningIdsSelectedGer, setMeaningIdsSelectedGer] = useState([]);
    const [loadingOwnVerbs, setLoadingOwnVerbs] = useState(false);
+   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
    const levels = [1, 2, 3];
 
    const navigation = useNavigation();
+
+   useEffect(() =>
+   navigation.addListener('beforeRemove', (e) => {
+     if (!hasUnsavedChanges || props.language === 1 && ownVerbsSwedish.length === 0 || props.language === 2 && ownVerbsGerman.length === 0) {
+       return;
+     }
+     e.preventDefault();
+     for (meaningId of props.language === 1 ? ownVerbsSwedish : ownVerbsGerman) {
+      deleteAllMeaningIds(props.language);  
+      insertMeaningId(meaningId);
+     }
+   }),
+ [navigation]
+);
 
    useEffect(() => {
       // Create own verbs database for Swedish verbs
@@ -100,17 +115,16 @@ const BrowseScreen = (props) => {
    };
 
    const addToOwnVerbs = (meaningId) => {
-      deleteMeaningId(meaningId, props.language);
+      setHasUnsavedChanges(true);
       if (props.language === 1) {
          setOwnVerbsSwedish([...ownVerbsSwedish, meaningId]);
       } else if (props.language === 2) {
          setOwnVerbsGerman([...ownVerbsGerman, meaningId]);
       } 
-      insertMeaningId(meaningId, props.language);
-      updateOwnVerbs(props.language);
    };
 
    const removeFromOwnVerbs = (meaningId) => {
+      setHasUnsavedChanges(true);
       let ownVerbList = [];
       if (props.language === 1) {
          ownVerbList = ownVerbsSwedish.filter(
@@ -123,23 +137,18 @@ const BrowseScreen = (props) => {
          );
          setOwnVerbsGerman(ownVerbList);
       }
-      deleteMeaningId(meaningId, props.language);
-      updateOwnVerbs(props.language);
    };
 
    const selectAll = (language) => {
+      setHasUnsavedChanges(true);
       let ownVerbList = [];
-      deleteAllMeaningIds(language);
       if (language === 1) {
          ownVerbList = props.verbsSwedish.map((verb) => verb.meaning_id);
          setOwnVerbsSwedish(ownVerbList);
-         insertMeaningIds(ownVerbList, language);
       } else if (language === 2) {
          ownVerbList = props.verbsGerman.map((verb) => verb.meaning_id);
          setOwnVerbsGerman(ownVerbList);
-         insertMeaningIds(ownVerbList, language);
       }
-      updateOwnVerbs(language);
    };
 
 /*    const selectAll = (language) => {
@@ -160,13 +169,12 @@ const BrowseScreen = (props) => {
    }; */
 
    const deselectAll = (language) => {
-      deleteAllMeaningIds(language);
+      setHasUnsavedChanges(true);
       if (language === 1) {
          setOwnVerbsSwedish([]);
       } else if (language === 2) {
          setOwnVerbsGerman([]);
       }
-     updateOwnVerbs(language);
    };
 
    const updateOwnVerbs = async (language) => {

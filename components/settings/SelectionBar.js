@@ -9,18 +9,18 @@ import ButtonBordered from '../buttons/ButtonBordered';
 const SelectionBar = (props) => {
 
    const textGenerator = () => {
-      if (props.language === 1 && props.verbsSwedishOwn.length > 1) {
-         return `Olet valinnut ${props.verbsSwedishOwn.length} omaa verbiä.`
-      } else if (props.language === 1 && props.verbsSwedishOwn.length === 1) {
+      if (props.language === 1 && props.ownVerbsSwedish.length > 1) {
+         return `Olet valinnut ${props.ownVerbsSwedish.length} omaa verbiä.`
+      } else if (props.language === 1 && props.ownVerbsSwedish.length === 1) {
          return `Olet valinnut yhden oman verbin.`
-      } else if (props.language === 1 && props.verbsSwedishOwn.length === 0) {
+      } else if (props.language === 1 && props.ownVerbsSwedish.length === 0) {
          return `Et ole valinnut yhtään omaa verbiä.`
       }
-      if (props.language === 2 && props.verbsGermanOwn.length > 1) {
-         return `Olet valinnut ${props.verbsGermanOwn.length} omaa verbiä.`
-      } else if (props.language === 2 && props.verbsGermanOwn.length === 1) {
+      if (props.language === 2 && props.ownVerbsGerman.length > 1) {
+         return `Olet valinnut ${props.ownVerbsGerman.length} omaa verbiä.`
+      } else if (props.language === 2 && props.ownVerbsGerman.length === 1) {
          return `Olet valinnut yhden oman verbin.`
-      } else if (props.language === 2 && props.verbsGermanOwn.length === 0) {
+      } else if (props.language === 2 && props.ownVerbsGerman.length === 0) {
          return `Et ole valinnut yhtään omaa verbiä.`
       }
    };
