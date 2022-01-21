@@ -60,9 +60,10 @@ export const calcTotalPointsMeanings = (
    numberQuestions
 ) => {
    let timeElapsed = endTime - startTime;
-   let timePerQuestion = 4000;
-   // If the user has spent less than 3 seconds on average on given number of questions, and accuracy is at least 80 %, extra points are given
+   let timePerQuestion = 4500;
+   // If the user has spent less than 4,5 seconds on average on given number of questions, and accuracy is at least 80 %, extra points are given
    if (timeElapsed < (numberQuestions * timePerQuestion) && timeElapsed > 0 && accuracyPercentage >= 80) {
+      console.log('extra points')
       let extraPoints = ((timeElapsed * -1) + (numberQuestions * timePerQuestion)) / 1000.00;
       let extraPointsAccuracy = extraPoints * accuracyPercentage / 100.00;
       return points + extraPointsAccuracy;

@@ -188,7 +188,7 @@ const MeaningsScreen = (props) => {
       if (finished) {
          setEndTime(Date.now());
          let accuracyPercentage = calcAccuracyPercentage(points, maxPoints);
-         let totalPoints = calcTotalPointsMeanings(startTime, endTime, accuracyPercentage, points, numberQuestions);
+         let totalPoints = calcTotalPointsMeanings(startTime, Date.now(), accuracyPercentage, points, numberQuestions);
          setResults({
             points: points,
             totalPoints: totalPoints,
