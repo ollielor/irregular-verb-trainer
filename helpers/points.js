@@ -1,17 +1,17 @@
-// This function calculates the estimated time of accomplishment on each level (average of 5s on each question)
+// This function calculates the estimated time of accomplishment on each level
 export const calcEstimatedAccomplishTime = (maxPoints, level) => {
    switch (level) {
       case 1: 
-         return 5000 * (maxPoints / 10);
+         return 4000 * (maxPoints / 10);
          break;
       case 2:
-         return 6000 * (maxPoints / 10);
+         return 5000 * (maxPoints / 10);
          break;
       case 3:
-         return 7000 * (maxPoints / 10);
+         return 6000 * (maxPoints / 10);
          break;
       case 4:
-         return 6000 * (maxPoints / 10);
+         return 4000 * (maxPoints / 10);
          break;
    }
 };
@@ -26,7 +26,7 @@ export const calcTotalPointsForms = (
 ) => {
    let timeElapsed = endTime - startTime;
    if (timeElapsed > 0 && timeElapsed <= estimatedAccomplishTime && points === maxPoints) {
-      return points + ((timeElapsed * -1 + estimatedAccomplishTime) / 1000.00);
+      return (points + ((timeElapsed * -1 + estimatedAccomplishTime)) / 1000.00);
    } else {
       return points * 1.0;
    }
@@ -60,8 +60,8 @@ export const calcTotalPointsMeanings = (
    numberQuestions
 ) => {
    let timeElapsed = endTime - startTime;
-   let timePerQuestion = 4500;
-   // If the user has spent less than 4,5 seconds on average on given number of questions, and accuracy is at least 80 %, extra points are given
+   let timePerQuestion = 3500;
+   // If the user has spent less than 3.5 seconds on average on given number of questions, and accuracy is at least 80 %, extra points are given
    if (timeElapsed < (numberQuestions * timePerQuestion) && timeElapsed > 0 && accuracyPercentage >= 80) {
       console.log('extra points')
       let extraPoints = ((timeElapsed * -1) + (numberQuestions * timePerQuestion)) / 1000.00;

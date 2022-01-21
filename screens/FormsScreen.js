@@ -217,7 +217,7 @@ const FormsScreen = (props) => {
          const estimatedAccomplishTime = calcEstimatedAccomplishTime(maxPoints, props.level);
          const totalPoints = calcTotalPointsForms(
             startTime,
-            endTime,
+            Date.now(),
             estimatedAccomplishTime,
             points,
             maxPoints
