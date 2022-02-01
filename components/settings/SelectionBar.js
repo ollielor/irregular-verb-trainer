@@ -28,14 +28,21 @@ const SelectionBar = (props) => {
    return (
       <>
          <VStack>
-         <Text style={styles(props).selectionBar} bg='#e8e8e8' color='#7E00C5'>
-            {`${textGenerator()}`}
-         </Text>
+         {props.verbsLoaded && props.ownVerbsLoaded ?
+         <>
+            <Text style={styles(props).selectionBar} bg='#e8e8e8' color='#7E00C5'>
+               {`${textGenerator()}`}
+            </Text>
          <HStack direction='row' alignSelf='center'>
             <ButtonBordered bg='#eee' textColor='#000' function={props.selectAll} title='Valitse kaikki' />
             <ButtonBordered bg='#eee' textColor='#000' function={props.deselectAll} title='Poista kaikki valinnat' />
          </HStack>
+         </>
+         : 
+            <SpinnerComponent text='Ladataan...' />
+         }
          </VStack>
+
    </>
    );
 };

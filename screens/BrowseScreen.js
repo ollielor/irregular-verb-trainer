@@ -52,7 +52,7 @@ const BrowseScreen = (props) => {
    const [ownVerbsDbCreated, setOwnVerbsDbCreated] = useState(false);
    const [meaningIdsSelectedSwe, setMeaningIdsSelectedSwe] = useState([]);
    const [meaningIdsSelectedGer, setMeaningIdsSelectedGer] = useState([]);
-   const [loadingOwnVerbs, setLoadingOwnVerbs] = useState(false);
+   const [ownVerbsLoaded, setOwnVerbsLoaded] = useState(false);
    const [settingsChanged, setSettingsChanged] = useState(false);
    const [settingsSaved, setSettingsSaved] = useState(false);
    const [destination, setDestination] = useState('');
@@ -103,6 +103,7 @@ const BrowseScreen = (props) => {
       } else if (props.language === 2) {
          setOwnVerbsGerman(ownVerbsMapped);
       }
+      setOwnVerbsLoaded(true);
    }
 /*    useEffect(() => {
       updateOwnVerbs(props.language);
@@ -269,7 +270,8 @@ const BrowseScreen = (props) => {
                ownVerbsGerman={ownVerbsGerman}
                selectAll={() => selectAll(props.language)}
                deselectAll={() => deselectAll(props.language)}
-               loadingOwnVerbs={loadingOwnVerbs}
+               ownVerbsLoaded={ownVerbsLoaded}
+               verbsLoaded={verbsLoaded}
             />
             <ScrollView style={styles(props).browseContainer}>
                {!orderAlphabetically ? (
@@ -290,6 +292,8 @@ const BrowseScreen = (props) => {
                      removeFromOwnVerbs={removeFromOwnVerbs}
                      ownVerbsSwedish={ownVerbsSwedish}
                      ownVerbsGerman={ownVerbsGerman}
+                     verbsLoaded={verbsLoaded}
+                     setVerbsLoaded={setVerbsLoaded}
                   />
                )}
             </ScrollView>
