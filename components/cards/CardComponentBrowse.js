@@ -7,19 +7,17 @@ import ButtonComponentNarrowWhite from '../buttons/ButtonComponentNarrowWhite';
 import ButtonBordered from '../buttons/ButtonBordered';
 
 import { connect } from 'react-redux';
+import SwitchBrowse from '../styling/SwitchBrowse';
 
 const CardComponentBrowse = (props) => {
 
-   const [added, setAdded] = useState(false);
-
-   useEffect(() => {
-      if (props.language === 1) {
-         setAdded(props.ownVerbsSwedish.includes(props.verb.meaning_id));
-      } else if (props.language === 2) {
-         setAdded(props.ownVerbsGerman.includes(props.verb.meaning_id));
+   const getAdded = (language) => {
+      if (language === 1) {
+         return props.ownVerbsSwedish.includes(props.verb.verb_id);
+      } else if (language === 2) {
+         return props.ownVerbsGerman.includes(props.verb.verb_id); 
       }
-   }, [props.ownVerbsSwedish, props.ownVerbsGerman, props.language])
- 
+   };
 
    return (
       <>
@@ -37,12 +35,7 @@ const CardComponentBrowse = (props) => {
                <Text>{props.verb.meaning}</Text>
             </Box>
             <Box flex='1'>
-               {added &&
-                  <ButtonBordered title='Harjoittelen' bg='#4E00C5' textColor='#eee' function={() => props.removeFromOwnVerbs(props.verb.meaning_id)} />
-               }
-               {!added &&
-                  <ButtonBordered title='Osaan jo' bg='#66dd33' textColor='#000' function={() => props.addToOwnVerbs(props.verb.meaning_id)} />
-               }
+               <SwitchBrowse added={getAdded(props.language)} addToOwnVerbs={props.addToOwnVerbs} removeFromOwnVerbs={props.removeFromOwnVerbs} verbId={props.verb.verb_id} />
                <Text style={{ color: '#7E00C5', fontWeight: 'bold' }} mt='1'>Taso {props.level}</Text>
             </Box>
          </HStack>       

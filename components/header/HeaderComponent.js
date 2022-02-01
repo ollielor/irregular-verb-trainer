@@ -16,6 +16,11 @@ import { styles } from '../../styles/styles';
 const HeaderComponent = (props) => {
    const navigation = useNavigation();
 
+   const navigateTo = (dest) => {
+      props.setDestination(dest);
+      props.setAlertOpen(true);
+   }
+
    return (
       <>
          <Box safeAreaTop bg="#0047c5">
@@ -24,7 +29,7 @@ const HeaderComponent = (props) => {
                <HStack p='2'>
                   {!props.noArrow ? (
                      <ArrowBackIcon
-                        onPress={navigation.goBack}
+                        onPress={props.settingsChanged ? () => navigateTo('Aloitus') : () => props.goBack()}
                         style={styles(props).buttonTextStyle}
                         size='6'
                      />
@@ -42,7 +47,7 @@ const HeaderComponent = (props) => {
                <HStack p='2'>
                   <Text
                      style={styles(props).buttonTextStyle}
-                     onPress={() => navigation.navigate('Omat asetukseni')}
+                     onPress={props.settingsChanged ? () => navigateTo(routeName.screenName) : () => navigation.navigate(routeName.screenName)}
                   >
                      {props.language === 1 && 'SV, '}
                      {props.language === 2 && 'DE, '}

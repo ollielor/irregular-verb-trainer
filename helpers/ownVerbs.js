@@ -3,7 +3,7 @@ import DatabaseOwnVerbs from '../modules/DatabaseOwnVerbs';
 import { fetchOwnVerbsSwedish, fetchOwnVerbsGerman } from '../store/actions/verbs';
 
 export const createOwnVerbsDbSwedish = () => {
-   let query = 'create table if not exists own_verbs_sv (id integer primary key not null, meaning_id integer);'
+   let query = 'create table if not exists own_verbs_sv (id integer primary key not null, verb_id integer);'
        DatabaseOwnVerbs.transaction(
          (tx) => {
             tx.executeSql(
@@ -19,7 +19,7 @@ export const createOwnVerbsDbSwedish = () => {
 };
 
 export const createOwnVerbsDbGerman = () => {
-   let query = 'create table if not exists own_verbs_de (id integer primary key not null, meaning_id integer);'
+   let query = 'create table if not exists own_verbs_de (id integer primary key not null, verb_id integer);'
        DatabaseOwnVerbs.transaction(
          (tx) => {
             tx.executeSql(
@@ -34,12 +34,12 @@ export const createOwnVerbsDbGerman = () => {
       );
 };
 
-export const deleteMeaningId = (meaningId, language) => {
-   let query = language === 1 ? 'delete from own_verbs_sv where meaning_id = ?;' : 'delete from own_verbs_de where meaning_id = ?;';
+export const deleteVerbId = (verbId, language) => {
+   let query = language === 1 ? 'delete from own_verbs_sv where verb_id = ?;' : 'delete from own_verbs_de where verb_id = ?;';
       DatabaseOwnVerbs.transaction(
          (tx) => {
             tx.executeSql(query, [
-               meaningId
+               verbId
             ],
          )},
          (error) => {
@@ -50,12 +50,12 @@ export const deleteMeaningId = (meaningId, language) => {
       ); 
 }
 
-export const insertMeaningId = (meaningId, language) => {
-   let query = language === 1 ? 'insert into own_verbs_sv (meaning_id) values (?);' : 'insert into own_verbs_de (meaning_id) values (?);';
+export const insertVerbId = (verbId, language) => {
+   let query = language === 1 ? 'insert into own_verbs_sv (verb_id) values (?);' : 'insert into own_verbs_de (verb_id) values (?);';
       DatabaseOwnVerbs.transaction(
          (tx) => {
             tx.executeSql(query, [
-               meaningId
+               verbId
             ],
          )},
          (error) => {
@@ -66,13 +66,13 @@ export const insertMeaningId = (meaningId, language) => {
       ); 
    }
 
-export const insertMeaningIds = (meaningIdArray, language) => {
-   let query = language === 1 ? 'insert into own_verbs_sv (meaning_id) values (?);' : 'insert into own_verbs_de (meaning_id) values (?);';
+export const insertVerbIds = (verbIdArray, language) => {
+   let query = language === 1 ? 'insert into own_verbs_sv (verb_id) values (?);' : 'insert into own_verbs_de (verb_id) values (?);';
       DatabaseOwnVerbs.transaction(
          (tx) => {
-            for (const meaningId of meaningIdArray) {
+            for (let verbId of verbIdArray) {
                tx.executeSql(query, [
-                  meaningId
+                  verbId
                ])
             }
          },
@@ -84,7 +84,7 @@ export const insertMeaningIds = (meaningIdArray, language) => {
       ); 
    }
 
-export const deleteAllMeaningIds = (language) => {
+export const deleteAllVerbIds = (language) => {
    let query = language === 1 ? 'delete from own_verbs_sv;' : 'delete from own_verbs_de;'
       DatabaseOwnVerbs.transaction(
          (tx) => {
@@ -111,7 +111,7 @@ export const deleteAllMeaningIds = (language) => {
    } */
 /* } */
 
-export const fetchMeaningIds = (language) => {
+export const fetchVerbIds = (language) => {
    let query = language === 1 ? 'select * from own_verbs_sv;' : 'select * from own_verbs_de;'
    return new Promise((resolve, reject) => {
       DatabaseOwnVerbs.transaction(
@@ -140,14 +140,13 @@ export const verbArrayOperations = async (verbsByLanguage, language) => {
    let verbsArrayWithIds = [];
    let verbsFlatten = [];
    let verbsWithoutDuplicates = [];
-   let arrayWithMeaningIds = [];
-   verbsArray = await fetchMeaningIds(language);
-   verbsArrayWithIds = verbsArray.map((verbObject) => verbObject.meaning_id);
+   verbsArray = await fetchVerbIds(language);
+   verbsArrayWithIds = verbsArray.map((verbObject) => verbObject.verb_id);
    if (verbsArray) {
       //verbsWithoutDuplicateMeaningIds = verbsArrayWithIds.filter((meaningObject, index, self) =>
          //index === self.findIndex((m) => m.meaning_id === meaningObject.meaning_id));
          //console.log('withoutDuplicates: ', verbsWithoutDuplicateMeaningIds)
-      verbsFetched = verbsArrayWithIds.map((meaningId) => verbsByLanguage.filter((verb) => verb.meaning_id === meaningId));
+      verbsFetched = verbsArrayWithIds.map((verbId) => verbsByLanguage.filter((verb) => verb.verb_id === verbId));
       verbsFlatten = verbsFetched.flatMap((verbArray) => verbArray);
       verbsWithoutDuplicates = verbsFlatten.filter((verb, index, self) =>
          index === self.findIndex((v) => v.verb_id === verb.verb_id));

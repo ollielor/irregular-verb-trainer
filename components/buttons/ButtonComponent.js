@@ -19,7 +19,7 @@ const ButtonComponent = (props) => {
          ]}
          onPress={props.function}
          disabled={props.disabled}
-         p='6'
+         p={props.p ? props.p : '6'}
          mb={props.mb}
       >
          <Text uppercase={false} style={styles(props).buttonTextStyle}>

@@ -1,5 +1,6 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import { HStack, ScrollView, Text, VStack } from 'native-base';
+import React, { useState, useEffect } from 'react';
+import { Alert } from 'react-native';
+import { HStack, ScrollView, Text } from 'native-base';
 
 import { connect } from 'react-redux';
 
@@ -25,17 +26,18 @@ import DatabaseOwnVerbs from '../modules/DatabaseOwnVerbs';
 import {
    createOwnVerbsDbSwedish,
    createOwnVerbsDbGerman,
-   convertStringsToNumbers,
-   deleteMeaningId,
-   fetchMeaningIds,
-   deleteAllMeaningIds,
+   deleteVerbId,
+   fetchVerbIds,
+   deleteAllVerbIds,
    fetchOwnVerbs,
-   insertMeaningId,
-   insertMeaningIds,
-   getMeaningIdsArray,
+   insertVerbId,
+   insertVerbIds,
+   getVerbIdsArray,
    verbArrayOperations,
 } from '../helpers/ownVerbs';
 import SelectionBar from '../components/settings/SelectionBar';
+import BrowseAlertComponent from '../components/alerts/BrowseAlertComponent';
+import SaveVerbsComponent from '../components/settings/SaveVerbsComponent';
 
 const BrowseScreen = (props) => {
    const [orderAlphabetically, setOrderAlphabetically] = useState(false);
@@ -52,25 +54,31 @@ const BrowseScreen = (props) => {
    const [meaningIdsSelectedSwe, setMeaningIdsSelectedSwe] = useState([]);
    const [meaningIdsSelectedGer, setMeaningIdsSelectedGer] = useState([]);
    const [loadingOwnVerbs, setLoadingOwnVerbs] = useState(false);
-   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+   const [settingsChanged, setSettingsChanged] = useState(false);
+   const [settingsSaved, setSettingsSaved] = useState(false);
+   const [destination, setDestination] = useState('');
+   const [alertOpen, setAlertOpen] = useState(false);
+   const [confirmed, setConfirmed] = useState(false);
+   const [mounted, setMounted] = useState(false);
 
    const levels = [1, 2, 3];
 
    const navigation = useNavigation();
 
-   useEffect(() =>
-   navigation.addListener('beforeRemove', (e) => {
-     if (!hasUnsavedChanges || props.language === 1 && ownVerbsSwedish.length === 0 || props.language === 2 && ownVerbsGerman.length === 0) {
-       return;
-     }
-     e.preventDefault();
-     for (meaningId of props.language === 1 ? ownVerbsSwedish : ownVerbsGerman) {
-      deleteAllMeaningIds(props.language);  
-      insertMeaningId(meaningId);
-     }
-   }),
- [navigation]
-);
+   useEffect(() => {
+      setMounted(true);
+      if (confirmed) {
+         setAlertOpen(false);
+         navigation.navigate(destination);
+         setConfirmed(false);
+         return () => { setMounted(false) };
+      }
+   }, [confirmed]);
+
+   const confirm = () => {
+      setSettingsChanged(false);
+      setConfirmed(true);
+   }
 
    useEffect(() => {
       // Create own verbs database for Swedish verbs
@@ -78,17 +86,17 @@ const BrowseScreen = (props) => {
       // Create own verbs database for German verbs
       createOwnVerbsDbGerman();
       updateOwnVerbs(props.language);
-      fetchVerbIds();
+      getVerbIds();
     }, []);
 
    useEffect(() => {
       return () => {};
    }, []);
 
-   const fetchVerbIds = async () => {
+   const getVerbIds = async () => {
       let ownVerbs = [];
-      ownVerbs = await fetchMeaningIds(props.language); 
-      let ownVerbsMapped = ownVerbs.map((ownVerb) => ownVerb.meaning_id);
+      ownVerbs = await fetchVerbIds(props.language); 
+      let ownVerbsMapped = ownVerbs.map((ownVerb) => ownVerb.verb_id);
       if (props.language === 1) {
          setOwnVerbsSwedish(ownVerbsMapped);
       } else if (props.language === 2) {
@@ -114,39 +122,39 @@ const BrowseScreen = (props) => {
       setVerbsLoaded(false);
    };
 
-   const addToOwnVerbs = (meaningId) => {
-      setHasUnsavedChanges(true);
-      if (props.language === 1) {
-         setOwnVerbsSwedish([...ownVerbsSwedish, meaningId]);
-      } else if (props.language === 2) {
-         setOwnVerbsGerman([...ownVerbsGerman, meaningId]);
+   const addToOwnVerbs = (verbId) => {
+      setSettingsChanged(true);
+      if (props.language === 1 && !ownVerbsSwedish.includes(verbId)) {
+         setOwnVerbsSwedish([...ownVerbsSwedish, verbId]);
+      } else if (props.language === 2 && !ownVerbsGerman.includes(verbId)) {
+         setOwnVerbsGerman([...ownVerbsGerman, verbId]);
       } 
    };
 
-   const removeFromOwnVerbs = (meaningId) => {
-      setHasUnsavedChanges(true);
+   const removeFromOwnVerbs = (verbId) => {
+      setSettingsChanged(true);
       let ownVerbList = [];
       if (props.language === 1) {
          ownVerbList = ownVerbsSwedish.filter(
-            (ownVerb) => ownVerb !== meaningId
+            (ownVerb) => ownVerb !== verbId
          );
          setOwnVerbsSwedish(ownVerbList);
       } else if (props.language === 2) {
          ownVerbList = ownVerbsGerman.filter(
-            (ownVerb) => ownVerb !== meaningId
+            (ownVerb) => ownVerb !== verbId
          );
          setOwnVerbsGerman(ownVerbList);
       }
    };
 
    const selectAll = (language) => {
-      setHasUnsavedChanges(true);
+      setSettingsChanged(true);
       let ownVerbList = [];
       if (language === 1) {
-         ownVerbList = props.verbsSwedish.map((verb) => verb.meaning_id);
+         ownVerbList = props.verbsSwedish.map((verb) => verb.verb_id);
          setOwnVerbsSwedish(ownVerbList);
       } else if (language === 2) {
-         ownVerbList = props.verbsGerman.map((verb) => verb.meaning_id);
+         ownVerbList = props.verbsGerman.map((verb) => verb.verb_id);
          setOwnVerbsGerman(ownVerbList);
       }
    };
@@ -169,7 +177,7 @@ const BrowseScreen = (props) => {
    }; */
 
    const deselectAll = (language) => {
-      setHasUnsavedChanges(true);
+      setSettingsChanged(true);
       if (language === 1) {
          setOwnVerbsSwedish([]);
       } else if (language === 2) {
@@ -189,9 +197,27 @@ const BrowseScreen = (props) => {
       }
    };
 
+   const saveVerbs = () => {
+      console.log('testi')
+      deleteAllVerbIds(props.language);  
+      insertVerbIds(props.language === 1 ? ownVerbsSwedish : ownVerbsGerman, props.language);
+      updateOwnVerbs(props.language);
+   }
+
    return (
       <>
-         <HeaderComponent title="Selaa verbejä" goBack={navigation.goBack} />
+         <BrowseAlertComponent
+            alertOpen={alertOpen}
+            setAlertOpen={setAlertOpen}
+            confirmed={confirmed}
+            setConfirmed={setConfirmed}
+            confirm={confirm}
+         />
+         <HeaderComponent title="Selaa verbejä" goBack={navigation.goBack} 
+            settingsChanged={settingsChanged} 
+            setDestination={setDestination}
+            setAlertOpen={setAlertOpen}
+         />
          <>
             <HStack alignSelf="center">
                <ButtonComponentNarrow
@@ -226,7 +252,6 @@ const BrowseScreen = (props) => {
             <SelectionBar
                ownVerbsSwedish={ownVerbsSwedish}
                ownVerbsGerman={ownVerbsGerman}
-               ownVerbCount={ownVerbCount}
                selectAll={() => selectAll(props.language)}
                deselectAll={() => deselectAll(props.language)}
                loadingOwnVerbs={loadingOwnVerbs}
@@ -253,7 +278,14 @@ const BrowseScreen = (props) => {
                   />
                )}
             </ScrollView>
-            <FooterComponent />
+            <SaveVerbsComponent p='2' saveVerbs={saveVerbs} settingsChanged={settingsChanged} />
+            <FooterComponent             
+               settingsChanged={settingsChanged}
+               setSettingsChanged={setSettingsChanged}
+               settingsSaved={settingsSaved}
+               setDestination={setDestination}
+               setAlertOpen={setAlertOpen}
+            />
          </>
       </>
    );
