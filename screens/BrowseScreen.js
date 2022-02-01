@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Alert } from 'react-native';
-import { HStack, ScrollView, Text } from 'native-base';
+import { HStack, ScrollView, Box, useToast } from 'native-base';
 
 import { connect } from 'react-redux';
 
@@ -79,6 +78,8 @@ const BrowseScreen = (props) => {
       setSettingsChanged(false);
       setConfirmed(true);
    }
+
+   const toast = useToast();
 
    useEffect(() => {
       // Create own verbs database for Swedish verbs
@@ -198,10 +199,23 @@ const BrowseScreen = (props) => {
    };
 
    const saveVerbs = () => {
-      console.log('testi')
       deleteAllVerbIds(props.language);  
       insertVerbIds(props.language === 1 ? ownVerbsSwedish : ownVerbsGerman, props.language);
       updateOwnVerbs(props.language);
+      toast.show({
+         render: () => {
+            return (
+               <Box backgroundColor='#66dd33' p='3'>
+                  Omat verbit tallennettu!
+               </Box>
+            )
+         },
+         placement: 'bottom',
+         status: 'success',
+         duration: 3000,
+         isClosable: false
+      });
+      setSettingsChanged(false);
    }
 
    return (
