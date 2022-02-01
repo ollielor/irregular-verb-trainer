@@ -36,7 +36,7 @@ import {
    verbArrayOperations,
 } from '../helpers/ownVerbs';
 import SelectionBar from '../components/settings/SelectionBar';
-import BrowseAlertComponent from '../components/alerts/BrowseAlertComponent';
+import AlertComponent from '../components/alerts/AlertComponent';
 import SaveVerbsComponent from '../components/settings/SaveVerbsComponent';
 
 const BrowseScreen = (props) => {
@@ -206,12 +206,13 @@ const BrowseScreen = (props) => {
 
    return (
       <>
-         <BrowseAlertComponent
+         <AlertComponent
             alertOpen={alertOpen}
             setAlertOpen={setAlertOpen}
             confirmed={confirmed}
             setConfirmed={setConfirmed}
             confirm={confirm}
+            text='Et ole tallentanut omia verbejäsi. Oletko varma, että haluat jatkaa?'
          />
          <HeaderComponent title="Selaa verbejä" goBack={navigation.goBack} 
             settingsChanged={settingsChanged} 

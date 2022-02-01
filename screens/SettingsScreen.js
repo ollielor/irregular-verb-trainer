@@ -20,7 +20,7 @@ import SpinnerComponent from '../components/styling/SpinnerComponent';
 import DatabaseSettings from '../modules/DatabaseSettings';
 import SettingsComponent from '../components/settings/SettingsComponent';
 import SaveSettingsComponent from '../components/settings/SaveSettingsComponent';
-import SettingsAlertComponent from '../components/alerts/SettingsAlertComponent';
+import AlertComponent from '../components/alerts/AlertComponent';
 
 import { styles } from '../styles/styles';
 
@@ -215,10 +215,11 @@ const SettingsScreen = (props) => {
 
    return (
       <>
-         <SettingsAlertComponent
+         <AlertComponent
             alertOpen={alertOpen}
             setAlertOpen={setAlertOpen}
             confirm={confirm}
+            text='Et ole tallentanut omia asetuksiasi. Oletko varma, että haluat jatkaa?'
          />
          <HeaderComponent title="Omat asetukseni" noArrow />
          <ScrollView style={styles(props).containerGrey}>

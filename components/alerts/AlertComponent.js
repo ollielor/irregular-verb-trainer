@@ -1,17 +1,17 @@
 import React from 'react';
 import { AlertDialog, Button } from 'native-base';
 
-const SettingsAlertComponent = (props) => {
+const AlertComponent = (props) => {
 
     return (
 
         <AlertDialog isOpen={props.alertOpen}>
             <AlertDialog.Content>
                 <AlertDialog.Body>
-                    Et ole tallentanut asetuksiasi. Oletko varma, että haluat jatkaa?
+                    {props.text}
                 </AlertDialog.Body>
                 <AlertDialog.Footer>
-                    <Button.Group space={2}>
+                    <Button.Group space='md'>
                         <Button
                             variant="unstyled"
                             colorScheme=""
@@ -30,4 +30,4 @@ const SettingsAlertComponent = (props) => {
     );
 };
 
-export default SettingsAlertComponent;
+export default AlertComponent;
